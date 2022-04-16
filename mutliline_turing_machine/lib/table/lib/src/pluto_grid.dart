@@ -558,7 +558,7 @@ class _GridContainer extends StatelessWidget {
             borderRadius: configuration.gridBorderRadius,
             border: Border.all(
               color: configuration.gridBorderColor,
-              width: PlutoGridSettings.gridBorderWidth,
+              width: 0,
             ),
           ),
           child: ClipRRect(

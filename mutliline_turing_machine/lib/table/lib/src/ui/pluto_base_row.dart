@@ -232,20 +232,8 @@ abstract class __RowContainerWidgetStateWithChangeKeepAlive
   BoxDecoration _getBoxDecoration() {
     return BoxDecoration(
       color: _rowColor,
-      border: Border(
-        top: _isTopDragTarget!
-            ? BorderSide(
-                width: PlutoGridSettings.rowBorderWidth,
-                color: widget.stateManager.configuration!.activatedBorderColor,
-              )
-            : BorderSide.none,
-        bottom: BorderSide(
-          width: PlutoGridSettings.rowBorderWidth,
-          color: _isBottomDragTarget!
-              ? widget.stateManager.configuration!.activatedBorderColor
-              : widget.stateManager.configuration!.borderColor,
-        ),
-      ),
+      borderRadius: const BorderRadius.all(Radius.circular(4)),
+      border: Border.all(width: 0, color: Colors.transparent),
     );
   }
 }
@@ -284,7 +272,7 @@ class _AnimatedOrNormalContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return enable
         ? AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 0),
             decoration: decoration,
             child: child,
           )
