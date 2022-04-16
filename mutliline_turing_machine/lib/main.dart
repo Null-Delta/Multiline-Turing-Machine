@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
+import 'package:pluto_grid/pluto_grid.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.green,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -28,30 +29,92 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int selectedRow = -1;
+  int selectedColumn = -1;
+
+  int columnsCount = 10;
+  int rowsCount = 240;
+
+  List<PlutoRow> rows = [];
+  List<PlutoColumn> columns = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    for (int i = 0; i < columnsCount; i++) {
+      columns.add(
+        PlutoColumn(
+          readOnly: i == 0,
+          frozen: i == 0 ? PlutoColumnFrozen.left : PlutoColumnFrozen.none,
+          enableContextMenu: false,
+          enableSorting: false,
+          enableRowDrag: i == 0 ? true : false,
+          enableColumnDrag: false,
+          textAlign: PlutoColumnTextAlign.center,
+          titleTextAlign: PlutoColumnTextAlign.center,
+          width: i == 0 ? 80 : 64,
+          minWidth: 64,
+          title: i == 0 ? "Варианты" : "Лента $i",
+          field: "head:$i",
+          type: PlutoColumnType.text(),
+        ),
+      );
+    }
+
+    for (int i = 0; i < rowsCount; i++) {
+      rows.add(
+        PlutoRow(
+          cells: {
+            for (int j = 0; j < columnsCount; j++)
+              "head:$j": PlutoCell(value: j == 0 ? "№ $i" : "")
+          },
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: MultiSplitViewTheme(
+          data: MultiSplitViewThemeData(
+              dividerThickness: 2,
+              dividerPainter:
+                  DividerPainter(backgroundColor: const Color(0xFFE7E8F3))),
           child: MultiSplitView(
+            antiAliasingWorkaround: false,
             axis: Axis.vertical,
+            minimalSize: 256,
             children: [
-              const ColoredBox(color: Colors.red),
-              MultiSplitViewTheme(
-                child: MultiSplitView(
-                  axis: Axis.horizontal,
-                  children: const [
-                    ColoredBox(color: Colors.green),
-                    ColoredBox(color: Colors.blue),
-                  ],
-                  minimalSize: 256,
-                ),
-                data: MultiSplitViewThemeData(dividerThickness: 3.0),
+              const ColoredBox(
+                color: Color(0xFFF4F4FB),
+              ),
+              PlutoGrid(
+                rows: rows,
+                columns: columns,
+                onLoaded: (event) {
+                  event.stateManager
+                      .setSelectingMode(PlutoGridSelectingMode.row);
+                  //event.stateManager
+                },
+                configuration: const PlutoGridConfiguration(
+                    rowHeight: 32,
+                    gridBorderColor: Color(0xFFF4F4FB),
+                    columnHeight: 32,
+                    enableGridBorderShadow: false,
+                    borderColor: Colors.transparent,
+                    activatedColor: Color(0xFFF4F4FB),
+                    activatedBorderColor: Color(0xFFE7E8F3),
+                    enableColumnBorder: false,
+                    cellTextStyle:
+                        TextStyle(fontSize: 10, fontWeight: FontWeight.normal),
+                    columnTextStyle:
+                        TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
               ),
             ],
-            minimalSize: 256,
           ),
-          data: MultiSplitViewThemeData(dividerThickness: 3.0),
         ),
       ),
     );
