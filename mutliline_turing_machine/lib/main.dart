@@ -84,6 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
               dividerPainter:
                   DividerPainter(backgroundColor: const Color(0xFFE7E8F3))),
           child: MultiSplitView(
+            antiAliasingWorkaround: false,
             axis: Axis.vertical,
             minimalSize: 256,
             children: [
