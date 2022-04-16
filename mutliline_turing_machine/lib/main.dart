@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
-import 'package:pluto_grid/pluto_grid.dart';
+import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 
 void main() {
   runApp(const MyApp());
@@ -84,34 +84,46 @@ class _MyHomePageState extends State<MyHomePage> {
               dividerPainter:
                   DividerPainter(backgroundColor: const Color(0xFFE7E8F3))),
           child: MultiSplitView(
-            antiAliasingWorkaround: false,
             axis: Axis.vertical,
             minimalSize: 256,
             children: [
               const ColoredBox(
                 color: Color(0xFFF4F4FB),
               ),
-              PlutoGrid(
-                rows: rows,
-                columns: columns,
-                onLoaded: (event) {
-                  event.stateManager
-                      .setSelectingMode(PlutoGridSelectingMode.row);
-                  //event.stateManager
-                },
-                configuration: const PlutoGridConfiguration(
-                    rowHeight: 32,
-                    gridBorderColor: Color(0xFFF4F4FB),
-                    columnHeight: 32,
-                    enableGridBorderShadow: false,
-                    borderColor: Colors.transparent,
-                    activatedColor: Color(0xFFF4F4FB),
-                    activatedBorderColor: Color(0xFFE7E8F3),
-                    enableColumnBorder: false,
-                    cellTextStyle:
-                        TextStyle(fontSize: 10, fontWeight: FontWeight.normal),
-                    columnTextStyle:
-                        TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 36,
+                    child: ColoredBox(
+                      color: Color(0xFFF4F4FB),
+                    ),
+                  ),
+                  Expanded(
+                    child: PlutoGrid(
+                      rows: rows,
+                      columns: columns,
+                      onLoaded: (event) {
+                        event.stateManager
+                            .setSelectingMode(PlutoGridSelectingMode.row);
+                        //event.stateManager
+                      },
+                      configuration: const PlutoGridConfiguration(
+                          rowHeight: 32,
+                          gridBackgroundColor: Color(0xFFFDFDFF),
+                          gridBorderColor: Color(0xFFF4F4FB),
+                          columnHeight: 36,
+                          enableGridBorderShadow: false,
+                          borderColor: Colors.transparent,
+                          activatedColor: Color(0xFFF4F4FB),
+                          activatedBorderColor: Color(0xFFE7E8F3),
+                          enableColumnBorder: false,
+                          cellTextStyle: TextStyle(
+                              fontSize: 10, fontWeight: FontWeight.normal),
+                          columnTextStyle: TextStyle(
+                              fontSize: 10, fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
