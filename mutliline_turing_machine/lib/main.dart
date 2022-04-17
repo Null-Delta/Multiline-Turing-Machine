@@ -43,8 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int selectedRow = -1;
   int selectedColumn = -1;
 
-  int columnsCount = 10;
-  int rowsCount = 240;
+  int columnsCount = 5;
+  int rowsCount = 1000;
 
   List<PlutoRow> rows = [];
   List<PlutoColumn> columns = [];
@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
         PlutoRow(
           cells: {
             for (int j = 0; j < columnsCount; j++)
-              "head:$j": PlutoCell(value: j == 0 ? "№ $i" : "")
+              "head:$j": PlutoCell(value: j == 0 ? "№ ${i + 1}" : "_ _ _")
           },
         ),
       );
@@ -118,57 +118,95 @@ class _MyHomePageState extends State<MyHomePage> {
                   const Divider(
                     height: 2,
                     thickness: 2,
-                    color: Color(0xFFF4F4FB),
+                    color: Color(0xFFE7E8F3),
                   ),
                   Expanded(
-                    child: MultiSplitViewTheme(
-                        data: MultiSplitViewThemeData(
-                          dividerThickness: 2,
-                          dividerPainter: DividerPainter(
-                            backgroundColor: const Color(0xFFF4F4FB),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 80,
+                          color: Colors.transparent,
+                          child: Column(
+                            children: const [
+                              SizedBox(
+                                height: 30,
+                                child: Center(
+                                  child: Text(
+                                    "Состояния",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 2,
+                                thickness: 2,
+                                color: Color(0xFFE7E8F3),
+                              ),
+                            ],
                           ),
                         ),
-                        child: MultiSplitView(
-                          antiAliasingWorkaround: false,
-                          axis: Axis.horizontal,
-                          minimalSize: 256,
-                          initialWeights: const [0.7, 0.3],
-                          children: [
-                            PlutoGrid(
-                              rows: rows,
-                              columns: columns,
-                              onLoaded: (event) {
-                                event.stateManager.setSelectingMode(
-                                    PlutoGridSelectingMode.row);
-                              },
-                              configuration: const PlutoGridConfiguration(
-                                  rowHeight: 36,
-                                  gridBackgroundColor: Colors.transparent,
-                                  gridBorderColor: Color(0xFFF4F4FB),
-                                  columnHeight: 36,
-                                  enableGridBorderShadow: false,
-                                  borderColor: Colors.transparent,
-                                  activatedColor: Color(0xFFF4F4FB),
-                                  activatedBorderColor: Color(0xFFE7E8F3),
-                                  enableColumnBorder: false,
-                                  cellColorInReadOnlyState: Color(0xFFF4F4FB),
-                                  inactivatedBorderColor: Color(0xFFE7E8F3),
-                                  iconColor: Color(0xFF183157),
-                                  defaultCellPadding: 0,
-                                  checkedColor: Colors.redAccent,
-                                  enableRowColorAnimation: false,
-                                  cellTextStyle: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal),
-                                  columnTextStyle: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold)),
+                        Container(
+                          width: 2,
+                          color: const Color(0xFFE7E8F3),
+                        ),
+                        Expanded(
+                          child: MultiSplitViewTheme(
+                            data: MultiSplitViewThemeData(
+                              dividerThickness: 2,
+                              dividerPainter: DividerPainter(
+                                backgroundColor: const Color(0xFFE7E8F3),
+                              ),
                             ),
-                            const ColoredBox(
-                              color: Colors.transparent,
-                            )
-                          ],
-                        )),
+                            child: MultiSplitView(
+                              antiAliasingWorkaround: false,
+                              axis: Axis.horizontal,
+                              resizable: false,
+                              minimalSize: 256,
+                              initialWeights: const [0.7, 0.3],
+                              children: [
+                                PlutoGrid(
+                                  rows: rows,
+                                  columns: columns,
+                                  onLoaded: (event) {
+                                    event.stateManager.setSelectingMode(
+                                        PlutoGridSelectingMode.row);
+                                  },
+                                  configuration: const PlutoGridConfiguration(
+                                      rowHeight: 32,
+                                      gridBackgroundColor: Colors.transparent,
+                                      gridBorderColor: Color(0xFFE7E8F3),
+                                      columnHeight: 32,
+                                      enableGridBorderShadow: false,
+                                      borderColor: Colors.transparent,
+                                      activatedColor: Color(0xFFF4F4FB),
+                                      activatedBorderColor: Color(0xFFE7E8F3),
+                                      enableColumnBorder: false,
+                                      cellColorInReadOnlyState:
+                                          Color(0xFFF4F4FB),
+                                      inactivatedBorderColor: Color(0xFFE7E8F3),
+                                      iconColor: Color(0xFF183157),
+                                      defaultCellPadding: 0,
+                                      checkedColor: Colors.redAccent,
+                                      enableRowColorAnimation: false,
+                                      cellTextStyle: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.normal),
+                                      columnTextStyle: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                                const ColoredBox(
+                                  color: Colors.transparent,
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),

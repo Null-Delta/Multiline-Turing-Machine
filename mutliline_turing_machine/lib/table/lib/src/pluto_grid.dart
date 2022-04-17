@@ -553,14 +553,6 @@ class _GridContainer extends StatelessWidget {
         ),
         child: Container(
           padding: const EdgeInsets.all(PlutoGridSettings.gridPadding),
-          decoration: BoxDecoration(
-            color: configuration.gridBackgroundColor,
-            borderRadius: configuration.gridBorderRadius,
-            border: Border.all(
-              color: configuration.gridBorderColor,
-              width: 0,
-            ),
-          ),
           child: ClipRRect(
             borderRadius:
                 configuration.gridBorderRadius.resolve(TextDirection.ltr),
@@ -756,7 +748,7 @@ class PlutoGridSettings {
       PlutoGridSettings.shadowLineSize * 2;
 
   /// Grid - padding
-  static const double gridPadding = 1.0;
+  static const double gridPadding = 0.0;
 
   /// Grid - border width
   static const double gridBorderWidth = 2.0;

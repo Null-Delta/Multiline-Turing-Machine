@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,6 +35,8 @@ mixin TextCellState<T extends TextCell> on State<T> implements TextFieldProps {
   CellEditingStatus? _cellEditingStatus;
 
   dynamic _initialCellValue;
+
+  bool needSelect = true;
 
   FocusNode? cellFocus;
 
@@ -73,6 +77,17 @@ mixin TextCellState<T extends TextCell> on State<T> implements TextFieldProps {
 
     cellFocus = FocusNode(onKey: _handleOnKey);
 
+    cellFocus!.addListener(() {
+      if (needSelect) {
+        _textController.selection = TextSelection(
+          baseOffset: 0,
+          extentOffset: _textController.text.length,
+        );
+      } else {
+        needSelect = true;
+      }
+    });
+
     widget.stateManager.textEditingController = _textController;
 
     _textController.text = widget.column.formattedValueForDisplayInEditing(
@@ -84,6 +99,7 @@ mixin TextCellState<T extends TextCell> on State<T> implements TextFieldProps {
     _cellEditingStatus = CellEditingStatus.init;
 
     _textController.addListener(() {
+      needSelect = false;
       _handleOnChanged(_textController.text.toString());
     });
   }
@@ -192,6 +208,9 @@ mixin TextCellState<T extends TextCell> on State<T> implements TextFieldProps {
         keyManager.isF3 ||
         keyManager.isEnter);
 
+    if (keyManager.isTab) {
+      _handleOnComplete();
+    }
     // 이동 및 엔터키, 수정불가 셀의 좌우 이동을 제외한 문자열 입력 등의 키 입력은 텍스트 필드로 전파 한다.
     if (skip) {
       /// 2021-11-19
@@ -240,24 +259,30 @@ mixin TextCellState<T extends TextCell> on State<T> implements TextFieldProps {
       cellFocus!.requestFocus();
     }
 
-    return TextField(
-      focusNode: cellFocus,
-      controller: _textController,
-      readOnly: widget.column.checkReadOnly(widget.row, widget.cell),
-      onChanged: _handleOnChanged,
-      onEditingComplete: _handleOnComplete,
-      onSubmitted: (_) => _handleOnComplete(),
-      onTap: _handleOnTap,
-      style: widget.stateManager.configuration!.cellTextStyle,
-      decoration: const InputDecoration(
-        border: InputBorder.none,
-        contentPadding: EdgeInsets.all(0),
-        isDense: true,
+    return SizedBox(
+      height: widget.stateManager.configuration!.rowHeight,
+      child: Center(
+        child: TextField(
+          focusNode: cellFocus,
+          controller: _textController,
+          readOnly: widget.column.checkReadOnly(widget.row, widget.cell),
+          onChanged: _handleOnChanged,
+          onEditingComplete: _handleOnComplete,
+          onSubmitted: (a) => _handleOnComplete(),
+          onTap: _handleOnTap,
+          style: widget.stateManager.configuration!.cellTextStyle,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.all(8),
+            isDense: true,
+          ),
+          textAlignVertical: TextAlignVertical.top,
+          maxLines: 1,
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          textAlign: TextAlign.center,
+        ),
       ),
-      maxLines: 1,
-      keyboardType: keyboardType,
-      inputFormatters: inputFormatters,
-      textAlign: widget.column.textAlign.value,
     );
   }
 }

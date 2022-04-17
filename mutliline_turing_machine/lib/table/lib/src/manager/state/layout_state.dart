@@ -351,14 +351,6 @@ mixin LayoutState implements IPlutoGridState {
   }
 
   bool _availableToShowFrozenColumns(double width) {
-    final bool hasFrozenColumn =
-        leftFrozenColumns.isNotEmpty || rightFrozenColumns.isNotEmpty;
-
-    return hasFrozenColumn &&
-        width >
-            (leftFrozenColumnsWidth +
-                rightFrozenColumnsWidth +
-                PlutoGridSettings.bodyMinWidth +
-                PlutoGridSettings.totalShadowLineWidth);
+    return true;
   }
 }
