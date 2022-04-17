@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
+import 'package:mutliline_turing_machine/styles/app_button.dart';
+import 'styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 
 void main() {
@@ -13,17 +15,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Симулятор Машины Тьюринга',
       theme: ThemeData(
-        primarySwatch: const MaterialColor(0xFF72A5B5, {
-          50: Color(0xFF72A5B5),
-          100: Color(0xFF72A5B5),
-          200: Color(0xFF72A5B5),
-          300: Color(0xFF72A5B5),
-          400: Color(0xFF72A5B5),
-          500: Color(0xFF72A5B5),
-          600: Color(0xFF72A5B5),
-          700: Color(0xFF72A5B5),
-          800: Color(0xFF72A5B5),
-          900: Color(0xFF72A5B5),
+        fontFamily: "Inter",
+        primarySwatch: MaterialColor(AppColors.accent.value, {
+          50: AppColors.accent,
+          100: AppColors.accent,
+          200: AppColors.accent,
+          300: AppColors.accent,
+          400: AppColors.accent,
+          500: AppColors.accent,
+          600: AppColors.accent,
+          700: AppColors.accent,
+          800: AppColors.accent,
+          900: AppColors.accent,
         }),
       ),
       home: const MyHomePage(title: 'Симулятор Машины Тьюринга'),
@@ -65,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
           enableColumnDrag: false,
           textAlign: PlutoColumnTextAlign.center,
           titleTextAlign: PlutoColumnTextAlign.center,
-          width: 80,
+          width: 84,
           minWidth: 64,
           title: i == 0
               ? "Варианты"
@@ -96,46 +99,60 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: MultiSplitViewTheme(
           data: MultiSplitViewThemeData(
-              dividerThickness: 2,
-              dividerPainter:
-                  DividerPainter(backgroundColor: const Color(0xFFE7E8F3))),
+            dividerThickness: 2,
+            dividerPainter: DividerPainter(
+              backgroundColor: AppColors.highlight,
+            ),
+          ),
           child: MultiSplitView(
             antiAliasingWorkaround: false,
             axis: Axis.vertical,
             minimalSize: 256,
             children: [
-              const ColoredBox(
-                color: Color(0xFFF4F4FB),
+              ColoredBox(
+                color: AppColors.backgroundDark,
               ),
               Column(
                 children: [
-                  const SizedBox(
+                  Container(
+                    padding: const EdgeInsets.only(
+                      left: 4,
+                      right: 4,
+                    ),
                     height: 36,
-                    child: ColoredBox(
-                      color: Color(0xFFFDFDFF),
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: const Text("."),
+                          style: appButtonStyle,
+                        )
+                      ],
                     ),
                   ),
-                  const Divider(
+                  Divider(
                     height: 2,
                     thickness: 2,
-                    color: Color(0xFFE7E8F3),
+                    color: AppColors.highlight,
                   ),
                   Expanded(
                     child: Row(
                       children: [
                         Container(
-                          width: 80,
+                          width: 84,
                           color: Colors.transparent,
                           child: Column(
-                            children: const [
+                            children: [
                               SizedBox(
-                                height: 30,
+                                height: 34,
                                 child: Center(
                                   child: Text(
                                     "Состояния",
                                     style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.text,
                                     ),
                                   ),
                                 ),
@@ -143,21 +160,21 @@ class _MyHomePageState extends State<MyHomePage> {
                               Divider(
                                 height: 2,
                                 thickness: 2,
-                                color: Color(0xFFE7E8F3),
+                                color: AppColors.highlight,
                               ),
                             ],
                           ),
                         ),
                         Container(
                           width: 2,
-                          color: const Color(0xFFE7E8F3),
+                          color: AppColors.highlight,
                         ),
                         Expanded(
                           child: MultiSplitViewTheme(
                             data: MultiSplitViewThemeData(
                               dividerThickness: 2,
                               dividerPainter: DividerPainter(
-                                backgroundColor: const Color(0xFFE7E8F3),
+                                backgroundColor: AppColors.highlight,
                               ),
                             ),
                             child: MultiSplitView(
@@ -174,29 +191,34 @@ class _MyHomePageState extends State<MyHomePage> {
                                     event.stateManager.setSelectingMode(
                                         PlutoGridSelectingMode.row);
                                   },
-                                  configuration: const PlutoGridConfiguration(
-                                      rowHeight: 32,
-                                      gridBackgroundColor: Colors.transparent,
-                                      gridBorderColor: Color(0xFFE7E8F3),
-                                      columnHeight: 32,
-                                      enableGridBorderShadow: false,
-                                      borderColor: Colors.transparent,
-                                      activatedColor: Color(0xFFF4F4FB),
-                                      activatedBorderColor: Color(0xFFE7E8F3),
-                                      enableColumnBorder: false,
-                                      cellColorInReadOnlyState:
-                                          Color(0xFFF4F4FB),
-                                      inactivatedBorderColor: Color(0xFFE7E8F3),
-                                      iconColor: Color(0xFF183157),
-                                      defaultCellPadding: 0,
-                                      checkedColor: Colors.redAccent,
-                                      enableRowColorAnimation: false,
-                                      cellTextStyle: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.normal),
-                                      columnTextStyle: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold)),
+                                  configuration: PlutoGridConfiguration(
+                                    rowHeight: 36,
+                                    gridBackgroundColor: Colors.transparent,
+                                    gridBorderColor: AppColors.highlight,
+                                    columnHeight: 36,
+                                    enableGridBorderShadow: false,
+                                    borderColor: Colors.transparent,
+                                    activatedColor: AppColors.backgroundDark,
+                                    activatedBorderColor: AppColors.highlight,
+                                    enableColumnBorder: false,
+                                    cellColorInReadOnlyState:
+                                        AppColors.highlight,
+                                    inactivatedBorderColor: AppColors.highlight,
+                                    iconColor: AppColors.text,
+                                    defaultCellPadding: 0,
+                                    checkedColor: Colors.redAccent,
+                                    enableRowColorAnimation: false,
+                                    cellTextStyle: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.text,
+                                    ),
+                                    columnTextStyle: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.text,
+                                    ),
+                                  ),
                                 ),
                                 const ColoredBox(
                                   color: Colors.transparent,
