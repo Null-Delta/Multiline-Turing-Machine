@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           900: Color(0xFF72A5B5),
         }),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Симулятор Машины Тьюринга'),
     );
   }
 }
@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int selectedRow = -1;
   int selectedColumn = -1;
 
-  int columnsCount = 5;
+  int columnsCount = 24;
   int rowsCount = 1000;
 
   List<PlutoRow> rows = [];
