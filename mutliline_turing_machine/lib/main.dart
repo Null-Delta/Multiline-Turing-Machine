@@ -163,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: MultiSplitView(
                               antiAliasingWorkaround: false,
                               axis: Axis.horizontal,
-                              resizable: false,
+                              resizable: true,
                               minimalSize: 256,
                               initialWeights: const [0.7, 0.3],
                               children: [
