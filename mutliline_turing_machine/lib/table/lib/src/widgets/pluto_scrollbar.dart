@@ -25,7 +25,6 @@ const Color _kScrollbarColor = CupertinoDynamicColor.withBrightness(
 // This is the amount of space from the top of a vertical scrollbar to the
 // top edge of the scrollable, measured when the vertical scrollbar overscrolls
 // to the top.
-// TODO(LongCatIsLooong): fix https://github.com/flutter/flutter/issues/32175
 const double _kScrollbarMainAxisMargin = 3.0;
 const double _kScrollbarCrossAxisMargin = 3.0;
 

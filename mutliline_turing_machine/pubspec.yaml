@@ -58,19 +58,20 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  assets:
+    - resources/images/
   fonts:
       - family: Inter
         fonts:
-          - asset: fonts/Inter-Thin.ttf
-          - asset: fonts/Inter-SemiBold.ttf
-          - asset: fonts/Inter-Regular.ttf
-          - asset: fonts/Inter-Medium.ttf
-          - asset: fonts/Inter-Light.ttf
-          - asset: fonts/Inter-ExtraLight.ttf
-          - asset: fonts/Inter-ExtraBold.ttf
-          - asset: fonts/Inter-Bold.ttf
-          - asset: fonts/Inter-Black.ttf
+          - asset: resources/fonts/Inter-Thin.ttf
+          - asset: resources/fonts/Inter-SemiBold.ttf
+          - asset: resources/fonts/Inter-Regular.ttf
+          - asset: resources/fonts/Inter-Medium.ttf
+          - asset: resources/fonts/Inter-Light.ttf
+          - asset: resources/fonts/Inter-ExtraLight.ttf
+          - asset: resources/fonts/Inter-ExtraBold.ttf
+          - asset: resources/fonts/Inter-Bold.ttf
+          - asset: resources/fonts/Inter-Black.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -29,7 +29,13 @@ ButtonStyle appButtonStyle = ButtonStyle(
     ),
     padding: MaterialStateProperty.all(EdgeInsets.zero),
     minimumSize: MaterialStateProperty.all(
-      const Size.square(36),
+      const Size.square(28),
+    ),
+    fixedSize: MaterialStateProperty.all(
+      const Size.square(28),
+    ),
+    maximumSize: MaterialStateProperty.all(
+      const Size.square(28),
     ),
     shadowColor: MaterialStateProperty.all(Colors.transparent),
     shape: MaterialStateProperty.all(

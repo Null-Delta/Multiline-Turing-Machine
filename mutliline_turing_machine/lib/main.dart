@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
+import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Симулятор Машины Тьюринга',
       theme: ThemeData(
         fontFamily: "Inter",
+        backgroundColor: AppColors.background,
         primarySwatch: MaterialColor(AppColors.accent.value, {
           50: AppColors.accent,
           100: AppColors.accent,
@@ -59,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
     for (int i = 0; i < columnsCount; i++) {
       columns.add(
         PlutoColumn(
+          backgroundColor: AppColors.background,
           cellPadding: 0,
           readOnly: i == 0,
           frozen: i == 0 ? PlutoColumnFrozen.left : PlutoColumnFrozen.none,
@@ -116,18 +119,46 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Container(
                     padding: const EdgeInsets.only(
-                      left: 4,
-                      right: 4,
+                      left: 6,
+                      right: 6,
                     ),
-                    height: 36,
-                    color: Colors.transparent,
+                    height: 40,
+                    color: AppColors.background,
                     child: Row(
                       children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text("."),
-                          style: appButtonStyle,
-                        )
+                        Tooltip(
+                          waitDuration: const Duration(milliseconds: 500),
+                          message: "Добавить состояние",
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: const SizedBox(
+                              width: 32,
+                              height: 32,
+                              child: Image(
+                                image: AppImages.stateAdd,
+                              ),
+                            ),
+                            style: appButtonStyle,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Tooltip(
+                          waitDuration: const Duration(milliseconds: 500),
+                          message: "Удалить состояние",
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: const SizedBox(
+                              width: 32,
+                              height: 32,
+                              child: Image(
+                                image: AppImages.stateDelete,
+                              ),
+                            ),
+                            style: appButtonStyle,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -141,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Container(
                           width: 84,
-                          color: Colors.transparent,
+                          color: AppColors.background,
                           child: Column(
                             children: [
                               SizedBox(
@@ -193,7 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   configuration: PlutoGridConfiguration(
                                     rowHeight: 36,
-                                    gridBackgroundColor: Colors.transparent,
+                                    gridBackgroundColor: AppColors.background,
                                     gridBorderColor: AppColors.highlight,
                                     columnHeight: 36,
                                     enableGridBorderShadow: false,
@@ -220,8 +251,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ),
                                 ),
-                                const ColoredBox(
-                                  color: Colors.transparent,
+                                ColoredBox(
+                                  color: AppColors.background,
                                 )
                               ],
                             ),
