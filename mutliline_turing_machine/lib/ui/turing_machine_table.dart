@@ -1,33 +1,91 @@
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/ui/state_comments.dart';
+import '../model/turing_machine.dart';
 import '../styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import '../styles/table_configuration.dart';
 import 'dart:developer' as developer;
 
-class TablePage extends StatefulWidget {
-  const TablePage({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class TuringMachineTable extends StatefulWidget {
+  TuringMachineTable({Key? key, required this.machine, required this.onLoaded})
+      : super(key: key);
+
+  final TuringMachine machine;
+
+  late int Function() selectedRow;
+  late int Function() selectedColumn;
+  late void Function() addVariant;
+
+  final void Function(PlutoGridStateManager manager) onLoaded;
 
   @override
-  State<TablePage> createState() => _TablePageState();
+  State<TuringMachineTable> createState() => _TuringMachineTableState();
 }
 
-class _TablePageState extends State<TablePage> {
-  int selectedRow = -1;
-  int selectedColumn = -1;
-
-  int columnsCount = 24;
-  int rowsCount = 1000;
-
+class _TuringMachineTableState extends State<TuringMachineTable> {
   List<PlutoRow> rows = [];
   List<PlutoColumn> columns = [];
 
+  int selectedRow = -1;
+  int selectedColumn = -1;
+
+  late PlutoGridStateManager stateManager;
+
+  void onStateUpdate() {
+    if (stateManager.currentCell != null) {
+      selectedRow = rows.indexOf(stateManager.currentCell!.row);
+      selectedColumn = columns.indexOf(stateManager.currentCell!.column);
+      //developer.log("${selectedRow} : ${selectedColumn}");
+    } else {
+      developer.log("deselect");
+    }
+    //stateManager.currentCell.row
+  }
+
+  void addVariant() {
+    widget.machine.model.addVariant(widget.machine.currentStateIndex);
+    int rowIndex = selectedRow == -1
+        ? widget.machine.model.stateList[widget.machine.currentStateIndex]
+                .countOfVariants -
+            1
+        : selectedRow + 1;
+
+    var row = PlutoRow(
+      cells: {
+        for (int i = 0; i < widget.machine.model.countOfLines + 2; i++)
+          "head:$i": PlutoCell(value: i == 0 ? "№ ${rowIndex + 1}" : "_ _ _")
+      },
+    );
+
+    stateManager.insertRows(
+      rowIndex,
+      [row],
+    );
+
+    for (int i = rowIndex + 1;
+        i < widget.machine.currentState.countOfVariants;
+        i++) {
+      stateManager.changeCellValue(rows[i].cells["head:0"]!, "№ ${i + 1}",
+          force: true, notify: true);
+    }
+  }
+
   @override
   void initState() {
-    super.initState();
+    widget.selectedRow = () {
+      return selectedRow;
+    };
 
-    for (int i = 0; i < columnsCount; i++) {
+    widget.selectedColumn = () {
+      return selectedColumn;
+    };
+
+    widget.addVariant = addVariant;
+
+    super.initState();
+    for (int i = 0; i < widget.machine.model.countOfLines + 2; i++) {
       columns.add(
         PlutoColumn(
           backgroundColor: AppColors.background,
@@ -38,13 +96,14 @@ class _TablePageState extends State<TablePage> {
           enableSorting: false,
           enableRowDrag: i == 0 ? true : false,
           enableColumnDrag: false,
+          enableEditingMode: i != 0,
           textAlign: PlutoColumnTextAlign.center,
           titleTextAlign: PlutoColumnTextAlign.center,
           width: 84,
           minWidth: 64,
           title: i == 0
               ? "Варианты"
-              : i == columnsCount - 1
+              : i == widget.machine.model.countOfLines + 1
                   ? "Переход"
                   : "Лента $i",
           field: "head:$i",
@@ -53,12 +112,21 @@ class _TablePageState extends State<TablePage> {
       );
     }
 
-    for (int i = 0; i < rowsCount; i++) {
+    for (int i = 0;
+        i <
+            widget.machine.model.stateList[widget.machine.currentStateIndex]
+                .countOfVariants;
+        i++) {
       rows.add(
         PlutoRow(
           cells: {
-            for (int j = 0; j < columnsCount; j++)
-              "head:$j": PlutoCell(value: j == 0 ? "№ ${i + 1}" : "_ _ _")
+            for (int j = 0; j < widget.machine.model.countOfLines + 2; j++)
+              "head:$j": PlutoCell(
+                  value: j == 0
+                      ? "№ ${i + 1}"
+                      : j == widget.machine.model.countOfLines + 2
+                          ? "_"
+                          : "_ _ _")
           },
         ),
       );
@@ -127,9 +195,19 @@ class _TablePageState extends State<TablePage> {
                       developer.log("${event.idx}");
                       //developer.log("${event.rows![0].}");
                     },
+                    onSelected: (event) {
+                      if (event.cell != null) {
+                        selectedColumn = columns.indexOf(event.cell!.column);
+                        selectedRow = rows.indexOf(event.row!);
+                        developer.log("selected: $selectedRow");
+                      }
+                    },
                     onLoaded: (event) {
+                      stateManager = event.stateManager;
                       event.stateManager
                           .setSelectingMode(PlutoGridSelectingMode.row);
+                      widget.onLoaded(event.stateManager);
+                      event.stateManager.addListener(onStateUpdate);
                     },
                     configuration: tableConfiguration,
                   ),
