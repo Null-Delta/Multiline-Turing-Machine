@@ -7,9 +7,9 @@ import 'styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'dart:developer' as developer;
 import 'styles/table_configuration.dart';
-import 'top_panel.dart';
-import 'bottom_panel.dart';
-import 'table.dart';
+import 'ui/top_panel.dart';
+import 'ui/bottom_panel.dart';
+import 'ui/table_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -72,11 +72,11 @@ class _MyHomePageState extends State<MyHomePage> {
             axis: Axis.vertical,
             minimalSize: 256,
             children: [
-              const TopPanel(title: 'TopPanel'),
+              const TopPanel(),
               Column(
                 children:  const [
-                  BottomPanel(title: 'BottomPanel'),
-                  TablePage(title: 'TablePage'),
+                  BottomPanel(),
+                  TablePage(),
                 ],
               ),
             ],

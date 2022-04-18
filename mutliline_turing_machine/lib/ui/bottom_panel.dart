@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
-import 'styles/app_colors.dart';
+import '../styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'dart:developer' as developer;
 
-class TopPanel extends StatefulWidget {
-  const TopPanel({Key? key, required this.title}) : super(key: key);
-  final String title;
+class BottomPanel extends StatefulWidget {
+  const BottomPanel({Key? key}) : super(key: key);
 
   @override
-  State<TopPanel> createState() => _TopPanelState();
+  State<BottomPanel> createState() => _BottomPanelState();
 }
 
-class _TopPanelState extends State<TopPanel> {
-
+class _BottomPanelState extends State<BottomPanel> {
   static const double iconSize = 16;
   @override
   Widget build(BuildContext context) {
@@ -32,14 +30,14 @@ class _TopPanelState extends State<TopPanel> {
             children: [
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
-                message: "Файл",
+                message: "Добавить состояние",
                 child: ElevatedButton(
                   onPressed: () {},
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.file,
+                      image: AppImages.stateAdd,
                     ),
                   ),
                   style: appButtonStyle,
@@ -50,50 +48,14 @@ class _TopPanelState extends State<TopPanel> {
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
-                message: "Настройки",
+                message: "Удалить состояние",
                 child: ElevatedButton(
                   onPressed: () {},
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.settings,
-                    ),
-                  ),
-                  style: appButtonStyle,
-                ),
-              ),
-              const SizedBox(
-                width: 6,
-              ),
-              Tooltip(
-                waitDuration: const Duration(milliseconds: 500),
-                message: "О приложении",
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const SizedBox(
-                    width: iconSize,
-                    height: iconSize,
-                    child: Image(
-                      image: AppImages.about,
-                    ),
-                  ),
-                  style: appButtonStyle,
-                ),
-              ),
-              const SizedBox(
-                width: 6,
-              ),
-              Tooltip(
-                waitDuration: const Duration(milliseconds: 500),
-                message: "Справка",
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const SizedBox(
-                    width: iconSize,
-                    height: iconSize,
-                    child: Image(
-                      image: AppImages.help,
+                      image: AppImages.stateDelete,
                     ),
                   ),
                   style: appButtonStyle,

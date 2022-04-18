@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/ui/state_comments.dart';
-import 'styles/app_colors.dart';
+import '../styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
-import 'styles/table_configuration.dart';
+import '../styles/table_configuration.dart';
 import 'dart:developer' as developer;
 
 class TablePage extends StatefulWidget {
-  const TablePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const TablePage({Key? key}) : super(key: key);
 
   @override
   State<TablePage> createState() => _TablePageState();
