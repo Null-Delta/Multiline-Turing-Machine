@@ -5,7 +5,7 @@ import 'package:mutliline_turing_machine/styles/app_images.dart';
 import '../styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'dart:developer' as developer;
-
+import 'line_cell.dart';
 class TopPanel extends StatefulWidget {
   const TopPanel({Key? key}) : super(key: key);
 
@@ -106,6 +106,7 @@ class _TopPanelState extends State<TopPanel> {
           thickness: 2,
           color: AppColors.highlight,
         ),
+        const LineCell(),
       ],
     );
   }
