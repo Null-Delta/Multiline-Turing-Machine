@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
+import 'package:mutliline_turing_machine/ui/line_cell.dart';
 import '../styles/app_colors.dart';
 
 class TopPanel extends StatefulWidget {
@@ -102,6 +103,7 @@ class _TopPanelState extends State<TopPanel> {
           thickness: 2,
           color: AppColors.highlight,
         ),
+        const LineCell(),
       ],
     );
   }
