@@ -37,20 +37,101 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class LinesPage extends StatefulWidget {
-  const LinesPage({Key? key, required this.title}) : super(key: key);
+class TopPanel extends StatefulWidget {
+  const TopPanel({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<LinesPage> createState() => _LinesPageState();
+  State<TopPanel> createState() => _TopPanelState();
 }
 
-class _LinesPageState extends State<LinesPage> {
+class _TopPanelState extends State<TopPanel> {
   @override
   Widget build(BuildContext context) {
-    return const Text('LinesPage');
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(
+            left: 6,
+            right: 6,
+          ),
+          height: 40,
+          color: AppColors.background,
+          child: Row(
+            children: [
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Файл",
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: Image(
+                      image: AppImages.file,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Настройки",
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: Image(
+                      image: AppImages.settings,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "О приложении",
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: Image(
+                      image: AppImages.about,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Справка",
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: Image(
+                      image: AppImages.help,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          height: 2,
+          thickness: 2,
+          color: AppColors.highlight,
+        ),
+      ],
+    );
   }
 }
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -127,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
             axis: Axis.vertical,
             minimalSize: 256,
             children: [
-              const LinesPage(title: 'LinesPage',),
+              const TopPanel(title: 'LinesPage'),
               Column(
                 children: [
                   Container(
