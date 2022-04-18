@@ -9,6 +9,7 @@ import 'dart:developer' as developer;
 import 'styles/table_configuration.dart';
 import 'top_panel.dart';
 import 'bottom_panel.dart';
+import 'table.dart';
 
 void main() {
   runApp(const MyApp());
@@ -52,56 +53,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int selectedRow = -1;
-  int selectedColumn = -1;
-
-  int columnsCount = 24;
-  int rowsCount = 1000;
-
-  List<PlutoRow> rows = [];
-  List<PlutoColumn> columns = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    for (int i = 0; i < columnsCount; i++) {
-      columns.add(
-        PlutoColumn(
-          backgroundColor: AppColors.background,
-          cellPadding: 0,
-          readOnly: i == 0,
-          frozen: i == 0 ? PlutoColumnFrozen.left : PlutoColumnFrozen.none,
-          enableContextMenu: false,
-          enableSorting: false,
-          enableRowDrag: i == 0 ? true : false,
-          enableColumnDrag: false,
-          textAlign: PlutoColumnTextAlign.center,
-          titleTextAlign: PlutoColumnTextAlign.center,
-          width: 84,
-          minWidth: 64,
-          title: i == 0
-              ? "Варианты"
-              : i == columnsCount - 1
-                  ? "Переход"
-                  : "Лента $i",
-          field: "head:$i",
-          type: PlutoColumnType.text(),
-        ),
-      );
-    }
-
-    for (int i = 0; i < rowsCount; i++) {
-      rows.add(
-        PlutoRow(
-          cells: {
-            for (int j = 0; j < columnsCount; j++)
-              "head:$j": PlutoCell(value: j == 0 ? "№ ${i + 1}" : "_ _ _")
-          },
-        ),
-      );
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -122,82 +74,9 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               const TopPanel(title: 'TopPanel'),
               Column(
-                children: [
-                  const BottomPanel(title: 'BottomPanel'),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 84,
-                          color: AppColors.background,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 34,
-                                child: Center(
-                                  child: Text(
-                                    "Состояния",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.text,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Divider(
-                                height: 2,
-                                thickness: 2,
-                                color: AppColors.highlight,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: 2,
-                          color: AppColors.highlight,
-                        ),
-                        Expanded(
-                          child: MultiSplitViewTheme(
-                            data: MultiSplitViewThemeData(
-                              dividerThickness: 2,
-                              dividerPainter: DividerPainter(
-                                backgroundColor: AppColors.highlight,
-                              ),
-                            ),
-                            child: MultiSplitView(
-                              antiAliasingWorkaround: false,
-                              axis: Axis.horizontal,
-                              resizable: true,
-                              minimalSize: 256,
-                              initialWeights: const [0.7, 0.3],
-                              children: [
-                                PlutoGrid(
-                                  rows: rows,
-                                  columns: columns,
-                                  onChanged: (event) {
-                                    //TODO: обработка ввода
-                                    developer.log(event.toString());
-                                  },
-                                  onRowsMoved: (event) {
-                                    //TODO: обработка перемещения конфигурации
-                                    developer.log("${event.idx}");
-                                    //developer.log("${event.rows![0].}");
-                                  },
-                                  onLoaded: (event) {
-                                    event.stateManager.setSelectingMode(
-                                        PlutoGridSelectingMode.row);
-                                  },
-                                  configuration: tableConfiguration,
-                                ),
-                                const StateComments(),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                children:  const [
+                  BottomPanel(title: 'BottomPanel'),
+                  TablePage(title: 'TablePage'),
                 ],
               ),
             ],
