@@ -6,8 +6,8 @@ import 'package:mutliline_turing_machine/ui/state_comments.dart';
 import 'styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'dart:developer' as developer;
-
 import 'styles/table_configuration.dart';
+import 'top_panel.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +39,8 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -116,9 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
             axis: Axis.vertical,
             minimalSize: 256,
             children: [
-              ColoredBox(
-                color: AppColors.backgroundDark,
-              ),
+              const TopPanel(title: 'LinesPage'),
               Column(
                 children: [
                   Container(
