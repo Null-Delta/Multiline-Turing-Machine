@@ -8,6 +8,7 @@ import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'dart:developer' as developer;
 import 'styles/table_configuration.dart';
 import 'top_panel.dart';
+import 'bottom_panel.dart';
 
 void main() {
   runApp(const MyApp());
@@ -122,56 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
               const TopPanel(title: 'TopPanel'),
               Column(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.only(
-                      left: 6,
-                      right: 6,
-                    ),
-                    height: 40,
-                    color: AppColors.background,
-                    child: Row(
-                      children: [
-                        Tooltip(
-                          waitDuration: const Duration(milliseconds: 500),
-                          message: "Добавить состояние",
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            child: const SizedBox(
-                              width: 32,
-                              height: 32,
-                              child: Image(
-                                image: AppImages.stateAdd,
-                              ),
-                            ),
-                            style: appButtonStyle,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 6,
-                        ),
-                        Tooltip(
-                          waitDuration: const Duration(milliseconds: 500),
-                          message: "Удалить состояние",
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            child: const SizedBox(
-                              width: 32,
-                              height: 32,
-                              child: Image(
-                                image: AppImages.stateDelete,
-                              ),
-                            ),
-                            style: appButtonStyle,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    height: 2,
-                    thickness: 2,
-                    color: AppColors.highlight,
-                  ),
+                  const BottomPanel(title: 'BottomPanel'),
                   Expanded(
                     child: Row(
                       children: [
