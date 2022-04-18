@@ -16,6 +16,8 @@ class TuringMachine {
   //текущий обрабатываемый вариант
   late int currentVatiantIndex;
 
+  TuringMachineState get currentState => model.stateList[currentStateIndex];
+
   TuringMachine(TuringMachineModel m) {
     model = m;
     lineContent = [for (int i = 0; i < model.countOfLines; i++) " " * 2001];

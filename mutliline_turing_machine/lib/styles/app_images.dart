@@ -4,7 +4,7 @@ class AppImages {
   static const AssetImage addState =
       AssetImage('resources/images/addState.png');
   static const AssetImage addVariantDown =
-      AssetImage('resources/images/addVariantDown.png');
+      AssetImage('resources/images/addVariantBottom.png');
   static const AssetImage addVariantTop =
       AssetImage('resources/images/addVariantTop.png');
   static const AssetImage clear = AssetImage('resources/images/clear.png');
