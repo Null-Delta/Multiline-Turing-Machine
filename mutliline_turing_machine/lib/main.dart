@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
+import 'package:mutliline_turing_machine/ui/state_comments.dart';
 import 'styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'dart:developer' as developer;
+
+import 'styles/table_configuration.dart';
 
 void main() {
   runApp(const MyApp());
@@ -232,38 +235,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     event.stateManager.setSelectingMode(
                                         PlutoGridSelectingMode.row);
                                   },
-                                  configuration: PlutoGridConfiguration(
-                                    rowHeight: 36,
-                                    gridBackgroundColor: AppColors.background,
-                                    gridBorderColor: AppColors.highlight,
-                                    columnHeight: 36,
-                                    enableGridBorderShadow: false,
-                                    borderColor: Colors.transparent,
-                                    activatedColor: AppColors.backgroundDark,
-                                    activatedBorderColor: AppColors.highlight,
-                                    enableColumnBorder: false,
-                                    cellColorInReadOnlyState:
-                                        AppColors.highlight,
-                                    inactivatedBorderColor: AppColors.highlight,
-                                    iconColor: AppColors.text,
-                                    defaultCellPadding: 0,
-                                    checkedColor: Colors.redAccent,
-                                    enableRowColorAnimation: false,
-                                    cellTextStyle: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.text,
-                                    ),
-                                    columnTextStyle: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.text,
-                                    ),
-                                  ),
+                                  configuration: tableConfiguration,
                                 ),
-                                ColoredBox(
-                                  color: AppColors.background,
-                                )
+                                const StateComments(),
                               ],
                             ),
                           ),
