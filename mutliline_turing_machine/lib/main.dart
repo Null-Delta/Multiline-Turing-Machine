@@ -4,6 +4,7 @@ import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
+import 'dart:developer' as developer;
 
 void main() {
   runApp(const MyApp());
@@ -218,6 +219,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                 PlutoGrid(
                                   rows: rows,
                                   columns: columns,
+                                  onChanged: (event) {
+                                    //TODO: обработка ввода
+                                    developer.log(event.toString());
+                                  },
+                                  onRowsMoved: (event) {
+                                    //TODO: обработка перемещения конфигурации
+                                    developer.log("${event.idx}");
+                                    //developer.log("${event.rows![0].}");
+                                  },
                                   onLoaded: (event) {
                                     event.stateManager.setSelectingMode(
                                         PlutoGridSelectingMode.row);

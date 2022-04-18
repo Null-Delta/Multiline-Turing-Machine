@@ -116,8 +116,7 @@ mixin EditingState implements IPlutoGridState {
     if (selectingMode.isRow && currentSelectingRows.isNotEmpty) {
       _pasteCellValueIntoSelectingRows(textList: textList);
     } else {
-      //TODO: make current paste
-      //develop.log(textList.toString());
+      bool isCellPaste = textList.length == 1 && textList[0].length == 1;
       int? columnStartIdx = 0;
 
       int columnEndIdx;
@@ -128,7 +127,9 @@ mixin EditingState implements IPlutoGridState {
 
       if (currentSelectingPosition == null) {
         // No cell selection : Paste in order based on the current cell
-        //columnStartIdx = currentCellPosition!.columnIdx;
+        if (isCellPaste) {
+          columnStartIdx = currentCellPosition!.columnIdx;
+        }
 
         columnEndIdx =
             currentCellPosition!.columnIdx! + textList.first.length - 1;
@@ -138,8 +139,10 @@ mixin EditingState implements IPlutoGridState {
         rowEndIdx = currentCellPosition!.rowIdx! + textList.length - 1;
       } else {
         // If there are selected cells : Paste in order from selected cell range
-        //columnStartIdx = min(currentCellPosition!.columnIdx!,
-        //    currentSelectingPosition!.columnIdx!);
+        if (isCellPaste) {
+          columnStartIdx = min(currentCellPosition!.columnIdx!,
+              currentSelectingPosition!.columnIdx!);
+        }
 
         columnEndIdx = max(currentCellPosition!.columnIdx!,
             currentSelectingPosition!.columnIdx!);
