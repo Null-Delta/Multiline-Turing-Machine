@@ -37,6 +37,20 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class LinesPage extends StatefulWidget {
+  const LinesPage({Key? key, required this.title}) : super(key: key);
+  final String title;
+
+  @override
+  State<LinesPage> createState() => _LinesPageState();
+}
+
+class _LinesPageState extends State<LinesPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Text('LinesPage');
+  }
+}
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -113,9 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
             axis: Axis.vertical,
             minimalSize: 256,
             children: [
-              ColoredBox(
-                color: AppColors.backgroundDark,
-              ),
+              const LinesPage(title: 'LinesPage',),
               Column(
                 children: [
                   Container(
