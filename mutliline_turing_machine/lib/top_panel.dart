@@ -6,7 +6,6 @@ import 'styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'dart:developer' as developer;
 
-
 class TopPanel extends StatefulWidget {
   const TopPanel({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -16,6 +15,8 @@ class TopPanel extends StatefulWidget {
 }
 
 class _TopPanelState extends State<TopPanel> {
+
+  static const double iconSize = 16;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,8 +36,8 @@ class _TopPanelState extends State<TopPanel> {
                 child: ElevatedButton(
                   onPressed: () {},
                   child: const SizedBox(
-                    width: 16,
-                    height: 16,
+                    width: iconSize,
+                    height: iconSize,
                     child: Image(
                       image: AppImages.file,
                     ),
@@ -44,14 +45,17 @@ class _TopPanelState extends State<TopPanel> {
                   style: appButtonStyle,
                 ),
               ),
+              const SizedBox(
+                width: 6,
+              ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Настройки",
                 child: ElevatedButton(
                   onPressed: () {},
                   child: const SizedBox(
-                    width: 16,
-                    height: 16,
+                    width: iconSize,
+                    height: iconSize,
                     child: Image(
                       image: AppImages.settings,
                     ),
@@ -59,14 +63,17 @@ class _TopPanelState extends State<TopPanel> {
                   style: appButtonStyle,
                 ),
               ),
+              const SizedBox(
+                width: 6,
+              ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
                 message: "О приложении",
                 child: ElevatedButton(
                   onPressed: () {},
                   child: const SizedBox(
-                    width: 16,
-                    height: 16,
+                    width: iconSize,
+                    height: iconSize,
                     child: Image(
                       image: AppImages.about,
                     ),
@@ -74,14 +81,17 @@ class _TopPanelState extends State<TopPanel> {
                   style: appButtonStyle,
                 ),
               ),
+              const SizedBox(
+                width: 6,
+              ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Справка",
                 child: ElevatedButton(
                   onPressed: () {},
                   child: const SizedBox(
-                    width: 16,
-                    height: 16,
+                    width: iconSize,
+                    height: iconSize,
                     child: Image(
                       image: AppImages.help,
                     ),

@@ -104,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    developer.log("${MediaQuery.of(context).devicePixelRatio}");
     return Scaffold(
       body: Center(
         child: MultiSplitViewTheme(
@@ -118,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
             axis: Axis.vertical,
             minimalSize: 256,
             children: [
-              const TopPanel(title: 'LinesPage'),
+              const TopPanel(title: 'TopPanel'),
               Column(
                 children: [
                   Container(
