@@ -1,3 +1,4 @@
+import 'dart:developer' as develop;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -115,7 +116,9 @@ mixin EditingState implements IPlutoGridState {
     if (selectingMode.isRow && currentSelectingRows.isNotEmpty) {
       _pasteCellValueIntoSelectingRows(textList: textList);
     } else {
-      int? columnStartIdx;
+      //TODO: make current paste
+      //develop.log(textList.toString());
+      int? columnStartIdx = 0;
 
       int columnEndIdx;
 
@@ -125,7 +128,7 @@ mixin EditingState implements IPlutoGridState {
 
       if (currentSelectingPosition == null) {
         // No cell selection : Paste in order based on the current cell
-        columnStartIdx = currentCellPosition!.columnIdx;
+        //columnStartIdx = currentCellPosition!.columnIdx;
 
         columnEndIdx =
             currentCellPosition!.columnIdx! + textList.first.length - 1;
@@ -135,8 +138,8 @@ mixin EditingState implements IPlutoGridState {
         rowEndIdx = currentCellPosition!.rowIdx! + textList.length - 1;
       } else {
         // If there are selected cells : Paste in order from selected cell range
-        columnStartIdx = min(currentCellPosition!.columnIdx!,
-            currentSelectingPosition!.columnIdx!);
+        //columnStartIdx = min(currentCellPosition!.columnIdx!,
+        //    currentSelectingPosition!.columnIdx!);
 
         columnEndIdx = max(currentCellPosition!.columnIdx!,
             currentSelectingPosition!.columnIdx!);

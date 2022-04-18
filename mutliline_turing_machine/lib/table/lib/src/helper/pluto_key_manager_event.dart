@@ -76,12 +76,14 @@ extension PlutoKeyManagerEventExtention on PlutoKeyManagerEvent {
 
   bool get isCtrlC {
     return isCtrlPressed &&
-        event.logicalKey.keyId == LogicalKeyboardKey.keyC.keyId;
+            event.logicalKey.keyId == LogicalKeyboardKey.keyC.keyId ||
+        event.logicalKey.keyId == 0x0000000441;
   }
 
   bool get isCtrlV {
     return isCtrlPressed &&
-        event.logicalKey.keyId == LogicalKeyboardKey.keyV.keyId;
+            event.logicalKey.keyId == LogicalKeyboardKey.keyV.keyId ||
+        event.logicalKey.keyId == 0x000000043c;
   }
 
   bool get isCtrlA {
