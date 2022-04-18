@@ -52,8 +52,8 @@ class _LineCellState extends State<LineCell> {
                           Text(
                             letter,
                             style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
                               color: !isActive
                                   ? AppColors.text
                                   : AppColors.background,
@@ -66,7 +66,7 @@ class _LineCellState extends State<LineCell> {
                               top: 32,
                             ),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(7),
+                              borderRadius: BorderRadius.circular(8),
                               child: Container(
                                 decoration:
                                     BoxDecoration(color: AppColors.background),
@@ -78,7 +78,7 @@ class _LineCellState extends State<LineCell> {
                     : Text(
                         letter,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 18,
                           fontWeight: FontWeight.w700,
                           color:
                               !isActive ? AppColors.text : AppColors.background,
