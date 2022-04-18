@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -206,7 +208,9 @@ mixin TextCellState<T extends TextCell> on State<T> implements TextFieldProps {
         keyManager.isF3 ||
         keyManager.isEnter);
 
-    if (keyManager.isTab) {
+    if (keyManager.isTab ||
+        keyManager.event.isKeyPressed(LogicalKeyboardKey.arrowDown) ||
+        keyManager.event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
       _handleOnComplete();
     }
     // 이동 및 엔터키, 수정불가 셀의 좌우 이동을 제외한 문자열 입력 등의 키 입력은 텍스트 필드로 전파 한다.

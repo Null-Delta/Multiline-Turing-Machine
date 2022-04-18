@@ -67,6 +67,9 @@ class _MainWidgetState extends State<MainWidget> {
     onAddVariant: () {
       table.addVariant();
     },
+    onDeleteVariant: () {
+      table.deleteVariant();
+    },
   );
 
   @override
