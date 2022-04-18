@@ -38,9 +38,6 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
     if (stateManager.currentCell != null) {
       selectedRow = rows.indexOf(stateManager.currentCell!.row);
       selectedColumn = columns.indexOf(stateManager.currentCell!.column);
-    } else {
-      selectedColumn = -1;
-      selectedRow = -1;
     }
   }
 
