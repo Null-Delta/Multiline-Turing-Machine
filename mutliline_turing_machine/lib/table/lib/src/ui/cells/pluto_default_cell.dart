@@ -173,7 +173,10 @@ class __RowDragIconWidgetState extends State<_RowDragIconWidget> {
                   widget.stateManager.configuration!.activatedBorderColor,
               child: Row(
                 children: [
-                  widget.dragIcon,
+                  Container(
+                    padding: const EdgeInsets.only(left: 6),
+                    child: widget.dragIcon,
+                  ),
                   Expanded(
                     child: widget.feedbackWidget,
                   ),
@@ -182,7 +185,10 @@ class __RowDragIconWidgetState extends State<_RowDragIconWidget> {
             ),
           ),
         ),
-        child: widget.dragIcon,
+        child: Container(
+          padding: const EdgeInsets.only(left: 6),
+          child: widget.dragIcon,
+        ),
       ),
     );
   }
@@ -282,7 +288,7 @@ class _BuildDefaultCellWidget extends StatelessWidget {
             column.formattedValueForDisplay(cell.value),
             style: stateManager.configuration!.cellTextStyle.copyWith(
               decoration: TextDecoration.none,
-              fontWeight: FontWeight.normal,
+              fontWeight: FontWeight.w500,
             ),
             overflow: TextOverflow.ellipsis,
             textAlign: column.textAlign.value,

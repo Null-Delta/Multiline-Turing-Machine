@@ -17,6 +17,7 @@ class TuringMachineTable extends StatefulWidget {
   late int Function() selectedRow;
   late int Function() selectedColumn;
   late void Function() addVariant;
+  late void Function() deleteVariant;
 
   final void Function(PlutoGridStateManager manager) onLoaded;
 
@@ -37,11 +38,10 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
     if (stateManager.currentCell != null) {
       selectedRow = rows.indexOf(stateManager.currentCell!.row);
       selectedColumn = columns.indexOf(stateManager.currentCell!.column);
-      //developer.log("${selectedRow} : ${selectedColumn}");
     } else {
-      developer.log("deselect");
+      selectedColumn = -1;
+      selectedRow = -1;
     }
-    //stateManager.currentCell.row
   }
 
   void addVariant() {
@@ -72,6 +72,37 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
     }
   }
 
+  void deleteVariant() {
+    if (widget.machine.currentState.countOfVariants == 1) {
+      return;
+    }
+    int rowIndex = selectedRow == -1
+        ? widget.machine.currentState.countOfVariants - 1
+        : selectedRow + 1;
+
+    developer.log("$rowIndex");
+    widget.machine.model
+        .deleteVariant(widget.machine.currentStateIndex, rowIndex - 1);
+
+    stateManager.removeRows([rows[rowIndex - 1]]);
+
+    if (selectedRow == rows.length) {
+      selectedRow -= 1;
+    }
+
+    for (int i = selectedRow;
+        i < widget.machine.currentState.countOfVariants;
+        i++) {
+      stateManager.changeCellValue(rows[i].cells["head:0"]!, "№ ${i + 1}",
+          force: true, notify: true);
+    }
+
+    rows[selectedRow].setState(PlutoRowState.updated);
+
+    stateManager.setCurrentCell(
+        rows[selectedRow].cells["head:$selectedColumn"]!, selectedRow);
+  }
+
   @override
   void initState() {
     widget.selectedRow = () {
@@ -83,6 +114,7 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
     };
 
     widget.addVariant = addVariant;
+    widget.deleteVariant = deleteVariant;
 
     super.initState();
     for (int i = 0; i < widget.machine.model.countOfLines + 2; i++) {
@@ -97,6 +129,7 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
           enableRowDrag: i == 0 ? true : false,
           enableColumnDrag: false,
           enableEditingMode: i != 0,
+          enableAutoEditing: false,
           textAlign: PlutoColumnTextAlign.center,
           titleTextAlign: PlutoColumnTextAlign.center,
           width: 84,
@@ -188,20 +221,14 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
                     columns: columns,
                     onChanged: (event) {
                       //TODO: обработка ввода
-                      developer.log(event.toString());
+                      //developer.log(event.toString());
                     },
                     onRowsMoved: (event) {
                       //TODO: обработка перемещения конфигурации
-                      developer.log("${event.idx}");
+                      //developer.log("${event.idx}");
                       //developer.log("${event.rows![0].}");
                     },
-                    onSelected: (event) {
-                      if (event.cell != null) {
-                        selectedColumn = columns.indexOf(event.cell!.column);
-                        selectedRow = rows.indexOf(event.row!);
-                        developer.log("selected: $selectedRow");
-                      }
-                    },
+                    onSelected: (event) {},
                     onLoaded: (event) {
                       stateManager = event.stateManager;
                       event.stateManager

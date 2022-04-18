@@ -9,11 +9,16 @@ import '../styles/app_colors.dart';
 
 // ignore: must_be_immutable
 class BottomPanel extends StatefulWidget {
-  BottomPanel({Key? key, required this.machine, required this.onAddVariant})
+  BottomPanel(
+      {Key? key,
+      required this.machine,
+      required this.onAddVariant,
+      required this.onDeleteVariant})
       : super(key: key);
   final TuringMachine machine;
   PlutoGridStateManager? tableManager;
   void Function() onAddVariant;
+  void Function() onDeleteVariant;
 
   @override
   State<BottomPanel> createState() => _BottomPanelState();
@@ -84,6 +89,19 @@ class _BottomPanelState extends State<BottomPanel> {
                   },
                   child: const Image(
                     image: AppImages.addVariantDown,
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Удалить вариант",
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.onDeleteVariant();
+                  },
+                  child: const Image(
+                    image: AppImages.deleteVariant,
                   ),
                   style: appButtonStyle,
                 ),
