@@ -1,0 +1,111 @@
+import 'turing_machine_model.dart';
+
+class TuringMachine {
+  //модель машины тьюринга
+  late TuringMachineModel model;
+
+  //содержимое лент
+  late List<String> lineContent;
+
+  //индексы указателей на активные ячейки лент
+  late List<int> linePointer;
+
+  //текущее активное состояние
+  late int currentStateIndex;
+
+  //текущий обрабатываемый вариант
+  late int currentVatiantIndex;
+
+  TuringMachine(TuringMachineModel m) {
+    model = m;
+    lineContent = [for (int i = 0; i < model.countOfLines; i++) " " * 2001];
+    linePointer = [for (int i = 0; i < model.countOfLines; i++) 1000];
+    currentStateIndex = 0;
+    currentVatiantIndex = -1;
+  }
+
+  void clearLine(lineIndex) {
+    lineContent[lineIndex] = " " * 2001;
+  }
+
+  //Возвращает символ ленты на месте указателя
+  String getSymbol(int lineIndex) {
+    return lineContent[lineIndex][linePointer[lineIndex]];
+  }
+
+  bool checkSymbol(String symbol, String predicate) =>
+      predicate == "*" || symbol == predicate;
+
+  //ставит символ на ленту и смещает указатель вправо
+  void setSymbol(int lineIndex, String symbol) {
+    lineContent[lineIndex] =
+        replaceCharAt(lineContent[lineIndex], linePointer[lineIndex], symbol);
+    moveLine(lineIndex, 1);
+  }
+
+  //очищает текуший символ ленты и сдвигает указатель влево
+  void clearSymbol(int lineIndex) {
+    var contentIndex = linePointer[lineIndex];
+    lineContent[lineIndex] =
+        replaceCharAt(lineContent[lineIndex], contentIndex, " ");
+    moveLine(lineIndex, -1);
+  }
+
+  String replaceCharAt(String oldString, int index, String newChar) {
+    return oldString.substring(0, index) +
+        newChar +
+        oldString.substring(index + 1);
+  }
+
+  //сдвигает головку ленты
+  void moveLine(int lineIndex, int offset) {
+    linePointer[lineIndex] += offset;
+  }
+
+  //выполняет шаг и возвращает сообщение, информирующее о корректности
+  //выполнения шага:
+  //если шаг выполнен - возвращается пустая строка
+  //иначе - сообщение об ошибке
+  String makeStep() {
+    var currentState = model.stateList[currentStateIndex];
+
+    for (int variantIndex = 0;
+        variantIndex < currentState.variantList.length;
+        variantIndex++) {
+      bool isSuitable = true;
+      var currentVariant = currentState.variantList[variantIndex];
+
+      for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
+        var currentCommand = currentVariant.comandList[lineIndex];
+        if (!checkSymbol(getSymbol(lineIndex), currentCommand.input)) {
+          isSuitable = false;
+          break;
+        }
+      }
+      if (isSuitable) {
+        currentVatiantIndex = variantIndex;
+        if (currentVariant.toState >= model.stateList.length) {
+          return "Состояние ${currentVariant.toState} не найдено.";
+        }
+        for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
+          var currentCommand = currentVariant.comandList[lineIndex];
+          setSymbol(lineIndex, currentCommand.output);
+          switch (currentCommand.moveType) {
+            case "<":
+              moveLine(lineIndex, -1);
+              break;
+            case ">":
+              moveLine(lineIndex, 1);
+              break;
+            default:
+              break;
+          }
+        }
+        currentStateIndex = currentVariant.toState;
+        return "";
+      }
+    }
+    currentVatiantIndex = -1;
+    return "Не найден текущий вариант.";
+  }
+}
