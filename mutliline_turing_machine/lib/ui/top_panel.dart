@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import '../styles/app_colors.dart';
-import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
-import 'dart:developer' as developer;
 
 class TopPanel extends StatefulWidget {
   const TopPanel({Key? key}) : super(key: key);
@@ -14,8 +11,7 @@ class TopPanel extends StatefulWidget {
 }
 
 class _TopPanelState extends State<TopPanel> {
-
-  static const double iconSize = 16;
+  static const double iconSize = 28;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -74,7 +70,7 @@ class _TopPanelState extends State<TopPanel> {
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.about,
+                      image: AppImages.happy,
                     ),
                   ),
                   style: appButtonStyle,

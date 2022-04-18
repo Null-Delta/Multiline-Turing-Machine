@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
-import 'package:mutliline_turing_machine/styles/app_button.dart';
-import 'package:mutliline_turing_machine/styles/app_images.dart';
-import 'package:mutliline_turing_machine/ui/state_comments.dart';
+import 'package:mutliline_turing_machine/model/turing_machine.dart';
+import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'styles/app_colors.dart';
-import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
-import 'dart:developer' as developer;
-import 'styles/table_configuration.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
 import 'ui/table_page.dart';
+import 'dart:developer' as developer;
 
 void main() {
   runApp(const MyApp());
@@ -37,24 +34,21 @@ class MyApp extends StatelessWidget {
           900: AppColors.accent,
         }),
       ),
-      home: const MyHomePage(title: 'Симулятор Машины Тьюринга'),
+      home: MainWidget(),
     );
   }
 }
 
+class MainWidget extends StatefulWidget {
+  MainWidget({Key? key}) : super(key: key);
 
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  final TuringMachine machine = TuringMachine(TuringMachineModel());
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MainWidget> createState() => _MainWidgetState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  
-
+class _MainWidgetState extends State<MainWidget> {
   @override
   Widget build(BuildContext context) {
     developer.log("${MediaQuery.of(context).devicePixelRatio}");
@@ -74,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               const TopPanel(),
               Column(
-                children:  const [
+                children: const [
                   BottomPanel(),
                   TablePage(),
                 ],

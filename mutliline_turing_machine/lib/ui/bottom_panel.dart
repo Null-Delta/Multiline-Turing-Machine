@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import '../styles/app_colors.dart';
-import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
-import 'dart:developer' as developer;
 
 class BottomPanel extends StatefulWidget {
   const BottomPanel({Key? key}) : super(key: key);
@@ -14,7 +11,7 @@ class BottomPanel extends StatefulWidget {
 }
 
 class _BottomPanelState extends State<BottomPanel> {
-  static const double iconSize = 16;
+  static const double iconSize = 28;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,7 +34,7 @@ class _BottomPanelState extends State<BottomPanel> {
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.stateAdd,
+                      image: AppImages.addState,
                     ),
                   ),
                   style: appButtonStyle,
@@ -51,12 +48,8 @@ class _BottomPanelState extends State<BottomPanel> {
                 message: "Удалить состояние",
                 child: ElevatedButton(
                   onPressed: () {},
-                  child: const SizedBox(
-                    width: iconSize,
-                    height: iconSize,
-                    child: Image(
-                      image: AppImages.stateDelete,
-                    ),
+                  child: const Image(
+                    image: AppImages.deleteState,
                   ),
                   style: appButtonStyle,
                 ),
