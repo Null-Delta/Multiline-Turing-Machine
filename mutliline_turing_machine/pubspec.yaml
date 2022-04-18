@@ -63,6 +63,8 @@ flutter:
     - resources/images/1.25x/
     - resources/images/1.5x/
     - resources/images/1.75x/
+    - resources/images/2.0x/
+    - resources/images/3.0x/
     
   fonts:
       - family: Inter
