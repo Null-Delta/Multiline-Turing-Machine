@@ -18,7 +18,7 @@ class TuringCommand {
 
   @override
   String toString() {
-    return this.input + " " + this.output + " " + this.moveType;
+    return input + " " + output + " " + moveType;
   }
 
   TuringCommand.init(this.input, this.output, this.moveType);
@@ -26,20 +26,20 @@ class TuringCommand {
 }
 
 class TuringMachineVariant {
-  List<TuringCommand> comandList = [];
+  List<TuringCommand> commandList = [];
   int toState = -1;
 
   TuringMachineVariant(int countOfLines) {
     while (countOfLines > 0) {
-      comandList.add(TuringCommand());
+      commandList.add(TuringCommand());
       countOfLines--;
     }
   }
 
   String info() {
     var result = "      ";
-    for (int i = 0; i < comandList.length; i++) {
-      result += comandList[i].toString() + " | ";
+    for (int i = 0; i < commandList.length; i++) {
+      result += commandList[i].toString() + " | ";
     }
     result += "$toState\n";
     return result;
@@ -85,7 +85,7 @@ class TuringMachineModel {
     countOfLines++;
     for (int i = 0; i < countOfStates; i++) {
       for (int j = 0; j < stateList[i].countOfVariants; j++) {
-        stateList[i].variantList[j].comandList.add(TuringCommand());
+        stateList[i].variantList[j].commandList.add(TuringCommand());
       }
     }
   }
@@ -94,7 +94,7 @@ class TuringMachineModel {
     countOfLines--;
     for (int i = 0; i < countOfStates; i++) {
       for (int j = 0; j < stateList[i].countOfVariants; j++) {
-        stateList[i].variantList[j].comandList.removeLast();
+        stateList[i].variantList[j].commandList.removeLast();
       }
     }
   }
@@ -103,16 +103,17 @@ class TuringMachineModel {
       int numberOfLine, TuringCommand command) {
     stateList[numberOfState]
         .variantList[numberOfVariant]
-        .comandList[numberOfLine] = command;
+        .commandList[numberOfLine] = command;
   }
 
   void setToStateInVariant(
           int numberOfState, int numberOfVariant, int toState) =>
       stateList[numberOfState].variantList[numberOfVariant].toState = toState;
 
-  void replaceVariants(int numberOfState, int from, int to){
+  void replaceVariants(int numberOfState, int from, int to) {
     var tmp = stateList[numberOfState].variantList[from];
-    stateList[numberOfState].variantList[from] = stateList[numberOfState].variantList[to];
+    stateList[numberOfState].variantList[from] =
+        stateList[numberOfState].variantList[to];
     stateList[numberOfState].variantList[to] = tmp;
   }
 
