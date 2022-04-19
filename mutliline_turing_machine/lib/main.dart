@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
@@ -74,7 +72,6 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   Widget build(BuildContext context) {
-    developer.log("${MediaQuery.of(context).devicePixelRatio}");
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Center(

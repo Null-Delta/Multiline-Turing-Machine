@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
+import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/ui/state_comments.dart';
 import '../model/turing_machine.dart';
 import '../styles/app_colors.dart';
@@ -67,6 +68,14 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
       stateManager.changeCellValue(rows[i].cells["head:0"]!, "№ ${i + 1}",
           force: true, notify: true);
     }
+
+    selectedRow = rowIndex;
+    if (selectedColumn == -1) {
+      selectedColumn = 1;
+    }
+
+    stateManager.setCurrentCell(
+        rows[selectedRow].cells["head:$selectedColumn"]!, selectedRow);
   }
 
   void deleteVariant() {
@@ -217,8 +226,25 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
                     rows: rows,
                     columns: columns,
                     onChanged: (event) {
-                      //TODO: обработка ввода
-                      //developer.log(event.toString());
+                      if (event.columnIdx! != columns.length - 1) {
+                        var command = TuringCommand.parse(event.value);
+                        if (command == null) {
+                          stateManager.changeCellValue(
+                              event.row!.cells["head:${event.columnIdx}"]!,
+                              event.oldValue);
+                        } else {
+                          widget.machine.model.setComandInVariant(
+                              widget.machine.currentStateIndex,
+                              event.rowIdx!,
+                              event.columnIdx! - 1,
+                              command);
+                          stateManager.changeCellValue(
+                              event.row!.cells["head:${event.columnIdx}"]!,
+                              command.toString());
+                        }
+                      } else {
+                        //TODO: изменение перехода
+                      }
                     },
                     onRowsMoved: (event) {
                       //TODO: обработка перемещения конфигурации

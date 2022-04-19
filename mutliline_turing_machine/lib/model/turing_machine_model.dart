@@ -2,6 +2,19 @@ class TuringCommand {
   String input = "";
   String output = "";
   String moveType = "";
+
+  //Даниил, сделай парсер крутой,
+  //чтоб пробелы игнорились и все такое красивое.
+  //если прям совсем кринж написан и преобразовать не вариант - верни null
+  static TuringCommand? parse(String value) {
+    return null;
+  }
+
+  //А тут задача наоборот: верни из комманты строку с пробелами
+  @override
+  String toString() {
+    return "_ _ _";
+  }
 }
 
 class TuringMachineVariant {
@@ -56,25 +69,11 @@ class TuringMachineModel {
     }
   }
 
-  void setComandInVariant(
-      int numberOfState,
-      int numberOfVariant,
-      int numberOfLine,
-      String inLetter,
-      String outLetter,
-      String moveDirection) {
+  void setComandInVariant(int numberOfState, int numberOfVariant,
+      int numberOfLine, TuringCommand command) {
     stateList[numberOfState]
         .variantList[numberOfVariant]
-        .comandList[numberOfLine]
-        .input = inLetter;
-    stateList[numberOfState]
-        .variantList[numberOfVariant]
-        .comandList[numberOfLine]
-        .output = outLetter;
-    stateList[numberOfState]
-        .variantList[numberOfVariant]
-        .comandList[numberOfLine]
-        .moveType = moveDirection;
+        .comandList[numberOfLine] = command;
   }
 
   void setToStateInVariant(

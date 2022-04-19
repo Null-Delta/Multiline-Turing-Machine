@@ -103,7 +103,13 @@ class _TopPanelState extends State<TopPanel> {
           thickness: 2,
           color: AppColors.highlight,
         ),
-        const LineCell(),
+        Expanded(
+          child: Container(
+            constraints: const BoxConstraints(maxHeight: double.infinity),
+            color: AppColors.backgroundDark,
+            child: const LineCell(),
+          ),
+        )
       ],
     );
   }

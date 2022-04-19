@@ -32,12 +32,12 @@ class _LineCellState extends State<LineCell> {
           width: 28.0,
           height: 42.0,
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(7),
             child: Container(
               decoration: !isActive
                   ? BoxDecoration(
                       border: Border.all(width: 2, color: AppColors.highlight),
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      borderRadius: const BorderRadius.all(Radius.circular(7)),
                       color: AppColors.background,
                     )
                   : BoxDecoration(
@@ -53,7 +53,7 @@ class _LineCellState extends State<LineCell> {
                             letter,
                             style: TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
                               color: !isActive
                                   ? AppColors.text
                                   : AppColors.background,
@@ -66,7 +66,7 @@ class _LineCellState extends State<LineCell> {
                               top: 32,
                             ),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(7),
                               child: Container(
                                 decoration:
                                     BoxDecoration(color: AppColors.background),
@@ -79,7 +79,7 @@ class _LineCellState extends State<LineCell> {
                         letter,
                         style: TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w500,
                           color:
                               !isActive ? AppColors.text : AppColors.background,
                         ),
