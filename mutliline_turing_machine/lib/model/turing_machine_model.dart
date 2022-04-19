@@ -4,12 +4,9 @@ class TuringCommand {
   String moveType = "";
 
   static TuringCommand? parse(String value) {
-    if (value.isEmpty)
-    {
-      return TuringCommand.init('*', '*', '_'); 
-    }
-    else
-    {
+    if (value.isEmpty) {
+      return TuringCommand.init('*', '*', '_');
+    } else {
       String letters = value.replaceAll(RegExp(r' '), "");
       if (letters.length == 3 && letters[2].contains(RegExp("[>|<|_]"))) {
         return TuringCommand.init(letters[0], letters[1], letters[2]);
@@ -21,11 +18,10 @@ class TuringCommand {
 
   @override
   String toString() {
-    return this.input+" "+ this.output +" "+ this.moveType;
+    return this.input + " " + this.output + " " + this.moveType;
   }
 
-
-  TuringCommand.init(this.input,this.output,this.moveType);
+  TuringCommand.init(this.input, this.output, this.moveType);
   TuringCommand();
 }
 
@@ -39,12 +35,34 @@ class TuringMachineVariant {
       countOfLines--;
     }
   }
+
+  String info() {
+    var result = "      ";
+    for (int i = 0; i < comandList.length; i++) {
+      result += comandList[i].toString() + " | ";
+    }
+    result += "$toState\n";
+    return result;
+  }
 }
 
 class TuringMachineState {
   String description = "";
   int get countOfVariants => variantList.length;
   List<TuringMachineVariant> variantList = [];
+
+  String info() {
+    String result = "  description: $description\n";
+    result += "    variants:\n";
+
+    for (int variantIndex = 0;
+        variantIndex < variantList.length;
+        variantIndex++) {
+      result += "    variant $variantIndex:\n";
+      result += variantList[variantIndex].info();
+    }
+    return result;
+  }
 }
 
 class TuringMachineModel {
@@ -95,5 +113,17 @@ class TuringMachineModel {
   TuringMachineModel() {
     addState();
     addVariant(0);
+  }
+
+  String info() {
+    var result = "statesCount: ${stateList.length}\n";
+
+    for (int stateIndex = 0; stateIndex < stateList.length; stateIndex++) {
+      result += "state $stateIndex:\n";
+      result += stateList[stateIndex].info();
+    }
+    //developer.log(result);
+
+    return result;
   }
 }

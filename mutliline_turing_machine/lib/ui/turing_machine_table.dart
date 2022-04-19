@@ -250,7 +250,18 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
                               callOnChangedEvent: false);
                         }
                       } else {
-                        //TODO: изменение перехода
+                        var num = int.tryParse(event.value);
+                        if (num != null && num >= 0) {
+                          widget.machine.model.setToStateInVariant(
+                              widget.machine.currentStateIndex,
+                              event.rowIdx!,
+                              num);
+                        } else {
+                          stateManager.changeCellValue(
+                              event.row!.cells["head:${event.columnIdx}"]!,
+                              event.oldValue,
+                              callOnChangedEvent: false);
+                        }
                       }
                     },
                     onRowsMoved: (event) {
