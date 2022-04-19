@@ -3,18 +3,30 @@ class TuringCommand {
   String output = "";
   String moveType = "";
 
-  //Даниил, сделай парсер крутой,
-  //чтоб пробелы игнорились и все такое красивое.
-  //если прям совсем кринж написан и преобразовать не вариант - верни null
   static TuringCommand? parse(String value) {
-    return null;
+    if (value.isEmpty)
+    {
+      return TuringCommand.init('*', '*', '_'); 
+    }
+    else
+    {
+      String letters = value.replaceAll(RegExp(r' '), "");
+      if (letters.length == 3 && letters[2].contains(RegExp("[>|<|_]"))) {
+        return TuringCommand.init(letters[0], letters[1], letters[2]);
+      } else {
+        return null;
+      }
+    }
   }
 
-  //А тут задача наоборот: верни из комманты строку с пробелами
   @override
   String toString() {
-    return "_ _ _";
+    return this.input+" "+ this.output +" "+ this.moveType;
   }
+
+
+  TuringCommand.init(this.input,this.output,this.moveType);
+  TuringCommand();
 }
 
 class TuringMachineVariant {
