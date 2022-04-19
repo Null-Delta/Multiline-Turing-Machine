@@ -14,20 +14,27 @@ class _LineState extends State<Line> {
   int centerPosition = 0;
   int countOfCells = 0;
 
-  String letter = "a";
+  String letter = "B";
   bool isActive = false;
   bool isFocus = false;
 
   @override
   Widget build(BuildContext build) {
     //
-    List<Positioned> k = [];
-    for (int i = 0; i < MediaQuery.of(context).size.width/30+2; i++) {
-      cells.add(const LineCell());
-      k.add(Positioned(top: 4, left: i*30+3, child: cells[i+LeftPosition]));
-    }
-    centerPosition = 50;
+    centerPosition = 0;
     countOfCells = 100;
+    List<Positioned> k = [];
+    // сразу отображаем 100 штук
+    String kk = "dasdadsa";
+    int countOfCellsOnScreen = 100;
+    for (int i = 0; i < countOfCellsOnScreen; i++) {
+      cells.add(const LineCell(letter: 'a' ));
+      k.add(Positioned(
+        top: 0,
+        left: MediaQuery.of(context).size.width/2-14 + (i - countOfCellsOnScreen/2)*30,
+        child: cells[i+centerPosition]));
+    }
+
     //
     return GestureDetector(
       onTap: () {
@@ -40,7 +47,7 @@ class _LineState extends State<Line> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 50,
-          child: Stack(alignment: const Alignment(0, 0),
+          child: Stack(alignment: AlignmentDirectional.center,
             children: k
           )
         ),

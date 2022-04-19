@@ -5,12 +5,9 @@ class TuringCommand {
 
   static TuringCommand? parse(String value) {
     String letters = value.replaceAll(RegExp(r' '), "");
-    if (letters.isEmpty)
-    {
-      return TuringCommand.init('*', '*', '_'); 
-    }
-    else
-    {
+    if (letters.isEmpty) {
+      return TuringCommand.init('*', '*', '_');
+    } else {
       if (letters.length == 3 && letters[2].contains(RegExp("[>|<|_]"))) {
         return TuringCommand.init(letters[0], letters[1], letters[2]);
       } else {
@@ -21,23 +18,31 @@ class TuringCommand {
 
   @override
   String toString() {
-    return this.input+" "+ this.output +" "+ this.moveType;
+    return input + " " + output + " " + moveType;
   }
 
-
-  TuringCommand.init(this.input,this.output,this.moveType);
+  TuringCommand.init(this.input, this.output, this.moveType);
   TuringCommand();
 }
 
 class TuringMachineVariant {
-  List<TuringCommand> comandList = [];
+  List<TuringCommand> commandList = [];
   int toState = -1;
 
   TuringMachineVariant(int countOfLines) {
     while (countOfLines > 0) {
-      comandList.add(TuringCommand());
+      commandList.add(TuringCommand());
       countOfLines--;
     }
+  }
+
+  String info() {
+    var result = "      ";
+    for (int i = 0; i < commandList.length; i++) {
+      result += commandList[i].toString() + " | ";
+    }
+    result += "$toState\n";
+    return result;
   }
 }
 
@@ -45,6 +50,19 @@ class TuringMachineState {
   String description = "";
   int get countOfVariants => variantList.length;
   List<TuringMachineVariant> variantList = [];
+
+  String info() {
+    String result = "  description: $description\n";
+    result += "    variants:\n";
+
+    for (int variantIndex = 0;
+        variantIndex < variantList.length;
+        variantIndex++) {
+      result += "    variant $variantIndex:\n";
+      result += variantList[variantIndex].info();
+    }
+    return result;
+  }
 }
 
 class TuringMachineModel {
@@ -67,7 +85,7 @@ class TuringMachineModel {
     countOfLines++;
     for (int i = 0; i < countOfStates; i++) {
       for (int j = 0; j < stateList[i].countOfVariants; j++) {
-        stateList[i].variantList[j].comandList.add(TuringCommand());
+        stateList[i].variantList[j].commandList.add(TuringCommand());
       }
     }
   }
@@ -76,7 +94,7 @@ class TuringMachineModel {
     countOfLines--;
     for (int i = 0; i < countOfStates; i++) {
       for (int j = 0; j < stateList[i].countOfVariants; j++) {
-        stateList[i].variantList[j].comandList.removeLast();
+        stateList[i].variantList[j].commandList.removeLast();
       }
     }
   }
@@ -85,21 +103,34 @@ class TuringMachineModel {
       int numberOfLine, TuringCommand command) {
     stateList[numberOfState]
         .variantList[numberOfVariant]
-        .comandList[numberOfLine] = command;
+        .commandList[numberOfLine] = command;
   }
 
   void setToStateInVariant(
           int numberOfState, int numberOfVariant, int toState) =>
       stateList[numberOfState].variantList[numberOfVariant].toState = toState;
 
-  void swapVariants(int numberOfState, int from, int to){
+  void replaceVariants(int numberOfState, int from, int to){
     var tmp = stateList[numberOfState].variantList[from];
-    stateList[numberOfState].variantList[from] = stateList[numberOfState].variantList[to];
+    stateList[numberOfState].variantList[from] =
+        stateList[numberOfState].variantList[to];
     stateList[numberOfState].variantList[to] = tmp;
   }
 
   TuringMachineModel() {
     addState();
     addVariant(0);
+  }
+
+  String info() {
+    var result = "statesCount: ${stateList.length}\n";
+
+    for (int stateIndex = 0; stateIndex < stateList.length; stateIndex++) {
+      result += "state $stateIndex:\n";
+      result += stateList[stateIndex].info();
+    }
+    //developer.log(result);
+
+    return result;
   }
 }
