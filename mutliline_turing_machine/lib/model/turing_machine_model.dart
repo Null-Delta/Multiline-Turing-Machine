@@ -67,7 +67,7 @@ class TuringMachineState {
 
 class TuringMachineModel {
   int get countOfStates => stateList.length;
-  int countOfLines = 1;
+  int countOfLines = 20;
   List<TuringMachineState> stateList = [];
 
   void addState() => stateList.add(TuringMachineState());
