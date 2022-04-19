@@ -265,7 +265,6 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
                       }
                     },
                     onRowsMoved: (event) {
-                      //developer.log("from $draggingIndex to ${event.idx}");
                       widget.machine.model.replaceVariants(
                           widget.machine.currentStateIndex,
                           draggingIndex!,
@@ -296,7 +295,9 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
                     },
                     configuration: tableConfiguration,
                   ),
-                  const StateComments(),
+                  StateComments(
+                    machine: widget.machine,
+                  ),
                 ],
               ),
             ),
