@@ -1,5 +1,12 @@
 import 'turing_machine_model.dart';
 
+class Configuration {
+  List<String> lines = [];
+  List<int> pointers = [];
+  int get countOfLines => lines.length;
+  Configuration(this.lines, this.pointers);
+}
+
 class TuringMachine {
   //модель машины тьюринга
   late TuringMachineModel model;
@@ -15,6 +22,9 @@ class TuringMachine {
 
   //текущий обрабатываемый вариант
   late int currentVatiantIndex;
+
+  //множество конфигураций, пройденные машиной
+  late Set<Configuration> passedConfigurations;
 
   TuringMachineState get currentState => model.stateList[currentStateIndex];
 
@@ -78,7 +88,7 @@ class TuringMachine {
       var currentVariant = currentState.variantList[variantIndex];
 
       for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
-        var currentCommand = currentVariant.comandList[lineIndex];
+        var currentCommand = currentVariant.commandList[lineIndex];
         if (!checkSymbol(getSymbol(lineIndex), currentCommand.input)) {
           isSuitable = false;
           break;
@@ -90,7 +100,7 @@ class TuringMachine {
           return "Состояние ${currentVariant.toState} не найдено.";
         }
         for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
-          var currentCommand = currentVariant.comandList[lineIndex];
+          var currentCommand = currentVariant.commandList[lineIndex];
           setSymbol(lineIndex, currentCommand.output);
           switch (currentCommand.moveType) {
             case "<":
