@@ -265,8 +265,20 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
                       }
                     },
                     onRowsMoved: (event) {
-                      developer.log("from $draggingIndex to ${event.idx}");
+                      //developer.log("from $draggingIndex to ${event.idx}");
+                      widget.machine.model.replaceVariants(
+                          widget.machine.currentStateIndex,
+                          draggingIndex!,
+                          event.idx!);
                       draggingIndex = null;
+
+                      for (int i = 0;
+                          i < widget.machine.currentState.countOfVariants;
+                          i++) {
+                        stateManager.changeCellValue(
+                            rows[i].cells["head:0"]!, "№ ${i + 1}",
+                            force: true, notify: true);
+                      }
                       //widget.machine.model.
 
                       //developer.log("${event.idx}");
