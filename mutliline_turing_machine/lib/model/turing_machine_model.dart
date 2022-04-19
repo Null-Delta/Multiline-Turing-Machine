@@ -4,13 +4,13 @@ class TuringCommand {
   String moveType = "";
 
   static TuringCommand? parse(String value) {
-    if (value.isEmpty)
+    String letters = value.replaceAll(RegExp(r' '), "");
+    if (letters.isEmpty)
     {
       return TuringCommand.init('*', '*', '_'); 
     }
     else
     {
-      String letters = value.replaceAll(RegExp(r' '), "");
       if (letters.length == 3 && letters[2].contains(RegExp("[>|<|_]"))) {
         return TuringCommand.init(letters[0], letters[1], letters[2]);
       } else {

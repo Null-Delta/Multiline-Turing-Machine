@@ -72,12 +72,6 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var k = TuringCommand.parse("d a d");
-    var k1 = TuringCommand.parse("d a <");
-    var k2 = TuringCommand.parse("d a _");
-    var k3 = TuringCommand.parse("s a   _");
-    var k4 = TuringCommand.parse("a_");
-    var k5 = TuringCommand.parse("");
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Center(
