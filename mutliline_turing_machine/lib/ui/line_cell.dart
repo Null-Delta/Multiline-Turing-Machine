@@ -4,14 +4,17 @@ import '../styles/app_colors.dart';
 import 'dart:developer' as developer;
 
 class LineCell extends StatefulWidget {
-  const LineCell({Key? key}) : super(key: key);
-
+  const LineCell({
+    this.letter,
+    Key? key,
+  }) : super(key: key);
+  final String? letter;
   @override
   State<LineCell> createState() => _LineCellState();
 }
 
 class _LineCellState extends State<LineCell> {
-  String letter = 'A';
+  String letter = '_';
   bool isActive = false;
   bool isFocus = false;
 
@@ -21,7 +24,7 @@ class _LineCellState extends State<LineCell> {
   @override
   void initState() {
     super.initState();
-    developer.log('init');
+    letter = widget.letter ?? letter;
   }
 
   @override
