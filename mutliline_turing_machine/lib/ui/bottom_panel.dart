@@ -106,6 +106,26 @@ class _BottomPanelState extends State<BottomPanel> {
                   style: appButtonStyle,
                 ),
               ),
+              const SizedBox(
+                width: 6,
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Debug",
+                child: ElevatedButton(
+                  onPressed: () {
+                    log(widget.machine.model.info());
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.help,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
             ],
           ),
         ),
