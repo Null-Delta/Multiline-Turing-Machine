@@ -231,7 +231,8 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
                         if (command == null) {
                           stateManager.changeCellValue(
                               event.row!.cells["head:${event.columnIdx}"]!,
-                              event.oldValue);
+                              event.oldValue,
+                              callOnChangedEvent: false);
                         } else {
                           widget.machine.model.setComandInVariant(
                               widget.machine.currentStateIndex,
@@ -240,7 +241,8 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
                               command);
                           stateManager.changeCellValue(
                               event.row!.cells["head:${event.columnIdx}"]!,
-                              command.toString());
+                              command.toString(),
+                              callOnChangedEvent: false);
                         }
                       } else {
                         //TODO: изменение перехода

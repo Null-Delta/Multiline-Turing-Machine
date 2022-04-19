@@ -45,21 +45,20 @@ class _LineCellState extends State<LineCell> {
                     ),
               child: Align(
                 alignment: Alignment.center,
-                child: isFocus
-                    ? Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Text(
-                            letter,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: !isActive
-                                  ? AppColors.text
-                                  : AppColors.background,
-                            ),
-                          ),
-                          Container(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Text(
+                      letter,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color:
+                            !isActive ? AppColors.text : AppColors.background,
+                      ),
+                    ),
+                    isFocus
+                        ? Container(
                             width: 16.0,
                             height: 3.0,
                             margin: const EdgeInsets.only(
@@ -72,18 +71,10 @@ class _LineCellState extends State<LineCell> {
                                     BoxDecoration(color: AppColors.background),
                               ),
                             ),
-                          ),
-                        ],
-                      )
-                    : Text(
-                        letter,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color:
-                              !isActive ? AppColors.text : AppColors.background,
-                        ),
-                      ),
+                          )
+                        : const SizedBox(),
+                  ],
+                ),
               ),
             ),
           ),
