@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import '../styles/app_colors.dart';
 import 'line_cell.dart';
@@ -10,7 +12,7 @@ class Line extends StatefulWidget {
 }
 
 class _LineState extends State<Line> {
-  List<LineCell> cells = [];
+  List<Widget> cells = [];
   int centerPosition = 0;
   int countOfCells = 0;
 
@@ -25,10 +27,10 @@ class _LineState extends State<Line> {
     countOfCells = 100;
     List<Positioned> k = [];
     // сразу отображаем 100 штук
-    String kk = "dasdadsa";
-    int countOfCellsOnScreen = 100;
+    int countOfCellsOnScreen = (MediaQuery.of(context).size.width/30).toInt();
+    log(countOfCellsOnScreen.toString());
     for (int i = 0; i < countOfCellsOnScreen; i++) {
-      cells.add(const LineCell(letter: 'a' ));
+      cells.add(const LineCell(letter: "s" ));
       k.add(Positioned(
         top: 0,
         left: MediaQuery.of(context).size.width/2-14 + (i - countOfCellsOnScreen/2)*30,
@@ -47,9 +49,9 @@ class _LineState extends State<Line> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 50,
-          child: Stack(alignment: AlignmentDirectional.center,
-            children: k
-          )
+          child: ListView.separated(padding: EdgeInsets.only(left: -MediaQuery.of(context).size.width/2), scrollDirection: Axis.horizontal ,itemBuilder: (context, index) { return const LineCell(letter: "s" ); },
+          separatorBuilder: (context, index) { return const SizedBox( width: 4); },
+          itemCount: 50), 
         ),
       ),
     );
