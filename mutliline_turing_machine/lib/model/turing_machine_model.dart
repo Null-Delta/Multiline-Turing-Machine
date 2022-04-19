@@ -110,6 +110,12 @@ class TuringMachineModel {
           int numberOfState, int numberOfVariant, int toState) =>
       stateList[numberOfState].variantList[numberOfVariant].toState = toState;
 
+  void replaceVariants(int numberOfState, int from, int to){
+    var tmp = stateList[numberOfState].variantList[from];
+    stateList[numberOfState].variantList[from] = stateList[numberOfState].variantList[to];
+    stateList[numberOfState].variantList[to] = tmp;
+  }
+
   TuringMachineModel() {
     addState();
     addVariant(0);
