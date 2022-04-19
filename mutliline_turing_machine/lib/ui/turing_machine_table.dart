@@ -32,13 +32,18 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
 
   int selectedRow = -1;
   int selectedColumn = -1;
+  int? draggingIndex;
 
   late PlutoGridStateManager stateManager;
 
   void onStateUpdate() {
-    if (stateManager.currentCell != null) {
-      selectedRow = rows.indexOf(stateManager.currentCell!.row);
-      selectedColumn = columns.indexOf(stateManager.currentCell!.column);
+    if (stateManager.isDraggingRow) {
+      draggingIndex ??= stateManager.dragTargetRowIdx;
+    } else {
+      if (stateManager.currentCell != null) {
+        selectedRow = rows.indexOf(stateManager.currentCell!.row);
+        selectedColumn = columns.indexOf(stateManager.currentCell!.column);
+      }
     }
   }
 
@@ -245,15 +250,43 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
                               callOnChangedEvent: false);
                         }
                       } else {
-                        //TODO: изменение перехода
+                        var num = int.tryParse(event.value);
+                        if (num != null && num >= 0) {
+                          widget.machine.model.setToStateInVariant(
+                              widget.machine.currentStateIndex,
+                              event.rowIdx!,
+                              num);
+                        } else {
+                          stateManager.changeCellValue(
+                              event.row!.cells["head:${event.columnIdx}"]!,
+                              event.oldValue,
+                              callOnChangedEvent: false);
+                        }
                       }
                     },
                     onRowsMoved: (event) {
-                      //TODO: обработка перемещения конфигурации
+                      //developer.log("from $draggingIndex to ${event.idx}");
+                      widget.machine.model.replaceVariants(
+                          widget.machine.currentStateIndex,
+                          draggingIndex!,
+                          event.idx!);
+                      draggingIndex = null;
+
+                      for (int i = 0;
+                          i < widget.machine.currentState.countOfVariants;
+                          i++) {
+                        stateManager.changeCellValue(
+                            rows[i].cells["head:0"]!, "№ ${i + 1}",
+                            force: true, notify: true);
+                      }
+                      //widget.machine.model.
+
                       //developer.log("${event.idx}");
-                      //developer.log("${event.rows![0].}");
                     },
                     onSelected: (event) {},
+                    onRowChecked: (event) {
+                      developer.log("start");
+                    },
                     onLoaded: (event) {
                       stateManager = event.stateManager;
                       event.stateManager
