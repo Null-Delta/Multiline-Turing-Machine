@@ -1,5 +1,12 @@
 import 'turing_machine_model.dart';
 
+class Configuration{
+  List<String> lines = [];
+  List<int> pointers = [];
+  int get countOfLines => lines.length;  
+  Configuration(this.lines, this.pointers);
+}
+
 class TuringMachine {
   //модель машины тьюринга
   late TuringMachineModel model;
@@ -16,6 +23,9 @@ class TuringMachine {
   //текущий обрабатываемый вариант
   late int currentVatiantIndex;
 
+  //множество конфигураций, пройденные машиной
+  late Set<Configuration> passedConfigurations;
+  
   TuringMachineState get currentState => model.stateList[currentStateIndex];
 
   TuringMachine(TuringMachineModel m) {
