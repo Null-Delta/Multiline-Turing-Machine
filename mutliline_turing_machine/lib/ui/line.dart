@@ -11,75 +11,38 @@ class Line extends StatefulWidget {
 
 class _LineState extends State<Line> {
   List<LineCell> cells = [];
+  int centerPosition = 0;
+  int countOfCells = 0;
+
   String letter = "a";
   bool isActive = false;
   bool isFocus = false;
 
   @override
   Widget build(BuildContext build) {
+    //
+    List<Positioned> k = [];
+    for (int i = 0; i < MediaQuery.of(context).size.width/30+2; i++) {
+      cells.add(const LineCell());
+      k.add(Positioned(top: 4, left: i*30+3, child: cells[i+LeftPosition]));
+    }
+    centerPosition = 50;
+    countOfCells = 100;
+    //
     return GestureDetector(
       onTap: () {
-        setState(() {
-          isActive = !isActive;
-        });
+
       },
       onSecondaryTap: () {
-        setState(() {
-          isFocus = !isFocus;
-        });
       },
       child: Align(
         alignment: const Alignment(0.0, 0.0),
         child: SizedBox(
-          width: 28.0,
-          height: 42.0,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(7),
-            child: Container(
-              decoration: !isActive
-                  ? BoxDecoration(
-                      border: Border.all(width: 2, color: AppColors.highlight),
-                      borderRadius: const BorderRadius.all(Radius.circular(7)),
-                      color: AppColors.background,
-                    )
-                  : BoxDecoration(
-                      color: AppColors.accent,
-                    ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Text(
-                      letter,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color:
-                            !isActive ? AppColors.text : AppColors.background,
-                      ),
-                    ),
-                    isFocus
-                        ? Container(
-                            width: 16.0,
-                            height: 3.0,
-                            margin: const EdgeInsets.only(
-                              top: 32,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(7),
-                              child: Container(
-                                decoration:
-                                    BoxDecoration(color: AppColors.background),
-                              ),
-                            ),
-                          )
-                        : const SizedBox(),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          width: MediaQuery.of(context).size.width,
+          height: 50,
+          child: Stack(alignment: const Alignment(0, 0),
+            children: k
+          )
         ),
       ),
     );
