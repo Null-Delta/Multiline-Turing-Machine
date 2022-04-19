@@ -32,13 +32,18 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
 
   int selectedRow = -1;
   int selectedColumn = -1;
+  int? draggingIndex;
 
   late PlutoGridStateManager stateManager;
 
   void onStateUpdate() {
-    if (stateManager.currentCell != null) {
-      selectedRow = rows.indexOf(stateManager.currentCell!.row);
-      selectedColumn = columns.indexOf(stateManager.currentCell!.column);
+    if (stateManager.isDraggingRow) {
+      draggingIndex ??= stateManager.dragTargetRowIdx;
+    } else {
+      if (stateManager.currentCell != null) {
+        selectedRow = rows.indexOf(stateManager.currentCell!.row);
+        selectedColumn = columns.indexOf(stateManager.currentCell!.column);
+      }
     }
   }
 
@@ -249,11 +254,16 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
                       }
                     },
                     onRowsMoved: (event) {
-                      //TODO: обработка перемещения конфигурации
+                      developer.log("from $draggingIndex to ${event.idx}");
+                      draggingIndex = null;
+                      //widget.machine.model.
+
                       //developer.log("${event.idx}");
-                      //developer.log("${event.rows![0].}");
                     },
                     onSelected: (event) {},
+                    onRowChecked: (event) {
+                      developer.log("start");
+                    },
                     onLoaded: (event) {
                       stateManager = event.stateManager;
                       event.stateManager
