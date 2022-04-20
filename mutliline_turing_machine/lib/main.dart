@@ -3,6 +3,8 @@ import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
+import 'package:mutliline_turing_machine/ui/state_comments.dart';
+import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'styles/app_colors.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
@@ -68,7 +70,21 @@ class _MainWidgetState extends State<MainWidget> {
     onDeleteVariant: () {
       table.deleteVariant();
     },
+    onAddState: () {
+      setState(() {
+        widget.machine.model.addState();
+      });
+    },
+    onDeleteState: () {},
   );
+
+  void updateSelectedState(int newState) {
+    setState(() {
+      widget.machine.currentStateIndex = newState;
+    });
+
+    table.changeState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +107,44 @@ class _MainWidgetState extends State<MainWidget> {
               Column(
                 children: [
                   bottomPanel,
-                  table,
+                  Expanded(
+                    child: Row(
+                      children: [
+                        StatesList(
+                          machine: widget.machine,
+                          onStateSelect: (index) {
+                            updateSelectedState(index);
+                            //widget.tableManager
+                          },
+                        ),
+                        Container(
+                          width: 2,
+                          color: AppColors.highlight,
+                        ),
+                        Expanded(
+                          child: MultiSplitViewTheme(
+                            data: MultiSplitViewThemeData(
+                              dividerThickness: 2,
+                              dividerPainter: DividerPainter(
+                                backgroundColor: AppColors.highlight,
+                              ),
+                            ),
+                            child: MultiSplitView(
+                              antiAliasingWorkaround: false,
+                              axis: Axis.horizontal,
+                              resizable: true,
+                              minimalSize: 256,
+                              initialWeights: const [0.7, 0.3],
+                              children: [
+                                table,
+                                StateComments(machine: widget.machine)
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ],

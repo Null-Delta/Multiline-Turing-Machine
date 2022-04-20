@@ -1,7 +1,7 @@
 class TuringCommand {
-  String input = "";
-  String output = "";
-  String moveType = "";
+  String input = "*";
+  String output = "*";
+  String moveType = "_";
 
   static TuringCommand? parse(String value) {
     String letters = value.replaceAll(RegExp(r' '), "");
@@ -70,7 +70,10 @@ class TuringMachineModel {
   int countOfLines = 20;
   List<TuringMachineState> stateList = [];
 
-  void addState() => stateList.add(TuringMachineState());
+  void addState() {
+    stateList.add(TuringMachineState());
+    stateList.last.variantList.add(TuringMachineVariant(countOfLines));
+  }
 
   void deleteState(int number) => stateList.removeAt(number);
 
@@ -119,7 +122,6 @@ class TuringMachineModel {
 
   TuringMachineModel() {
     addState();
-    addVariant(0);
   }
 
   String info() {

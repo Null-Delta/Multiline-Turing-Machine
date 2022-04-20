@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/ui/state_comments.dart';
+import 'package:mutliline_turing_machine/ui/states_list.dart';
 import '../model/turing_machine.dart';
 import '../styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
@@ -19,6 +20,8 @@ class TuringMachineTable extends StatefulWidget {
   late int Function() selectedColumn;
   late void Function() addVariant;
   late void Function() deleteVariant;
+
+  late void Function() changeState;
 
   final void Function(PlutoGridStateManager manager) onLoaded;
 
@@ -58,7 +61,8 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
     var row = PlutoRow(
       cells: {
         for (int i = 0; i < widget.machine.model.countOfLines + 2; i++)
-          "head:$i": PlutoCell(value: i == 0 ? "№ ${rowIndex + 1}" : "_ _ _")
+          i == widget.machine.model.countOfLines + 1 ? "translate" : "head:$i":
+              PlutoCell(value: i == 0 ? "№ ${rowIndex + 1}" : "_ _ _")
       },
     );
 
@@ -124,10 +128,61 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
       return selectedColumn;
     };
 
+    widget.changeState = updateTableState;
     widget.addVariant = addVariant;
     widget.deleteVariant = deleteVariant;
 
     super.initState();
+
+    initTable();
+  }
+
+  void updateTableState() {
+    stateManager.removeRows(rows);
+    stateManager.clearCurrentCell();
+    selectedColumn = -1;
+    selectedRow = -1;
+
+    developer.log(
+        "${widget.machine.model.stateList[widget.machine.currentStateIndex].countOfVariants}");
+
+    List<PlutoRow> newRows = [];
+
+    for (int i = 0;
+        i <
+            widget.machine.model.stateList[widget.machine.currentStateIndex]
+                .countOfVariants;
+        i++) {
+      newRows.add(
+        PlutoRow(
+          cells: {
+            for (int j = 0; j < widget.machine.model.countOfLines + 2; j++)
+              j == widget.machine.model.countOfLines + 1 ? "translate" : "head:$j":
+                  PlutoCell(
+                      value: j == 0
+                          ? "№ ${i + 1}"
+                          : j == widget.machine.model.countOfLines + 1
+                              ? "${widget.machine.model.stateList[widget.machine.currentStateIndex].variantList[i].toState}"
+                              : widget
+                                  .machine
+                                  .model
+                                  .stateList[widget.machine.currentStateIndex]
+                                  .variantList[i]
+                                  .commandList[j - 1]
+                                  .toString())
+          },
+        ),
+      );
+    }
+
+    stateManager.appendRows(newRows);
+  }
+
+  void initTable() {
+    columns.clear();
+    rows.clear();
+    developer.log("${widget.machine.currentStateIndex}");
+
     for (int i = 0; i < widget.machine.model.countOfLines + 2; i++) {
       columns.add(
         PlutoColumn(
@@ -150,7 +205,9 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
               : i == widget.machine.model.countOfLines + 1
                   ? "Переход"
                   : "Лента $i",
-          field: "head:$i",
+          field: i == widget.machine.model.countOfLines + 1
+              ? "translate"
+              : "head:$i",
           type: PlutoColumnType.text(),
         ),
       );
@@ -165,145 +222,79 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
         PlutoRow(
           cells: {
             for (int j = 0; j < widget.machine.model.countOfLines + 2; j++)
-              "head:$j": PlutoCell(
-                  value: j == 0
-                      ? "№ ${i + 1}"
-                      : j == widget.machine.model.countOfLines + 2
-                          ? "_"
-                          : "_ _ _")
+              j == widget.machine.model.countOfLines + 1 ? "translate" : "head:$j":
+                  PlutoCell(
+                      value: j == 0
+                          ? "№ ${i + 1}"
+                          : j == widget.machine.model.countOfLines + 1
+                              ? "${widget.machine.model.stateList[widget.machine.currentStateIndex].variantList[i].toState}"
+                              : widget
+                                  .machine
+                                  .model
+                                  .stateList[widget.machine.currentStateIndex]
+                                  .variantList[i]
+                                  .commandList[j - 1]
+                                  .toString())
           },
         ),
       );
     }
+
+    //developer.log("cols: ${columns.length}; rows: ${rows.length}");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Row(
-        children: [
-          Container(
-            width: 84,
-            color: AppColors.background,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 34,
-                  child: Center(
-                    child: Text(
-                      "Состояния",
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.text,
-                      ),
-                    ),
-                  ),
-                ),
-                Divider(
-                  height: 2,
-                  thickness: 2,
-                  color: AppColors.highlight,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: 2,
-            color: AppColors.highlight,
-          ),
-          Expanded(
-            child: MultiSplitViewTheme(
-              data: MultiSplitViewThemeData(
-                dividerThickness: 2,
-                dividerPainter: DividerPainter(
-                  backgroundColor: AppColors.highlight,
-                ),
-              ),
-              child: MultiSplitView(
-                antiAliasingWorkaround: false,
-                axis: Axis.horizontal,
-                resizable: true,
-                minimalSize: 256,
-                initialWeights: const [0.7, 0.3],
-                children: [
-                  PlutoGrid(
-                    rows: rows,
-                    columns: columns,
-                    onChanged: (event) {
-                      if (event.columnIdx! != columns.length - 1) {
-                        var command = TuringCommand.parse(event.value);
-                        if (command == null) {
-                          stateManager.changeCellValue(
-                              event.row!.cells["head:${event.columnIdx}"]!,
-                              event.oldValue,
-                              callOnChangedEvent: false);
-                        } else {
-                          widget.machine.model.setComandInVariant(
-                              widget.machine.currentStateIndex,
-                              event.rowIdx!,
-                              event.columnIdx! - 1,
-                              command);
-                          stateManager.changeCellValue(
-                              event.row!.cells["head:${event.columnIdx}"]!,
-                              command.toString(),
-                              callOnChangedEvent: false);
-                        }
-                      } else {
-                        var num = int.tryParse(event.value);
-                        if (num != null && num >= 0) {
-                          widget.machine.model.setToStateInVariant(
-                              widget.machine.currentStateIndex,
-                              event.rowIdx!,
-                              num);
-                        } else {
-                          stateManager.changeCellValue(
-                              event.row!.cells["head:${event.columnIdx}"]!,
-                              event.oldValue,
-                              callOnChangedEvent: false);
-                        }
-                      }
-                    },
-                    onRowsMoved: (event) {
-                      widget.machine.model.replaceVariants(
-                          widget.machine.currentStateIndex,
-                          draggingIndex!,
-                          event.idx!);
-                      draggingIndex = null;
+    return PlutoGrid(
+      rows: rows,
+      columns: columns,
+      onChanged: (event) {
+        if (event.columnIdx! != columns.length - 1) {
+          var command = TuringCommand.parse(event.value);
+          if (command == null) {
+            stateManager.changeCellValue(
+                event.row!.cells["head:${event.columnIdx}"]!, event.oldValue,
+                callOnChangedEvent: false);
+          } else {
+            widget.machine.model.setComandInVariant(
+                widget.machine.currentStateIndex,
+                event.rowIdx!,
+                event.columnIdx! - 1,
+                command);
+            stateManager.changeCellValue(
+                event.row!.cells["head:${event.columnIdx}"]!,
+                command.toString(),
+                callOnChangedEvent: false);
+          }
+        } else {
+          var num = int.tryParse(event.value);
+          if (num != null && num >= 0) {
+            widget.machine.model.setToStateInVariant(
+                widget.machine.currentStateIndex, event.rowIdx!, num);
+          } else {
+            stateManager.changeCellValue(
+                event.row!.cells["translate"]!, event.oldValue,
+                callOnChangedEvent: false);
+          }
+        }
+      },
+      onRowsMoved: (event) {
+        widget.machine.model.replaceVariants(
+            widget.machine.currentStateIndex, draggingIndex!, event.idx!);
+        draggingIndex = null;
 
-                      for (int i = 0;
-                          i < widget.machine.currentState.countOfVariants;
-                          i++) {
-                        stateManager.changeCellValue(
-                            rows[i].cells["head:0"]!, "№ ${i + 1}",
-                            force: true, notify: true);
-                      }
-                      //widget.machine.model.
-
-                      //developer.log("${event.idx}");
-                    },
-                    onSelected: (event) {},
-                    onRowChecked: (event) {
-                      developer.log("start");
-                    },
-                    onLoaded: (event) {
-                      stateManager = event.stateManager;
-                      event.stateManager
-                          .setSelectingMode(PlutoGridSelectingMode.row);
-                      widget.onLoaded(event.stateManager);
-                      event.stateManager.addListener(onStateUpdate);
-                    },
-                    configuration: tableConfiguration,
-                  ),
-                  StateComments(
-                    machine: widget.machine,
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
+        for (int i = 0; i < widget.machine.currentState.countOfVariants; i++) {
+          stateManager.changeCellValue(rows[i].cells["head:0"]!, "№ ${i + 1}",
+              force: true, notify: true);
+        }
+      },
+      onLoaded: (event) {
+        stateManager = event.stateManager;
+        event.stateManager.setSelectingMode(PlutoGridSelectingMode.row);
+        widget.onLoaded(event.stateManager);
+        event.stateManager.addListener(onStateUpdate);
+      },
+      configuration: tableConfiguration,
     );
   }
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../styles/app_colors.dart';
-import 'dart:developer' as developer;
 
 class LineCell extends StatefulWidget {
   const LineCell({

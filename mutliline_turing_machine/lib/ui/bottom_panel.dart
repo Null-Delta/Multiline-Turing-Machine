@@ -13,12 +13,16 @@ class BottomPanel extends StatefulWidget {
       {Key? key,
       required this.machine,
       required this.onAddVariant,
-      required this.onDeleteVariant})
+      required this.onDeleteVariant,
+      required this.onAddState,
+      required this.onDeleteState})
       : super(key: key);
   final TuringMachine machine;
   PlutoGridStateManager? tableManager;
   void Function() onAddVariant;
   void Function() onDeleteVariant;
+  void Function() onAddState;
+  void Function() onDeleteState;
 
   @override
   State<BottomPanel> createState() => _BottomPanelState();
@@ -43,7 +47,9 @@ class _BottomPanelState extends State<BottomPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Добавить состояние",
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.onAddState();
+                  },
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,
@@ -61,7 +67,9 @@ class _BottomPanelState extends State<BottomPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Удалить состояние",
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.onDeleteState();
+                  },
                   child: const Image(
                     image: AppImages.deleteState,
                   ),
