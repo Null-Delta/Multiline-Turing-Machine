@@ -16,7 +16,7 @@ class _LineState extends State<Line> {
             itemScrollController: control,
             scrollDirection: Axis.horizontal,
             itemCount: 101,
-            padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             initialScrollIndex: 0,
             itemBuilder: (context, index) { return Stack(
               children: [
