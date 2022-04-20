@@ -108,9 +108,9 @@ class _TopPanelState extends State<TopPanel> {
           child: Container(
             constraints: const BoxConstraints(maxHeight: double.infinity),
             color: AppColors.backgroundDark,
-            child: Stack(
-              children: [const Line()]
-            )
+            child: Column(
+              children: [for (int i = 0; i < 8; i++) const Line()],
+            ),
           ),
         )
       ],
