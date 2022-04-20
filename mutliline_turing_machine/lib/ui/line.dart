@@ -1,7 +1,6 @@
 import 'dart:developer';
-
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:flutter/material.dart';
-import '../styles/app_colors.dart';
 import 'line_cell.dart';
 
 class Line extends StatefulWidget {
@@ -12,48 +11,50 @@ class Line extends StatefulWidget {
 }
 
 class _LineState extends State<Line> {
-  List<Widget> cells = [];
-  int centerPosition = 0;
-  int countOfCells = 0;
-
-  String letter = "B";
-  bool isActive = false;
-  bool isFocus = false;
-
+  ItemScrollController control = ItemScrollController();
+  late var line =  ScrollablePositionedList.separated(
+            itemScrollController: control,
+            scrollDirection: Axis.horizontal,
+            itemCount: 101,
+            padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+            initialScrollIndex: 0,
+            itemBuilder: (context, index) { return Stack(
+              children: [
+                const LineCell(),
+                Text((index-50).toString())
+              ],
+            );
+             },
+            separatorBuilder: (context, index) { return const SizedBox( width: 4); });    
+ 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      control.jumpTo(index: 101~/2 - MediaQuery.of(context).size.width~/64);
+      });
+  }
+ 
   @override
   Widget build(BuildContext build) {
-    //
-    centerPosition = 0;
-    countOfCells = 100;
-    List<Positioned> k = [];
-    // сразу отображаем 100 штук
-    int countOfCellsOnScreen = (MediaQuery.of(context).size.width/30).toInt();
-    log(countOfCellsOnScreen.toString());
-    for (int i = 0; i < countOfCellsOnScreen; i++) {
-      cells.add(const LineCell(letter: "s" ));
-      k.add(Positioned(
-        top: 0,
-        left: MediaQuery.of(context).size.width/2-14 + (i - countOfCellsOnScreen/2)*30,
-        child: cells[i+centerPosition]));
+    if (control.isAttached){
+        control.jumpTo(index: 101~/2 - MediaQuery.of(context).size.width~/64);
     }
-
-    //
-    return GestureDetector(
-      onTap: () {
-
+    
+    var jj = GestureDetector(
+      onTap: () {  
       },
       onSecondaryTap: () {
       },
-      child: Align(
-        alignment: const Alignment(0.0, 0.0),
-        child: SizedBox(
+      child: Align(alignment: Alignment.center,
+      child: SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 50,
-          child: ListView.separated(padding: EdgeInsets.only(left: -MediaQuery.of(context).size.width/2), scrollDirection: Axis.horizontal ,itemBuilder: (context, index) { return const LineCell(letter: "s" ); },
-          separatorBuilder: (context, index) { return const SizedBox( width: 4); },
-          itemCount: 50), 
+          child: line
         ),
-      ),
+      ) 
     );
+    
+    return jj;
   }
 }
