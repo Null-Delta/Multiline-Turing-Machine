@@ -35,7 +35,10 @@ class _LineState extends State<Line> {
                       (index-cellCount~/2).toString(),
                        textAlign: TextAlign.center,
                        style: const TextStyle(
-                          fontSize: 10, 
+                          color: Color(0xFF183157),
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 8, 
                         )
                       )
                     )
