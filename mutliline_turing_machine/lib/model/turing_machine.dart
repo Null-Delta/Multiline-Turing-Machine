@@ -28,6 +28,8 @@ class TuringMachine {
 
   TuringMachineState get currentState => model.stateList[currentStateIndex];
 
+  bool get isWorking => currentStateIndex != 1;
+
   TuringMachine(TuringMachineModel m) {
     model = m;
     lineContent = [for (int i = 0; i < model.countOfLines; i++) " " * 2001];
@@ -38,6 +40,19 @@ class TuringMachine {
 
   void clearLine(lineIndex) {
     lineContent[lineIndex] = " " * 2001;
+    linePointer[lineIndex] = 1000;
+  }
+
+  void addLine() {
+    lineContent.add(" " * 2001);
+    linePointer.add(1000);
+    model.addLine();
+  }
+
+  void deleteLine() {
+    lineContent.removeLast();
+    linePointer.removeLast();
+    model.deleteLine();
   }
 
   //Возвращает символ ленты на месте указателя
