@@ -75,7 +75,21 @@ class _MainWidgetState extends State<MainWidget> {
         widget.machine.model.addState();
       });
     },
-    onDeleteState: () {},
+    onDeleteState: () {
+      if (widget.machine.model.countOfStates > 1) {
+        setState(
+          () {
+            widget.machine.model.deleteState(widget.machine.currentStateIndex);
+            if (widget.machine.currentStateIndex >=
+                widget.machine.model.countOfStates) {
+              widget.machine.currentStateIndex =
+                  widget.machine.model.countOfStates - 1;
+            }
+          },
+        );
+        table.changeState();
+      }
+    },
   );
 
   void updateSelectedState(int newState) {
