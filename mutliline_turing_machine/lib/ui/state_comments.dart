@@ -42,8 +42,7 @@ class _StateCommentsState extends State<StateComments> {
             decoration: BoxDecoration(color: AppColors.background),
             child: TextFormField(
               onChanged: (newValue) {
-                widget.machine.model.stateList[widget.machine.currentStateIndex]
-                    .description = newValue;
+                widget.machine.model.description = newValue;
               },
               maxLines: 10000,
               style: TextStyle(

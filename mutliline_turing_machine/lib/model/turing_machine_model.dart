@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 class TuringCommand {
   String input = "*";
   String output = "*";
@@ -49,12 +47,11 @@ class TuringMachineVariant {
 }
 
 class TuringMachineState {
-  String description = "";
   int get countOfVariants => variantList.length;
   List<TuringMachineVariant> variantList = [];
 
   String info() {
-    String result = "  description: $description\n";
+    String result = "";
     result += "    variants:\n";
 
     for (int variantIndex = 0;
@@ -68,6 +65,7 @@ class TuringMachineState {
 }
 
 class TuringMachineModel {
+  String description = "";
   int get countOfStates => stateList.length;
   int countOfLines = 20;
   List<TuringMachineState> stateList = [];
@@ -126,13 +124,13 @@ class TuringMachineModel {
   }
 
   String info() {
-    var result = "statesCount: ${stateList.length}\n";
+    String result = "description: $description\n";
+    result += "statesCount: ${stateList.length}\n";
 
     for (int stateIndex = 0; stateIndex < stateList.length; stateIndex++) {
       result += "state $stateIndex:\n";
       result += stateList[stateIndex].info();
     }
-    //developer.log(result);
 
     return result;
   }
