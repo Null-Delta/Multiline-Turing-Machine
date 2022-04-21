@@ -32,7 +32,7 @@ class _LineState extends State<Line> {
           children: [
             ChangeNotifierProvider.value(
               value: widget.machine.lineContent[widget.index][index],
-              child: const LineCell(),
+              child: LineCell(lineIndex: widget.index, index: index,),
             ),
             Container(
                 padding: const EdgeInsets.fromLTRB(0, 56, 0, 0),
