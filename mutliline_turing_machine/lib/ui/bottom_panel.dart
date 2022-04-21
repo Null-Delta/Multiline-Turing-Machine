@@ -134,6 +134,40 @@ class _BottomPanelState extends State<BottomPanel> {
                   style: appButtonStyle,
                 ),
               ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Debug 2",
+                child: ElevatedButton(
+                  onPressed: () {
+                    log(widget.machine.info());
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.help,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Make step",
+                child: ElevatedButton(
+                  onPressed: () {
+                    log(widget.machine.makeStep());
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.help,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
             ],
           ),
         ),

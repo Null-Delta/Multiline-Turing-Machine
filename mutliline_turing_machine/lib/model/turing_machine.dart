@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'turing_machine_model.dart';
 
 class Configuration {
@@ -5,6 +7,11 @@ class Configuration {
   List<int> pointers = [];
   int get countOfLines => lines.length;
   Configuration(this.lines, this.pointers);
+}
+
+class ActiveState {
+  int activeStateIndex = -1;
+  int activeVariantIndex = -1;
 }
 
 class TuringMachine {
@@ -25,6 +32,8 @@ class TuringMachine {
 
   //множество конфигураций, пройденные машиной
   late Set<Configuration> passedConfigurations;
+
+  ActiveState activeState = ActiveState();
 
   TuringMachineState get currentState => model.stateList[currentStateIndex];
 
@@ -61,13 +70,16 @@ class TuringMachine {
   }
 
   bool checkSymbol(String symbol, String predicate) =>
-      predicate == "*" || symbol == predicate;
+      predicate == "*" ||
+      symbol == predicate ||
+      (predicate == "_" && symbol == " ");
 
   //ставит символ на ленту и смещает указатель вправо
   void setSymbol(int lineIndex, String symbol) {
-    lineContent[lineIndex] =
-        replaceCharAt(lineContent[lineIndex], linePointer[lineIndex], symbol);
-    moveLine(lineIndex, 1);
+    var inputSymbol = symbol == "_" ? " " : symbol;
+    lineContent[lineIndex] = replaceCharAt(
+        lineContent[lineIndex], linePointer[lineIndex], inputSymbol);
+    //moveLine(lineIndex, 1);
   }
 
   //очищает текуший символ ленты и сдвигает указатель влево
@@ -94,8 +106,6 @@ class TuringMachine {
   //если шаг выполнен - возвращается пустая строка
   //иначе - сообщение об ошибке
   String makeStep() {
-    var currentState = model.stateList[currentStateIndex];
-
     for (int variantIndex = 0;
         variantIndex < currentState.variantList.length;
         variantIndex++) {
@@ -111,6 +121,7 @@ class TuringMachine {
       }
       if (isSuitable) {
         currentVatiantIndex = variantIndex;
+        activeState.activeVariantIndex = currentVatiantIndex;
         if (currentVariant.toState >= model.stateList.length) {
           return "Состояние ${currentVariant.toState} не найдено.";
         }
@@ -129,10 +140,33 @@ class TuringMachine {
           }
         }
         currentStateIndex = currentVariant.toState;
+        activeState.activeStateIndex = currentStateIndex;
+        log(info());
         return "";
       }
     }
     currentVatiantIndex = -1;
     return "Не найден текущий вариант.";
+  }
+
+  void stopMachine() {
+    currentStateIndex = 0;
+    currentVatiantIndex = -1;
+    activeState.activeStateIndex = -1;
+    activeState.activeVariantIndex = -1;
+  }
+
+  String info() {
+    var result = "";
+    for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
+      result += lineContent[lineIndex]
+          .substring(linePointer[lineIndex] - 8, linePointer[lineIndex] - 1);
+      result += "|${lineContent[lineIndex][linePointer[lineIndex]]}|";
+      result += lineContent[lineIndex]
+          .substring(linePointer[lineIndex] + 1, linePointer[lineIndex] + 8);
+      result += "\n";
+    }
+    result += "\n";
+    return result;
   }
 }

@@ -51,9 +51,21 @@ class _StatesListState extends State<StatesList> {
                   child: Container(
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
-                      color: index == widget.machine.currentStateIndex
-                          ? AppColors.accent
-                          : AppColors.background,
+                      border: Border.all(
+                        color:
+                            index == widget.machine.activeState.activeStateIndex
+                                ? AppColors.accent
+                                : index == widget.machine.currentStateIndex
+                                    ? AppColors.highlight
+                                    : AppColors.background,
+                        width: 2,
+                      ),
+                      color:
+                          index == widget.machine.activeState.activeStateIndex
+                              ? AppColors.background
+                              : index == widget.machine.currentStateIndex
+                                  ? AppColors.backgroundDark
+                                  : AppColors.background,
                       borderRadius: const BorderRadius.all(
                         Radius.circular(6),
                       ),
@@ -64,7 +76,7 @@ class _StatesListState extends State<StatesList> {
                         "Q${index + 1}",
                         style: TextStyle(
                             color: index == widget.machine.currentStateIndex
-                                ? AppColors.background
+                                ? AppColors.text
                                 : AppColors.text,
                             fontSize: 14,
                             fontWeight: FontWeight.w700),
