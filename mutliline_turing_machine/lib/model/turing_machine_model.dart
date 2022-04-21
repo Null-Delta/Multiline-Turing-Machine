@@ -78,9 +78,9 @@ class TuringMachineModel {
 
   void deleteState(int number) => stateList.removeAt(number);
 
-  void addVariant(int numberOfState) => stateList[numberOfState]
+  void addVariant(int numberOfState, int atIndex) => stateList[numberOfState]
       .variantList
-      .add(TuringMachineVariant(countOfLines));
+      .insert(atIndex, TuringMachineVariant(countOfLines));
 
   void deleteVariant(int numberOfState, int numberOfVariant) =>
       stateList[numberOfState].variantList.removeAt(numberOfVariant);

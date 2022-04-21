@@ -51,18 +51,29 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
   }
 
   void addVariant() {
-    widget.machine.model.addVariant(widget.machine.currentStateIndex);
     int rowIndex = selectedRow == -1
         ? widget.machine.model.stateList[widget.machine.currentStateIndex]
-                .countOfVariants -
-            1
+            .countOfVariants
         : selectedRow + 1;
+
+    widget.machine.model.addVariant(widget.machine.currentStateIndex, rowIndex);
 
     var row = PlutoRow(
       cells: {
         for (int i = 0; i < widget.machine.model.countOfLines + 2; i++)
           i == widget.machine.model.countOfLines + 1 ? "translate" : "head:$i":
-              PlutoCell(value: i == 0 ? "№ ${rowIndex + 1}" : "_ _ _")
+              PlutoCell(
+                  value: i == 0
+                      ? "№ ${rowIndex + 1}"
+                      : i == widget.machine.model.countOfLines + 1
+                          ? "${widget.machine.model.stateList[widget.machine.currentStateIndex].variantList[rowIndex].toState}"
+                          : widget
+                              .machine
+                              .model
+                              .stateList[widget.machine.currentStateIndex]
+                              .variantList[rowIndex]
+                              .commandList[i - 1]
+                              .toString())
       },
     );
 
