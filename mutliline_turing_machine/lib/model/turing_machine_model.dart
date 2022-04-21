@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class TuringCommand {
   String input = "*";
   String output = "*";
@@ -115,10 +117,8 @@ class TuringMachineModel {
       stateList[numberOfState].variantList[numberOfVariant].toState = toState;
 
   void replaceVariants(int numberOfState, int from, int to) {
-    var tmp = stateList[numberOfState].variantList[from];
-    stateList[numberOfState].variantList[from] =
-        stateList[numberOfState].variantList[to];
-    stateList[numberOfState].variantList[to] = tmp;
+    var element = stateList[numberOfState].variantList.removeAt(from);
+    stateList[numberOfState].variantList.insert(to, element);
   }
 
   TuringMachineModel() {
