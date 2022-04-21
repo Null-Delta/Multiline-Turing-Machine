@@ -5,9 +5,11 @@ import '../scrollAbleList/scrollable_positioned_list.dart';
 import 'line_cell.dart';
 
 class Line extends StatefulWidget {
-  const Line({Key? key, required this.mahine}) : super(key: key);
+  const Line({Key? key, required this.machine, required this.index}) : super(key: key);
 
-  final TuringMachine mahine;
+  final TuringMachine machine;
+
+  final int index;
 
   @override
   State<Line> createState() => _LineState();
@@ -29,8 +31,8 @@ class _LineState extends State<Line> {
         return Stack(
           children: [
             ChangeNotifierProvider.value(
-              value: widget.mahine.lineContent[0][index],
-              child: LineCell(),
+              value: widget.machine.lineContent[widget.index][index],
+              child: const LineCell(),
             ),
             Container(
                 padding: const EdgeInsets.fromLTRB(0, 56, 0, 0),

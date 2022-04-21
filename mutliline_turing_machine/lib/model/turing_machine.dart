@@ -13,11 +13,11 @@ class Configuration {
 
 class LineCellModel extends ChangeNotifier {
   String symbol;
-  
+
   LineCellModel({this.symbol = " "});
 
-  void changeSymbol(String newSymbol) {
-    symbol = newSymbol;
+  void changeSymbol(String symbol) {
+    this.symbol = symbol;
     notifyListeners();
   }
 }
@@ -28,6 +28,7 @@ class ActiveState {
 }
 
 class TuringMachine {
+
   //модель машины тьюринга
   late TuringMachineModel model;
 
