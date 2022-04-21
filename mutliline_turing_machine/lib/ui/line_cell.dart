@@ -7,10 +7,15 @@ import '../styles/app_colors.dart';
 
 class LineCell extends StatefulWidget {
   const LineCell({
+    required this.machine,
     required this.lineIndex,
     required this.index,
     Key? key,
   }) : super(key: key);
+
+  //Бляздец, мб надо потом по-другому сделать
+  final TuringMachine machine;
+
   final int lineIndex;
   final int index;
   @override
@@ -19,12 +24,12 @@ class LineCell extends StatefulWidget {
 
 class _LineCellState extends State<LineCell> {
 
-  final FocusNode _focusNode = FocusNode();
+  final FocusNode focusNode = FocusNode();
   late FocusAttachment _focusAttachment;
 
   @override
   void dispose() {
-    _focusNode.dispose();
+    focusNode.dispose();
     super.dispose();
   }
 
@@ -41,7 +46,7 @@ class _LineCellState extends State<LineCell> {
           //   isActive = !isActive;
           //   isFocus = false;
           // });
-          log(widget.lineIndex.toString());
+          widget.machine.setFocus(widget.lineIndex);
         },
         onSecondaryTap: () {
           // setState(() {
