@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:provider/provider.dart';
@@ -7,8 +5,7 @@ import '../scrollAbleList/scrollable_positioned_list.dart';
 import 'line_cell.dart';
 
 class Line extends StatefulWidget {
-  const Line({Key? key, required this.machine, required this.index})
-      : super(key: key);
+  const Line({Key? key, required this.machine, required this.index}) : super(key: key);
 
   final TuringMachine machine;
 
@@ -21,8 +18,6 @@ class Line extends StatefulWidget {
 class _LineState extends State<Line> {
   static const double _widthOfCell = 28;
   static const double _widthOfSeparator = 4;
-
-  final FocusNode focusNode = FocusNode();
 
   int cellCount = 2001;
   ItemScrollController control = ItemScrollController();
@@ -37,11 +32,7 @@ class _LineState extends State<Line> {
           children: [
             ChangeNotifierProvider.value(
               value: widget.machine.lineContent[widget.index][index],
-              child: LineCell(
-                machine: widget.machine,
-                lineIndex: widget.index,
-                index: index,
-              ),
+              child: LineCell(lineIndex: widget.index, index: index,),
             ),
             Container(
                 padding: const EdgeInsets.fromLTRB(0, 56, 0, 0),
@@ -91,11 +82,7 @@ class _LineState extends State<Line> {
           child: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 67,
-              child: GestureDetector(
-                onTap: () {
-                  log("message");
-                },
-                child: line)),
+              child: line),
         ));
     ;
   }

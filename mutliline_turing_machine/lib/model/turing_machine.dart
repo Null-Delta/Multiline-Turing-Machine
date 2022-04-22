@@ -49,8 +49,6 @@ class TuringMachine {
   //индексы указателей на активные ячейки лент
   late List<int> linePointer;
 
-  //
-  late int focusedLine = -1;
   //текущее активное состояние
   late int currentStateIndex;
 
@@ -126,13 +124,8 @@ class TuringMachine {
     lineContent[lineIndex][linePointer[lineIndex]].setActive(isActive);
   }
 
-  void setFocus(int lineIndex) {
-    focusedLine = lineIndex;
-    for(int i = 0; i < linePointer.length; i++)
-    {
-      lineContent[i][linePointer[i]].setFocus(false);
-    }
-    lineContent[lineIndex][linePointer[lineIndex]].setFocus(true);
+  void setFocus(int lineIndex, bool isFocus) {
+    lineContent[lineIndex][linePointer[lineIndex]].setActive(isFocus);
   } 
 
   //очищает текуший символ ленты и сдвигает указатель влево
@@ -144,17 +137,9 @@ class TuringMachine {
 
   //сдвигает головку ленты и делает ячейку под ней активной
   void moveLine(int lineIndex, int offset) {
-
-    if(lineIndex == focusedLine) {
-      lineContent[focusedLine][linePointer[focusedLine]].setFocus(false);
-      lineContent[focusedLine][linePointer[focusedLine] + offset].setFocus(true);
-    }
-
     setActive(lineIndex, false);
     linePointer[lineIndex] += offset;
     setActive(lineIndex, true);
-    
-    
   }
 
   //выполняет шаг и возвращает сообщение, информирующее о корректности
