@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'turing_machine_model.dart';
@@ -33,11 +34,21 @@ class TuringMachine {
   //множество конфигураций, пройденные машиной
   late Set<Configuration> passedConfigurations;
 
+  //обект-таймер
+  late Timer timer;
+
+  // запущена ли машина
+  late bool active = false;
+
   ActiveState activeState = ActiveState();
 
   TuringMachineState get currentState => model.stateList[currentStateIndex];
 
-  bool get isWorking => currentStateIndex != 1;
+  bool get IsActive => active;
+
+  //закомитил, ибо не нашёл ссылок bool get isWorking => currentStateIndex != 1;
+
+  
 
   TuringMachine(TuringMachineModel m) {
     model = m;
@@ -148,6 +159,38 @@ class TuringMachine {
     currentVatiantIndex = -1;
     return "Не найден текущий вариант.";
   }
+
+  String startWork(int speed)
+  {
+    if (speed == 0) {
+      return "Нулевая скорость.";
+    }
+    
+    passedConfigurations.clear();
+    passedConfigurations.add(Configuration(lineContent, linePointer));
+    active = true;
+    timer = Timer.periodic(
+      Duration(milliseconds: 3000~/speed),
+      (timer) {
+        log("1");///////////////////////////
+        passedConfigurations.add(Configuration(lineContent, linePointer));
+        if (makeStep() != "")
+        {
+          active = false;
+          timer.cancel();
+        }
+      },
+    );
+    return "";
+  }
+
+  String stopWork()
+  {
+    active = false;
+    timer.cancel();
+    return "";
+  }
+
 
   void stopMachine() {
     currentStateIndex = 0;
