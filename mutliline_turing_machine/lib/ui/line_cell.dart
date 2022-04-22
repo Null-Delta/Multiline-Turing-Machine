@@ -37,35 +37,8 @@ class _LineCellState extends State<LineCell> {
     return Consumer<LineCellModel>(builder: (_, value, __) {
       return GestureDetector(
         onTap: () {
-          // setState(() {
-          //   isActive = !isActive;
-          //   isFocus = false;
-          // });
           machine.setFocus(widget.lineIndex);
           parentFocus.requestFocus();
-        },
-        onSecondaryTap: () {
-          // setState(() {
-          //   isFocus = isActive ? !isFocus : isFocus;
-          // });
-
-          // if (isActive && isFocus) {
-          //   _focusAttachment =
-          //       _focusNode.attach(context, onKeyEvent: (node, event) {
-          //     if (_focusAttachment.isAttached && !(isActive && isFocus)) {
-          //       _focusAttachment.detach();
-          //       return KeyEventResult.handled;
-          //     }
-
-          //     setState(() {
-          //       letter = event.character ?? letter;
-          //     });
-
-          //     return KeyEventResult.handled;
-          //   });
-          //   _focusAttachment.reparent();
-          // }
-          // _focusNode.requestFocus();
         },
         child: Align(
           alignment: const Alignment(0.0, 0.0),

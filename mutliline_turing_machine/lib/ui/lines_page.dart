@@ -44,40 +44,39 @@ class LinesPageState extends State<LinesPage> {
     machine = MachineInherit.of(context)!.machine;
     focus = MachineInherit.of(context)!.linesPageFocus;
 
-    return GestureDetector(
-      excludeFromSemantics: false,
-      onTap: () {
-        log("here");
-        if (!focus.hasFocus) {
-          focus.requestFocus();
-        }
-      },
-      child: Focus(
-        focusNode: focus,
-        onFocusChange: (value) {
-          setState(() {
-            isInFocus = value;
-          });
-        },
-        canRequestFocus: true,
-        descendantsAreFocusable: false,
-        onKey: (node, event) {
-          if (event.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
-            log("click2");
-
-            tapCount += 1;
-          }
-          if (tapCount > 5) {
-            tapCount = 0;
-            //FocusScope.of(context).focusInDirection(TraversalDirection.down);
-            FocusScope.of(context).nextFocus();
-            return KeyEventResult.ignored;
-          } else {
-            return KeyEventResult.skipRemainingHandlers;
+    return Expanded(
+      child: GestureDetector(
+        excludeFromSemantics: false,
+        onTap: () {
+          
+          if (!focus.hasFocus) {
+            focus.requestFocus();
           }
         },
-        child: Expanded(
+        child: Focus(
+          focusNode: focus,
+          onFocusChange: (value) {
+            setState(() {
+              isInFocus = value;
+            });
+          },
+          canRequestFocus: true,
+          descendantsAreFocusable: false,
+          onKey: (node, event) {
+            if (event.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
+              tapCount += 1;
+            }
+            if (tapCount > 5) {
+              tapCount = 0;
+              //FocusScope.of(context).focusInDirection(TraversalDirection.down);
+              FocusScope.of(context).nextFocus();
+              return KeyEventResult.ignored;
+            } else {
+              return KeyEventResult.skipRemainingHandlers;
+            }
+          },
           child: Container(
+            height: double.infinity,
             decoration: BoxDecoration(
                 border: Border.all(
               color: isInFocus ? AppColors.accent : AppColors.background,
