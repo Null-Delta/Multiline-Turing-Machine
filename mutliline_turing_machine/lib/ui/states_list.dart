@@ -44,7 +44,7 @@ class _StatesListState extends State<StatesList> {
           ),
           Expanded(
             child: ListView.separated(
-              padding: const EdgeInsets.all(6),
+              padding: const EdgeInsets.all(3),
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () => widget.onStateSelect(index),

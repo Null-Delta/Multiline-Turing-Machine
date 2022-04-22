@@ -275,21 +275,24 @@ class _CellContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: width,
       height: height,
-      decoration: _boxDecoration(),
-      child: Padding(
-        // New - Customisable cellPadding
-        padding: EdgeInsets.symmetric(
-          horizontal: cellPadding,
-        ),
-        child: Container(
-          clipBehavior: Clip.hardEdge,
-          height: height,
-          alignment: Alignment.centerLeft,
-          decoration: const BoxDecoration(),
-          child: child,
+      child: Container(
+        margin: const EdgeInsets.all(3),
+        decoration: _boxDecoration(),
+        child: Padding(
+          // New - Customisable cellPadding
+          padding: EdgeInsets.symmetric(
+            horizontal: cellPadding,
+          ),
+          child: Container(
+            clipBehavior: Clip.hardEdge,
+            height: height,
+            alignment: Alignment.centerLeft,
+            decoration: const BoxDecoration(),
+            child: child,
+          ),
         ),
       ),
     );

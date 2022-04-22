@@ -19,7 +19,8 @@ class _StateCommentsState extends State<StateComments> {
 
     return Column(
       children: [
-        SizedBox(
+        Container(
+          color: AppColors.background,
           height: 34,
           child: Center(
             child: Text(

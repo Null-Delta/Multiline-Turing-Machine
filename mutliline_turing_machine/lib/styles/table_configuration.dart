@@ -3,7 +3,7 @@ import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'app_colors.dart';
 
 PlutoGridConfiguration tableConfiguration = PlutoGridConfiguration(
-  rowHeight: 36,
+  rowHeight: 41,
   gridBackgroundColor: AppColors.background,
   gridBorderColor: AppColors.highlight,
   columnHeight: 36,

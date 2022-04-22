@@ -226,53 +226,56 @@ class TuringMachineTableState extends State<TuringMachineTable> {
     machine = MachineInherit.of(context)!.machine;
     initTable();
 
-    return PlutoGrid(
-      rows: rows,
-      columns: columns,
-      onChanged: (event) {
-        if (event.columnIdx! != columns.length - 1) {
-          var command = TuringCommand.parse(event.value);
-          if (command == null) {
-            stateManager.changeCellValue(
-                event.row!.cells["head:${event.columnIdx}"]!, event.oldValue,
-                callOnChangedEvent: false);
+    return Container(
+      color: AppColors.background,
+      child: PlutoGrid(
+        rows: rows,
+        columns: columns,
+        onChanged: (event) {
+          if (event.columnIdx! != columns.length - 1) {
+            var command = TuringCommand.parse(event.value);
+            if (command == null) {
+              stateManager.changeCellValue(
+                  event.row!.cells["head:${event.columnIdx}"]!, event.oldValue,
+                  callOnChangedEvent: false);
+            } else {
+              machine.model.setComandInVariant(machine.currentStateIndex,
+                  event.rowIdx!, event.columnIdx! - 1, command);
+              stateManager.changeCellValue(
+                  event.row!.cells["head:${event.columnIdx}"]!,
+                  command.toString(),
+                  callOnChangedEvent: false);
+            }
           } else {
-            machine.model.setComandInVariant(machine.currentStateIndex,
-                event.rowIdx!, event.columnIdx! - 1, command);
-            stateManager.changeCellValue(
-                event.row!.cells["head:${event.columnIdx}"]!,
-                command.toString(),
-                callOnChangedEvent: false);
+            var num = int.tryParse(event.value);
+            if (num != null && num >= 0) {
+              machine.model.setToStateInVariant(
+                  machine.currentStateIndex, event.rowIdx!, num);
+            } else {
+              stateManager.changeCellValue(
+                  event.row!.cells["translate"]!, event.oldValue,
+                  callOnChangedEvent: false);
+            }
           }
-        } else {
-          var num = int.tryParse(event.value);
-          if (num != null && num >= 0) {
-            machine.model.setToStateInVariant(
-                machine.currentStateIndex, event.rowIdx!, num);
-          } else {
-            stateManager.changeCellValue(
-                event.row!.cells["translate"]!, event.oldValue,
-                callOnChangedEvent: false);
-          }
-        }
-      },
-      onRowsMoved: (event) {
-        machine.model.replaceVariants(
-            machine.currentStateIndex, draggingIndex!, event.idx!);
-        draggingIndex = null;
+        },
+        onRowsMoved: (event) {
+          machine.model.replaceVariants(
+              machine.currentStateIndex, draggingIndex!, event.idx!);
+          draggingIndex = null;
 
-        for (int i = 0; i < machine.currentState.countOfVariants; i++) {
-          stateManager.changeCellValue(rows[i].cells["head:0"]!, "№ ${i + 1}",
-              force: true, notify: true);
-        }
-      },
-      onLoaded: (event) {
-        stateManager = event.stateManager;
-        event.stateManager.setSelectingMode(PlutoGridSelectingMode.row);
-        widget.onLoaded(event.stateManager);
-        event.stateManager.addListener(onStateUpdate);
-      },
-      configuration: tableConfiguration,
+          for (int i = 0; i < machine.currentState.countOfVariants; i++) {
+            stateManager.changeCellValue(rows[i].cells["head:0"]!, "№ ${i + 1}",
+                force: true, notify: true);
+          }
+        },
+        onLoaded: (event) {
+          stateManager = event.stateManager;
+          event.stateManager.setSelectingMode(PlutoGridSelectingMode.row);
+          widget.onLoaded(event.stateManager);
+          event.stateManager.addListener(onStateUpdate);
+        },
+        configuration: tableConfiguration,
+      ),
     );
   }
 }
