@@ -97,19 +97,10 @@ class LineState extends State<Line> {
           myIndent: _widthOfCell / 2);
     }
 
-    return GestureDetector(
-      onTap: () {},
-      child: Align(
-        alignment: Alignment.center,
-        child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 67,
-            child: GestureDetector(
-                onTap: () {
-                  log("message");
-                },
-                child: line)),
-      ),
+    return Align(
+      alignment: Alignment.center,
+      child: SizedBox(
+          width: MediaQuery.of(context).size.width, height: 67, child: line),
     );
   }
 }

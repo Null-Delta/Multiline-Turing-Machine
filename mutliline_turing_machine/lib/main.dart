@@ -120,6 +120,8 @@ class _MainWidgetState extends State<MainWidget> {
     tableState.currentState!.updateTableState();
   }
 
+  FocusNode linesPageFocus = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     log("rebuilding");
@@ -127,6 +129,7 @@ class _MainWidgetState extends State<MainWidget> {
       backgroundColor: AppColors.background,
       body: MachineInherit(
         machine: widget.machine,
+        linesPageFocus: linesPageFocus,
         child: Center(
           child: MultiSplitViewTheme(
             data: MultiSplitViewThemeData(

@@ -28,9 +28,11 @@ class _LineCellState extends State<LineCell> {
     super.dispose();
   }
 
+  late FocusNode parentFocus;
   @override
   Widget build(BuildContext build) {
     machine = MachineInherit.of(context)!.machine;
+    parentFocus = MachineInherit.of(context)!.linesPageFocus;
 
     return Consumer<LineCellModel>(builder: (_, value, __) {
       return GestureDetector(
@@ -40,6 +42,7 @@ class _LineCellState extends State<LineCell> {
           //   isFocus = false;
           // });
           machine.setFocus(widget.lineIndex);
+          parentFocus.requestFocus();
         },
         onSecondaryTap: () {
           // setState(() {
