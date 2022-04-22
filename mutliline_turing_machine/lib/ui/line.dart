@@ -28,7 +28,9 @@ class LineState extends State<Line> {
     log("scrooooooooool: ${machine.linePointer[widget.index]}");
     control.scrollTo(
         index: machine.linePointer[widget.index],
-        duration: const Duration(milliseconds: 250));
+        alignment: 0.5,
+        myIndent: _widthOfCell / 2,
+        duration: const Duration(milliseconds: 100));
     // control.jumpTo(
     //     index: widget.machine.linePointer[widget.index],
     //     alignment: 0.5,

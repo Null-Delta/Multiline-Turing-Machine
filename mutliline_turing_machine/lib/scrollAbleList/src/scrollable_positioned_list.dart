@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:collection/collection.dart' show IterableExtension;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
@@ -227,23 +228,23 @@ class ItemScrollController {
   /// [opacityAnimationWeights] to `[20, 20, 60]`.
   ///
   /// See [TweenSequenceItem.weight] for more info.
-  Future<void> scrollTo({
-    required int index,
-    double alignment = 0,
-    required Duration duration,
-    Curve curve = Curves.linear,
-    List<double> opacityAnimationWeights = const [40, 20, 40],
-  }) {
+  Future<void> scrollTo(
+      {required int index,
+      double alignment = 0,
+      required Duration duration,
+      Curve curve = Curves.linear,
+      List<double> opacityAnimationWeights = const [40, 20, 40],
+      double myIndent = 0}) {
     assert(_scrollableListState != null);
     assert(opacityAnimationWeights.length == 3);
     assert(duration > Duration.zero);
     return _scrollableListState!._scrollTo(
-      index: index,
-      alignment: alignment,
-      duration: duration,
-      curve: curve,
-      opacityAnimationWeights: opacityAnimationWeights,
-    );
+        index: index,
+        alignment: alignment,
+        duration: duration,
+        curve: curve,
+        opacityAnimationWeights: opacityAnimationWeights,
+        myIndent: myIndent);
   }
 
   void _attach(_ScrollablePositionedListState scrollableListState) {
@@ -425,13 +426,13 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
     });
   }
 
-  Future<void> _scrollTo({
-    required int index,
-    required double alignment,
-    required Duration duration,
-    Curve curve = Curves.linear,
-    required List<double> opacityAnimationWeights,
-  }) async {
+  Future<void> _scrollTo(
+      {required int index,
+      required double alignment,
+      required Duration duration,
+      Curve curve = Curves.linear,
+      required List<double> opacityAnimationWeights,
+      required myIndent}) async {
     if (index > widget.itemCount - 1) {
       index = widget.itemCount - 1;
     }
@@ -439,31 +440,31 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
       _stopScroll(canceled: true);
       SchedulerBinding.instance!.addPostFrameCallback((_) {
         _startScroll(
+            index: index,
+            alignment: alignment,
+            duration: duration,
+            curve: curve,
+            opacityAnimationWeights: opacityAnimationWeights,
+            myIndent: myIndent);
+      });
+    } else {
+      await _startScroll(
           index: index,
           alignment: alignment,
           duration: duration,
           curve: curve,
           opacityAnimationWeights: opacityAnimationWeights,
-        );
-      });
-    } else {
-      await _startScroll(
-        index: index,
-        alignment: alignment,
-        duration: duration,
-        curve: curve,
-        opacityAnimationWeights: opacityAnimationWeights,
-      );
+          myIndent: myIndent);
     }
   }
 
-  Future<void> _startScroll({
-    required int index,
-    required double alignment,
-    required Duration duration,
-    Curve curve = Curves.linear,
-    required List<double> opacityAnimationWeights,
-  }) async {
+  Future<void> _startScroll(
+      {required int index,
+      required double alignment,
+      required Duration duration,
+      Curve curve = Curves.linear,
+      required List<double> opacityAnimationWeights,
+      required myIndent}) async {
     final direction = index > primary.target ? 1 : -1;
     final itemPosition = primary.itemPositionsNotifier.itemPositions.value
         .firstWhereOrNull(
@@ -473,7 +474,8 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
       final localScrollAmount = itemPosition.itemLeadingEdge *
           primary.scrollController.position.viewportDimension;
       await primary.scrollController.animateTo(
-          primary.scrollController.offset +
+          myIndent +
+              primary.scrollController.offset +
               localScrollAmount -
               alignment * primary.scrollController.position.viewportDimension,
           duration: duration,
@@ -496,11 +498,13 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
                       secondary.scrollController.position.viewportDimension));
 
           startCompleter.complete(primary.scrollController.animateTo(
-              primary.scrollController.offset + direction * scrollAmount,
+              myIndent +
+                  primary.scrollController.offset +
+                  direction * scrollAmount,
               duration: duration,
               curve: curve));
           endCompleter.complete(secondary.scrollController
-              .animateTo(0, duration: duration, curve: curve));
+              .animateTo(myIndent + 0, duration: duration, curve: curve));
         });
       };
       setState(() {
