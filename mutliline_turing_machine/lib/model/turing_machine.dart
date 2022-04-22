@@ -12,23 +12,12 @@ class Configuration {
 }
 
 class LineCellModel extends ChangeNotifier {
-  LineCellModel({this.symbol = " "});
   String symbol;
-  bool isActive = false;
-  bool isFocus = false;
 
-  void setSymbol(String symbol) {
+  LineCellModel({this.symbol = " "});
+
+  void changeSymbol(String symbol) {
     this.symbol = symbol;
-    notifyListeners();
-  }
-
-  void setActive(bool isActive) {
-    this.isActive = isActive;
-    notifyListeners();
-  }
-
-  void setFocus(bool isFocus) {
-    this.isFocus = isFocus;
     notifyListeners();
   }
 }
@@ -75,12 +64,6 @@ class TuringMachine {
     }
     //lineContent = [for (int i = 0; i < model.countOfLines; i++) " " * 2001];
     linePointer = [for (int i = 0; i < model.countOfLines; i++) 1000];
-
-    for(int i = 0; i < linePointer.length; i++)
-    {
-      lineContent[i][linePointer[i]].setActive(true);
-    }
-
     currentStateIndex = 0;
     currentVatiantIndex = -1;
   }
@@ -115,31 +98,21 @@ class TuringMachine {
   //ставит символ на ленту и смещает указатель вправо
   void setSymbol(int lineIndex, String symbol) {
     var inputSymbol = symbol == "_" ? " " : symbol;
-    lineContent[lineIndex][linePointer[lineIndex]].setSymbol(inputSymbol);
+    lineContent[lineIndex][linePointer[lineIndex]].changeSymbol(inputSymbol);
 
     //moveLine(lineIndex, 1);
   }
 
-  void setActive(int lineIndex, bool isActive) {
-    lineContent[lineIndex][linePointer[lineIndex]].setActive(isActive);
-  }
-
-  void setFocus(int lineIndex, bool isFocus) {
-    lineContent[lineIndex][linePointer[lineIndex]].setActive(isFocus);
-  } 
-
   //очищает текуший символ ленты и сдвигает указатель влево
   void clearSymbol(int lineIndex) {
     var contentIndex = linePointer[lineIndex];
-    lineContent[lineIndex][contentIndex].setSymbol(" ");
+    lineContent[lineIndex][contentIndex].changeSymbol(" ");
     moveLine(lineIndex, -1);
   }
 
-  //сдвигает головку ленты и делает ячейку под ней активной
+  //сдвигает головку ленты
   void moveLine(int lineIndex, int offset) {
-    setActive(lineIndex, false);
     linePointer[lineIndex] += offset;
-    setActive(lineIndex, true);
   }
 
   //выполняет шаг и возвращает сообщение, информирующее о корректности

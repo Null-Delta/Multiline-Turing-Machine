@@ -7,20 +7,27 @@ import '../styles/app_colors.dart';
 
 class LineCell extends StatefulWidget {
   const LineCell({
-    required this.lineIndex,
-    required this.index,
+    this.letter,
     Key? key,
   }) : super(key: key);
-  final int lineIndex;
-  final int index;
+  final String? letter;
   @override
   State<LineCell> createState() => _LineCellState();
 }
 
 class _LineCellState extends State<LineCell> {
+  String letter = '_';
+  bool isActive = false;
+  bool isFocus = false;
 
   final FocusNode _focusNode = FocusNode();
   late FocusAttachment _focusAttachment;
+
+  @override
+  void initState() {
+    super.initState();
+    letter = widget.letter ?? letter;
+  }
 
   @override
   void dispose() {
@@ -37,34 +44,33 @@ class _LineCellState extends State<LineCell> {
 
       return GestureDetector(
         onTap: () {
-          // setState(() {
-          //   isActive = !isActive;
-          //   isFocus = false;
-          // });
-          log(widget.lineIndex.toString());
+          setState(() {
+            isActive = !isActive;
+            isFocus = false;
+          });
         },
         onSecondaryTap: () {
-          // setState(() {
-          //   isFocus = isActive ? !isFocus : isFocus;
-          // });
+          setState(() {
+            isFocus = isActive ? !isFocus : isFocus;
+          });
 
-          // if (isActive && isFocus) {
-          //   _focusAttachment =
-          //       _focusNode.attach(context, onKeyEvent: (node, event) {
-          //     if (_focusAttachment.isAttached && !(isActive && isFocus)) {
-          //       _focusAttachment.detach();
-          //       return KeyEventResult.handled;
-          //     }
+          if (isActive && isFocus) {
+            _focusAttachment =
+                _focusNode.attach(context, onKeyEvent: (node, event) {
+              if (_focusAttachment.isAttached && !(isActive && isFocus)) {
+                _focusAttachment.detach();
+                return KeyEventResult.handled;
+              }
 
-          //     setState(() {
-          //       letter = event.character ?? letter;
-          //     });
+              setState(() {
+                letter = event.character ?? letter;
+              });
 
-          //     return KeyEventResult.handled;
-          //   });
-          //   _focusAttachment.reparent();
-          // }
-          // _focusNode.requestFocus();
+              return KeyEventResult.handled;
+            });
+            _focusAttachment.reparent();
+          }
+          _focusNode.requestFocus();
         },
         child: Align(
           alignment: const Alignment(0.0, 0.0),
@@ -74,7 +80,7 @@ class _LineCellState extends State<LineCell> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(7),
               child: Container(
-                decoration: !value.isActive
+                decoration: !isActive
                     ? BoxDecoration(
                         border:
                             Border.all(width: 2, color: AppColors.highlight),
@@ -96,10 +102,10 @@ class _LineCellState extends State<LineCell> {
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                           color:
-                              !value.isActive ? AppColors.text : AppColors.background,
+                              !isActive ? AppColors.text : AppColors.background,
                         ),
                       ),
-                      value.isFocus
+                      isFocus
                           ? Container(
                               width: 16.0,
                               height: 3.0,
