@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/ui/line.dart';
@@ -26,7 +24,7 @@ class _LinesPageState extends State<LinesPage> {
         color: AppColors.backgroundDark,
         child: Column(
           children: [
-            for (int i = 0; i < widget.machine.model.countOfLines; i++) Line(machine: widget.machine, index: i,),
+            for (int i = 0; i < 1; i++) Line(mahine: widget.machine),
             const Text("|")
           ],
         ),
