@@ -26,7 +26,7 @@ class _LinesPageState extends State<LinesPage> {
         color: AppColors.backgroundDark,
         child: Column(
           children: [
-            for (int i = 0; i < widget.machine.model.countOfLines; i++) Line(machine: widget.machine, index: i,),
+            for (int i = 0; i < widget.machine.model.countOfLines; i++) Line(key: UniqueKey(),machine: widget.machine, index: i,),
             const Text("|")
           ],
         ),

@@ -11,16 +11,17 @@ class Line extends StatefulWidget {
       : super(key: key);
 
   final TuringMachine machine;
-
   final int index;
 
   @override
-  State<Line> createState() => _LineState();
+  State<Line> createState() => LineState();
 }
 
-class _LineState extends State<Line> {
+class LineState extends State<Line> {
   static const double _widthOfCell = 28;
   static const double _widthOfSeparator = 4;
+
+  int indexToMove = -1;
 
   final FocusNode focusNode = FocusNode();
 
@@ -40,6 +41,7 @@ class _LineState extends State<Line> {
               child: LineCell(
                 machine: widget.machine,
                 lineIndex: widget.index,
+                line: this,
                 index: index,
               ),
             ),
@@ -63,7 +65,14 @@ class _LineState extends State<Line> {
         return const SizedBox(width: _widthOfSeparator);
       });
 
-  //late LineCellModel item;
+  //late LineCellModel item
+
+  void scrollToIndex(int index){
+      indexToMove = index;
+      control.scrollTo(
+          index: indexToMove, alignment: 0.5, duration: const Duration(milliseconds: 500) ,myIndent: _widthOfCell / 2);
+  }
+
 
   @override
   void initState() {
@@ -76,12 +85,22 @@ class _LineState extends State<Line> {
 
   @override
   Widget build(BuildContext build) {
-    //line.
     // item = Provider.of<LineCellModel>(context);
 
     if (control.isAttached) {
-      control.jumpTo(
-          index: cellCount ~/ 2, alignment: 0.5, myIndent: _widthOfCell / 2);
+      //control.jumpTo(
+      //    index: cellCount ~/ 2, alignment: 0.5, myIndent: _widthOfCell / 2);
+      if (indexToMove == -1)
+      {
+        control.scrollTo(
+          index: cellCount ~/ 2, alignment: 0.5, duration: const Duration(milliseconds: 50) ,myIndent: _widthOfCell / 2);
+      } else{
+        if (control.isAttached) {
+          control.scrollTo(
+          index: indexToMove, alignment: 0.5, duration: const Duration(milliseconds: 50) ,myIndent: _widthOfCell / 2);
+          indexToMove = -1;
+        }
+      }
     }
 
     return GestureDetector(

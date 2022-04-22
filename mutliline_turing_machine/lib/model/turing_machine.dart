@@ -78,6 +78,18 @@ class SetOfConfigurations {
     }
     return 0;
   }
+
+  static List<String> convertConfigurations(List<List<LineCellModel>> lineContent){
+    List<String> lines = [];
+    for (int i = 0; i < lineContent.length; i++){
+      String tmpS = "";
+      for (int j = 0; j < lineContent[i].length; j++){
+        tmpS += lineContent[i][j].symbol == "" ? "_" : lineContent[i][j].symbol;
+      }
+      lines.add(tmpS);
+    }
+    return lines;
+  }
 }
 
 class LineCellModel extends ChangeNotifier {
@@ -162,18 +174,6 @@ class TuringMachine {
 
     currentStateIndex = 0;
     currentVatiantIndex = -1;
-  }
-
-  List<String> convertConfigurations(List<List<LineCellModel>> lineContent){
-    List<String> lines = [];
-    for (int i = 0; i < lineContent.length; i++){
-      String tmpS = "";
-      for (int j = 0; j < lineContent[i].length; j++){
-        tmpS += lineContent[i][j].symbol == "" ? "_" : lineContent[i][j].symbol;
-      }
-      lines.add(tmpS);
-    }
-    return lines;
   }
 
   void clearLine(lineIndex) {
@@ -310,7 +310,7 @@ class TuringMachine {
     timer = Timer.periodic(
       Duration(milliseconds: 3000~/speed),
       (timer) {
-        passedConfigurations.add(convertConfigurations(lineContent), linePointer);
+        passedConfigurations.add(SetOfConfigurations.convertConfigurations(lineContent), linePointer);
         makeStep();
       },
     );
@@ -319,7 +319,7 @@ class TuringMachine {
 
   String stopMachine()
   {
-    passedConfigurations.add(convertConfigurations(lineContent), linePointer);
+    passedConfigurations.add(SetOfConfigurations.convertConfigurations(lineContent), linePointer);
     active = false;
     currentStateIndex = 0;
     currentVatiantIndex = -1;
