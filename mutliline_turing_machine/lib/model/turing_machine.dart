@@ -33,6 +33,7 @@ class LineCellModel extends ChangeNotifier {
   }
 }
 
+//класс отвечающий за состояние машины во время работы
 class ActiveState {
   int activeStateIndex = -1;
   int activeVariantIndex = -1;

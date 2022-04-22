@@ -77,8 +77,11 @@ class TuringMachineTableState extends State<TuringMachineTable> {
       selectedColumn = 1;
     }
 
-    stateManager.setCurrentCell(
-        rows[selectedRow].cells["head:$selectedColumn"]!, selectedRow);
+    selectedColumn == machine.model.countOfLines + 1
+        ? stateManager.setCurrentCell(
+            rows[selectedRow].cells["translate"]!, selectedRow)
+        : stateManager.setCurrentCell(
+            rows[selectedRow].cells["head:$selectedColumn"]!, selectedRow);
   }
 
   void deleteVariant() {
@@ -105,8 +108,11 @@ class TuringMachineTableState extends State<TuringMachineTable> {
 
     rows[selectedRow].setState(PlutoRowState.updated);
 
-    stateManager.setCurrentCell(
-        rows[selectedRow].cells["head:$selectedColumn"]!, selectedRow);
+    selectedColumn == machine.model.countOfLines + 1
+        ? stateManager.setCurrentCell(
+            rows[selectedRow].cells["translate"]!, selectedRow)
+        : stateManager.setCurrentCell(
+            rows[selectedRow].cells["head:$selectedColumn"]!, selectedRow);
   }
 
   @override
@@ -165,7 +171,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
       columns.add(
         PlutoColumn(
           backgroundColor: AppColors.background,
-          cellPadding: 0,
+          cellPadding: 6,
           readOnly: i == 0,
           frozen: i == 0 ? PlutoColumnFrozen.left : PlutoColumnFrozen.none,
           enableContextMenu: false,
