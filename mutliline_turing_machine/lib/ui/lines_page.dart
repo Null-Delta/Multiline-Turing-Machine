@@ -48,14 +48,15 @@ class LinesPageState extends State<LinesPage> {
       child: GestureDetector(
         excludeFromSemantics: false,
         onTap: () {
-          
           if (!focus.hasFocus) {
             focus.requestFocus();
           }
         },
+        //TODO: Сделать отдельный фокус на каждой ленте
         child: Focus(
           focusNode: focus,
           onFocusChange: (value) {
+            tapCount = 0;
             setState(() {
               isInFocus = value;
             });
@@ -63,27 +64,29 @@ class LinesPageState extends State<LinesPage> {
           canRequestFocus: true,
           descendantsAreFocusable: false,
           onKey: (node, event) {
-            if (event.isKeyPressed(LogicalKeyboardKey.arrowDown)) {
-              tapCount += 1;
+            if (event.isKeyPressed(LogicalKeyboardKey.arrowDown) || event.isKeyPressed(LogicalKeyboardKey.tab)) {
+              tapCount++;
+            } else if (event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
+              tapCount--;
             }
-            if (tapCount > 5) {
-              tapCount = 0;
-              //FocusScope.of(context).focusInDirection(TraversalDirection.down);
-              FocusScope.of(context).nextFocus();
+
+            if (tapCount >= machine.model.countOfLines || tapCount < 0) {
+              tapCount = machine.model.countOfLines - 1;
               return KeyEventResult.ignored;
-            } else {
+            }
+             else {
               return KeyEventResult.skipRemainingHandlers;
             }
           },
           child: Container(
             height: double.infinity,
             decoration: BoxDecoration(
+                color: AppColors.backgroundDark,
                 border: Border.all(
-              color: isInFocus ? AppColors.accent : AppColors.background,
-              width: 10,
-            )),
-            constraints: const BoxConstraints(maxHeight: double.infinity),
-            //color: AppColors.backgroundDark,
+                  color:
+                      isInFocus ? AppColors.accent : AppColors.backgroundDark,
+                  width: 1,
+                )),
             child: Column(
               children: lines,
             ),
