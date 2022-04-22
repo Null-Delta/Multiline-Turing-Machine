@@ -6,7 +6,6 @@ import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'package:mutliline_turing_machine/ui/state_comments.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'styles/app_colors.dart';
-import 'ui/lines_page.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
 import 'ui/turing_machine_table.dart';
@@ -118,15 +117,8 @@ class _MainWidgetState extends State<MainWidget> {
             axis: Axis.vertical,
             minimalSize: 256,
             children: [
-              Column(
-                children: [
-                  TopPanel(
-                    machine: widget.machine,
-                  ),
-                  LinesPage(
-                    machine: widget.machine,
-                  ),
-                ],
+              TopPanel(
+                machine: widget.machine,
               ),
               Column(
                 children: [
