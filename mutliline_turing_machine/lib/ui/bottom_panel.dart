@@ -5,20 +5,19 @@ import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
+import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import '../styles/app_colors.dart';
 
 // ignore: must_be_immutable
 class BottomPanel extends StatefulWidget {
   BottomPanel(
       {Key? key,
-      required this.machine,
       required this.onAddVariant,
       required this.onDeleteVariant,
       required this.onAddState,
       required this.onDeleteState,
       required this.onMakeStep})
       : super(key: key);
-  final TuringMachine machine;
   PlutoGridStateManager? tableManager;
   void Function() onAddVariant;
   void Function() onDeleteVariant;
@@ -31,9 +30,14 @@ class BottomPanel extends StatefulWidget {
 }
 
 class _BottomPanelState extends State<BottomPanel> {
+  late TuringMachine machine;
+
   static const double iconSize = 28;
+
   @override
   Widget build(BuildContext context) {
+    machine = MachineInherit.of(context)!.machine;
+
     return Column(
       children: [
         Container(
@@ -124,7 +128,7 @@ class _BottomPanelState extends State<BottomPanel> {
                 message: "Debug",
                 child: ElevatedButton(
                   onPressed: () {
-                    log(widget.machine.model.info());
+                    log(machine.model.info());
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -141,7 +145,7 @@ class _BottomPanelState extends State<BottomPanel> {
                 message: "Debug 2",
                 child: ElevatedButton(
                   onPressed: () {
-                    log(widget.machine.info());
+                    log(machine.info());
                   },
                   child: const SizedBox(
                     width: iconSize,

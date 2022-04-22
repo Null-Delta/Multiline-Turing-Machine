@@ -1,20 +1,15 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
+import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
 import '../styles/app_colors.dart';
 
 class LineCell extends StatefulWidget {
   const LineCell({
-    required this.machine,
     required this.lineIndex,
     required this.index,
     Key? key,
   }) : super(key: key);
-
-  //Бляздец, мб надо потом по-другому сделать
-  final TuringMachine machine;
 
   final int lineIndex;
   final int index;
@@ -23,9 +18,9 @@ class LineCell extends StatefulWidget {
 }
 
 class _LineCellState extends State<LineCell> {
-
   final FocusNode focusNode = FocusNode();
   late FocusAttachment _focusAttachment;
+  late TuringMachine machine;
 
   @override
   void dispose() {
@@ -35,18 +30,16 @@ class _LineCellState extends State<LineCell> {
 
   @override
   Widget build(BuildContext build) {
-    log("cell building");
+    machine = MachineInherit.of(context)!.machine;
 
     return Consumer<LineCellModel>(builder: (_, value, __) {
-      log("now rebuild 1 cell");
-
       return GestureDetector(
         onTap: () {
           // setState(() {
           //   isActive = !isActive;
           //   isFocus = false;
           // });
-          widget.machine.setFocus(widget.lineIndex);
+          machine.setFocus(widget.lineIndex);
         },
         onSecondaryTap: () {
           // setState(() {
@@ -100,8 +93,9 @@ class _LineCellState extends State<LineCell> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
-                          color:
-                              !value.isActive ? AppColors.text : AppColors.background,
+                          color: !value.isActive
+                              ? AppColors.text
+                              : AppColors.background,
                         ),
                       ),
                       value.isFocus

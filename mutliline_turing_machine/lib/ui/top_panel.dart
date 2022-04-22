@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
-import 'package:mutliline_turing_machine/ui/line_cell.dart';
+import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import '../styles/app_colors.dart';
-import 'line.dart';
 
 class TopPanel extends StatefulWidget {
-  const TopPanel({Key? key, required this.machine}) : super(key: key);
+  const TopPanel({Key? key}) : super(key: key);
 
-  final TuringMachine machine;
   @override
   State<TopPanel> createState() => _TopPanelState();
 }
 
 class _TopPanelState extends State<TopPanel> {
   static const double iconSize = 28;
+  late TuringMachine machine;
 
   @override
   Widget build(BuildContext context) {
+    machine = MachineInherit.of(context)!.machine;
     return Column(
       children: [
         Container(

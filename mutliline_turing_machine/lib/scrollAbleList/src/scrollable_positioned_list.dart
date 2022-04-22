@@ -6,7 +6,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:collection/collection.dart' show IterableExtension;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
@@ -203,9 +202,10 @@ class ItemScrollController {
   /// * 1 aligns the left edge of the item with the right edge of the view.
   /// * 0.5 aligns the left edge of the item with the center of the view.
   void jumpTo({required int index, double alignment = 0, double myIndent = 0}) {
-    _scrollableListState!._jumpTo(index: index, alignment: alignment, myIndent: myIndent);
+    _scrollableListState!
+        ._jumpTo(index: index, alignment: alignment, myIndent: myIndent);
   }
-  
+
   /// Animate the list over [duration] using the given [curve] such that the
   /// item at [index] ends up with its leading edge at the given [alignment].
   /// See [jumpTo] for an explanation of alignment.
@@ -412,7 +412,8 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
         widget.minCacheExtent ?? 0,
       );
 
-  void _jumpTo({required int index, required double alignment, double myIndent = 0}) {
+  void _jumpTo(
+      {required int index, required double alignment, double myIndent = 0}) {
     _stopScroll(canceled: true);
     if (index > widget.itemCount - 1) {
       index = widget.itemCount - 1;

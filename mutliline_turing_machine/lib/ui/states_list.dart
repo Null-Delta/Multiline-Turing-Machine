@@ -1,15 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_colors.dart';
+import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 
 class StatesList extends StatefulWidget {
-  const StatesList(
-      {Key? key, required this.machine, required this.onStateSelect})
-      : super(key: key);
+  const StatesList({Key? key, required this.onStateSelect}) : super(key: key);
 
-  final TuringMachine machine;
   final void Function(int index) onStateSelect;
 
   @override
@@ -17,8 +13,12 @@ class StatesList extends StatefulWidget {
 }
 
 class _StatesListState extends State<StatesList> {
+  late TuringMachine machine;
+
   @override
   Widget build(BuildContext context) {
+    machine = MachineInherit.of(context)!.machine;
+
     return Container(
       width: 84,
       color: AppColors.background,
@@ -52,20 +52,18 @@ class _StatesListState extends State<StatesList> {
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color:
-                            index == widget.machine.activeState.activeStateIndex
-                                ? AppColors.accent
-                                : index == widget.machine.currentStateIndex
-                                    ? AppColors.highlight
-                                    : AppColors.background,
+                        color: index == machine.activeState.activeStateIndex
+                            ? AppColors.accent
+                            : index == machine.currentStateIndex
+                                ? AppColors.highlight
+                                : AppColors.background,
                         width: 2,
                       ),
-                      color:
-                          index == widget.machine.activeState.activeStateIndex
-                              ? AppColors.background
-                              : index == widget.machine.currentStateIndex
-                                  ? AppColors.backgroundDark
-                                  : AppColors.background,
+                      color: index == machine.activeState.activeStateIndex
+                          ? AppColors.background
+                          : index == machine.currentStateIndex
+                              ? AppColors.backgroundDark
+                              : AppColors.background,
                       borderRadius: const BorderRadius.all(
                         Radius.circular(6),
                       ),
@@ -75,7 +73,7 @@ class _StatesListState extends State<StatesList> {
                       child: Text(
                         "Q${index + 1}",
                         style: TextStyle(
-                            color: index == widget.machine.currentStateIndex
+                            color: index == machine.currentStateIndex
                                 ? AppColors.text
                                 : AppColors.text,
                             fontSize: 14,
@@ -88,7 +86,7 @@ class _StatesListState extends State<StatesList> {
               separatorBuilder: (context, index) {
                 return const SizedBox(height: 6);
               },
-              itemCount: widget.machine.model.countOfStates,
+              itemCount: machine.model.countOfStates,
             ),
           ),
         ],

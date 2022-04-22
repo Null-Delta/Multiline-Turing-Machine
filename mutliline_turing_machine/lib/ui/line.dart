@@ -2,34 +2,32 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
+import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
 import '../scrollAbleList/scrollable_positioned_list.dart';
 import 'line_cell.dart';
 
 class Line extends StatefulWidget {
-  Line({Key? key, required this.machine, required this.index})
-      : super(key: key);
-
-  final TuringMachine machine;
+  const Line({Key? key, required this.index}) : super(key: key);
 
   final int index;
 
-  late void Function() scrollToCenter;
-
   @override
-  State<Line> createState() => _LineState();
+  LineState createState() => LineState();
 }
 
-class _LineState extends State<Line> {
+class LineState extends State<Line> {
   static const double _widthOfCell = 28;
   static const double _widthOfSeparator = 4;
 
   final FocusNode focusNode = FocusNode();
 
-  void scroll() {
-    log("scrooooooooool: ${widget.machine.linePointer[widget.index]}");
+  late TuringMachine machine;
+
+  scroll() {
+    log("scrooooooooool: ${machine.linePointer[widget.index]}");
     control.scrollTo(
-        index: widget.machine.linePointer[widget.index],
+        index: machine.linePointer[widget.index],
         duration: const Duration(milliseconds: 250));
     // control.jumpTo(
     //     index: widget.machine.linePointer[widget.index],
@@ -49,9 +47,8 @@ class _LineState extends State<Line> {
         return Stack(
           children: [
             ChangeNotifierProvider.value(
-              value: widget.machine.lineContent[widget.index][index],
+              value: machine.lineContent[widget.index][index],
               child: LineCell(
-                machine: widget.machine,
                 lineIndex: widget.index,
                 index: index,
               ),
@@ -82,8 +79,6 @@ class _LineState extends State<Line> {
   void initState() {
     super.initState();
 
-    widget.scrollToCenter = scroll;
-
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       control.jumpTo(
           index: cellCount ~/ 2, alignment: 0.5, myIndent: _widthOfCell / 2);
@@ -91,27 +86,28 @@ class _LineState extends State<Line> {
   }
 
   @override
-  Widget build(BuildContext build) {
+  Widget build(BuildContext context) {
+    machine = MachineInherit.of(context)!.machine;
     if (control.isAttached) {
       control.jumpTo(
-          index: widget.machine.linePointer[widget.index],
+          index: machine.linePointer[widget.index],
           alignment: 0.5,
           myIndent: _widthOfCell / 2);
     }
 
     return GestureDetector(
-        onTap: () {},
-        child: Align(
-          alignment: Alignment.center,
-          child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 67,
-              child: GestureDetector(
-                  onTap: () {
-                    log("message");
-                  },
-                  child: line)),
-        ));
-    ;
+      onTap: () {},
+      child: Align(
+        alignment: Alignment.center,
+        child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 67,
+            child: GestureDetector(
+                onTap: () {
+                  log("message");
+                },
+                child: line)),
+      ),
+    );
   }
 }

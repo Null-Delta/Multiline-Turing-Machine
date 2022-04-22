@@ -1,21 +1,22 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_colors.dart';
+import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 
 class StateComments extends StatefulWidget {
-  const StateComments({Key? key, required this.machine}) : super(key: key);
-
-  final TuringMachine machine;
+  const StateComments({Key? key}) : super(key: key);
 
   @override
   State<StateComments> createState() => _StateCommentsState();
 }
 
 class _StateCommentsState extends State<StateComments> {
+  late TuringMachine machine;
+
   @override
   Widget build(BuildContext context) {
+    machine = MachineInherit.of(context)!.machine;
+
     return Column(
       children: [
         SizedBox(
@@ -42,7 +43,7 @@ class _StateCommentsState extends State<StateComments> {
             decoration: BoxDecoration(color: AppColors.background),
             child: TextFormField(
               onChanged: (newValue) {
-                widget.machine.model.description = newValue;
+                machine.model.description = newValue;
               },
               maxLines: 10000,
               style: TextStyle(
