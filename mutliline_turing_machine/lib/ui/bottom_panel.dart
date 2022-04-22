@@ -168,6 +168,27 @@ class _BottomPanelState extends State<BottomPanel> {
                   style: appButtonStyle,
                 ),
               ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Start/Stop Machine",
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (!widget.machine.isActive){
+                      log(widget.machine.startMachine(3));
+                    } else {
+                      widget.machine.stopMachine();
+                    }
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.help,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
             ],
           ),
         ),
