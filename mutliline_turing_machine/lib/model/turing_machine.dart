@@ -1,7 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
-
 import 'turing_machine_model.dart';
 
 class Configuration {
@@ -9,17 +7,6 @@ class Configuration {
   List<int> pointers = [];
   int get countOfLines => lines.length;
   Configuration(this.lines, this.pointers);
-}
-
-class LineCellModel extends ChangeNotifier {
-  String symbol;
-
-  LineCellModel({this.symbol = " "});
-
-  void changeSymbol(String newSymbol) {
-    symbol = newSymbol;
-    notifyListeners();
-  }
 }
 
 class ActiveState {
@@ -32,7 +19,7 @@ class TuringMachine {
   late TuringMachineModel model;
 
   //содержимое лент
-  late List<List<LineCellModel>> lineContent;
+  late List<String> lineContent;
 
   //индексы указателей на активные ячейки лент
   late List<int> linePointer;
@@ -54,26 +41,19 @@ class TuringMachine {
 
   TuringMachine(TuringMachineModel m) {
     model = m;
-    lineContent = [];
-    for (int i = 0; i < model.countOfLines; i++) {
-      lineContent.add([]);
-      for (int j = 0; j < 2000; j++) {
-        lineContent[i].add(LineCellModel());
-      }
-    }
-    //lineContent = [for (int i = 0; i < model.countOfLines; i++) " " * 2001];
+    lineContent = [for (int i = 0; i < model.countOfLines; i++) " " * 2001];
     linePointer = [for (int i = 0; i < model.countOfLines; i++) 1000];
     currentStateIndex = 0;
     currentVatiantIndex = -1;
   }
 
   void clearLine(lineIndex) {
-    //lineContent[lineIndex] = " " * 2001;
+    lineContent[lineIndex] = " " * 2001;
     linePointer[lineIndex] = 1000;
   }
 
   void addLine() {
-    //lineContent.add(" " * 2001);
+    lineContent.add(" " * 2001);
     linePointer.add(1000);
     model.addLine();
   }
@@ -86,7 +66,7 @@ class TuringMachine {
 
   //Возвращает символ ленты на месте указателя
   String getSymbol(int lineIndex) {
-    return lineContent[lineIndex][linePointer[lineIndex]].symbol;
+    return lineContent[lineIndex][linePointer[lineIndex]];
   }
 
   bool checkSymbol(String symbol, String predicate) =>
@@ -97,16 +77,23 @@ class TuringMachine {
   //ставит символ на ленту и смещает указатель вправо
   void setSymbol(int lineIndex, String symbol) {
     var inputSymbol = symbol == "_" ? " " : symbol;
-    lineContent[lineIndex][linePointer[lineIndex]].changeSymbol(inputSymbol);
-
+    lineContent[lineIndex] = replaceCharAt(
+        lineContent[lineIndex], linePointer[lineIndex], inputSymbol);
     //moveLine(lineIndex, 1);
   }
 
   //очищает текуший символ ленты и сдвигает указатель влево
   void clearSymbol(int lineIndex) {
     var contentIndex = linePointer[lineIndex];
-    lineContent[lineIndex][contentIndex].changeSymbol(" ");
+    lineContent[lineIndex] =
+        replaceCharAt(lineContent[lineIndex], contentIndex, " ");
     moveLine(lineIndex, -1);
+  }
+
+  String replaceCharAt(String oldString, int index, String newChar) {
+    return oldString.substring(0, index) +
+        newChar +
+        oldString.substring(index + 1);
   }
 
   //сдвигает головку ленты
@@ -172,11 +159,11 @@ class TuringMachine {
   String info() {
     var result = "";
     for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
-      for (int index = linePointer[lineIndex] - 8;
-          index <= linePointer[lineIndex] + 8;
-          index++) {
-        result += lineContent[lineIndex][index].symbol;
-      }
+      result += lineContent[lineIndex]
+          .substring(linePointer[lineIndex] - 8, linePointer[lineIndex] - 1);
+      result += "|${lineContent[lineIndex][linePointer[lineIndex]]}|";
+      result += lineContent[lineIndex]
+          .substring(linePointer[lineIndex] + 1, linePointer[lineIndex] + 8);
       result += "\n";
     }
     result += "\n";

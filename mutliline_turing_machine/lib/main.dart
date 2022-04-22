@@ -117,9 +117,7 @@ class _MainWidgetState extends State<MainWidget> {
             axis: Axis.vertical,
             minimalSize: 256,
             children: [
-              TopPanel(
-                machine: widget.machine,
-              ),
+              const TopPanel(),
               Column(
                 children: [
                   bottomPanel,

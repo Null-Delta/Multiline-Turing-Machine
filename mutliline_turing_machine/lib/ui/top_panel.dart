@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/ui/line_cell.dart';
@@ -7,9 +6,8 @@ import '../styles/app_colors.dart';
 import 'line.dart';
 
 class TopPanel extends StatefulWidget {
-  const TopPanel({Key? key, required this.machine}) : super(key: key);
+  const TopPanel({Key? key}) : super(key: key);
 
-  final TuringMachine machine;
   @override
   State<TopPanel> createState() => _TopPanelState();
 }
@@ -111,10 +109,7 @@ class _TopPanelState extends State<TopPanel> {
             constraints: const BoxConstraints(maxHeight: double.infinity),
             color: AppColors.backgroundDark,
             child: Column(
-              children: [
-                for (int i = 0; i < 1; i++) Line(mahine: widget.machine),
-                const Text("|")
-              ],
+              children: [for (int i = 0; i < 1; i++) const Line(), const Text("|")],
             ),
           ),
         )
