@@ -16,6 +16,7 @@ class TopPanel extends StatefulWidget {
 
 class _TopPanelState extends State<TopPanel> {
   static const double iconSize = 28;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -106,7 +107,6 @@ class _TopPanelState extends State<TopPanel> {
           thickness: 2,
           color: AppColors.highlight,
         ),
-        
       ],
     );
   }

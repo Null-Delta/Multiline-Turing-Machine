@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
@@ -91,7 +93,21 @@ class _MainWidgetState extends State<MainWidget> {
         table.changeState();
       }
     },
+    onMakeStep: () {
+      log("scroll1");
+      widget.machine.makeStep();
+      //log(widget.machine.model.info());
+      onScroll();
+    },
   );
+
+  late var linesPage = LinesPage(
+    machine: widget.machine,
+  );
+
+  void onScroll() {
+    linesPage.onScroll();
+  }
 
   void updateSelectedState(int newState) {
     setState(() {
@@ -123,9 +139,7 @@ class _MainWidgetState extends State<MainWidget> {
                   TopPanel(
                     machine: widget.machine,
                   ),
-                  LinesPage(
-                    machine: widget.machine,
-                  ),
+                  linesPage,
                 ],
               ),
               Column(
@@ -138,7 +152,6 @@ class _MainWidgetState extends State<MainWidget> {
                           machine: widget.machine,
                           onStateSelect: (index) {
                             updateSelectedState(index);
-                            //widget.tableManager
                           },
                         ),
                         Container(

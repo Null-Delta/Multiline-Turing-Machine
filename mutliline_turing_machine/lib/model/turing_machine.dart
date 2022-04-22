@@ -39,7 +39,6 @@ class ActiveState {
 }
 
 class TuringMachine {
-
   //модель машины тьюринга
   late TuringMachineModel model;
 
@@ -78,8 +77,7 @@ class TuringMachine {
     //lineContent = [for (int i = 0; i < model.countOfLines; i++) " " * 2001];
     linePointer = [for (int i = 0; i < model.countOfLines; i++) 1000];
 
-    for(int i = 0; i < linePointer.length; i++)
-    {
+    for (int i = 0; i < linePointer.length; i++) {
       lineContent[i][linePointer[i]].setActive(true);
     }
 
@@ -128,12 +126,11 @@ class TuringMachine {
 
   void setFocus(int lineIndex) {
     focusedLine = lineIndex;
-    for(int i = 0; i < linePointer.length; i++)
-    {
+    for (int i = 0; i < linePointer.length; i++) {
       lineContent[i][linePointer[i]].setFocus(false);
     }
     lineContent[lineIndex][linePointer[lineIndex]].setFocus(true);
-  } 
+  }
 
   //очищает текуший символ ленты и сдвигает указатель влево
   void clearSymbol(int lineIndex) {
@@ -144,17 +141,15 @@ class TuringMachine {
 
   //сдвигает головку ленты и делает ячейку под ней активной
   void moveLine(int lineIndex, int offset) {
-
-    if(lineIndex == focusedLine) {
+    if (lineIndex == focusedLine) {
       lineContent[focusedLine][linePointer[focusedLine]].setFocus(false);
-      lineContent[focusedLine][linePointer[focusedLine] + offset].setFocus(true);
+      lineContent[focusedLine][linePointer[focusedLine] + offset]
+          .setFocus(true);
     }
 
     setActive(lineIndex, false);
     linePointer[lineIndex] += offset;
     setActive(lineIndex, true);
-    
-    
   }
 
   //выполняет шаг и возвращает сообщение, информирующее о корректности

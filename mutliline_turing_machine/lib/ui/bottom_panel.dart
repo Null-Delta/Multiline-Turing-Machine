@@ -15,7 +15,8 @@ class BottomPanel extends StatefulWidget {
       required this.onAddVariant,
       required this.onDeleteVariant,
       required this.onAddState,
-      required this.onDeleteState})
+      required this.onDeleteState,
+      required this.onMakeStep})
       : super(key: key);
   final TuringMachine machine;
   PlutoGridStateManager? tableManager;
@@ -23,6 +24,7 @@ class BottomPanel extends StatefulWidget {
   void Function() onDeleteVariant;
   void Function() onAddState;
   void Function() onDeleteState;
+  void Function() onMakeStep;
 
   @override
   State<BottomPanel> createState() => _BottomPanelState();
@@ -156,7 +158,8 @@ class _BottomPanelState extends State<BottomPanel> {
                 message: "Make step",
                 child: ElevatedButton(
                   onPressed: () {
-                    log(widget.machine.makeStep());
+                    widget.onMakeStep();
+                    //log(widget.machine.makeStep());
                   },
                   child: const SizedBox(
                     width: iconSize,

@@ -7,12 +7,14 @@ import '../scrollAbleList/scrollable_positioned_list.dart';
 import 'line_cell.dart';
 
 class Line extends StatefulWidget {
-  const Line({Key? key, required this.machine, required this.index})
+  Line({Key? key, required this.machine, required this.index})
       : super(key: key);
 
   final TuringMachine machine;
 
   final int index;
+
+  late void Function() scrollToCenter;
 
   @override
   State<Line> createState() => _LineState();
@@ -23,6 +25,17 @@ class _LineState extends State<Line> {
   static const double _widthOfSeparator = 4;
 
   final FocusNode focusNode = FocusNode();
+
+  void scroll() {
+    log("scrooooooooool: ${widget.machine.linePointer[widget.index]}");
+    control.scrollTo(
+        index: widget.machine.linePointer[widget.index],
+        duration: const Duration(milliseconds: 250));
+    // control.jumpTo(
+    //     index: widget.machine.linePointer[widget.index],
+    //     alignment: 0.5,
+    //     myIndent: _widthOfCell / 2);
+  }
 
   int cellCount = 2001;
   ItemScrollController control = ItemScrollController();
@@ -68,6 +81,9 @@ class _LineState extends State<Line> {
   @override
   void initState() {
     super.initState();
+
+    widget.scrollToCenter = scroll;
+
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       control.jumpTo(
           index: cellCount ~/ 2, alignment: 0.5, myIndent: _widthOfCell / 2);
@@ -76,12 +92,11 @@ class _LineState extends State<Line> {
 
   @override
   Widget build(BuildContext build) {
-    //line.
-    // item = Provider.of<LineCellModel>(context);
-
     if (control.isAttached) {
       control.jumpTo(
-          index: cellCount ~/ 2, alignment: 0.5, myIndent: _widthOfCell / 2);
+          index: widget.machine.linePointer[widget.index],
+          alignment: 0.5,
+          myIndent: _widthOfCell / 2);
     }
 
     return GestureDetector(
@@ -92,10 +107,10 @@ class _LineState extends State<Line> {
               width: MediaQuery.of(context).size.width,
               height: 67,
               child: GestureDetector(
-                onTap: () {
-                  log("message");
-                },
-                child: line)),
+                  onTap: () {
+                    log("message");
+                  },
+                  child: line)),
         ));
     ;
   }
