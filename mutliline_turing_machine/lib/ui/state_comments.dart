@@ -43,6 +43,7 @@ class _StateCommentsState extends State<StateComments> {
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(color: AppColors.background),
             child: TextFormField(
+              initialValue: machine.model.description,
               onChanged: (newValue) {
                 machine.model.description = newValue;
               },

@@ -27,6 +27,8 @@ class TuringMachineTableState extends State<TuringMachineTable> {
   int selectedColumn = -1;
   int? draggingIndex;
 
+  bool needInit = true;
+
   late PlutoGridStateManager stateManager;
 
   void onStateUpdate() {
@@ -113,15 +115,6 @@ class TuringMachineTableState extends State<TuringMachineTable> {
             rows[selectedRow].cells["translate"]!, selectedRow)
         : stateManager.setCurrentCell(
             rows[selectedRow].cells["head:$selectedColumn"]!, selectedRow);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    //machine = MachineInherit.of(context)!.machine;
-
-    // initTable();
   }
 
   void updateTableState() {
@@ -224,7 +217,11 @@ class TuringMachineTableState extends State<TuringMachineTable> {
   Widget build(BuildContext context) {
     developer.log("rebuild table");
     machine = MachineInherit.of(context)!.machine;
-    initTable();
+
+    if (needInit) {
+      initTable();
+      needInit = false;
+    }
 
     return Container(
       color: AppColors.background,

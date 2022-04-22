@@ -5,8 +5,8 @@ import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
+import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
-import 'package:mutliline_turing_machine/ui/state_comments.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'styles/app_colors.dart';
 import 'ui/lines_page.dart';
@@ -58,6 +58,8 @@ class _MainWidgetState extends State<MainWidget> {
   late PlutoGridStateManager? tableManager;
   final tableState = GlobalKey<TuringMachineTableState>();
 
+  var commentsState = GlobalKey<BottomSplitPanelState>();
+
   late var table = TuringMachineTable(
     key: tableState,
     onLoaded: (manager) {
@@ -96,9 +98,11 @@ class _MainWidgetState extends State<MainWidget> {
       }
     },
     onMakeStep: () {
-      log("scroll1");
       widget.machine.makeStep();
       onScroll();
+    },
+    onCommentsShow: () {
+      commentsState.currentState!.chaneCommentsShow();
     },
   );
 
@@ -118,6 +122,7 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   Widget build(BuildContext context) {
+    log("rebuilding");
     return Scaffold(
       backgroundColor: AppColors.background,
       body: MachineInherit(
@@ -164,13 +169,9 @@ class _MainWidgetState extends State<MainWidget> {
                                   backgroundColor: AppColors.highlight,
                                 ),
                               ),
-                              child: MultiSplitView(
-                                antiAliasingWorkaround: false,
-                                axis: Axis.horizontal,
-                                resizable: true,
-                                minimalSize: 256,
-                                initialWeights: const [0.7, 0.3],
-                                children: [table, const StateComments()],
+                              child: BottomSplitPanel(
+                                key: commentsState,
+                                table: table,
                               ),
                             ),
                           )

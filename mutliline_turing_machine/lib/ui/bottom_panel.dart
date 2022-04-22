@@ -16,7 +16,8 @@ class BottomPanel extends StatefulWidget {
       required this.onDeleteVariant,
       required this.onAddState,
       required this.onDeleteState,
-      required this.onMakeStep})
+      required this.onMakeStep,
+      required this.onCommentsShow})
       : super(key: key);
   PlutoGridStateManager? tableManager;
   void Function() onAddVariant;
@@ -24,6 +25,7 @@ class BottomPanel extends StatefulWidget {
   void Function() onAddState;
   void Function() onDeleteState;
   void Function() onMakeStep;
+  void Function() onCommentsShow;
 
   @override
   State<BottomPanel> createState() => _BottomPanelState();
@@ -123,6 +125,11 @@ class _BottomPanelState extends State<BottomPanel> {
               const SizedBox(
                 width: 6,
               ),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                ),
+              ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Debug",
@@ -170,6 +177,35 @@ class _BottomPanelState extends State<BottomPanel> {
                     height: iconSize,
                     child: Image(
                       image: AppImages.help,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              const SizedBox(
+                width: 6,
+              ),
+              Container(
+                color: AppColors.highlight,
+                width: 2,
+                height: 16,
+              ),
+              const SizedBox(
+                width: 6,
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Комментарии",
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.onCommentsShow();
+                  },
+                  child: SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      color: AppColors.text,
+                      image: AppImages.happy,
                     ),
                   ),
                   style: appButtonStyle,
