@@ -28,6 +28,7 @@ class BottomPanel extends StatefulWidget {
   void Function() onMakeStep;
   void Function() onStartStopWork;
   void Function() onCommentsShow;
+  final FocusNode topFocus = FocusNode();
 
   @override
   State<BottomPanel> createState() => _BottomPanelState();
@@ -57,6 +58,7 @@ class _BottomPanelState extends State<BottomPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Добавить состояние",
                 child: ElevatedButton(
+                  focusNode: widget.topFocus,
                   onPressed: () {
                     widget.onAddState();
                   },

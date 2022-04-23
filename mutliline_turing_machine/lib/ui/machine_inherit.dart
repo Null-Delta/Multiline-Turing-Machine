@@ -6,11 +6,13 @@ class MachineInherit extends InheritedWidget {
       {Key? key,
       required Widget child,
       required this.machine,
-      required this.lineFocus})
+      required this.lineFocus,
+      required this.commentsFocus})
       : super(child: child, key: key);
 
   final TuringMachine machine;
   final List<FocusNode> lineFocus;
+  final FocusNode commentsFocus;
 
   @override
   bool updateShouldNotify(covariant MachineInherit oldWidget) {

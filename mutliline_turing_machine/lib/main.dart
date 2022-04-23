@@ -62,6 +62,8 @@ class _MainWidgetState extends State<MainWidget> {
 
   late var table = TuringMachineTable(
     key: tableState,
+    topFocus: bottomPanel.topFocus,
+    rightFocus: commentsFocus,
     onLoaded: (manager) {
       tableManager = manager;
       bottomPanel.tableManager = manager;
@@ -129,6 +131,7 @@ class _MainWidgetState extends State<MainWidget> {
   }
 
   FocusNode linesPageFocus = FocusNode();
+  FocusNode commentsFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +144,7 @@ class _MainWidgetState extends State<MainWidget> {
           for (int i = 0; i < widget.machine.model.countOfLines; i++)
             FocusNode()
         ],
+        commentsFocus: commentsFocus,
         child: Center(
           child: MultiSplitViewTheme(
             data: MultiSplitViewThemeData(
