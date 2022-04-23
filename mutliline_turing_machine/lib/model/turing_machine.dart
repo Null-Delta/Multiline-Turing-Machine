@@ -3,94 +3,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
+import 'configurations.dart';
 import 'turing_machine_model.dart';
-
-class SetOfConfigurations {
-  SetOfConfigurations? _lChild;
-  SetOfConfigurations? _rChild;
-  List<String>? _lines;
-  List<int>? _pointers;
-  int _countOfLines = 0;
-  int get count => _countOfLines;
-
-  SetOfConfigurations();
-  SetOfConfigurations._inClass(List<String> l,List<int> p){
-    _countOfLines = 1;
-    _lines = l.toList();
-    _pointers = p.toList();
-  }
-
-  void clear(){
-    _lChild = null;
-    _rChild = null;
-    _lines = null;
-    _pointers = null;
-    _countOfLines = 0;
-  }
-
-  int add(List<String> l, List<int> p){
-    if (_lines == null){
-      _lines = l.toList();
-      _pointers = p.toList();
-      _countOfLines = 1;
-      return 1;
-    }
-    else {
-      bool isBigger = true;
-      bool same = true;
-      for (int i = 0; i < l.length; i++){
-        if (!isBigger) {
-          break;
-        }
-        same = l[i] == _lines![i] && same;
-        isBigger = l[i].compareTo(_lines![i]) >=0;
-      }
-      for (int i = 0; i < p.length; i++){
-        if (!isBigger) {
-          break;
-        }
-        same = p[i] == _pointers![i] && same;
-        isBigger = p[i] >= _pointers![i];
-      }
-      if (isBigger && !same){
-        if (_rChild == null) {
-          _rChild = SetOfConfigurations._inClass(l, p);
-          _countOfLines++;
-          return 1;
-        } else {
-          if (_rChild!.add(l, p) == 1){
-            _countOfLines++;
-            return 1;
-          }
-        }
-      } else if (!isBigger) {
-        if (_lChild == null) {
-          _lChild = SetOfConfigurations._inClass(l, p);
-          _countOfLines++;
-          return 1;
-        } else {
-          if (_lChild!.add(l, p) == 1){
-            _countOfLines++;
-            return 1;
-          }
-        }
-      }
-    }
-    return 0;
-  }
-
-  static List<String> convertConfigurations(List<List<LineCellModel>> lineContent){
-    List<String> lines = [];
-    for (int i = 0; i < lineContent.length; i++){
-      String tmpS = "";
-      for (int j = 0; j < lineContent[i].length; j++){
-        tmpS += lineContent[i][j].symbol == "" ? "_" : lineContent[i][j].symbol;
-      }
-      lines.add(tmpS);
-    }
-    return lines;
-  }
-}
 
 class LineCellModel extends ChangeNotifier {
   LineCellModel({this.symbol = " "});
@@ -139,7 +53,10 @@ class TuringMachine {
   late int currentVatiantIndex;
 
   //множество конфигураций, пройденные машиной
-  late SetOfConfigurations passedConfigurations = SetOfConfigurations();
+  late Set<Configuration> passedConfigurations = {};
+
+  //количество шагов данного запуска
+  late int stepCount;
 
   ActiveState activeState = ActiveState();
 
@@ -304,13 +221,13 @@ class TuringMachine {
     if (speed == 0) {
       return "Нулевая скорость.";
     }
-    
+    stepCount = 0;
     passedConfigurations.clear();
     active = true;
     timer = Timer.periodic(
       Duration(milliseconds: 3000~/speed),
       (timer) {
-        passedConfigurations.add(SetOfConfigurations.convertConfigurations(lineContent), linePointer);
+        passedConfigurations.add(Configuration(Configuration.convertConfigurations(lineContent), linePointer));
         makeStep();
       },
     );
@@ -319,7 +236,7 @@ class TuringMachine {
 
   String stopMachine()
   {
-    passedConfigurations.add(SetOfConfigurations.convertConfigurations(lineContent), linePointer);
+    passedConfigurations.add(Configuration(Configuration.convertConfigurations(lineContent), linePointer));
     active = false;
     currentStateIndex = 0;
     currentVatiantIndex = -1;
