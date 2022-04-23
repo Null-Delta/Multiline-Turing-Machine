@@ -760,7 +760,7 @@ class PlutoGridSettings {
   static const double rowHeight = 45.0;
 
   /// Row - border width
-  static const double rowBorderWidth = 1.0;
+  static const double rowBorderWidth = 0.0;
 
   /// Row - total height
   static const double rowTotalHeight = rowHeight + rowBorderWidth;
