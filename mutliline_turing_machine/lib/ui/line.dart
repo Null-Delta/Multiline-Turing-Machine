@@ -29,9 +29,9 @@ class LineState extends State<Line> {
   ItemScrollController control = ItemScrollController();
 
   scroll() {
-    log("scrooooooooool: ${machine.linePointer[widget.index]}");
+    log("scrooooooooool: ${machine.configuration.linePointer[widget.index]}");
     control.scrollTo(
-        index: machine.linePointer[widget.index],
+        index: machine.configuration.linePointer[widget.index],
         alignment: 0.5,
         myIndent: _widthOfCell / 2,
         duration: const Duration(milliseconds: 100));
@@ -59,7 +59,7 @@ class LineState extends State<Line> {
         return Stack(
           children: [
             ChangeNotifierProvider.value(
-              value: machine.lineContent[widget.index][index],
+              value: machine.configuration.lineContent[widget.index][index],
               child: LineCell(
                 lineIndex: widget.index,
                 index: index,
@@ -91,7 +91,7 @@ class LineState extends State<Line> {
     focus = MachineInherit.of(context)!.lineFocus[widget.index];
     if (control.isAttached) {
       control.jumpTo(
-          index: machine.linePointer[widget.index],
+          index: machine.configuration.linePointer[widget.index],
           alignment: 0.5,
           myIndent: _widthOfCell / 2);
     }
@@ -104,22 +104,20 @@ class LineState extends State<Line> {
         alignment: Alignment.center,
         child: Focus(
           onFocusChange: (value) {
-            
             setState(() {
-              machine.setFocus(widget.index, value);
+              machine.configuration.setFocus(widget.index, value);
             });
           },
           focusNode: focus,
           onKey: (node, event) {
-            if(event.isKeyPressed(LogicalKeyboardKey.backspace)) {
-              machine.clearSymbol(widget.index);
+            if (event.isKeyPressed(LogicalKeyboardKey.backspace)) {
+              machine.configuration.clearSymbol(widget.index);
               scroll();
-            } 
-            else if(event.character != null) {
-              machine.writeSymbol(widget.index, event.character!);
+            } else if (event.character != null) {
+              machine.configuration.writeSymbol(widget.index, event.character!);
               scroll();
             }
-            
+
             return KeyEventResult.ignored;
           },
           child: Container(

@@ -86,10 +86,11 @@ class _MainWidgetState extends State<MainWidget> {
       if (widget.machine.model.countOfStates > 1) {
         setState(
           () {
-            widget.machine.model.deleteState(widget.machine.currentStateIndex);
-            if (widget.machine.currentStateIndex >=
+            widget.machine.model
+                .deleteState(widget.machine.configuration.currentStateIndex);
+            if (widget.machine.configuration.currentStateIndex >=
                 widget.machine.model.countOfStates) {
-              widget.machine.currentStateIndex =
+              widget.machine.configuration.currentStateIndex =
                   widget.machine.model.countOfStates - 1;
             }
           },
@@ -102,7 +103,7 @@ class _MainWidgetState extends State<MainWidget> {
       onScroll();
     },
     onStartStopWork: () {
-      if (!widget.machine.activator.isActive){
+      if (!widget.machine.activator.isActive) {
         widget.machine.activator.startMachine(3, onScroll);
       } else {
         widget.machine.activator.stopMachine();
@@ -121,7 +122,7 @@ class _MainWidgetState extends State<MainWidget> {
 
   void updateSelectedState(int newState) {
     setState(() {
-      widget.machine.currentStateIndex = newState;
+      widget.machine.configuration.currentStateIndex = newState;
     });
 
     tableState.currentState!.updateTableState();
@@ -136,7 +137,10 @@ class _MainWidgetState extends State<MainWidget> {
       backgroundColor: AppColors.background,
       body: MachineInherit(
         machine: widget.machine,
-        lineFocus: [for(int i = 0; i < widget.machine.model.countOfLines; i++) FocusNode()],
+        lineFocus: [
+          for (int i = 0; i < widget.machine.model.countOfLines; i++)
+            FocusNode()
+        ],
         child: Center(
           child: MultiSplitViewTheme(
             data: MultiSplitViewThemeData(
