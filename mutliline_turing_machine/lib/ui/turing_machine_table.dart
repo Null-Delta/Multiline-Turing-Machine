@@ -127,6 +127,35 @@ class TuringMachineTableState extends State<TuringMachineTable> {
             rows[selectedRow].cells["head:$selectedColumn"]!, selectedRow);
   }
 
+  void addLine() {
+    var column = PlutoColumn(
+      backgroundColor: AppColors.background,
+      cellPadding: 6,
+      readOnly: false,
+      frozen: PlutoColumnFrozen.none,
+      enableContextMenu: false,
+      enableSorting: false,
+      enableRowDrag: false,
+      enableColumnDrag: false,
+      enableEditingMode: true,
+      enableAutoEditing: false,
+      textAlign: PlutoColumnTextAlign.center,
+      titleTextAlign: PlutoColumnTextAlign.center,
+      width: 84,
+      minWidth: 64,
+      title: "Лента ${machine.model.countOfLines}",
+      field: "head:${machine.model.countOfLines}",
+      type: PlutoColumnType.text(),
+    );
+
+    stateManager.insertColumns(machine.model.countOfLines, [column]);
+
+    for (int i = 0; i < machine.currentState.countOfVariants; i++) {
+      stateManager.changeCellValue(
+          rows[i].cells["head:${machine.model.countOfLines}"]!, "* * _");
+    }
+  }
+
   void updateTableState() {
     stateManager.removeRows(rows);
     stateManager.clearCurrentCell();
