@@ -42,12 +42,8 @@ class LinesPageState extends State<LinesPage> {
   @override
   Widget build(BuildContext context) {
     machine = MachineInherit.of(context)!.machine;
-    //focus = MachineInherit.of(context)!.linesPageFocus;
 
     return Expanded(
-      
-      
-        
         // child: Focus(
         //   focusNode: focus,
         //   onFocusChange: (value) {

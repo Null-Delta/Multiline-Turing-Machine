@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_colors.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
@@ -103,10 +104,31 @@ class LineState extends State<Line> {
         alignment: Alignment.center,
         child: Focus(
           onFocusChange: (value) {
-            machine.setFocus(widget.index, value);
+            
+            setState(() {
+              machine.setFocus(widget.index, value);
+            });
           },
           focusNode: focus,
-          child: SizedBox(
+          onKey: (node, event) {
+            if(event.isKeyPressed(LogicalKeyboardKey.backspace)) {
+              machine.clearSymbol(widget.index);
+              scroll();
+            } 
+            else if(event.character != null) {
+              machine.writeSymbol(widget.index, event.character!);
+              scroll();
+            }
+
+            return KeyEventResult.ignored;
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.backgroundDark,
+              // border: Border.all(
+              //   color: focus.hasFocus ? AppColors.accent : AppColors.backgroundDark,
+              // ),
+            ),
             width: MediaQuery.of(context).size.width,
             height: 67,
             child: line,
