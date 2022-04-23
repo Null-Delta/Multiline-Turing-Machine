@@ -38,6 +38,7 @@ class MachineEngine{
       (timer) {
         _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.lineContent), machine.linePointer));
         machine.makeStep();
+        stepCount++;
       },
     );
     return "";
