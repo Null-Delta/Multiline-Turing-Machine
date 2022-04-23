@@ -203,9 +203,10 @@ class ItemScrollController {
   /// * 1 aligns the left edge of the item with the right edge of the view.
   /// * 0.5 aligns the left edge of the item with the center of the view.
   void jumpTo({required int index, double alignment = 0, double myIndent = 0}) {
-    _scrollableListState!._jumpTo(index: index, alignment: alignment, myIndent: myIndent);
+    _scrollableListState!
+        ._jumpTo(index: index, alignment: alignment, myIndent: myIndent);
   }
-  
+
   /// Animate the list over [duration] using the given [curve] such that the
   /// item at [index] ends up with its leading edge at the given [alignment].
   /// See [jumpTo] for an explanation of alignment.
@@ -227,25 +228,23 @@ class ItemScrollController {
   /// [opacityAnimationWeights] to `[20, 20, 60]`.
   ///
   /// See [TweenSequenceItem.weight] for more info.
-  Future<void> scrollTo({
-    required int index,
-    double alignment = 0,
-    required Duration duration,
-    Curve curve = Curves.linear,
-    List<double> opacityAnimationWeights = const [40, 20, 40],
-    double myIndent = 0
-  }) {
+  Future<void> scrollTo(
+      {required int index,
+      double alignment = 0,
+      required Duration duration,
+      Curve curve = Curves.linear,
+      List<double> opacityAnimationWeights = const [40, 20, 40],
+      double myIndent = 0}) {
     assert(_scrollableListState != null);
     assert(opacityAnimationWeights.length == 3);
     assert(duration > Duration.zero);
     return _scrollableListState!._scrollTo(
-      index: index,
-      alignment: alignment,
-      duration: duration,
-      curve: curve,
-      opacityAnimationWeights: opacityAnimationWeights,
-      myIndent: myIndent
-    );
+        index: index,
+        alignment: alignment,
+        duration: duration,
+        curve: curve,
+        opacityAnimationWeights: opacityAnimationWeights,
+        myIndent: myIndent);
   }
 
   void _attach(_ScrollablePositionedListState scrollableListState) {
@@ -414,7 +413,8 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
         widget.minCacheExtent ?? 0,
       );
 
-  void _jumpTo({required int index, required double alignment, double myIndent = 0}) {
+  void _jumpTo(
+      {required int index, required double alignment, double myIndent = 0}) {
     _stopScroll(canceled: true);
     if (index > widget.itemCount - 1) {
       index = widget.itemCount - 1;
@@ -426,14 +426,13 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
     });
   }
 
-  Future<void> _scrollTo({
-    required int index,
-    required double alignment,
-    required Duration duration,
-    Curve curve = Curves.linear,
-    required List<double> opacityAnimationWeights,
-    required myIndent
-  }) async {
+  Future<void> _scrollTo(
+      {required int index,
+      required double alignment,
+      required Duration duration,
+      Curve curve = Curves.linear,
+      required List<double> opacityAnimationWeights,
+      required myIndent}) async {
     if (index > widget.itemCount - 1) {
       index = widget.itemCount - 1;
     }
@@ -441,34 +440,31 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
       _stopScroll(canceled: true);
       SchedulerBinding.instance!.addPostFrameCallback((_) {
         _startScroll(
+            index: index,
+            alignment: alignment,
+            duration: duration,
+            curve: curve,
+            opacityAnimationWeights: opacityAnimationWeights,
+            myIndent: myIndent);
+      });
+    } else {
+      await _startScroll(
           index: index,
           alignment: alignment,
           duration: duration,
           curve: curve,
           opacityAnimationWeights: opacityAnimationWeights,
-          myIndent: myIndent
-        );
-      });
-    } else {
-      await _startScroll(
-        index: index,
-        alignment: alignment,
-        duration: duration,
-        curve: curve,
-        opacityAnimationWeights: opacityAnimationWeights,
-        myIndent: myIndent
-      );
+          myIndent: myIndent);
     }
   }
 
-  Future<void> _startScroll({
-    required int index,
-    required double alignment,
-    required Duration duration,
-    Curve curve = Curves.linear,
-    required List<double> opacityAnimationWeights,
-    required myIndent
-  }) async {
+  Future<void> _startScroll(
+      {required int index,
+      required double alignment,
+      required Duration duration,
+      Curve curve = Curves.linear,
+      required List<double> opacityAnimationWeights,
+      required myIndent}) async {
     final direction = index > primary.target ? 1 : -1;
     final itemPosition = primary.itemPositionsNotifier.itemPositions.value
         .firstWhereOrNull(
@@ -478,7 +474,8 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
       final localScrollAmount = itemPosition.itemLeadingEdge *
           primary.scrollController.position.viewportDimension;
       await primary.scrollController.animateTo(
-          myIndent + primary.scrollController.offset +
+          myIndent +
+              primary.scrollController.offset +
               localScrollAmount -
               alignment * primary.scrollController.position.viewportDimension,
           duration: duration,
@@ -501,7 +498,9 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
                       secondary.scrollController.position.viewportDimension));
 
           startCompleter.complete(primary.scrollController.animateTo(
-              myIndent + primary.scrollController.offset + direction * scrollAmount,
+              myIndent +
+                  primary.scrollController.offset +
+                  direction * scrollAmount,
               duration: duration,
               curve: curve));
           endCompleter.complete(secondary.scrollController

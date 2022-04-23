@@ -1,32 +1,54 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
+import 'package:mutliline_turing_machine/styles/app_colors.dart';
+import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
 import '../scrollAbleList/scrollable_positioned_list.dart';
 import 'line_cell.dart';
 
 class Line extends StatefulWidget {
-  const Line({Key? key, required this.machine, required this.index})
-      : super(key: key);
+  const Line({Key? key, required this.index}) : super(key: key);
 
-  final TuringMachine machine;
   final int index;
 
   @override
-  State<Line> createState() => LineState();
+  LineState createState() => LineState();
 }
 
 class LineState extends State<Line> {
   static const double _widthOfCell = 28;
   static const double _widthOfSeparator = 4;
 
-  int indexToMove = -1;
-
-  final FocusNode focusNode = FocusNode();
+  late TuringMachine machine;
+  late FocusNode focus;
 
   int cellCount = 2001;
   ItemScrollController control = ItemScrollController();
+
+  scroll() {
+    log("scrooooooooool: ${machine.linePointer[widget.index]}");
+    control.scrollTo(
+        index: machine.linePointer[widget.index],
+        alignment: 0.5,
+        myIndent: _widthOfCell / 2,
+        duration: const Duration(milliseconds: 100));
+    // control.jumpTo(
+    //     index: widget.machine.linePointer[widget.index],
+    //     alignment: 0.5,
+    //     myIndent: _widthOfCell / 2);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      control.jumpTo(
+          index: cellCount ~/ 2, alignment: 0.5, myIndent: _widthOfCell / 2);
+    });
+  }
 
   late var line = ScrollablePositionedList.separated(
       itemScrollController: control,
@@ -37,9 +59,8 @@ class LineState extends State<Line> {
         return Stack(
           children: [
             ChangeNotifierProvider.value(
-              value: widget.machine.lineContent[widget.index][index],
+              value: machine.lineContent[widget.index][index],
               child: LineCell(
-                machine: widget.machine,
                 lineIndex: widget.index,
                 line: this,
                 index: index,
@@ -65,57 +86,56 @@ class LineState extends State<Line> {
         return const SizedBox(width: _widthOfSeparator);
       });
 
-  //late LineCellModel item
-
-  void scrollToIndex(int index){
-      indexToMove = index;
-      control.scrollTo(
-          index: indexToMove, alignment: 0.5, duration: const Duration(milliseconds: 500) ,myIndent: _widthOfCell / 2);
-  }
-
-
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      control.jumpTo(
-          index: cellCount ~/ 2, alignment: 0.5, myIndent: _widthOfCell / 2);
-    });
-  }
-
-  @override
-  Widget build(BuildContext build) {
-    // item = Provider.of<LineCellModel>(context);
-
+  Widget build(BuildContext context) {
+    machine = MachineInherit.of(context)!.machine;
+    focus = MachineInherit.of(context)!.lineFocus[widget.index];
     if (control.isAttached) {
-      //control.jumpTo(
-      //    index: cellCount ~/ 2, alignment: 0.5, myIndent: _widthOfCell / 2);
-      if (indexToMove == -1)
-      {
-        control.scrollTo(
-          index: cellCount ~/ 2, alignment: 0.5, duration: const Duration(milliseconds: 50) ,myIndent: _widthOfCell / 2);
-      } else{
-        if (control.isAttached) {
-          control.scrollTo(
-          index: indexToMove, alignment: 0.5, duration: const Duration(milliseconds: 50) ,myIndent: _widthOfCell / 2);
-          indexToMove = -1;
-        }
-      }
+      control.jumpTo(
+          index: machine.linePointer[widget.index],
+          alignment: 0.5,
+          myIndent: _widthOfCell / 2);
     }
 
     return GestureDetector(
-        onTap: () {},
-        child: Align(
-          alignment: Alignment.center,
-          child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 67,
-              child: GestureDetector(
-                onTap: () {
-                  log("message");
-                },
-                child: line)),
-        ));
-    ;
+      onTap: () {
+        focus.requestFocus();
+      },
+      child: Align(
+        alignment: Alignment.center,
+        child: Focus(
+          onFocusChange: (value) {
+            
+            setState(() {
+              machine.setFocus(widget.index, value);
+            });
+          },
+          focusNode: focus,
+          onKey: (node, event) {
+            if(event.isKeyPressed(LogicalKeyboardKey.backspace)) {
+              machine.clearSymbol(widget.index);
+              scroll();
+            } 
+            else if(event.character != null) {
+              machine.writeSymbol(widget.index, event.character!);
+              scroll();
+            }
+
+            return KeyEventResult.ignored;
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.backgroundDark,
+              // border: Border.all(
+              //   color: focus.hasFocus ? AppColors.accent : AppColors.backgroundDark,
+              // ),
+            ),
+            width: MediaQuery.of(context).size.width,
+            height: 67,
+            child: line,
+          ),
+        ),
+      ),
+    );
   }
 }

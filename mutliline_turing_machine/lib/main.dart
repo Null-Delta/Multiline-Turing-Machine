@@ -1,16 +1,18 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
-import 'package:mutliline_turing_machine/ui/state_comments.dart';
+import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
+import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'styles/app_colors.dart';
 import 'ui/lines_page.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
 import 'ui/turing_machine_table.dart';
-import 'dart:developer' as developer;
 
 void main() {
   runApp(const MyApp());
@@ -43,33 +45,37 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// ignore: must_be_immutable
 class MainWidget extends StatefulWidget {
   MainWidget({Key? key}) : super(key: key);
 
   final TuringMachine machine = TuringMachine(TuringMachineModel());
-  PlutoGridStateManager? tableManager;
 
   @override
   State<MainWidget> createState() => _MainWidgetState();
 }
 
 class _MainWidgetState extends State<MainWidget> {
+  late PlutoGridStateManager? tableManager;
+  final tableState = GlobalKey<TuringMachineTableState>();
+
+  var commentsState = GlobalKey<BottomSplitPanelState>();
+
   late var table = TuringMachineTable(
-    machine: widget.machine,
+    key: tableState,
     onLoaded: (manager) {
-      widget.tableManager = manager;
+      tableManager = manager;
       bottomPanel.tableManager = manager;
     },
   );
 
+  final GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
+
   late var bottomPanel = BottomPanel(
-    machine: widget.machine,
     onAddVariant: () {
-      table.addVariant();
+      tableState.currentState!.addVariant();
     },
     onDeleteVariant: () {
-      table.deleteVariant();
+      tableState.currentState!.deleteVariant();
     },
     onAddState: () {
       setState(() {
@@ -88,90 +94,97 @@ class _MainWidgetState extends State<MainWidget> {
             }
           },
         );
-        table.changeState();
+        tableState.currentState!.updateTableState();
       }
     },
+    onMakeStep: () {
+      widget.machine.makeStep();
+      onScroll();
+    },
+    onCommentsShow: () {
+      commentsState.currentState!.chaneCommentsShow();
+    },
   );
+
+  late var linesPage = LinesPage(key: linePagesState);
+
+  void onScroll() {
+    linePagesState.currentState!.onScroll();
+  }
 
   void updateSelectedState(int newState) {
     setState(() {
       widget.machine.currentStateIndex = newState;
     });
 
-    table.changeState();
+    tableState.currentState!.updateTableState();
   }
+
+  FocusNode linesPageFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
+    log("rebuilding");
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Center(
-        child: MultiSplitViewTheme(
-          data: MultiSplitViewThemeData(
-            dividerThickness: 2,
-            dividerPainter: DividerPainter(
-              backgroundColor: AppColors.highlight,
-            ),
-          ),
-          child: MultiSplitView(
-            antiAliasingWorkaround: false,
-            axis: Axis.vertical,
-            minimalSize: 256,
-            children: [
-              Column(
-                children: [
-                  TopPanel(
-                    machine: widget.machine,
-                  ),
-                  LinesPage(
-                    machine: widget.machine,
-                  ),
-                ],
+      body: MachineInherit(
+        machine: widget.machine,
+        lineFocus: [for(int i = 0; i < widget.machine.model.countOfLines; i++) FocusNode()],
+        child: Center(
+          child: MultiSplitViewTheme(
+            data: MultiSplitViewThemeData(
+              dividerThickness: 2,
+              dividerPainter: DividerPainter(
+                backgroundColor: AppColors.highlight,
               ),
-              Column(
-                children: [
-                  bottomPanel,
-                  Expanded(
-                    child: Row(
-                      children: [
-                        StatesList(
-                          machine: widget.machine,
-                          onStateSelect: (index) {
-                            updateSelectedState(index);
-                            //widget.tableManager
-                          },
-                        ),
-                        Container(
-                          width: 2,
-                          color: AppColors.highlight,
-                        ),
-                        Expanded(
-                          child: MultiSplitViewTheme(
-                            data: MultiSplitViewThemeData(
-                              dividerThickness: 2,
-                              dividerPainter: DividerPainter(
-                                backgroundColor: AppColors.highlight,
+            ),
+            child: MultiSplitView(
+              antiAliasingWorkaround: false,
+              axis: Axis.vertical,
+              minimalSize: 256,
+              children: [
+                Column(
+                  children: [
+                    const TopPanel(),
+                    linesPage,
+                  ],
+                ),
+                Column(
+                  children: [
+                    bottomPanel,
+                    Expanded(
+                      child: Row(
+                        children: [
+                          StatesList(
+                            onStateSelect: (index) {
+                              updateSelectedState(index);
+                            },
+                          ),
+                          Container(
+                            width: 2,
+                            color: AppColors.highlight,
+                          ),
+                          Expanded(
+                            child: MultiSplitViewTheme(
+                              data: MultiSplitViewThemeData(
+                                dividerThickness: 2,
+                                dividerPainter: DividerPainter(
+                                  backgroundColor: AppColors.highlight,
+                                ),
+                              ),
+                              child: BottomSplitPanel(
+                                key: commentsState,
+                                table: table,
                               ),
                             ),
-                            child: MultiSplitView(
-                              antiAliasingWorkaround: false,
-                              axis: Axis.horizontal,
-                              resizable: true,
-                              minimalSize: 256,
-                              initialWeights: const [0.7, 0.3],
-                              children: [
-                                table,
-                                StateComments(machine: widget.machine)
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

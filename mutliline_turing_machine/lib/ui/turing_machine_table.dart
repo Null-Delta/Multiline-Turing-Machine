@@ -1,41 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
-import 'package:mutliline_turing_machine/ui/state_comments.dart';
-import 'package:mutliline_turing_machine/ui/states_list.dart';
+import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import '../model/turing_machine.dart';
 import '../styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import '../styles/table_configuration.dart';
 import 'dart:developer' as developer;
 
-// ignore: must_be_immutable
 class TuringMachineTable extends StatefulWidget {
-  TuringMachineTable({Key? key, required this.machine, required this.onLoaded})
+  const TuringMachineTable({Key? key, required this.onLoaded})
       : super(key: key);
-
-  final TuringMachine machine;
-
-  late int Function() selectedRow;
-  late int Function() selectedColumn;
-  late void Function() addVariant;
-  late void Function() deleteVariant;
-
-  late void Function() changeState;
 
   final void Function(PlutoGridStateManager manager) onLoaded;
 
   @override
-  State<TuringMachineTable> createState() => _TuringMachineTableState();
+  TuringMachineTableState createState() => TuringMachineTableState();
 }
 
-class _TuringMachineTableState extends State<TuringMachineTable> {
+class TuringMachineTableState extends State<TuringMachineTable> {
+  late TuringMachine machine;
+
   List<PlutoRow> rows = [];
   List<PlutoColumn> columns = [];
 
   int selectedRow = -1;
   int selectedColumn = -1;
   int? draggingIndex;
+
+  bool needInit = true;
 
   late PlutoGridStateManager stateManager;
 
@@ -52,27 +44,22 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
 
   void addVariant() {
     int rowIndex = selectedRow == -1
-        ? widget.machine.model.stateList[widget.machine.currentStateIndex]
-            .countOfVariants
+        ? machine.model.stateList[machine.currentStateIndex].countOfVariants
         : selectedRow + 1;
 
-    widget.machine.model.addVariant(widget.machine.currentStateIndex, rowIndex);
+    machine.model.addVariant(machine.currentStateIndex, rowIndex);
 
     var row = PlutoRow(
       cells: {
-        for (int i = 0; i < widget.machine.model.countOfLines + 2; i++)
-          i == widget.machine.model.countOfLines + 1 ? "translate" : "head:$i":
+        for (int i = 0; i < machine.model.countOfLines + 2; i++)
+          i == machine.model.countOfLines + 1 ? "translate" : "head:$i":
               PlutoCell(
                   value: i == 0
                       ? "№ ${rowIndex + 1}"
-                      : i == widget.machine.model.countOfLines + 1
-                          ? "${widget.machine.model.stateList[widget.machine.currentStateIndex].variantList[rowIndex].toState}"
-                          : widget
-                              .machine
-                              .model
-                              .stateList[widget.machine.currentStateIndex]
-                              .variantList[rowIndex]
-                              .commandList[i - 1]
+                      : i == machine.model.countOfLines + 1
+                          ? "${machine.model.stateList[machine.currentStateIndex].variantList[rowIndex].toState}"
+                          : machine.model.stateList[machine.currentStateIndex]
+                              .variantList[rowIndex].commandList[i - 1]
                               .toString())
       },
     );
@@ -82,9 +69,7 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
       [row],
     );
 
-    for (int i = rowIndex + 1;
-        i < widget.machine.currentState.countOfVariants;
-        i++) {
+    for (int i = rowIndex + 1; i < machine.currentState.countOfVariants; i++) {
       stateManager.changeCellValue(rows[i].cells["head:0"]!, "№ ${i + 1}",
           force: true, notify: true);
     }
@@ -94,21 +79,23 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
       selectedColumn = 1;
     }
 
-    stateManager.setCurrentCell(
-        rows[selectedRow].cells["head:$selectedColumn"]!, selectedRow);
+    selectedColumn == machine.model.countOfLines + 1
+        ? stateManager.setCurrentCell(
+            rows[selectedRow].cells["translate"]!, selectedRow)
+        : stateManager.setCurrentCell(
+            rows[selectedRow].cells["head:$selectedColumn"]!, selectedRow);
   }
 
   void deleteVariant() {
-    if (widget.machine.currentState.countOfVariants == 1) {
+    if (machine.currentState.countOfVariants == 1) {
       return;
     }
     int rowIndex = selectedRow == -1
-        ? widget.machine.currentState.countOfVariants - 1
+        ? machine.currentState.countOfVariants - 1
         : selectedRow + 1;
 
     developer.log("$rowIndex");
-    widget.machine.model
-        .deleteVariant(widget.machine.currentStateIndex, rowIndex - 1);
+    machine.model.deleteVariant(machine.currentStateIndex, rowIndex - 1);
 
     stateManager.removeRows([rows[rowIndex - 1]]);
 
@@ -116,36 +103,18 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
       selectedRow -= 1;
     }
 
-    for (int i = selectedRow;
-        i < widget.machine.currentState.countOfVariants;
-        i++) {
+    for (int i = selectedRow; i < machine.currentState.countOfVariants; i++) {
       stateManager.changeCellValue(rows[i].cells["head:0"]!, "№ ${i + 1}",
           force: true, notify: true);
     }
 
     rows[selectedRow].setState(PlutoRowState.updated);
 
-    stateManager.setCurrentCell(
-        rows[selectedRow].cells["head:$selectedColumn"]!, selectedRow);
-  }
-
-  @override
-  void initState() {
-    widget.selectedRow = () {
-      return selectedRow;
-    };
-
-    widget.selectedColumn = () {
-      return selectedColumn;
-    };
-
-    widget.changeState = updateTableState;
-    widget.addVariant = addVariant;
-    widget.deleteVariant = deleteVariant;
-
-    super.initState();
-
-    initTable();
+    selectedColumn == machine.model.countOfLines + 1
+        ? stateManager.setCurrentCell(
+            rows[selectedRow].cells["translate"]!, selectedRow)
+        : stateManager.setCurrentCell(
+            rows[selectedRow].cells["head:$selectedColumn"]!, selectedRow);
   }
 
   void updateTableState() {
@@ -155,29 +124,26 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
     selectedRow = -1;
 
     developer.log(
-        "${widget.machine.model.stateList[widget.machine.currentStateIndex].countOfVariants}");
+        "${machine.model.stateList[machine.currentStateIndex].countOfVariants}");
 
     List<PlutoRow> newRows = [];
 
     for (int i = 0;
-        i <
-            widget.machine.model.stateList[widget.machine.currentStateIndex]
-                .countOfVariants;
+        i < machine.model.stateList[machine.currentStateIndex].countOfVariants;
         i++) {
       newRows.add(
         PlutoRow(
           cells: {
-            for (int j = 0; j < widget.machine.model.countOfLines + 2; j++)
-              j == widget.machine.model.countOfLines + 1 ? "translate" : "head:$j":
+            for (int j = 0; j < machine.model.countOfLines + 2; j++)
+              j == machine.model.countOfLines + 1 ? "translate" : "head:$j":
                   PlutoCell(
                       value: j == 0
                           ? "№ ${i + 1}"
-                          : j == widget.machine.model.countOfLines + 1
-                              ? "${widget.machine.model.stateList[widget.machine.currentStateIndex].variantList[i].toState}"
-                              : widget
-                                  .machine
+                          : j == machine.model.countOfLines + 1
+                              ? "${machine.model.stateList[machine.currentStateIndex].variantList[i].toState}"
+                              : machine
                                   .model
-                                  .stateList[widget.machine.currentStateIndex]
+                                  .stateList[machine.currentStateIndex]
                                   .variantList[i]
                                   .commandList[j - 1]
                                   .toString())
@@ -192,13 +158,13 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
   void initTable() {
     columns.clear();
     rows.clear();
-    developer.log("${widget.machine.currentStateIndex}");
+    developer.log("${machine.currentStateIndex}");
 
-    for (int i = 0; i < widget.machine.model.countOfLines + 2; i++) {
+    for (int i = 0; i < machine.model.countOfLines + 2; i++) {
       columns.add(
         PlutoColumn(
           backgroundColor: AppColors.background,
-          cellPadding: 0,
+          cellPadding: 6,
           readOnly: i == 0,
           frozen: i == 0 ? PlutoColumnFrozen.left : PlutoColumnFrozen.none,
           enableContextMenu: false,
@@ -213,36 +179,31 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
           minWidth: 64,
           title: i == 0
               ? "Варианты"
-              : i == widget.machine.model.countOfLines + 1
+              : i == machine.model.countOfLines + 1
                   ? "Переход"
                   : "Лента $i",
-          field: i == widget.machine.model.countOfLines + 1
-              ? "translate"
-              : "head:$i",
+          field: i == machine.model.countOfLines + 1 ? "translate" : "head:$i",
           type: PlutoColumnType.text(),
         ),
       );
     }
 
     for (int i = 0;
-        i <
-            widget.machine.model.stateList[widget.machine.currentStateIndex]
-                .countOfVariants;
+        i < machine.model.stateList[machine.currentStateIndex].countOfVariants;
         i++) {
       rows.add(
         PlutoRow(
           cells: {
-            for (int j = 0; j < widget.machine.model.countOfLines + 2; j++)
-              j == widget.machine.model.countOfLines + 1 ? "translate" : "head:$j":
+            for (int j = 0; j < machine.model.countOfLines + 2; j++)
+              j == machine.model.countOfLines + 1 ? "translate" : "head:$j":
                   PlutoCell(
                       value: j == 0
                           ? "№ ${i + 1}"
-                          : j == widget.machine.model.countOfLines + 1
-                              ? "${widget.machine.model.stateList[widget.machine.currentStateIndex].variantList[i].toState}"
-                              : widget
-                                  .machine
+                          : j == machine.model.countOfLines + 1
+                              ? "${machine.model.stateList[machine.currentStateIndex].variantList[i].toState}"
+                              : machine
                                   .model
-                                  .stateList[widget.machine.currentStateIndex]
+                                  .stateList[machine.currentStateIndex]
                                   .variantList[i]
                                   .commandList[j - 1]
                                   .toString())
@@ -250,62 +211,68 @@ class _TuringMachineTableState extends State<TuringMachineTable> {
         ),
       );
     }
-
-    //developer.log("cols: ${columns.length}; rows: ${rows.length}");
   }
 
   @override
   Widget build(BuildContext context) {
-    return PlutoGrid(
-      rows: rows,
-      columns: columns,
-      onChanged: (event) {
-        if (event.columnIdx! != columns.length - 1) {
-          var command = TuringCommand.parse(event.value);
-          if (command == null) {
-            stateManager.changeCellValue(
-                event.row!.cells["head:${event.columnIdx}"]!, event.oldValue,
-                callOnChangedEvent: false);
-          } else {
-            widget.machine.model.setComandInVariant(
-                widget.machine.currentStateIndex,
-                event.rowIdx!,
-                event.columnIdx! - 1,
-                command);
-            stateManager.changeCellValue(
-                event.row!.cells["head:${event.columnIdx}"]!,
-                command.toString(),
-                callOnChangedEvent: false);
-          }
-        } else {
-          var num = int.tryParse(event.value);
-          if (num != null && num >= 0) {
-            widget.machine.model.setToStateInVariant(
-                widget.machine.currentStateIndex, event.rowIdx!, num);
-          } else {
-            stateManager.changeCellValue(
-                event.row!.cells["translate"]!, event.oldValue,
-                callOnChangedEvent: false);
-          }
-        }
-      },
-      onRowsMoved: (event) {
-        widget.machine.model.replaceVariants(
-            widget.machine.currentStateIndex, draggingIndex!, event.idx!);
-        draggingIndex = null;
+    developer.log("rebuild table");
+    machine = MachineInherit.of(context)!.machine;
 
-        for (int i = 0; i < widget.machine.currentState.countOfVariants; i++) {
-          stateManager.changeCellValue(rows[i].cells["head:0"]!, "№ ${i + 1}",
-              force: true, notify: true);
-        }
-      },
-      onLoaded: (event) {
-        stateManager = event.stateManager;
-        event.stateManager.setSelectingMode(PlutoGridSelectingMode.row);
-        widget.onLoaded(event.stateManager);
-        event.stateManager.addListener(onStateUpdate);
-      },
-      configuration: tableConfiguration,
+    if (needInit) {
+      initTable();
+      needInit = false;
+    }
+
+    return Container(
+      color: AppColors.background,
+      child: PlutoGrid(
+        rows: rows,
+        columns: columns,
+        onChanged: (event) {
+          if (event.columnIdx! != columns.length - 1) {
+            var command = TuringCommand.parse(event.value);
+            if (command == null) {
+              stateManager.changeCellValue(
+                  event.row!.cells["head:${event.columnIdx}"]!, event.oldValue,
+                  callOnChangedEvent: false);
+            } else {
+              machine.model.setComandInVariant(machine.currentStateIndex,
+                  event.rowIdx!, event.columnIdx! - 1, command);
+              stateManager.changeCellValue(
+                  event.row!.cells["head:${event.columnIdx}"]!,
+                  command.toString(),
+                  callOnChangedEvent: false);
+            }
+          } else {
+            var num = int.tryParse(event.value);
+            if (num != null && num >= 0) {
+              machine.model.setToStateInVariant(
+                  machine.currentStateIndex, event.rowIdx!, num);
+            } else {
+              stateManager.changeCellValue(
+                  event.row!.cells["translate"]!, event.oldValue,
+                  callOnChangedEvent: false);
+            }
+          }
+        },
+        onRowsMoved: (event) {
+          machine.model.replaceVariants(
+              machine.currentStateIndex, draggingIndex!, event.idx!);
+          draggingIndex = null;
+
+          for (int i = 0; i < machine.currentState.countOfVariants; i++) {
+            stateManager.changeCellValue(rows[i].cells["head:0"]!, "№ ${i + 1}",
+                force: true, notify: true);
+          }
+        },
+        onLoaded: (event) {
+          stateManager = event.stateManager;
+          event.stateManager.setSelectingMode(PlutoGridSelectingMode.row);
+          widget.onLoaded(event.stateManager);
+          event.stateManager.addListener(onStateUpdate);
+        },
+        configuration: tableConfiguration,
+      ),
     );
   }
 }

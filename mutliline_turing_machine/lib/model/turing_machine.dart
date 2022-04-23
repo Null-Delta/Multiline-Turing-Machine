@@ -28,13 +28,13 @@ class LineCellModel extends ChangeNotifier {
   }
 }
 
+//класс отвечающий за состояние машины во время работы
 class ActiveState {
   int activeStateIndex = -1;
   int activeVariantIndex = -1;
 }
 
 class TuringMachine {
-
   //модель машины тьюринга
   late TuringMachineModel model;
 
@@ -71,8 +71,7 @@ class TuringMachine {
     //lineContent = [for (int i = 0; i < model.countOfLines; i++) " " * 2001];
     linePointer = [for (int i = 0; i < model.countOfLines; i++) 1000];
 
-    for(int i = 0; i < linePointer.length; i++)
-    {
+    for (int i = 0; i < linePointer.length; i++) {
       lineContent[i][linePointer[i]].setActive(true);
     }
     activator = MachineEngine(this);
@@ -107,45 +106,54 @@ class TuringMachine {
       symbol == predicate ||
       (predicate == "_" && symbol == " ");
 
-  //ставит символ на ленту и смещает указатель вправо
+  //ставит символ на ленту
   void setSymbol(int lineIndex, String symbol) {
     var inputSymbol = symbol == "_" || symbol == "*" ? " " : symbol;
     lineContent[lineIndex][linePointer[lineIndex]].setSymbol(inputSymbol);
+  }
 
-    //moveLine(lineIndex, 1);
+  //ставит символ на ленту и смещает указатель вправо
+  void writeSymbol(int lineIndex, String symbol) {
+    lineContent[lineIndex][linePointer[lineIndex]].setSymbol(symbol);
+    moveLine(lineIndex, 1);
+  }
+
+  //очищает текуший символ ленты и сдвигает указатель влево
+  void clearSymbol(int lineIndex) {
+    lineContent[lineIndex][linePointer[lineIndex]].setSymbol(" ");
+    moveLine(lineIndex, -1);
   }
 
   void setActive(int lineIndex, bool isActive) {
     lineContent[lineIndex][linePointer[lineIndex]].setActive(isActive);
   }
 
-  void setFocus(int lineIndex) {
-    focusedLine = lineIndex;
-    for(int i = 0; i < linePointer.length; i++)
-    {
-      lineContent[i][linePointer[i]].setFocus(false);
+  void setFocus(int lineIndex, bool isFocus) {
+    if (isFocus) {
+      focusedLine = lineIndex;
+      // for (int i = 0; i < linePointer.length; i++) {
+      //   lineContent[i][linePointer[i]].setFocus(false);
+      // }
+      lineContent[lineIndex][linePointer[lineIndex]].setFocus(true);
+    } else {
+      focusedLine = -1;
+      lineContent[lineIndex][linePointer[lineIndex]].setFocus(false);
     }
-    lineContent[lineIndex][linePointer[lineIndex]].setFocus(true);
-  } 
-
-  //очищает текуший символ ленты и сдвигает указатель влево
-  void clearSymbol(int lineIndex) {
-    var contentIndex = linePointer[lineIndex];
-    lineContent[lineIndex][contentIndex].setSymbol(" ");
-    moveLine(lineIndex, -1);
   }
 
   //сдвигает головку ленты и делает ячейку под ней активной
   void moveLine(int lineIndex, int offset) {
-
-    if(lineIndex == focusedLine) {
-      lineContent[focusedLine][linePointer[focusedLine]].setFocus(false);
-      lineContent[focusedLine][linePointer[focusedLine] + offset].setFocus(true);
+    if (lineIndex == focusedLine) {
+      setFocus(lineIndex, false);
+      setActive(lineIndex, false);
+      linePointer[lineIndex] += offset;
+      setFocus(lineIndex, true);
+      setActive(lineIndex, true);
+    } else {
+      setActive(lineIndex, false);
+      linePointer[lineIndex] += offset;
+      setActive(lineIndex, true);
     }
-
-    setActive(lineIndex, false);
-    linePointer[lineIndex] += offset;
-    setActive(lineIndex, true);
   }
 
   //выполняет шаг и возвращает сообщение, информирующее о корректности

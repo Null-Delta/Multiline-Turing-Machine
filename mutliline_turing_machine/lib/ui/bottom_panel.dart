@@ -5,33 +5,41 @@ import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
+import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import '../styles/app_colors.dart';
 
 // ignore: must_be_immutable
 class BottomPanel extends StatefulWidget {
   BottomPanel(
       {Key? key,
-      required this.machine,
       required this.onAddVariant,
       required this.onDeleteVariant,
       required this.onAddState,
-      required this.onDeleteState})
+      required this.onDeleteState,
+      required this.onMakeStep,
+      required this.onCommentsShow})
       : super(key: key);
-  final TuringMachine machine;
   PlutoGridStateManager? tableManager;
   void Function() onAddVariant;
   void Function() onDeleteVariant;
   void Function() onAddState;
   void Function() onDeleteState;
+  void Function() onMakeStep;
+  void Function() onCommentsShow;
 
   @override
   State<BottomPanel> createState() => _BottomPanelState();
 }
 
 class _BottomPanelState extends State<BottomPanel> {
+  late TuringMachine machine;
+
   static const double iconSize = 28;
+
   @override
   Widget build(BuildContext context) {
+    machine = MachineInherit.of(context)!.machine;
+
     return Column(
       children: [
         Container(
@@ -117,12 +125,17 @@ class _BottomPanelState extends State<BottomPanel> {
               const SizedBox(
                 width: 6,
               ),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                ),
+              ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Debug",
                 child: ElevatedButton(
                   onPressed: () {
-                    log(widget.machine.model.info());
+                    log(machine.model.info());
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -139,7 +152,7 @@ class _BottomPanelState extends State<BottomPanel> {
                 message: "Debug 2",
                 child: ElevatedButton(
                   onPressed: () {
-                    log(widget.machine.info());
+                    log(machine.info());
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -156,7 +169,8 @@ class _BottomPanelState extends State<BottomPanel> {
                 message: "Make step",
                 child: ElevatedButton(
                   onPressed: () {
-                    log(widget.machine.makeStep());
+                    widget.onMakeStep();
+                    //log(widget.machine.makeStep());
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -168,22 +182,30 @@ class _BottomPanelState extends State<BottomPanel> {
                   style: appButtonStyle,
                 ),
               ),
+              const SizedBox(
+                width: 6,
+              ),
+              Container(
+                color: AppColors.highlight,
+                width: 2,
+                height: 16,
+              ),
+              const SizedBox(
+                width: 6,
+              ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
-                message: "Start/Stop Machine",
+                message: "Комментарии",
                 child: ElevatedButton(
                   onPressed: () {
-                    if (!widget.machine.activator.isActive){
-                      widget.machine.activator.startMachine(3);
-                    } else {
-                      widget.machine.activator.stopMachine();
-                    }
+                    widget.onCommentsShow();
                   },
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.help,
+                      color: AppColors.text,
+                      image: AppImages.happy,
                     ),
                   ),
                   style: appButtonStyle,
