@@ -70,7 +70,9 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "О приложении",
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    //вызов нового окна поверх.
+                  },
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,
