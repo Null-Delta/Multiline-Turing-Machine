@@ -26,6 +26,7 @@ class _TopPanelState extends State<TopPanel> {
   @override
   Widget build(BuildContext context) {
     machine = MachineInherit.of(context)!.machine;
+    var tableState = MachineInherit.of(context)!.tableState;
     linePagesState = MachineInherit.of(context)!.linesPageState;
     return Column(
       children: [
@@ -121,8 +122,8 @@ class _TopPanelState extends State<TopPanel> {
                       linePagesState.currentState?.setState(() {
                         MachineInherit.of(context)!.lineFocus.add(FocusNode());
                       });
+                      tableState.currentState!.addLine();
                     }
-                    
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -143,6 +144,7 @@ class _TopPanelState extends State<TopPanel> {
                       linePagesState.currentState?.setState(() {
                         MachineInherit.of(context)!.lineFocus.removeLast();
                       });
+                      tableState.currentState!.deleteLine();
                     }
                   },
                   child: const SizedBox(

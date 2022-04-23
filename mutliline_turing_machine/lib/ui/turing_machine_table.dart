@@ -156,6 +156,10 @@ class TuringMachineTableState extends State<TuringMachineTable> {
     }
   }
 
+  void deleteLine() {
+    stateManager.removeColumns([columns[columns.length - 2]]);
+  }
+
   void updateTableState() {
     stateManager.removeRows(rows);
     stateManager.clearCurrentCell();
