@@ -29,7 +29,7 @@ class LineState extends State<Line> {
   ItemScrollController control = ItemScrollController();
 
   scroll() {
-    log("scrooooooooool: ${machine.linePointer[widget.index]}");
+    //log("scrooooooooool: ${machine.linePointer[widget.index]}");
     control.scrollTo(
         index: machine.linePointer[widget.index],
         alignment: 0.5,
@@ -104,18 +104,22 @@ class LineState extends State<Line> {
         alignment: Alignment.center,
         child: Focus(
           onFocusChange: (value) {
-            
             setState(() {
               machine.setFocus(widget.index, value);
             });
           },
           focusNode: focus,
           onKey: (node, event) {
-            if(event.isKeyPressed(LogicalKeyboardKey.backspace)) {
+            if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
+              machine.moveLine(widget.index, event.isShiftPressed ? 4 : 1);
+              scroll();
+            } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft)) {
+              machine.moveLine(widget.index, event.isShiftPressed ? -4 : -1);
+              scroll();
+            } else if (event.isKeyPressed(LogicalKeyboardKey.backspace)) {
               machine.clearSymbol(widget.index);
               scroll();
-            } 
-            else if(event.character != null) {
+            } else if (event.character != null) {
               machine.writeSymbol(widget.index, event.character!);
               scroll();
             }
