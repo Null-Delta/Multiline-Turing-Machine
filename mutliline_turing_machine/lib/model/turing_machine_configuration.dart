@@ -40,6 +40,7 @@ class TuringMachineConfiguration {
   void addLine() {
     linePointer.add(1000);
     lineContent.add(List.generate(2001, (_) => LineCellModel()));
+    lineContent.last[linePointer.last].setActive(true);
   }
 
   void deleteLine() {

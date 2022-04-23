@@ -70,7 +70,7 @@ class _MainWidgetState extends State<MainWidget> {
     },
   );
 
-  final GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
+  
 
   late var bottomPanel = BottomPanel(
     onAddVariant: () {
@@ -116,11 +116,14 @@ class _MainWidgetState extends State<MainWidget> {
     },
   );
 
-  late var linesPage = LinesPage(key: linePagesState);
 
+  
+
+  
   void onScroll() {
     linePagesState.currentState!.onScroll();
   }
+
 
   void updateSelectedState(int newState) {
     setState(() {
@@ -133,6 +136,8 @@ class _MainWidgetState extends State<MainWidget> {
   FocusNode linesPageFocus = FocusNode();
   FocusNode commentsFocus = FocusNode();
 
+  final GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
+  
   @override
   Widget build(BuildContext context) {
     log("rebuilding");
@@ -145,6 +150,7 @@ class _MainWidgetState extends State<MainWidget> {
             FocusNode()
         ],
         commentsFocus: commentsFocus,
+        linesPageState: linePagesState,
         child: Center(
           child: MultiSplitViewTheme(
             data: MultiSplitViewThemeData(
@@ -161,7 +167,7 @@ class _MainWidgetState extends State<MainWidget> {
                 Column(
                   children: [
                     const TopPanel(),
-                    linesPage,
+                    LinesPage(key: linePagesState),
                   ],
                 ),
                 Column(

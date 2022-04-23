@@ -1,10 +1,5 @@
-import 'dart:async';
 import 'dart:developer';
-
-import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/machine_engine.dart';
-import 'configurations.dart';
-import 'line_cell_model.dart';
 import 'turing_machine_configuration.dart';
 import 'turing_machine_model.dart';
 
@@ -32,14 +27,22 @@ class TuringMachine {
     activator = MachineEngine(this);
   }
 
-  void addLine() {
+  bool addLine() {
+    if (model.countOfLines >= 16) {
+      return false;
+    }
     configuration.addLine();
     model.addLine();
+    return true;
   }
 
-  void deleteLine() {
+  bool deleteLine() {
+    if (model.countOfLines <= 0) {
+      return false;
+    }
     configuration.deleteLine();
     model.deleteLine();
+    return true;
   }
 
   //выполняет шаг и возвращает сообщение, информирующее о корректности

@@ -1,12 +1,18 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import '../styles/app_colors.dart';
+import 'lines_page.dart';
 
+// ignore: must_be_immutable
 class TopPanel extends StatefulWidget {
-  const TopPanel({Key? key}) : super(key: key);
+  const TopPanel({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<TopPanel> createState() => _TopPanelState();
@@ -15,10 +21,12 @@ class TopPanel extends StatefulWidget {
 class _TopPanelState extends State<TopPanel> {
   static const double iconSize = 28;
   late TuringMachine machine;
+  late GlobalKey<LinesPageState> linePagesState;
 
   @override
   Widget build(BuildContext context) {
     machine = MachineInherit.of(context)!.machine;
+    linePagesState = MachineInherit.of(context)!.linesPageState;
     return Column(
       children: [
         Container(
@@ -94,6 +102,54 @@ class _TopPanelState extends State<TopPanel> {
                     height: iconSize,
                     child: Image(
                       image: AppImages.help,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Добавить ленту",
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (machine.addLine()) {
+                      linePagesState.currentState?.setState(() {
+                        MachineInherit.of(context)!.lineFocus.add(FocusNode());
+                      });
+                    }
+                    
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.addVariantTop,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Удалить ленту",
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (machine.deleteLine()) {
+                      linePagesState.currentState?.setState(() {
+                        MachineInherit.of(context)!.lineFocus.removeLast();
+                      });
+                    }
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.deleteVariant,
                     ),
                   ),
                   style: appButtonStyle,

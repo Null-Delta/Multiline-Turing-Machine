@@ -47,7 +47,7 @@ class LineState extends State<Line> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       control.jumpTo(
-          index: cellCount ~/ 2, alignment: 0.5, myIndent: _widthOfCell / 2);
+          index: machine.configuration.linePointer[widget.index], alignment: 0.5, myIndent: _widthOfCell / 2);
     });
   }
 
@@ -56,7 +56,7 @@ class LineState extends State<Line> {
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.only(left: 1000, right: 1000),
       itemCount: cellCount,
-      initialScrollIndex: 1000,
+      initialScrollIndex: machine.configuration.linePointer[widget.index],
       itemBuilder: (context, index) {
         return Stack(
           children: [
