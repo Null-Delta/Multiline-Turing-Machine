@@ -31,7 +31,7 @@ class LineState extends State<Line> {
   scroll() {
     //log("scrooooooooool: ${machine.linePointer[widget.index]}");
     control.scrollTo(
-        index: machine.linePointer[widget.index],
+        index: machine.configuration.linePointer[widget.index],
         alignment: 0.5,
         myIndent: _widthOfCell / 2,
         duration: const Duration(milliseconds: 100));
@@ -59,7 +59,7 @@ class LineState extends State<Line> {
         return Stack(
           children: [
             ChangeNotifierProvider.value(
-              value: machine.lineContent[widget.index][index],
+              value: machine.configuration.lineContent[widget.index][index],
               child: LineCell(
                 lineIndex: widget.index,
                 index: index,
@@ -91,7 +91,7 @@ class LineState extends State<Line> {
     focus = MachineInherit.of(context)!.lineFocus[widget.index];
     if (control.isAttached) {
       control.jumpTo(
-          index: machine.linePointer[widget.index],
+          index: machine.configuration.linePointer[widget.index],
           alignment: 0.5,
           myIndent: _widthOfCell / 2);
     }
@@ -105,22 +105,22 @@ class LineState extends State<Line> {
         child: Focus(
           onFocusChange: (value) {
             setState(() {
-              machine.setFocus(widget.index, value);
+              machine.configuration.setFocus(widget.index, value);
             });
           },
           focusNode: focus,
           onKey: (node, event) {
             if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
-              machine.moveLine(widget.index, event.isShiftPressed ? 4 : 1);
+              machine.configuration.moveLine(widget.index, event.isShiftPressed ? 4 : 1);
               scroll();
             } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft)) {
-              machine.moveLine(widget.index, event.isShiftPressed ? -4 : -1);
+              machine.configuration.moveLine(widget.index, event.isShiftPressed ? -4 : -1);
               scroll();
             } else if (event.isKeyPressed(LogicalKeyboardKey.backspace)) {
-              machine.clearSymbol(widget.index);
+              machine.configuration.clearSymbol(widget.index);
               scroll();
             } else if (event.character != null) {
-              machine.writeSymbol(widget.index, event.character!);
+              machine.configuration.writeSymbol(widget.index, event.character!);
               scroll();
             }
 

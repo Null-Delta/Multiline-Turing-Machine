@@ -1,37 +1,12 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-
+import 'package:mutliline_turing_machine/model/machine_engine.dart';
+import 'configurations.dart';
+import 'line_cell_model.dart';
+import 'turing_machine_configuration.dart';
 import 'turing_machine_model.dart';
-
-class Configuration {
-  List<String> lines = [];
-  List<int> pointers = [];
-  int get countOfLines => lines.length;
-  Configuration(this.lines, this.pointers);
-}
-
-class LineCellModel extends ChangeNotifier {
-  LineCellModel({this.symbol = " "});
-  String symbol;
-  bool isActive = false;
-  bool isFocus = false;
-
-  void setSymbol(String symbol) {
-    this.symbol = symbol;
-    notifyListeners();
-  }
-
-  void setActive(bool isActive) {
-    this.isActive = isActive;
-    notifyListeners();
-  }
-
-  void setFocus(bool isFocus) {
-    this.isFocus = isFocus;
-    notifyListeners();
-  }
-}
 
 //класс отвечающий за состояние машины во время работы
 class ActiveState {
@@ -42,125 +17,29 @@ class ActiveState {
 class TuringMachine {
   //модель машины тьюринга
   late TuringMachineModel model;
+  late TuringMachineConfiguration configuration;
 
-  //содержимое лент
-  late List<List<LineCellModel>> lineContent;
+  TuringMachineState get currentState =>
+      model.stateList[configuration.currentStateIndex];
 
-  //индексы указателей на активные ячейки лент
-  late List<int> linePointer;
-
-  //
-  late int focusedLine = -1;
-  //текущее активное состояние
-  late int currentStateIndex;
-
-  //текущий обрабатываемый вариант
-  late int currentVatiantIndex;
-
-  //множество конфигураций, пройденные машиной
-  late Set<Configuration> passedConfigurations;
-
-  ActiveState activeState = ActiveState();
-
-  TuringMachineState get currentState => model.stateList[currentStateIndex];
-
-  bool get isWorking => currentStateIndex != 1;
+  // класс, отвечающий за автоматическую работу машины
+  late MachineEngine activator;
 
   TuringMachine(TuringMachineModel m) {
     model = m;
-    lineContent = [];
-    for (int i = 0; i < model.countOfLines; i++) {
-      lineContent.add([]);
-      for (int j = 0; j < 2000; j++) {
-        lineContent[i].add(LineCellModel());
-      }
-    }
-    //lineContent = [for (int i = 0; i < model.countOfLines; i++) " " * 2001];
-    linePointer = [for (int i = 0; i < model.countOfLines; i++) 1000];
+    configuration = TuringMachineConfiguration(model.countOfLines);
 
-    for (int i = 0; i < linePointer.length; i++) {
-      lineContent[i][linePointer[i]].setActive(true);
-    }
-
-    currentStateIndex = 0;
-    currentVatiantIndex = -1;
-  }
-
-  void clearLine(lineIndex) {
-    //lineContent[lineIndex] = " " * 2001;
-    linePointer[lineIndex] = 1000;
+    activator = MachineEngine(this);
   }
 
   void addLine() {
-    //lineContent.add(" " * 2001);
-    linePointer.add(1000);
+    configuration.addLine();
     model.addLine();
   }
 
   void deleteLine() {
-    lineContent.removeLast();
-    linePointer.removeLast();
+    configuration.deleteLine();
     model.deleteLine();
-  }
-
-  //Возвращает символ ленты на месте указателя
-  String getSymbol(int lineIndex) {
-    return lineContent[lineIndex][linePointer[lineIndex]].symbol;
-  }
-
-  bool checkSymbol(String symbol, String predicate) =>
-      predicate == "*" ||
-      symbol == predicate ||
-      (predicate == "_" && symbol == " ");
-
-  //ставит символ на ленту
-  void setSymbol(int lineIndex, String symbol) {
-    var inputSymbol = symbol == "_" ? " " : symbol;
-    lineContent[lineIndex][linePointer[lineIndex]].setSymbol(inputSymbol);
-  }
-
-  //ставит символ на ленту и смещает указатель вправо
-  void writeSymbol(int lineIndex, String symbol) {
-    lineContent[lineIndex][linePointer[lineIndex]].setSymbol(symbol);
-    moveLine(lineIndex, 1);
-  }
-
-  //очищает текуший символ ленты и сдвигает указатель влево
-  void clearSymbol(int lineIndex) {
-    lineContent[lineIndex][linePointer[lineIndex]].setSymbol(" ");
-    moveLine(lineIndex, -1);
-  }
-
-  void setActive(int lineIndex, bool isActive) {
-    lineContent[lineIndex][linePointer[lineIndex]].setActive(isActive);
-  }
-
-  void setFocus(int lineIndex, bool isFocus) {
-    if (isFocus) {
-      focusedLine = lineIndex;
-      // for (int i = 0; i < linePointer.length; i++) {
-      //   lineContent[i][linePointer[i]].setFocus(false);
-      // }
-      lineContent[lineIndex][linePointer[lineIndex]].setFocus(true);
-    } else {
-      focusedLine = -1;
-      lineContent[lineIndex][linePointer[lineIndex]].setFocus(false);
-    }
-  }
-
-  //сдвигает головку ленты и делает ячейку под ней активной
-  void moveLine(int lineIndex, int offset) {
-    if (lineIndex == focusedLine) {
-      setFocus(lineIndex, false);
-      setActive(lineIndex, false);
-      linePointer[lineIndex] += offset;
-      setFocus(lineIndex, true);
-      setActive(lineIndex, true);
-    } else {
-      setActive(lineIndex, false);
-      linePointer[lineIndex] += offset;
-      setActive(lineIndex, true);
-    }
   }
 
   //выполняет шаг и возвращает сообщение, информирующее о корректности
@@ -176,55 +55,62 @@ class TuringMachine {
 
       for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
         var currentCommand = currentVariant.commandList[lineIndex];
-        if (!checkSymbol(getSymbol(lineIndex), currentCommand.input)) {
+        if (!configuration.checkSymbol(
+            configuration.getSymbol(lineIndex), currentCommand.input)) {
           isSuitable = false;
           break;
         }
       }
       if (isSuitable) {
-        currentVatiantIndex = variantIndex;
-        activeState.activeVariantIndex = currentVatiantIndex;
+        configuration.currentVatiantIndex = variantIndex;
+        configuration.activeState.activeVariantIndex =
+            configuration.currentVatiantIndex;
         if (currentVariant.toState >= model.stateList.length) {
+          if (activator.isActive) {
+            activator.stopMachine();
+          }
           return "Состояние ${currentVariant.toState} не найдено.";
         }
         for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
           var currentCommand = currentVariant.commandList[lineIndex];
-          setSymbol(lineIndex, currentCommand.output);
+          configuration.setSymbol(lineIndex, currentCommand.output);
           switch (currentCommand.moveType) {
             case "<":
-              moveLine(lineIndex, -1);
+              configuration.moveLine(lineIndex, -1);
               break;
             case ">":
-              moveLine(lineIndex, 1);
+              configuration.moveLine(lineIndex, 1);
               break;
             default:
               break;
           }
         }
-        currentStateIndex = currentVariant.toState;
-        activeState.activeStateIndex = currentStateIndex;
+        configuration.currentStateIndex = currentVariant.toState;
+        if (currentVariant.toState == -1) {
+          if (activator.isActive) {
+            activator.stopMachine();
+          }
+        }
+        configuration.activeState.activeStateIndex =
+            configuration.currentStateIndex;
         log(info());
         return "";
       }
     }
-    currentVatiantIndex = -1;
+    configuration.currentVatiantIndex = -1;
+    if (activator.isActive) {
+      activator.stopMachine();
+    }
     return "Не найден текущий вариант.";
-  }
-
-  void stopMachine() {
-    currentStateIndex = 0;
-    currentVatiantIndex = -1;
-    activeState.activeStateIndex = -1;
-    activeState.activeVariantIndex = -1;
   }
 
   String info() {
     var result = "";
     for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
-      for (int index = linePointer[lineIndex] - 8;
-          index <= linePointer[lineIndex] + 8;
+      for (int index = configuration.linePointer[lineIndex] - 8;
+          index <= configuration.linePointer[lineIndex] + 8;
           index++) {
-        result += lineContent[lineIndex][index].symbol;
+        result += configuration.lineContent[lineIndex][index].symbol;
       }
       result += "\n";
     }

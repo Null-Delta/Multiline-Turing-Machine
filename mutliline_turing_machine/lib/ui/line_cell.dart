@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
+import '../model/line_cell_model.dart';
 import '../styles/app_colors.dart';
 
 class LineCell extends StatefulWidget {
@@ -20,7 +21,6 @@ class LineCell extends StatefulWidget {
 class _LineCellState extends State<LineCell> {
   late TuringMachine machine;
   late FocusNode lineFocus;
-
 
   @override
   Widget build(BuildContext build) {

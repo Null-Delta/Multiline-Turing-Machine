@@ -17,6 +17,7 @@ class BottomPanel extends StatefulWidget {
       required this.onAddState,
       required this.onDeleteState,
       required this.onMakeStep,
+      required this.onStartStopWork,
       required this.onCommentsShow})
       : super(key: key);
   PlutoGridStateManager? tableManager;
@@ -25,6 +26,7 @@ class BottomPanel extends StatefulWidget {
   void Function() onAddState;
   void Function() onDeleteState;
   void Function() onMakeStep;
+  void Function() onStartStopWork;
   void Function() onCommentsShow;
 
   @override
@@ -171,6 +173,23 @@ class _BottomPanelState extends State<BottomPanel> {
                   onPressed: () {
                     widget.onMakeStep();
                     //log(widget.machine.makeStep());
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.help,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Start/stop machine",
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.onStartStopWork();
                   },
                   child: const SizedBox(
                     width: iconSize,
