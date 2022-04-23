@@ -38,46 +38,41 @@ class LinesPageState extends State<LinesPage> {
   bool isInFocus = false;
   int tapCount = 0;
 
-  late FocusNode focus;
+  late FocusNode focus = FocusNode();
   @override
   Widget build(BuildContext context) {
     machine = MachineInherit.of(context)!.machine;
-    focus = MachineInherit.of(context)!.linesPageFocus;
+    //focus = MachineInherit.of(context)!.linesPageFocus;
 
     return Expanded(
-      child: GestureDetector(
-        excludeFromSemantics: false,
-        onTap: () {
-          if (!focus.hasFocus) {
-            focus.requestFocus();
-          }
-        },
-        //TODO: Сделать отдельный фокус на каждой ленте
-        child: Focus(
-          focusNode: focus,
-          onFocusChange: (value) {
-            tapCount = 0;
-            setState(() {
-              isInFocus = value;
-            });
-          },
-          canRequestFocus: true,
-          descendantsAreFocusable: false,
-          onKey: (node, event) {
-            if (event.isKeyPressed(LogicalKeyboardKey.arrowDown) || event.isKeyPressed(LogicalKeyboardKey.tab)) {
-              tapCount++;
-            } else if (event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
-              tapCount--;
-            }
+      
+      
+        
+        // child: Focus(
+        //   focusNode: focus,
+        //   onFocusChange: (value) {
+        //     tapCount = 0;
+        //     setState(() {
+        //       isInFocus = value;
+        //     });
+        //   },
+        //   canRequestFocus: true,
+        //   descendantsAreFocusable: false,
+        //   onKey: (node, event) {
+        //     if (event.isKeyPressed(LogicalKeyboardKey.arrowDown) || event.isKeyPressed(LogicalKeyboardKey.tab)) {
+        //       tapCount++;
+        //     } else if (event.isKeyPressed(LogicalKeyboardKey.arrowUp)) {
+        //       tapCount--;
+        //     }
 
-            if (tapCount >= machine.model.countOfLines || tapCount < 0) {
-              tapCount = machine.model.countOfLines - 1;
-              return KeyEventResult.ignored;
-            }
-             else {
-              return KeyEventResult.skipRemainingHandlers;
-            }
-          },
+        //     if (tapCount >= machine.model.countOfLines || tapCount < 0) {
+        //       tapCount = machine.model.countOfLines - 1;
+        //       return KeyEventResult.ignored;
+        //     }
+        //      else {
+        //       return KeyEventResult.skipRemainingHandlers;
+        //     }
+        //   },
           child: Container(
             height: double.infinity,
             decoration: BoxDecoration(
@@ -91,8 +86,8 @@ class LinesPageState extends State<LinesPage> {
               children: lines,
             ),
           ),
-        ),
-      ),
-    );
+        );
+     // ),
+    
   }
 }

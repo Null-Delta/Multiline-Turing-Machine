@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
+import 'package:mutliline_turing_machine/styles/app_colors.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
 import '../scrollAbleList/scrollable_positioned_list.dart';
@@ -20,9 +21,11 @@ class LineState extends State<Line> {
   static const double _widthOfCell = 28;
   static const double _widthOfSeparator = 4;
 
-  final FocusNode focusNode = FocusNode();
-
   late TuringMachine machine;
+  late FocusNode focus;
+
+  int cellCount = 2001;
+  ItemScrollController control = ItemScrollController();
 
   scroll() {
     log("scrooooooooool: ${machine.linePointer[widget.index]}");
@@ -37,8 +40,14 @@ class LineState extends State<Line> {
     //     myIndent: _widthOfCell / 2);
   }
 
-  int cellCount = 2001;
-  ItemScrollController control = ItemScrollController();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      control.jumpTo(
+          index: cellCount ~/ 2, alignment: 0.5, myIndent: _widthOfCell / 2);
+    });
+  }
 
   late var line = ScrollablePositionedList.separated(
       itemScrollController: control,
@@ -75,21 +84,10 @@ class LineState extends State<Line> {
         return const SizedBox(width: _widthOfSeparator);
       });
 
-  //late LineCellModel item;
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      control.jumpTo(
-          index: cellCount ~/ 2, alignment: 0.5, myIndent: _widthOfCell / 2);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     machine = MachineInherit.of(context)!.machine;
+    focus = MachineInherit.of(context)!.lineFocus[widget.index];
     if (control.isAttached) {
       control.jumpTo(
           index: machine.linePointer[widget.index],
@@ -97,10 +95,24 @@ class LineState extends State<Line> {
           myIndent: _widthOfCell / 2);
     }
 
-    return Align(
-      alignment: Alignment.center,
-      child: SizedBox(
-          width: MediaQuery.of(context).size.width, height: 67, child: line),
+    return GestureDetector(
+      onTap: () {
+        focus.requestFocus();
+      },
+      child: Align(
+        alignment: Alignment.center,
+        child: Focus(
+          onFocusChange: (value) {
+            machine.setFocus(widget.index, value);
+          },
+          focusNode: focus,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 67,
+            child: line,
+          ),
+        ),
+      ),
     );
   }
 }

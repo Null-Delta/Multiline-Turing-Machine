@@ -129,7 +129,7 @@ class _MainWidgetState extends State<MainWidget> {
       backgroundColor: AppColors.background,
       body: MachineInherit(
         machine: widget.machine,
-        linesPageFocus: linesPageFocus,
+        lineFocus: [for(int i = 0; i < widget.machine.model.countOfLines; i++) FocusNode()],
         child: Center(
           child: MultiSplitViewTheme(
             data: MultiSplitViewThemeData(

@@ -18,27 +18,19 @@ class LineCell extends StatefulWidget {
 }
 
 class _LineCellState extends State<LineCell> {
-  final FocusNode focusNode = FocusNode();
-  late FocusAttachment _focusAttachment;
   late TuringMachine machine;
+  late FocusNode lineFocus;
 
-  @override
-  void dispose() {
-    focusNode.dispose();
-    super.dispose();
-  }
 
-  late FocusNode parentFocus;
   @override
   Widget build(BuildContext build) {
     machine = MachineInherit.of(context)!.machine;
-    parentFocus = MachineInherit.of(context)!.linesPageFocus;
+    lineFocus = MachineInherit.of(context)!.lineFocus[widget.lineIndex];
 
     return Consumer<LineCellModel>(builder: (_, value, __) {
       return GestureDetector(
         onTap: () {
-          machine.setFocus(widget.lineIndex);
-          parentFocus.requestFocus();
+          lineFocus.requestFocus();
         },
         child: Align(
           alignment: const Alignment(0.0, 0.0),

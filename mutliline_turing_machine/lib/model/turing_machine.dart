@@ -125,12 +125,17 @@ class TuringMachine {
     lineContent[lineIndex][linePointer[lineIndex]].setActive(isActive);
   }
 
-  void setFocus(int lineIndex) {
-    focusedLine = lineIndex;
-    for (int i = 0; i < linePointer.length; i++) {
-      lineContent[i][linePointer[i]].setFocus(false);
+  void setFocus(int lineIndex, bool isFocus) {
+    if (isFocus) {
+      focusedLine = lineIndex;
+      for (int i = 0; i < linePointer.length; i++) {
+        lineContent[i][linePointer[i]].setFocus(false);
+      }
+      lineContent[lineIndex][linePointer[lineIndex]].setFocus(true);
+    } else {
+      focusedLine = -1;
+      lineContent[lineIndex][linePointer[lineIndex]].setFocus(false);
     }
-    lineContent[lineIndex][linePointer[lineIndex]].setFocus(true);
   }
 
   //очищает текуший символ ленты и сдвигает указатель влево
@@ -143,7 +148,7 @@ class TuringMachine {
   //сдвигает головку ленты и делает ячейку под ней активной
   void moveLine(int lineIndex, int offset) {
     if (lineIndex == focusedLine) {
-      lineContent[focusedLine][linePointer[focusedLine]].setFocus(false);
+      setFocus(lineIndex, false);
       lineContent[focusedLine][linePointer[focusedLine] + offset]
           .setFocus(true);
     }
