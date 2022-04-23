@@ -31,6 +31,7 @@ class _StateCommentsState extends State<StateComments> {
   @override
   Widget build(BuildContext context) {
     machine = MachineInherit.of(context)!.machine;
+    var commentsFocus = MachineInherit.of(context)!.commentsFocus;
 
     textController.addListener(onEditing);
     return Column(
@@ -64,10 +65,15 @@ class _StateCommentsState extends State<StateComments> {
                     isFirstLine()) {
                   FocusScope.of(context)
                       .focusInDirection(TraversalDirection.up);
+                } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft) &&
+                    textController.selection.start == 0) {
+                  FocusScope.of(context)
+                      .focusInDirection(TraversalDirection.left);
                 }
                 return KeyEventResult.ignored;
               },
               child: TextFormField(
+                focusNode: commentsFocus,
                 controller: textController,
                 onChanged: (newValue) {
                   machine.model.description = newValue;

@@ -33,8 +33,9 @@ class LineState extends State<Line> {
     control.scrollTo(
         index: machine.configuration.linePointer[widget.index],
         alignment: 0.5,
+        curve: Curves.easeInOut,
         myIndent: _widthOfCell / 2,
-        duration: const Duration(milliseconds: 100));
+        duration: const Duration(milliseconds: 200));
     // control.jumpTo(
     //     index: widget.machine.linePointer[widget.index],
     //     alignment: 0.5,
@@ -53,8 +54,9 @@ class LineState extends State<Line> {
   late var line = ScrollablePositionedList.separated(
       itemScrollController: control,
       scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.only(left: 1000, right: 1000),
       itemCount: cellCount,
-      initialScrollIndex: 0,
+      initialScrollIndex: 1000,
       itemBuilder: (context, index) {
         return Stack(
           children: [
@@ -113,19 +115,25 @@ class LineState extends State<Line> {
             if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
               machine.configuration.moveLine(widget.index, 1);
               scroll();
+              return KeyEventResult.skipRemainingHandlers;
             } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft)) {
               machine.configuration.moveLine(widget.index, -1);
               scroll();
+              return KeyEventResult.skipRemainingHandlers;
             } else if (event.isKeyPressed(LogicalKeyboardKey.backspace)) {
               machine.configuration.clearSymbol(widget.index);
               scroll();
-            } else if (event.character != null && event.character != "_" && event.character != "*"
-                && !event.isKeyPressed(LogicalKeyboardKey.arrowUp) && !event.isKeyPressed(LogicalKeyboardKey.arrowDown)
-                && !event.isKeyPressed(LogicalKeyboardKey.tab) && !event.isKeyPressed(LogicalKeyboardKey.enter)) {
+              return KeyEventResult.skipRemainingHandlers;
+            } else if (event.character != null &&
+                event.character != "_" &&
+                event.character != "*" &&
+                !event.isKeyPressed(LogicalKeyboardKey.arrowUp) &&
+                !event.isKeyPressed(LogicalKeyboardKey.arrowDown) &&
+                !event.isKeyPressed(LogicalKeyboardKey.tab) &&
+                !event.isKeyPressed(LogicalKeyboardKey.enter)) {
               machine.configuration.writeSymbol(widget.index, event.character!);
               scroll();
             }
-            
 
             return KeyEventResult.ignored;
           },

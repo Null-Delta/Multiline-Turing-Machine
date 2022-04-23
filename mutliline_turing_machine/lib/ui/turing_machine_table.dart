@@ -8,10 +8,14 @@ import '../styles/table_configuration.dart';
 import 'dart:developer' as developer;
 
 class TuringMachineTable extends StatefulWidget {
-  const TuringMachineTable({Key? key, required this.onLoaded})
+  const TuringMachineTable(
+      {Key? key, required this.onLoaded, this.topFocus, this.rightFocus})
       : super(key: key);
 
   final void Function(PlutoGridStateManager manager) onLoaded;
+
+  final FocusNode? topFocus;
+  final FocusNode? rightFocus;
 
   @override
   TuringMachineTableState createState() => TuringMachineTableState();
@@ -240,6 +244,8 @@ class TuringMachineTableState extends State<TuringMachineTable> {
       child: PlutoGrid(
         rows: rows,
         columns: columns,
+        topFocus: widget.topFocus,
+        rightFocus: widget.rightFocus,
         onChanged: (event) {
           if (event.columnIdx! != columns.length - 1) {
             var command = TuringCommand.parse(event.value);

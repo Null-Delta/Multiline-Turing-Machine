@@ -1,10 +1,13 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart' show Intl;
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
+import 'package:mutliline_turing_machine/ui/top_panel.dart';
 
 class PlutoGrid extends StatefulWidget {
   const PlutoGrid({
@@ -24,6 +27,8 @@ class PlutoGrid extends StatefulWidget {
     this.rowColorCallback,
     this.configuration,
     this.mode = PlutoGridMode.normal,
+    this.topFocus,
+    this.rightFocus,
   }) : super(key: key);
 
   final List<PlutoColumn> columns;
@@ -53,6 +58,9 @@ class PlutoGrid extends StatefulWidget {
   final PlutoRowColorCallback? rowColorCallback;
 
   final PlutoGridConfiguration? configuration;
+
+  final FocusNode? topFocus;
+  final FocusNode? rightFocus;
 
   /// [PlutoGridMode.normal]
   /// Normal grid with cell editing.
@@ -429,6 +437,33 @@ class _PlutoGridState extends State<PlutoGrid> {
     ///   event: event,
     /// ));
     /// ```
+
+    if ((event.isKeyPressed(LogicalKeyboardKey.arrowUp)) &&
+        _stateManager.currentCellPosition?.rowIdx == 0) {
+      focusNode.unfocus();
+      FocusScope.of(context).unfocus();
+      widget.topFocus?.requestFocus();
+    }
+
+    if ((event.isKeyPressed(LogicalKeyboardKey.arrowRight) ||
+            (event.isKeyPressed(LogicalKeyboardKey.tab) &&
+                !event.isShiftPressed)) &&
+        _stateManager.currentCellPosition?.columnIdx ==
+            _stateManager.columns.length - 1) {
+      focusNode.unfocus();
+      FocusScope.of(context).unfocus();
+      widget.rightFocus?.requestFocus();
+    }
+
+    if ((event.isKeyPressed(LogicalKeyboardKey.arrowLeft) ||
+            (event.isKeyPressed(LogicalKeyboardKey.tab) &&
+                event.isShiftPressed)) &&
+        _stateManager.currentCellPosition?.columnIdx == 0) {
+      focusNode.unfocus();
+      FocusScope.of(context).unfocus();
+      widget.topFocus?.requestFocus();
+    }
+
     if (_keyManager!.eventResult.isSkip == false) {
       _keyManager!.subject.add(PlutoKeyManagerEvent(
         focusNode: focusNode,
