@@ -111,18 +111,21 @@ class LineState extends State<Line> {
           focusNode: focus,
           onKey: (node, event) {
             if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
-              machine.configuration.moveLine(widget.index, event.isShiftPressed ? 4 : 1);
+              machine.configuration.moveLine(widget.index, 1);
               scroll();
             } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft)) {
-              machine.configuration.moveLine(widget.index, event.isShiftPressed ? -4 : -1);
+              machine.configuration.moveLine(widget.index, -1);
               scroll();
             } else if (event.isKeyPressed(LogicalKeyboardKey.backspace)) {
               machine.configuration.clearSymbol(widget.index);
               scroll();
-            } else if (event.character != null) {
+            } else if (event.character != null && event.character != "_" && event.character != "*"
+                && !event.isKeyPressed(LogicalKeyboardKey.arrowUp) && !event.isKeyPressed(LogicalKeyboardKey.arrowDown)
+                && !event.isKeyPressed(LogicalKeyboardKey.tab) && !event.isKeyPressed(LogicalKeyboardKey.enter)) {
               machine.configuration.writeSymbol(widget.index, event.character!);
               scroll();
             }
+            
 
             return KeyEventResult.ignored;
           },

@@ -57,12 +57,14 @@ class _LineCellState extends State<LineCell> {
                     alignment: Alignment.center,
                     children: [
                       Text(
-                        value.symbol,
+                        value.symbol == " " ? "_" : value.symbol,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                           color: !value.isActive
-                              ? AppColors.text
+                              ? value.symbol == " "
+                                  ? AppColors.disable
+                                  : AppColors.text
                               : AppColors.background,
                         ),
                       ),
