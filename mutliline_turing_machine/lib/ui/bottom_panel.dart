@@ -173,10 +173,10 @@ class _BottomPanelState extends State<BottomPanel> {
                 message: "Start/Stop Machine",
                 child: ElevatedButton(
                   onPressed: () {
-                    if (!widget.machine.isActive){
-                      log(widget.machine.startMachine(3));
+                    if (!widget.machine.activator.isActive){
+                      widget.machine.activator.startMachine(3);
                     } else {
-                      widget.machine.stopMachine();
+                      widget.machine.activator.stopMachine();
                     }
                   },
                   child: const SizedBox(

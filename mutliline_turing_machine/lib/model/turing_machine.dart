@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-
+import 'package:mutliline_turing_machine/model/machine_engine.dart';
 import 'configurations.dart';
 import 'turing_machine_model.dart';
 
@@ -52,25 +52,12 @@ class TuringMachine {
   //текущий обрабатываемый вариант
   late int currentVatiantIndex;
 
-  //множество конфигураций, пройденные машиной
-  late Set<Configuration> passedConfigurations = {};
-
-  //количество шагов данного запуска
-  late int stepCount;
-
   ActiveState activeState = ActiveState();
 
   TuringMachineState get currentState => model.stateList[currentStateIndex];
 
-  //закоментил, ибо, нигде не используется bool get isWorking => currentStateIndex != 1;
-
-  //обект-таймер
-  Timer? timer;
-
-  // запущена ли машина
-  late bool active = false;
-
-  bool get isActive => active;
+  // класс, отвечающий за автоматическую работу машины
+  late MachineEngine activator;
 
   TuringMachine(TuringMachineModel m) {
     model = m;
@@ -88,7 +75,7 @@ class TuringMachine {
     {
       lineContent[i][linePointer[i]].setActive(true);
     }
-
+    activator = MachineEngine(this);
     currentStateIndex = 0;
     currentVatiantIndex = -1;
   }
@@ -159,8 +146,6 @@ class TuringMachine {
     setActive(lineIndex, false);
     linePointer[lineIndex] += offset;
     setActive(lineIndex, true);
-    
-    
   }
 
   //выполняет шаг и возвращает сообщение, информирующее о корректности
@@ -185,7 +170,9 @@ class TuringMachine {
         currentVatiantIndex = variantIndex;
         activeState.activeVariantIndex = currentVatiantIndex;
         if (currentVariant.toState >= model.stateList.length) {
-          stopMachine();
+          if (activator.isActive) {
+            activator.stopMachine();
+          }
           return "Состояние ${currentVariant.toState} не найдено.";
         }
         for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
@@ -204,7 +191,9 @@ class TuringMachine {
         }
         currentStateIndex = currentVariant.toState;
         if (currentVariant.toState == -1){
-          stopMachine();
+          if (activator.isActive) {
+            activator.stopMachine();
+          }
         }
         activeState.activeStateIndex = currentStateIndex;
         log(info());
@@ -212,50 +201,11 @@ class TuringMachine {
       }
     }
     currentVatiantIndex = -1;
-    stopMachine();
+    if (activator.isActive) {
+      activator.stopMachine();
+    }
     return "Не найден текущий вариант.";
   }
-
-  String startMachine(int speed)
-  {
-    if (speed == 0) {
-      return "Нулевая скорость.";
-    }
-    stepCount = 0;
-    passedConfigurations.clear();
-    active = true;
-    timer = Timer.periodic(
-      Duration(milliseconds: 3000~/speed),
-      (timer) {
-        passedConfigurations.add(Configuration(Configuration.convertConfigurations(lineContent), linePointer));
-        makeStep();
-      },
-    );
-    return "";
-  }
-
-  String stopMachine()
-  {
-    passedConfigurations.add(Configuration(Configuration.convertConfigurations(lineContent), linePointer));
-    active = false;
-    currentStateIndex = 0;
-    currentVatiantIndex = -1;
-    activeState.activeStateIndex = -1;
-    activeState.activeVariantIndex = -1;
-    if (timer != null && timer!.isActive) {
-      timer!.cancel();
-    }
-    return "";
-  }
-
-/*
-  void stopMachine() {
-    currentStateIndex = 0;
-    currentVatiantIndex = -1;
-    activeState.activeStateIndex = -1;
-    activeState.activeVariantIndex = -1;
-  }
-*/
 
   String info() {
     var result = "";
