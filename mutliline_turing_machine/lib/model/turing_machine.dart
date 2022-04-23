@@ -42,6 +42,35 @@ class TuringMachine {
     model.deleteLine();
   }
 
+  bool findCurrentState() {
+    for (int variantIndex = 0;
+        variantIndex < currentState.variantList.length;
+        variantIndex++) {
+      var currentVariant = currentState.variantList[variantIndex];
+      bool isSuitable = true;
+
+      for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
+        var currentCommand = currentVariant.commandList[lineIndex];
+        if (!configuration.checkSymbol(
+            configuration.getSymbol(lineIndex), currentCommand.input)) {
+          isSuitable = false;
+          break;
+        }
+      }
+
+      if (isSuitable) {
+        configuration.currentVatiantIndex = variantIndex;
+        configuration.activeState.activeVariantIndex = variantIndex;
+        return true;
+      }
+    }
+
+    configuration.currentVatiantIndex = -1;
+    configuration.activeState.activeVariantIndex = -1;
+
+    return false;
+  }
+
   //выполняет шаг и возвращает сообщение, информирующее о корректности
   //выполнения шага:
   //если шаг выполнен - возвращается пустая строка

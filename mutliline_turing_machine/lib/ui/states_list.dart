@@ -9,10 +9,10 @@ class StatesList extends StatefulWidget {
   final void Function(int index) onStateSelect;
 
   @override
-  State<StatesList> createState() => _StatesListState();
+  State<StatesList> createState() => StatesListState();
 }
 
-class _StatesListState extends State<StatesList> {
+class StatesListState extends State<StatesList> {
   late TuringMachine machine;
 
   @override

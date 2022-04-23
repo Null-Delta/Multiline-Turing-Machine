@@ -59,6 +59,7 @@ class _MainWidgetState extends State<MainWidget> {
   final tableState = GlobalKey<TuringMachineTableState>();
 
   var commentsState = GlobalKey<BottomSplitPanelState>();
+  var statesListState = GlobalKey<StatesListState>();
 
   late var table = TuringMachineTable(
     key: tableState,
@@ -80,7 +81,7 @@ class _MainWidgetState extends State<MainWidget> {
       tableState.currentState!.deleteVariant();
     },
     onAddState: () {
-      setState(() {
+      statesListState.currentState!.setState(() {
         widget.machine.model.addState();
       });
     },
@@ -102,17 +103,27 @@ class _MainWidgetState extends State<MainWidget> {
     },
     onMakeStep: () {
       widget.machine.makeStep();
+      statesListState.currentState!.setState(() {});
+      tableState.currentState!.updateTableState();
+      tableManager!.setCurrentSelectingRowsByRange(
+          widget.machine.configuration.currentVatiantIndex,
+          widget.machine.configuration.currentVatiantIndex);
       onScroll();
     },
     onStartStopWork: () {
       if (!widget.machine.activator.isActive) {
-        widget.machine.activator.startMachine(3, onScroll);
+        widget.machine.activator.startMachine(3, () {
+          statesListState.currentState!.setState(() {});
+          onScroll();
+        });
       } else {
         widget.machine.activator.stopMachine();
       }
     },
     onCommentsShow: () {
-      commentsState.currentState!.chaneCommentsShow();
+      widget.machine.addLine();
+      tableState.currentState!.addLine();
+      //commentsState.currentState!.chaneCommentsShow();
     },
   );
 
@@ -123,7 +134,7 @@ class _MainWidgetState extends State<MainWidget> {
   }
 
   void updateSelectedState(int newState) {
-    setState(() {
+    statesListState.currentState!.setState(() {
       widget.machine.configuration.currentStateIndex = newState;
     });
 
@@ -171,6 +182,7 @@ class _MainWidgetState extends State<MainWidget> {
                       child: Row(
                         children: [
                           StatesList(
+                            key: statesListState,
                             onStateSelect: (index) {
                               updateSelectedState(index);
                             },
