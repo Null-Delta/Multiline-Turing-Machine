@@ -23,7 +23,7 @@ class MachineEngine{
   bool get isActive => active;
 
   //запускает автоматическую работу с заданной скоростью
-  String startMachine(int speed)
+  String startMachine(int speed, Function () onScroll)
   {
     if (speed == 0) {
       return "Нулевая скорость.";
@@ -32,12 +32,13 @@ class MachineEngine{
     stepCount = 0;
     _passedConfigurations.clear();
     active = true;
-
+    
     timer = Timer.periodic(
       Duration(milliseconds: 3000~/speed),
       (timer) {
         _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.lineContent), machine.linePointer));
         machine.makeStep();
+        onScroll();
         stepCount++;
       },
     );

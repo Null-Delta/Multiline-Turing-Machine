@@ -62,7 +62,6 @@ class LineState extends State<Line> {
               value: machine.lineContent[widget.index][index],
               child: LineCell(
                 lineIndex: widget.index,
-                line: this,
                 index: index,
               ),
             ),
@@ -120,7 +119,7 @@ class LineState extends State<Line> {
               machine.writeSymbol(widget.index, event.character!);
               scroll();
             }
-
+            
             return KeyEventResult.ignored;
           },
           child: Container(

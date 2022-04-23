@@ -45,7 +45,7 @@ class Configuration{
         _hashCode += lines[i].hashCode + pointers[i].hashCode;
       }
     }
-    return _hashCode!;
+    return _hashCode;
   }
 
   Configuration(List<String> l,List<int> p){

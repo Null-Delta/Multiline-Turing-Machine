@@ -101,6 +101,13 @@ class _MainWidgetState extends State<MainWidget> {
       widget.machine.makeStep();
       onScroll();
     },
+    onStartStopWork: () {
+      if (!widget.machine.activator.isActive){
+        widget.machine.activator.startMachine(3, onScroll);
+      } else {
+        widget.machine.activator.stopMachine();
+      }
+    },
     onCommentsShow: () {
       commentsState.currentState!.chaneCommentsShow();
     },
