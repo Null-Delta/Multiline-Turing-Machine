@@ -1,11 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/ui/line.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
-import '../scrollAbleList/src/scrollable_positioned_list.dart';
 import '../styles/app_colors.dart';
 
 class LinesPage extends StatefulWidget {
@@ -63,21 +59,21 @@ class LinesPageState extends State<LinesPage> {
     machine = MachineInherit.of(context)!.machine;
     countOfLines = MachineInherit.of(context)!.lineFocus.length;
 
-    if (linesState.length < countOfLines) {
-      linesState.add(GlobalKey<LineState>());
-    } else if (linesState.length > countOfLines) {
-      linesState.removeLast();
-    }
-
-    if (lines.length < countOfLines) {
-      lines.add(
-        Line(
-          index: countOfLines - 1,
-          key: linesState[countOfLines - 1],
-        ),
-      );
-    } else if (lines.length > countOfLines) {
-      lines.removeLast();
+    //Добавление/удаление лент
+    if (lines.length != countOfLines) {
+      for (int i = 0; i < (lines.length - countOfLines).abs(); i++) {
+        lines.length < countOfLines
+            ? {
+                linesState.add(GlobalKey<LineState>()),
+                lines.add(
+                  Line(
+                    index: linesState.length - 1,
+                    key: linesState[linesState.length - 1],
+                  ),
+                )
+              }
+            : {lines.removeLast(), linesState.removeLast()};
+      }
     }
 
     return Expanded(
@@ -85,7 +81,7 @@ class LinesPageState extends State<LinesPage> {
         color: AppColors.backgroundDark,
         child: ListView.builder(
             controller: ScrollController(),
-            itemCount: countOfLines,
+            itemCount: lines.length,
             itemBuilder: (context, index) {
               return lines[index];
             }),

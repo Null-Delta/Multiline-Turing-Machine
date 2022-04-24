@@ -45,10 +45,10 @@ class LineState extends State<Line> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      control.jumpTo(
-          index: machine.configuration.linePointer[widget.index], alignment: 0.5, myIndent: _widthOfCell / 2);
-    });
+    // WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    //   control.jumpTo(
+    //       index: machine.configuration.linePointer[widget.index], alignment: 0.5, myIndent: _widthOfCell / 2);
+    // });
   }
 
   late var line = ScrollablePositionedList.separated(
