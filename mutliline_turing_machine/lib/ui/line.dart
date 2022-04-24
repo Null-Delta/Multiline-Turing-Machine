@@ -92,10 +92,10 @@ class LineState extends State<Line> {
     machine = MachineInherit.of(context)!.machine;
     focus = MachineInherit.of(context)!.lineFocus[widget.index];
     if (control.isAttached) {
-      control.jumpTo(
-          index: machine.configuration.linePointer[widget.index],
-          alignment: 0.5,
-          myIndent: _widthOfCell / 2);
+      // control.jumpTo(
+      //     index: machine.configuration.linePointer[widget.index],
+      //     alignment: 0.5,
+      //     myIndent: _widthOfCell / 2);
     }
 
     return GestureDetector(
