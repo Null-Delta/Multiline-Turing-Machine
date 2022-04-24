@@ -33,11 +33,11 @@ class LineState extends State<Line> {
     control.scrollTo(
         index: machine.configuration.linePointer[widget.index],
         alignment: 0.5,
-        curve: Curves.easeInOut,
+        curve: Curves.easeOutQuad,
         myIndent: _widthOfCell / 2,
-        duration: const Duration(milliseconds: 200));
+        duration: const Duration(milliseconds: 350));
     // control.jumpTo(
-    //     index: widget.machine.linePointer[widget.index],
+    //     index: machine.configuration.linePointer[widget.index],
     //     alignment: 0.5,
     //     myIndent: _widthOfCell / 2);
   }
