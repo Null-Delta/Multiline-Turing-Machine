@@ -68,8 +68,8 @@ class TuringMachine {
       }
     }
 
-    configuration.currentVatiantIndex = -1;
-    configuration.activeState.activeVariantIndex = -1;
+    //configuration.currentVatiantIndex = -1;
+    //configuration.activeState.activeVariantIndex = -1;
 
     return false;
   }
@@ -79,6 +79,11 @@ class TuringMachine {
   //если шаг выполнен - возвращается пустая строка
   //иначе - сообщение об ошибке
   String makeStep() {
+    if (configuration.activeState.activeStateIndex == -1) {
+      configuration.currentStateIndex = 0;
+      configuration.activeState.activeStateIndex = 0;
+    }
+
     for (int variantIndex = 0;
         variantIndex < currentState.variantList.length;
         variantIndex++) {
