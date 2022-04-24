@@ -63,7 +63,7 @@ class StatesListState extends State<StatesList> {
                       ),
                       color: index ==
                               machine.configuration.activeState.activeStateIndex
-                          ? AppColors.background
+                          ? AppColors.accent
                           : index == machine.configuration.currentStateIndex
                               ? AppColors.backgroundDark
                               : AppColors.background,
@@ -76,10 +76,11 @@ class StatesListState extends State<StatesList> {
                       child: Text(
                         "Q${index + 1}",
                         style: TextStyle(
-                            color:
-                                index == machine.configuration.currentStateIndex
-                                    ? AppColors.text
-                                    : AppColors.text,
+                            color: index ==
+                                    machine.configuration.activeState
+                                        .activeStateIndex
+                                ? AppColors.background
+                                : AppColors.text,
                             fontSize: 14,
                             fontWeight: FontWeight.w700),
                       ),

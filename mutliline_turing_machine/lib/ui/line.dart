@@ -42,16 +42,8 @@ class LineState extends State<Line> {
     //     myIndent: _widthOfCell / 2);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    // WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-    //   control.jumpTo(
-    //       index: machine.configuration.linePointer[widget.index], alignment: 0.5, myIndent: _widthOfCell / 2);
-    // });
-  }
-
   late var line = ScrollablePositionedList.separated(
+      physics: const NeverScrollableScrollPhysics(),
       itemScrollController: control,
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.only(left: 1000, right: 1000),

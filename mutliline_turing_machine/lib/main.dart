@@ -119,9 +119,7 @@ class _MainWidgetState extends State<MainWidget> {
       }
     },
     onCommentsShow: () {
-      widget.machine.addLine();
-      tableState.currentState!.addLine();
-      //commentsState.currentState!.chaneCommentsShow();
+      commentsState.currentState!.chaneCommentsShow();
     },
   );
 
