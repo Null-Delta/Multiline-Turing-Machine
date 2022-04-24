@@ -25,13 +25,13 @@ class LineState extends State<Line> {
   late TuringMachine machine;
   late FocusNode focus;
 
-  int cellCount = 2001;
+  int cellCount = 2003;
   ItemScrollController control = ItemScrollController();
 
   scroll() {
     //log("scrooooooooool: ${machine.linePointer[widget.index]}");
     control.scrollTo(
-        index: machine.configuration.linePointer[widget.index],
+        index: machine.configuration.linePointer[widget.index] + 1,
         alignment: 0.5,
         curve: Curves.easeOutQuad,
         myIndent: _widthOfCell / 2,
@@ -46,34 +46,53 @@ class LineState extends State<Line> {
       physics: const NeverScrollableScrollPhysics(),
       itemScrollController: control,
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.only(left: 1000, right: 1000),
+      padding: const EdgeInsets.only(left: 2000, right: 2000),
       itemCount: cellCount,
-      initialScrollIndex: machine.configuration.linePointer[widget.index],
+      initialScrollIndex: machine.configuration.linePointer[widget.index] + 1,
       itemBuilder: (context, index) {
-        return Stack(
-          children: [
-            ChangeNotifierProvider.value(
-              value: machine.configuration.lineContent[widget.index][index],
-              child: LineCell(
-                lineIndex: widget.index,
-                index: index,
+        if (index == 2001 || index == 0) {
+          return Container(
+            padding: index == 2001
+                ? const EdgeInsets.only(left: 320)
+                : const EdgeInsets.only(right: 320),
+            child: Center(
+              child: Text(
+                "А все!",
+                style: TextStyle(
+                  color: AppColors.text,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 20,
+                ),
               ),
             ),
-            Container(
-                padding: const EdgeInsets.fromLTRB(0, 56, 0, 0),
-                child: SizedBox(
-                    width: 28,
-                    height: 20,
-                    child: Text((index - cellCount ~/ 2).toString(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Color(0xFF183157),
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 8,
-                        ))))
-          ],
-        );
+          );
+        } else {
+          return Stack(
+            children: [
+              ChangeNotifierProvider.value(
+                value: machine.configuration.lineContent[widget.index]
+                    [index - 1],
+                child: LineCell(
+                  lineIndex: widget.index,
+                  index: index - 1,
+                ),
+              ),
+              Container(
+                  padding: const EdgeInsets.fromLTRB(0, 56, 0, 0),
+                  child: SizedBox(
+                      width: 28,
+                      height: 20,
+                      child: Text((index - 1 - (cellCount - 2) ~/ 2).toString(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Color(0xFF183157),
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 8,
+                          ))))
+            ],
+          );
+        }
       },
       separatorBuilder: (context, index) {
         return const SizedBox(width: _widthOfSeparator);

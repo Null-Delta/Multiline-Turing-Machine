@@ -23,7 +23,7 @@ class MachineEngine {
 
   //запускает автоматическую работу с заданной скоростью
   bool startMachine(int timesPerSecond, Function() onScroll) {
-    if (timesPerSecond <= 0 || timesPerSecond > 16) {
+    if (timesPerSecond <= 0 || timesPerSecond > 32) {
       return false;
     }
 
