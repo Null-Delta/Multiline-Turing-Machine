@@ -42,7 +42,8 @@ class _BottomPanelState extends State<BottomPanel> {
   @override
   Widget build(BuildContext context) {
     machine = MachineInherit.of(context)!.machine;
-
+    var commentsState = MachineInherit.of(context)!.bottomSplitState;
+    //commentsState.currentState!.comm
     return Column(
       children: [
         Container(
@@ -151,53 +152,48 @@ class _BottomPanelState extends State<BottomPanel> {
                   style: appButtonStyle,
                 ),
               ),
-              Tooltip(
-                waitDuration: const Duration(milliseconds: 500),
-                message: "Debug 2",
-                child: ElevatedButton(
-                  onPressed: () {
-                    //log(machine.info());
-                  },
-                  child: const SizedBox(
-                    width: iconSize,
-                    height: iconSize,
-                    child: Image(
-                      image: AppImages.help,
-                    ),
-                  ),
-                  style: appButtonStyle,
-                ),
+              const SizedBox(
+                width: 6,
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
-                message: "Make step",
+                message: "Запустить/Остановить машину",
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      widget.onStartStopWork();
+                    });
+                  },
+                  child: SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      color: machine.activator.isActive
+                          ? AppColors.background
+                          : AppColors.text,
+                      image: AppImages.timer,
+                    ),
+                  ),
+                  style: machine.activator.isActive
+                      ? activeAppButtonStyle
+                      : appButtonStyle,
+                ),
+              ),
+              const SizedBox(
+                width: 6,
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Сделать шаг",
                 child: ElevatedButton(
                   onPressed: () {
                     widget.onMakeStep();
-                    //log(widget.machine.makeStep());
                   },
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.help,
-                    ),
-                  ),
-                  style: appButtonStyle,
-                ),
-              ),
-              Tooltip(
-                waitDuration: const Duration(milliseconds: 500),
-                message: "Start/stop machine",
-                child: ElevatedButton(
-                  onPressed: () {
-                    widget.onStartStopWork();
-                  },
-                  child: const SizedBox(
-                    width: iconSize,
-                    height: iconSize,
-                    child: Image(
-                      image: AppImages.help,
+                      image: AppImages.step,
                     ),
                   ),
                   style: appButtonStyle,
@@ -219,17 +215,24 @@ class _BottomPanelState extends State<BottomPanel> {
                 message: "Комментарии",
                 child: ElevatedButton(
                   onPressed: () {
-                    widget.onCommentsShow();
+                    setState(() {
+                      widget.onCommentsShow();
+                    });
                   },
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      color: AppColors.text,
-                      image: AppImages.happy,
+                      color:
+                          commentsState.currentState?.needShowComments ?? true
+                              ? AppColors.background
+                              : AppColors.text,
+                      image: AppImages.comments,
                     ),
                   ),
-                  style: appButtonStyle,
+                  style: commentsState.currentState?.needShowComments ?? true
+                      ? activeAppButtonStyle
+                      : appButtonStyle,
                 ),
               ),
             ],

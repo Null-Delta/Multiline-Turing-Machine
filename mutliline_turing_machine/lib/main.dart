@@ -146,6 +146,7 @@ class _MainWidgetState extends State<MainWidget> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: MachineInherit(
+        bottomSplitState: commentsState,
         machine: widget.machine,
         lineFocus: [
           for (int i = 0; i < widget.machine.model.countOfLines; i++)
