@@ -59,7 +59,12 @@ class TuringMachineConfiguration {
   }
 
   //сдвигает головку ленты и делает ячейку под ней активной
-  void moveLine(int lineIndex, int offset) {
+  bool moveLine(int lineIndex, int offset) {
+    
+    if(linePointer[lineIndex] + offset < 0 || linePointer[lineIndex] + offset > 2000) {
+      return false;
+    }
+
     if (lineIndex == focusedLine) {
       setFocus(lineIndex, false);
       setActive(lineIndex, false);
@@ -71,6 +76,7 @@ class TuringMachineConfiguration {
       linePointer[lineIndex] += offset;
       setActive(lineIndex, true);
     }
+    return true;
   }
 
   //Возвращает символ ленты на месте указателя

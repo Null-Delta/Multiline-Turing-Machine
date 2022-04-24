@@ -110,7 +110,7 @@ class _MainWidgetState extends State<MainWidget> {
     },
     onStartStopWork: () {
       if (!widget.machine.activator.isActive) {
-        widget.machine.activator.startMachine(3, () {
+        widget.machine.activator.startMachine(2, () {
           statesListState.currentState!.setState(() {});
           onScroll();
         });

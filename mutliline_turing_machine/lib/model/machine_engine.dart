@@ -22,9 +22,9 @@ class MachineEngine {
   bool get isActive => active;
 
   //запускает автоматическую работу с заданной скоростью
-  String startMachine(int speed, Function() onScroll) {
-    if (speed == 0) {
-      return "Нулевая скорость.";
+  bool startMachine(int timesPerSecond, Function() onScroll) {
+    if (timesPerSecond <= 0 || timesPerSecond > 16) {
+      return false;
     }
 
     stepCount = 0;
@@ -32,7 +32,7 @@ class MachineEngine {
     active = true;
 
     timer = Timer.periodic(
-      Duration(milliseconds: 3000 ~/ speed),
+      Duration(milliseconds: 1000 ~/ timesPerSecond),
       (timer) {
         _passedConfigurations.add(Configuration(
             Configuration.convertConfigurations(
@@ -43,7 +43,7 @@ class MachineEngine {
         stepCount++;
       },
     );
-    return "";
+    return true;
   }
 
   // останавливает работу, приводя машину в начальное состояние, но при этом сохраняя количество конфигураций и шагов.

@@ -156,7 +156,7 @@ class _BottomPanelState extends State<BottomPanel> {
                 message: "Debug 2",
                 child: ElevatedButton(
                   onPressed: () {
-                    log(machine.info());
+                    //log(machine.info());
                   },
                   child: const SizedBox(
                     width: iconSize,
