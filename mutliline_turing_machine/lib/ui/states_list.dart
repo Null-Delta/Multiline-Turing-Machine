@@ -9,10 +9,10 @@ class StatesList extends StatefulWidget {
   final void Function(int index) onStateSelect;
 
   @override
-  State<StatesList> createState() => _StatesListState();
+  State<StatesList> createState() => StatesListState();
 }
 
-class _StatesListState extends State<StatesList> {
+class StatesListState extends State<StatesList> {
   late TuringMachine machine;
 
   @override
@@ -52,16 +52,19 @@ class _StatesListState extends State<StatesList> {
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: index == machine.activeState.activeStateIndex
+                        color: index ==
+                                machine
+                                    .configuration.activeState.activeStateIndex
                             ? AppColors.accent
-                            : index == machine.currentStateIndex
+                            : index == machine.configuration.currentStateIndex
                                 ? AppColors.highlight
                                 : AppColors.background,
                         width: 2,
                       ),
-                      color: index == machine.activeState.activeStateIndex
-                          ? AppColors.background
-                          : index == machine.currentStateIndex
+                      color: index ==
+                              machine.configuration.activeState.activeStateIndex
+                          ? AppColors.accent
+                          : index == machine.configuration.currentStateIndex
                               ? AppColors.backgroundDark
                               : AppColors.background,
                       borderRadius: const BorderRadius.all(
@@ -73,8 +76,10 @@ class _StatesListState extends State<StatesList> {
                       child: Text(
                         "Q${index + 1}",
                         style: TextStyle(
-                            color: index == machine.currentStateIndex
-                                ? AppColors.text
+                            color: index ==
+                                    machine.configuration.activeState
+                                        .activeStateIndex
+                                ? AppColors.background
                                 : AppColors.text,
                             fontSize: 14,
                             fontWeight: FontWeight.w700),

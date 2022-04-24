@@ -29,11 +29,13 @@ class TuringMachineVariant {
   List<TuringCommand> commandList = [];
   int toState = -1;
 
-  TuringMachineVariant(int countOfLines) {
+  TuringMachineVariant(int countOfLines, int state) {
     while (countOfLines > 0) {
       commandList.add(TuringCommand());
       countOfLines--;
     }
+
+    toState = state;
   }
 
   String info() {
@@ -67,20 +69,21 @@ class TuringMachineState {
 class TuringMachineModel {
   String description = "";
   int get countOfStates => stateList.length;
-  int countOfLines = 4;
+  int countOfLines = 1;
   List<TuringMachineState> stateList = [];
   String modelDescription = "";
 
   void addState() {
     stateList.add(TuringMachineState());
-    stateList.last.variantList.add(TuringMachineVariant(countOfLines));
+    stateList.last.variantList
+        .add(TuringMachineVariant(countOfLines, stateList.length - 1));
   }
 
   void deleteState(int number) => stateList.removeAt(number);
 
   void addVariant(int numberOfState, int atIndex) => stateList[numberOfState]
       .variantList
-      .insert(atIndex, TuringMachineVariant(countOfLines));
+      .insert(atIndex, TuringMachineVariant(countOfLines, numberOfState));
 
   void deleteVariant(int numberOfState, int numberOfVariant) =>
       stateList[numberOfState].variantList.removeAt(numberOfVariant);

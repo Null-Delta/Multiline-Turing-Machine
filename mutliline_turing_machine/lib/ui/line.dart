@@ -29,37 +29,31 @@ class LineState extends State<Line> {
   ItemScrollController control = ItemScrollController();
 
   scroll() {
-    log("scrooooooooool: ${machine.linePointer[widget.index]}");
+    //log("scrooooooooool: ${machine.linePointer[widget.index]}");
     control.scrollTo(
-        index: machine.linePointer[widget.index],
+        index: machine.configuration.linePointer[widget.index],
         alignment: 0.5,
+        curve: Curves.easeInOut,
         myIndent: _widthOfCell / 2,
-        duration: const Duration(milliseconds: 100));
+        duration: const Duration(milliseconds: 200));
     // control.jumpTo(
     //     index: widget.machine.linePointer[widget.index],
     //     alignment: 0.5,
     //     myIndent: _widthOfCell / 2);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      control.jumpTo(
-          index: cellCount ~/ 2, alignment: 0.5, myIndent: _widthOfCell / 2);
-    });
-  }
-
   late var line = ScrollablePositionedList.separated(
+      physics: const NeverScrollableScrollPhysics(),
       itemScrollController: control,
       scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.only(left: 1000, right: 1000),
       itemCount: cellCount,
-      initialScrollIndex: 0,
+      initialScrollIndex: machine.configuration.linePointer[widget.index],
       itemBuilder: (context, index) {
         return Stack(
           children: [
             ChangeNotifierProvider.value(
-              value: machine.lineContent[widget.index][index],
+              value: machine.configuration.lineContent[widget.index][index],
               child: LineCell(
                 lineIndex: widget.index,
                 index: index,
@@ -90,10 +84,10 @@ class LineState extends State<Line> {
     machine = MachineInherit.of(context)!.machine;
     focus = MachineInherit.of(context)!.lineFocus[widget.index];
     if (control.isAttached) {
-      control.jumpTo(
-          index: machine.linePointer[widget.index],
-          alignment: 0.5,
-          myIndent: _widthOfCell / 2);
+      // control.jumpTo(
+      //     index: machine.configuration.linePointer[widget.index],
+      //     alignment: 0.5,
+      //     myIndent: _widthOfCell / 2);
     }
 
     return GestureDetector(
@@ -104,22 +98,35 @@ class LineState extends State<Line> {
         alignment: Alignment.center,
         child: Focus(
           onFocusChange: (value) {
-            
             setState(() {
-              machine.setFocus(widget.index, value);
+              machine.configuration.setFocus(widget.index, value);
             });
           },
           focusNode: focus,
           onKey: (node, event) {
-            if(event.isKeyPressed(LogicalKeyboardKey.backspace)) {
-              machine.clearSymbol(widget.index);
+            if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
+              machine.configuration.moveLine(widget.index, 1);
               scroll();
-            } 
-            else if(event.character != null) {
-              machine.writeSymbol(widget.index, event.character!);
+              return KeyEventResult.skipRemainingHandlers;
+            } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft)) {
+              machine.configuration.moveLine(widget.index, -1);
+              scroll();
+              return KeyEventResult.skipRemainingHandlers;
+            } else if (event.isKeyPressed(LogicalKeyboardKey.backspace)) {
+              machine.configuration.clearSymbol(widget.index);
+              scroll();
+              return KeyEventResult.skipRemainingHandlers;
+            } else if (event.character != null &&
+                event.character != "_" &&
+                event.character != "*" &&
+                !event.isKeyPressed(LogicalKeyboardKey.arrowUp) &&
+                !event.isKeyPressed(LogicalKeyboardKey.arrowDown) &&
+                !event.isKeyPressed(LogicalKeyboardKey.tab) &&
+                !event.isKeyPressed(LogicalKeyboardKey.enter)) {
+              machine.configuration.writeSymbol(widget.index, event.character!);
               scroll();
             }
-            
+
             return KeyEventResult.ignored;
           },
           child: Container(

@@ -3,10 +3,10 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:developer' as developer;
 import 'dart:math';
 
 import 'package:collection/collection.dart' show IterableExtension;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
@@ -277,14 +277,15 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
     super.initState();
     ItemPosition? initialPosition = PageStorage.of(context)!.readState(context);
     primary.target = initialPosition?.index ?? widget.initialScrollIndex;
-    primary.alignment =
-        initialPosition?.itemLeadingEdge ?? widget.initialAlignment;
+    primary.alignment = 0.5;
+    //primary.scrollController.initialScrollOffset;
     if (widget.itemCount > 0 && primary.target > widget.itemCount - 1) {
       primary.target = widget.itemCount - 1;
     }
     widget.itemScrollController?._attach(this);
     primary.itemPositionsNotifier.itemPositions.addListener(_updatePositions);
     secondary.itemPositionsNotifier.itemPositions.addListener(_updatePositions);
+    developer.log("here is ${primary.target}");
   }
 
   @override
@@ -582,7 +583,8 @@ class _ListDisplayDetails {
   _ListDisplayDetails(this.key);
 
   final itemPositionsNotifier = ItemPositionsNotifier();
-  final scrollController = ScrollController(keepScrollOffset: false);
+  final scrollController =
+      ScrollController(keepScrollOffset: false, initialScrollOffset: 14);
 
   /// The index of the item to scroll to.
   int target = 0;

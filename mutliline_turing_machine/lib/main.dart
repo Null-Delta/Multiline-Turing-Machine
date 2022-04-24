@@ -60,16 +60,17 @@ class _MainWidgetState extends State<MainWidget> {
   final tableState = GlobalKey<TuringMachineTableState>();
 
   var commentsState = GlobalKey<BottomSplitPanelState>();
+  var statesListState = GlobalKey<StatesListState>();
 
   late var table = TuringMachineTable(
     key: tableState,
+    topFocus: bottomPanel.topFocus,
+    rightFocus: commentsFocus,
     onLoaded: (manager) {
       tableManager = manager;
       bottomPanel.tableManager = manager;
     },
   );
-
-  final GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
 
   late var bottomPanel = BottomPanel(
     onAddVariant: () {
@@ -79,7 +80,7 @@ class _MainWidgetState extends State<MainWidget> {
       tableState.currentState!.deleteVariant();
     },
     onAddState: () {
-      setState(() {
+      statesListState.currentState!.setState(() {
         widget.machine.model.addState();
       });
     },
@@ -87,10 +88,11 @@ class _MainWidgetState extends State<MainWidget> {
       if (widget.machine.model.countOfStates > 1) {
         setState(
           () {
-            widget.machine.model.deleteState(widget.machine.currentStateIndex);
-            if (widget.machine.currentStateIndex >=
+            widget.machine.model
+                .deleteState(widget.machine.configuration.currentStateIndex);
+            if (widget.machine.configuration.currentStateIndex >=
                 widget.machine.model.countOfStates) {
-              widget.machine.currentStateIndex =
+              widget.machine.configuration.currentStateIndex =
                   widget.machine.model.countOfStates - 1;
             }
           },
@@ -100,11 +102,19 @@ class _MainWidgetState extends State<MainWidget> {
     },
     onMakeStep: () {
       widget.machine.makeStep();
+      statesListState.currentState!.setState(() {});
+      tableState.currentState!.updateTableState();
+      tableManager!.setCurrentSelectingRowsByRange(
+          widget.machine.configuration.currentVatiantIndex,
+          widget.machine.configuration.currentVatiantIndex);
       onScroll();
     },
     onStartStopWork: () {
-      if (!widget.machine.activator.isActive){
-        widget.machine.activator.startMachine(3, onScroll);
+      if (!widget.machine.activator.isActive) {
+        widget.machine.activator.startMachine(2, () {
+          statesListState.currentState!.setState(() {});
+          onScroll();
+        });
       } else {
         widget.machine.activator.stopMachine();
       }
@@ -114,21 +124,22 @@ class _MainWidgetState extends State<MainWidget> {
     },
   );
 
-  late var linesPage = LinesPage(key: linePagesState);
-
   void onScroll() {
     linePagesState.currentState!.onScroll();
   }
 
   void updateSelectedState(int newState) {
-    setState(() {
-      widget.machine.currentStateIndex = newState;
+    statesListState.currentState!.setState(() {
+      widget.machine.configuration.currentStateIndex = newState;
     });
 
     tableState.currentState!.updateTableState();
   }
 
   FocusNode linesPageFocus = FocusNode();
+  FocusNode commentsFocus = FocusNode();
+
+  final GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +148,13 @@ class _MainWidgetState extends State<MainWidget> {
       backgroundColor: AppColors.background,
       body: MachineInherit(
         machine: widget.machine,
-        lineFocus: [for(int i = 0; i < widget.machine.model.countOfLines; i++) FocusNode()],
+        lineFocus: [
+          for (int i = 0; i < widget.machine.model.countOfLines; i++)
+            FocusNode()
+        ],
+        commentsFocus: commentsFocus,
+        linesPageState: linePagesState,
+        tableState: tableState,
         child: Center(
           child: MultiSplitViewTheme(
             data: MultiSplitViewThemeData(
@@ -154,7 +171,7 @@ class _MainWidgetState extends State<MainWidget> {
                 Column(
                   children: [
                     const TopPanel(),
-                    linesPage,
+                    LinesPage(key: linePagesState),
                   ],
                 ),
                 Column(
@@ -165,6 +182,7 @@ class _MainWidgetState extends State<MainWidget> {
                       child: Row(
                         children: [
                           StatesList(
+                            key: statesListState,
                             onStateSelect: (index) {
                               updateSelectedState(index);
                             },

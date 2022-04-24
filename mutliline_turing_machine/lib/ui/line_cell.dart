@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
+import '../model/line_cell_model.dart';
 import '../styles/app_colors.dart';
-import 'line.dart';
 
 class LineCell extends StatefulWidget {
   const LineCell({
@@ -18,10 +20,26 @@ class LineCell extends StatefulWidget {
   State<LineCell> createState() => _LineCellState();
 }
 
-class _LineCellState extends State<LineCell> {
+class _LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixin*/ {
   late TuringMachine machine;
   late FocusNode lineFocus;
 
+  // late Animation<Color?> animation;
+  // late AnimationController controller;
+  // late Color cellColor = AppColors.background;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   controller = AnimationController(
+  //       duration: const Duration(milliseconds: 300), vsync: this);
+  //   animation = ColorTween(begin: AppColors.background, end: AppColors.accent)
+  //       .animate(controller)
+  //     ..addListener(() {
+  //       setState(() {
+  //         cellColor = animation.value ?? cellColor;
+  //       });
+  //     });
+  // }
 
   @override
   Widget build(BuildContext build) {
@@ -29,6 +47,13 @@ class _LineCellState extends State<LineCell> {
     lineFocus = MachineInherit.of(context)!.lineFocus[widget.lineIndex];
 
     return Consumer<LineCellModel>(builder: (_, value, __) {
+      // if (!controller.isAnimating) {
+      //   if (value.isActive) {
+      //     controller.forward();
+      //   } else if(controller.isCompleted) {
+      //     controller.reverse();
+      //   }
+      // }
       return GestureDetector(
         onTap: () {
           lineFocus.requestFocus();
@@ -58,12 +83,14 @@ class _LineCellState extends State<LineCell> {
                     alignment: Alignment.center,
                     children: [
                       Text(
-                        value.symbol,
+                        value.symbol == " " ? "_" : value.symbol,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                           color: !value.isActive
-                              ? AppColors.text
+                              ? value.symbol == " "
+                                  ? AppColors.disable
+                                  : AppColors.text
                               : AppColors.background,
                         ),
                       ),
