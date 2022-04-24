@@ -68,9 +68,6 @@ class TuringMachine {
       }
     }
 
-    //configuration.currentVatiantIndex = -1;
-    //configuration.activeState.activeVariantIndex = -1;
-
     return false;
   }
 
@@ -131,6 +128,8 @@ class TuringMachine {
         configuration.activeState.activeStateIndex =
             configuration.currentStateIndex;
         //log(info());
+
+        findCurrentState();
         return "";
       }
     }
@@ -140,18 +139,4 @@ class TuringMachine {
     }
     return "Не найден текущий вариант.";
   }
-
-  // String info() {
-  //   var result = "";
-  //   for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
-  //     for (int index = configuration.linePointer[lineIndex] - 8;
-  //         index <= configuration.linePointer[lineIndex] + 8;
-  //         index++) {
-  //       result += configuration.lineContent[lineIndex][index].symbol;
-  //     }
-  //     result += "\n";
-  //   }
-  //   result += "\n";
-  //   return result;
-  // }
 }
