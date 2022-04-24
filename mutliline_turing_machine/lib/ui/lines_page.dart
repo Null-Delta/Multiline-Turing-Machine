@@ -30,7 +30,7 @@ class LinesPageState extends State<LinesPage> {
 
   void onScroll() {
     for (var element in linesState) {
-      element.currentState!.scroll();
+      element.currentState?.scroll();
     }
   }
 
