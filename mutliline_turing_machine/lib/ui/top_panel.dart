@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Файл",
                 child: ElevatedButton(
                   onPressed: () {
-                    machine.saveMachineJson = machine.toJson().toString();
+                    machine.saveMachineJson = jsonEncode(machine.toJson());
                     log(machine.saveMachineJson!);
                   },
                   child: const SizedBox(
@@ -72,6 +73,7 @@ class _TopPanelState extends State<TopPanel> {
                     if(machine.saveMachineJson != null)
                     {
                       widget.importFile(machine.saveMachineJson!);
+                      //tableState.currentState!.needInit = true; 
                     }
                   },
                   child: const SizedBox(
