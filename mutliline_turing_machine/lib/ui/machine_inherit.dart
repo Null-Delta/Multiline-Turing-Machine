@@ -16,13 +16,15 @@ class MachineInherit extends InheritedWidget {
       required this.commentsFocus,
       required this.linesPageState,
       required this.tableState,
-      required this.bottomSplitState})
+      required this.bottomSplitState,
+      required this.statesFocus})
       : super(child: child, key: key);
 
   final TuringMachine machine;
 
   final List<FocusNode> linesFocus;
   final FocusNode commentsFocus;
+  final FocusNode statesFocus;
 
   final GlobalKey<LinesPageState> linesPageState;
   final GlobalKey<TuringMachineTableState> tableState;

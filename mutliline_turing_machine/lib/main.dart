@@ -175,6 +175,8 @@ class _MainWidgetState extends State<MainWidget> {
   }
 
   FocusNode commentsFocus = FocusNode();
+  FocusNode statesFocus = FocusScopeNode();
+
   GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
 
   @override
@@ -188,6 +190,7 @@ class _MainWidgetState extends State<MainWidget> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: MachineInherit(
+        statesFocus: statesFocus,
         bottomSplitState: commentsState,
         machine: machine,
         linesFocus: [for (int i = 0; i < machine.model.countOfLines; i++) FocusNode()],

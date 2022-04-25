@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
-import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:mutliline_turing_machine/ui/state_comments.dart';
 import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
-import 'package:provider/provider.dart';
 
 class BottomSplitPanel extends StatefulWidget {
   const BottomSplitPanel({Key? key, required this.table}) : super(key: key);
@@ -31,7 +29,7 @@ class BottomSplitPanelState extends State<BottomSplitPanel> {
             resizable: true,
             minimalSize: 256,
             initialWeights: const [0.7, 0.3],
-            children: [widget.table, StateComments()],
+            children: [widget.table, const StateComments()],
           )
         : widget.table;
   }

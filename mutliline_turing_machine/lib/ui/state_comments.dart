@@ -64,7 +64,7 @@ class _StateCommentsState extends State<StateComments> {
                 if (event.isKeyPressed(LogicalKeyboardKey.arrowUp) && isFirstLine()) {
                   FocusScope.of(context).focusInDirection(TraversalDirection.up);
                 } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft) && textController.selection.start == 0) {
-                  FocusScope.of(context).focusInDirection(TraversalDirection.left);
+                  FocusScope.of(context).parent!.focusInDirection(TraversalDirection.left);
                 }
                 return KeyEventResult.ignored;
               },
