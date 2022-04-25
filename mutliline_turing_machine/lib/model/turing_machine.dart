@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:mutliline_turing_machine/model/line_cell_model.dart';
 import 'package:mutliline_turing_machine/model/machine_engine.dart';
 import 'turing_machine_configuration.dart';
