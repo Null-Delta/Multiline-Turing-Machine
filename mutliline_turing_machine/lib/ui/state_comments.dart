@@ -15,7 +15,7 @@ class StateComments extends StatefulWidget {
 
 class _StateCommentsState extends State<StateComments> {
   late TuringMachine machine;
-  late TextEditingController textController = TextEditingController(text: machine.model.description);
+  late TextEditingController textController;
 
   void onEditing() {
     log("${textController.selection.start}");
@@ -27,7 +27,10 @@ class _StateCommentsState extends State<StateComments> {
 
   @override
   Widget build(BuildContext context) {
+    log("rebuild comments");
     machine = MachineInherit.of(context)!.machine;
+    textController = TextEditingController(text: machine.model.description);
+
     var commentsFocus = MachineInherit.of(context)!.commentsFocus;
 
     textController.addListener(onEditing);
