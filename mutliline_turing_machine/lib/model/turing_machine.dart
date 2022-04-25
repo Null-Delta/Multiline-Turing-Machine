@@ -33,6 +33,55 @@ class TuringMachine {
     activator = MachineEngine(this);
   }
 
+  void loadFromJson(Map<String, dynamic> json) {
+    loadFromJsonElements(
+      linePointers: json['linePointers'],
+      lineContent: json['lineContent'],
+      description: json['description'],
+      stateList: json['stateList'],
+    );
+  }
+
+  void loadFromJsonElements(
+      {required List<dynamic> linePointers,
+      required List<dynamic> lineContent,
+      required String description,
+      required List<dynamic> stateList}) {
+    configuration = TuringMachineConfiguration(linePointers.length);
+
+    configuration.linePointers = List.generate(linePointers.length, (i) => linePointers[i]);
+
+    configuration.lineContent = List.generate(
+      lineContent.length,
+      (i) => List.generate(
+        lineContent[i].length,
+        (j) => LineCellModel(symbol: lineContent[i][j]),
+      ),
+    );
+
+    for (int i = 0; i < configuration.linePointers.length; i++) {
+      configuration.lineContent[i][linePointers[i]].setActive(true);
+    }
+
+    model = TuringMachineModel();
+
+    model.description = description;
+    model.countOfLines = lineContent.length;
+    model.stateList = List.generate(
+      stateList.length,
+      (i) => TuringMachineState.fromRuleList(
+        List.generate(
+          stateList[i].length,
+          (j) => TuringMachineVariant.fromCommandListAndToState(
+              List.generate((stateList[i][j][0]).length, (k) => TuringCommand.parse((stateList[i][j][0])[k])!),
+              stateList[i][j][1] as int),
+        ),
+      ),
+    );
+
+    activator = MachineEngine(this);
+  }
+
   //NOT TESTED
   TuringMachine.fromJsonElements(
       {required List<dynamic> linePointers,

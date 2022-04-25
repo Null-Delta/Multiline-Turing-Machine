@@ -168,7 +168,7 @@ class _MainWidgetState extends State<MainWidget> {
 
   void importFile(String json) {
     setState(() {
-      machine = TuringMachine.fromJson(jsonDecode(json));
+      machine.loadFromJson(jsonDecode(json)); // = TuringMachine.fromJson(jsonDecode(json));
       //machine.model
       //log(machine.configuration.linePointers.length.toString());
     });
