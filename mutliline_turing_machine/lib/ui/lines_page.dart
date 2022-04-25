@@ -28,6 +28,24 @@ class LinesPageState extends State<LinesPage> {
       ),
   ];
 
+  void saveLines(){
+    for (int i = 0; i < countOfLines; i++){
+     linesState[i].currentState!.saveLine(); 
+    }
+  }
+
+  void loadLines(){
+    for (int i = 0; i < countOfLines; i++){
+     linesState[i].currentState!.loadLine(); 
+    }
+  }
+
+  void clearLines(){
+    for (int i = 0; i < countOfLines; i++){
+     linesState[i].currentState!.clearLine(); 
+    }
+  }
+
   void onScroll() {
     for (var element in linesState) {
       element.currentState?.scroll();

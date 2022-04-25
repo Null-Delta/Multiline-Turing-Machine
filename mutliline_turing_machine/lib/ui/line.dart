@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
@@ -22,14 +21,17 @@ class LineState extends State<Line> {
   static const double _widthOfCell = 28;
   static const double _widthOfSeparator = 4;
 
+  
   late TuringMachine machine;
   late FocusNode focus;
 
   int cellCount = 2003;
   ItemScrollController control = ItemScrollController();
 
+  String savedLine = "";
+  int savedPoint = -1;
+
   scroll() {
-    //log("scrooooooooool: ${machine.linePointer[widget.index]}");
     control.scrollTo(
         index: machine.configuration.linePointers[widget.index] + 1,
         alignment: 0.5,
@@ -40,6 +42,38 @@ class LineState extends State<Line> {
     //     index: machine.configuration.linePointer[widget.index],
     //     alignment: 0.5,
     //     myIndent: _widthOfCell / 2);
+  }
+  jump() {
+    control.jumpTo(
+      index: machine.configuration.linePointers[widget.index],
+      alignment: 0.5,
+      myIndent: _widthOfCell / 2);
+  }
+
+  saveLine() {
+    savedLine = "";
+    for (int i = 0; i <machine.configuration.lineContent[widget.index].length; i++) {
+      savedLine += machine.configuration.lineContent[widget.index][i].symbol;
+    }
+    savedPoint = machine.configuration.linePointers[widget.index];
+  }
+
+  loadLine() {
+    if (savedLine.length == machine.configuration.lineContent[widget.index].length) {
+      for (int i = 0; i < machine.configuration.lineContent[widget.index].length; i++) {
+        machine.configuration.lineContent[widget.index][i].setSymbol(savedLine[i]);
+      }
+    }
+    machine.configuration.moveLine(widget.index, savedPoint - machine.configuration.linePointers[widget.index]);
+    jump(); 
+  }
+
+  clearLine() {
+    for (int i = 0; i <machine.configuration.lineContent[widget.index].length; i++) {
+      machine.configuration.lineContent[widget.index][i].setSymbol(" ");
+    }
+    machine.configuration.moveLine(widget.index, 1000 - machine.configuration.linePointers[widget.index]);
+    jump();
   }
 
   late var line = ScrollablePositionedList.separated(
@@ -97,6 +131,8 @@ class LineState extends State<Line> {
       separatorBuilder: (context, index) {
         return const SizedBox(width: _widthOfSeparator);
       });
+
+
 
   @override
   Widget build(BuildContext context) {

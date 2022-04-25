@@ -17,10 +17,10 @@ class LineCell extends StatefulWidget {
   final int lineIndex;
   final int index;
   @override
-  State<LineCell> createState() => _LineCellState();
+  State<LineCell> createState() => LineCellState();
 }
 
-class _LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixin*/ {
+class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixin*/ {
   late TuringMachine machine;
   late FocusNode lineFocus;
 

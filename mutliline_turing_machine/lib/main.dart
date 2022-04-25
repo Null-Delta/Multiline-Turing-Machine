@@ -11,6 +11,7 @@ import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'styles/app_colors.dart';
+import 'ui/about_panel.dart';
 import 'ui/lines_page.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
@@ -214,7 +215,18 @@ class _MainWidgetState extends State<MainWidget> {
               children: [
                 Column(
                   children: [
-                    TopPanel(importFile: importFile, ),
+                    TopPanel(
+                      importFile: importFile,
+                      saveLines: () {
+                        linePagesState.currentState!.saveLines();
+                      },
+                      loadLines: () {
+                        linePagesState.currentState!.loadLines();
+                      },
+                      clearLines: () {
+                        linePagesState.currentState!.clearLines();
+                      },
+                    ),
                     LinesPage(key: linePagesState),
                   ],
                 ),

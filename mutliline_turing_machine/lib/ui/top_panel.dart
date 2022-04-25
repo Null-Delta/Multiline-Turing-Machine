@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
+import 'package:mutliline_turing_machine/ui/about_panel.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import '../styles/app_colors.dart';
 import 'lines_page.dart';
@@ -13,11 +14,18 @@ class TopPanel extends StatefulWidget {
   TopPanel({
     required this.importFile,
     Key? key,
+    required this.saveLines,
+    required this.loadLines,
+    required this.clearLines
   }) : super(key: key);
 
   void Function(String) importFile; 
 
   
+  void Function() saveLines;
+  void Function() loadLines;
+  void Function() clearLines;
+
   @override
   State<TopPanel> createState() => _TopPanelState();
 }
@@ -93,8 +101,10 @@ class _TopPanelState extends State<TopPanel> {
                 message: "О приложении",
                 child: ElevatedButton(
                   onPressed: () {
-                    log(json);
-                    widget.importFile(json);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const AboutPanel())
+                    );
+                    //вызов нового окна поверх.
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -127,6 +137,57 @@ class _TopPanelState extends State<TopPanel> {
               Expanded(
                 child: Container(
                   width: double.infinity,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Сохранить ленты",
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.saveLines();
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.addVariantTop,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Загрузить ленты",
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.loadLines();
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.addVariantTop,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Очистить ленты",
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.clearLines();
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.addVariantTop,
+                    ),
+                  ),
+                  style: appButtonStyle,
                 ),
               ),
               Tooltip(
