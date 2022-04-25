@@ -18,7 +18,7 @@ class TopPanel extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  void Function(String) importFile; 
+  void Function(String) importFile;
 
   @override
   State<TopPanel> createState() => _TopPanelState();
@@ -26,7 +26,6 @@ class TopPanel extends StatefulWidget {
 
 class _TopPanelState extends State<TopPanel> {
   static const double iconSize = 28;
-
 
   late var json;
 
@@ -69,14 +68,10 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Настройки",
                 child: ElevatedButton(
                   onPressed: () {
-                    
                     setState(() {
                       json = machine.toJson().toString();
                     });
                     log(json.toString());
-                    
-                    
-                    
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -97,9 +92,8 @@ class _TopPanelState extends State<TopPanel> {
                 child: ElevatedButton(
                   onPressed: () {
                     //Вызов нового окна поверх.
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const AboutPanel())
-                    );
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const AboutPanel()));
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -159,21 +153,32 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Загрузить ленты",
                 child: ElevatedButton(
                   onPressed: () {
-                    if(machine.saveLinesJson != null) {
+                    if (machine.saveLinesJson != null) {
                       machine.importLinesJson(machine.saveLinesJson!);
-                      linePagesState.currentState!.setState(() {
-                      });
-                      var count = tableState.currentState!.columns.length -2;
-                      if(count != machine.model.countOfLines) {
+                      linePagesState.currentState!.setState(() {});
+                      var count = machine.model.countOfLines;
+                      if (count != machine.configuration.linePointers.length) {
                         log("ОШО2");
-                        for (int i = 0; i < (count - machine.model.countOfLines).abs(); i++) {
-                          count < machine.model.countOfLines
-                              ? tableState.currentState!.addLine()
-                              : tableState.currentState!.deleteLine();
+
+                        for (int i = 0;
+                            i <
+                                (count -
+                                        machine
+                                            .configuration.linePointers.length)
+                                    .abs();
+                            i++) {
+                          count < machine.configuration.linePointers.length
+                              ? {
+                                  machine.model.addLine(),
+                                  tableState.currentState!.addLine()
+                                }
+                              : {
+                                  machine.model.deleteLine(),
+                                  tableState.currentState!.deleteLine()
+                                };
                         }
                       }
                     }
-                    
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -189,9 +194,7 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Очистить ленты",
                 child: ElevatedButton(
-                  onPressed: () {
-                    
-                  },
+                  onPressed: () {},
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,

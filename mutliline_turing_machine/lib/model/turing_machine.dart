@@ -5,6 +5,7 @@ import 'turing_machine_configuration.dart';
 import 'turing_machine_model.dart';
 
 import 'dart:convert';
+
 //класс отвечающий за состояние машины во время работы
 class ActiveState {
   int activeStateIndex = -1;
@@ -39,12 +40,10 @@ class TuringMachine {
       required List<dynamic> lineContent,
       required String description,
       required List<dynamic> stateList}) {
-
     configuration = TuringMachineConfiguration(linePointers.length);
 
     configuration.linePointers =
         List.generate(linePointers.length, (i) => linePointers[i]);
-    
 
     configuration.lineContent = List.generate(
       lineContent.length,
@@ -69,10 +68,8 @@ class TuringMachine {
         List.generate(
           stateList[i].length,
           (j) => TuringMachineVariant.fromCommandListAndToState(
-              List.generate(
-                  (stateList[i][j][0]).length,
-                  (k) => TuringCommand.parse(
-                      (stateList[i][j][0])[k])!),
+              List.generate((stateList[i][j][0]).length,
+                  (k) => TuringCommand.parse((stateList[i][j][0])[k])!),
               stateList[i][j][1] as int),
         ),
       ),
@@ -85,8 +82,8 @@ class TuringMachine {
         '"linePointers"': configuration.linePointers,
         '"lineContent"': List.generate(
             configuration.lineContent.length,
-            (i) => List.generate(
-                2001, (j) => "\"" + configuration.lineContent[i][j].symbol + "\"")),
+            (i) => List.generate(2001,
+                (j) => "\"" + configuration.lineContent[i][j].symbol + "\"")),
         '"description"': "\"" + model.description + "\"",
         '"stateList"': List.generate(
           model.stateList.length,
@@ -95,20 +92,24 @@ class TuringMachine {
               (j) => [
                     List.generate(
                         model.stateList[i].ruleList[j].commandList.length,
-                        (k) => "\"" + model.stateList[i].ruleList[j].commandList[k].toString()  + "\""),
+                        (k) =>
+                            "\"" +
+                            model.stateList[i].ruleList[j].commandList[k]
+                                .toString() +
+                            "\""),
                     model.stateList[i].ruleList[j].toState
                   ]),
         ),
       };
 
-   Map<String, dynamic> linesToJson() => {
+  Map<String, dynamic> linesToJson() => {
         '"linePointers"': configuration.linePointers,
         '"lineContent"': List.generate(
             configuration.lineContent.length,
-            (i) => List.generate(
-                2001, (j) => "\"" + configuration.lineContent[i][j].symbol + "\"")),
+            (i) => List.generate(2001,
+                (j) => "\"" + configuration.lineContent[i][j].symbol + "\"")),
       };
-    
+
   void importLinesJson(String json) {
     var map = jsonDecode(json);
     List<dynamic> linePointers = map['linePointers'];
@@ -129,15 +130,6 @@ class TuringMachine {
 
     for (int i = 0; i < configuration.linePointers.length; i++) {
       configuration.lineContent[i][linePointers[i]].setActive(true);
-    }
-
-    int lineCount = model.countOfLines;
-    if(lineCount!= linePointers.length) {
-      for (int i = 0; i < (lineCount - linePointers.length).abs(); i++) {
-        lineCount < linePointers.length
-            ? model.addLine()
-            : model.deleteLine();
-      }
     }
   }
 

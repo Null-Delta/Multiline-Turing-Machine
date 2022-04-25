@@ -32,19 +32,19 @@ class LinesPageState extends State<LinesPage> {
 
   // void saveLines(){
   //   for (int i = 0; i < countOfLines; i++){
-  //    linesState[i].currentState!.saveLine(); 
+  //    linesState[i].currentState!.saveLine();
   //   }
   // }
 
   // void loadLines(){
   //   for (int i = 0; i < countOfLines; i++){
-  //    linesState[i].currentState!.loadLine(); 
+  //    linesState[i].currentState!.loadLine();
   //   }
   // }
 
   // void clearLines(){
   //   for (int i = 0; i < countOfLines; i++){
-  //    linesState[i].currentState!.clearLine(); 
+  //    linesState[i].currentState!.clearLine();
   //   }
   // }
 
@@ -54,13 +54,11 @@ class LinesPageState extends State<LinesPage> {
     }
   }
 
-
   late List<FocusNode> linesFocus;
   @override
   Widget build(BuildContext context) {
     machine = MachineInherit.of(context)!.machine;
     countOfLines = MachineInherit.of(context)!.machine.model.countOfLines;
-
 
     //Добавление/удаление фокусов лент
     int focusCount = MachineInherit.of(context)!.linesFocus.length;
@@ -71,7 +69,7 @@ class LinesPageState extends State<LinesPage> {
             : MachineInherit.of(context)!.linesFocus.removeLast();
       }
     }
-    
+
     //Добавление/удаление лент
     // if (lines.length != countOfLines) {
     //   for (int i = 0; i < (lines.length - countOfLines).abs(); i++) {
@@ -89,7 +87,6 @@ class LinesPageState extends State<LinesPage> {
     //   }
     // }
 
-    
     linesState = [
       for (int i = 0; i < countOfLines; i++) GlobalKey<LineState>(),
     ];
