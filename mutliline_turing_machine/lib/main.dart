@@ -170,13 +170,22 @@ class _MainWidgetState extends State<MainWidget> {
               children: [
                 Column(
                   children: [
-                    const TopPanel(),
+                    TopPanel(
+                      saveLines: () {
+                        linePagesState.currentState!.saveLines();
+                      },
+                      loadLines: () {
+                        linePagesState.currentState!.loadLines();
+                      },
+                      clearLines: () {
+                        linePagesState.currentState!.clearLines();
+                      },
+                    ),
                     LinesPage(key: linePagesState),
                   ],
                 ),
                 Column(
                   children: [
-                    AboutPanel(),
                     bottomPanel,
                     Expanded(
                       child: Row(

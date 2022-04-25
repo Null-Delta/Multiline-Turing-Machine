@@ -10,9 +10,16 @@ import 'lines_page.dart';
 
 // ignore: must_be_immutable
 class TopPanel extends StatefulWidget {
-  const TopPanel({
+  TopPanel({
     Key? key,
+    required this.saveLines,
+    required this.loadLines,
+    required this.clearLines
   }) : super(key: key);
+
+  void Function() saveLines;
+  void Function() loadLines;
+  void Function() clearLines;
 
   @override
   State<TopPanel> createState() => _TopPanelState();
@@ -113,6 +120,57 @@ class _TopPanelState extends State<TopPanel> {
               Expanded(
                 child: Container(
                   width: double.infinity,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Сохранить ленты",
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.saveLines();
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.addVariantTop,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Загрузить ленты",
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.loadLines();
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.addVariantTop,
+                    ),
+                  ),
+                  style: appButtonStyle,
+                ),
+              ),
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 500),
+                message: "Очистить ленты",
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.clearLines();
+                  },
+                  child: const SizedBox(
+                    width: iconSize,
+                    height: iconSize,
+                    child: Image(
+                      image: AppImages.addVariantTop,
+                    ),
+                  ),
+                  style: appButtonStyle,
                 ),
               ),
               Tooltip(
