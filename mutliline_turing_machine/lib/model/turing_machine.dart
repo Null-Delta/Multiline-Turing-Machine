@@ -131,7 +131,14 @@ class TuringMachine {
       configuration.lineContent[i][linePointers[i]].setActive(true);
     }
 
-    model.countOfLines = lineContent.length;
+    int lineCount = model.countOfLines;
+    if(lineCount!= linePointers.length) {
+      for (int i = 0; i < (lineCount - linePointers.length).abs(); i++) {
+        lineCount < linePointers.length
+            ? model.addLine()
+            : model.deleteLine();
+      }
+    }
   }
 
   //NOT TESTED

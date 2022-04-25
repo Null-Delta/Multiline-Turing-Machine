@@ -158,7 +158,16 @@ class _TopPanelState extends State<TopPanel> {
                     if(machine.saveLinesJson != null) {
                       machine.importLinesJson(machine.saveLinesJson!);
                       linePagesState.currentState!.setState(() {
-                     });
+                      });
+                      var count = tableState.currentState!.columns.length -2;
+                      if(count != machine.model.countOfLines) {
+                        log("ОШО2");
+                        for (int i = 0; i < (count - machine.model.countOfLines).abs(); i++) {
+                          count < machine.model.countOfLines
+                              ? tableState.currentState!.addLine()
+                              : tableState.currentState!.deleteLine();
+                        }
+                      }
                     }
                     
                   },

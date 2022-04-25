@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/ui/line.dart';
@@ -87,6 +89,7 @@ class LinesPageState extends State<LinesPage> {
     //   }
     // }
 
+    
     linesState = [
       for (int i = 0; i < countOfLines; i++) GlobalKey<LineState>(),
     ];
