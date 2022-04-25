@@ -15,17 +15,14 @@ class StateComments extends StatefulWidget {
 
 class _StateCommentsState extends State<StateComments> {
   late TuringMachine machine;
-  late TextEditingController textController =
-      TextEditingController(text: machine.model.description);
+  late TextEditingController textController = TextEditingController(text: machine.model.description);
 
   void onEditing() {
     log("${textController.selection.start}");
   }
 
   bool isFirstLine() {
-    return !textController.text
-        .substring(0, textController.selection.start)
-        .contains('\n');
+    return !textController.text.substring(0, textController.selection.start).contains('\n');
   }
 
   @override
@@ -61,14 +58,10 @@ class _StateCommentsState extends State<StateComments> {
             decoration: BoxDecoration(color: AppColors.background),
             child: Focus(
               onKey: (node, event) {
-                if (event.isKeyPressed(LogicalKeyboardKey.arrowUp) &&
-                    isFirstLine()) {
-                  FocusScope.of(context)
-                      .focusInDirection(TraversalDirection.up);
-                } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft) &&
-                    textController.selection.start == 0) {
-                  FocusScope.of(context)
-                      .focusInDirection(TraversalDirection.left);
+                if (event.isKeyPressed(LogicalKeyboardKey.arrowUp) && isFirstLine()) {
+                  FocusScope.of(context).focusInDirection(TraversalDirection.up);
+                } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft) && textController.selection.start == 0) {
+                  FocusScope.of(context).focusInDirection(TraversalDirection.left);
                 }
                 return KeyEventResult.ignored;
               },
@@ -85,8 +78,7 @@ class _StateCommentsState extends State<StateComments> {
                   fontWeight: FontWeight.w400,
                 ),
                 decoration: InputDecoration(
-                    contentPadding:
-                        const EdgeInsets.only(left: 12, top: 12, bottom: 12),
+                    contentPadding: const EdgeInsets.only(left: 12, top: 12, bottom: 12),
                     hoverColor: AppColors.background,
                     border: InputBorder.none,
                     fillColor: AppColors.background,

@@ -103,15 +103,13 @@ class _AboutPanel extends State<AboutPanel> {
                                   decoration: BoxDecoration(
                                     color: Colors.transparent,
                                     //border:
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(18)),
+                                    borderRadius: const BorderRadius.all(Radius.circular(18)),
                                     boxShadow: [
                                       BoxShadow(
                                         color: AppColors.shadowColor,
                                         spreadRadius: 4,
                                         blurRadius: 12,
-                                        offset: Offset
-                                            .zero, // changes position of shadow
+                                        offset: Offset.zero, // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -123,8 +121,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     height: 112,
                                     color: AppColors.background,
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: const [
                                         Text("Многоленточная\nМашина Тьюринга",
                                             maxLines: 2,
@@ -167,8 +164,7 @@ class _AboutPanel extends State<AboutPanel> {
                             height: 16,
                           ),
                           Container(
-                              padding:
-                                  const EdgeInsets.only(left: 32, bottom: 16),
+                              padding: const EdgeInsets.only(left: 32, bottom: 16),
                               width: MediaQuery.of(context).size.width,
                               color: AppColors.background,
                               child: const Text("Анекдот",
@@ -180,8 +176,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     fontSize: 24,
                                   ))),
                           Container(
-                              padding: const EdgeInsets.only(
-                                  left: 32, right: 32, bottom: 16),
+                              padding: const EdgeInsets.only(left: 32, right: 32, bottom: 16),
                               width: MediaQuery.of(context).size.width,
                               color: AppColors.background,
                               child: const Text(
@@ -195,8 +190,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     fontSize: 16,
                                   ))),
                           Container(
-                              padding:
-                                  const EdgeInsets.only(left: 32, bottom: 32),
+                              padding: const EdgeInsets.only(left: 32, bottom: 32),
                               width: MediaQuery.of(context).size.width,
                               color: AppColors.background,
                               child: const Text("Разработчики",
@@ -208,8 +202,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     fontSize: 24,
                                   ))),
                           Container(
-                              margin:
-                                  const EdgeInsets.only(left: 32, bottom: 16),
+                              margin: const EdgeInsets.only(left: 32, bottom: 16),
                               height: 78,
                               color: AppColors.background,
                               child: Row(
@@ -224,15 +217,13 @@ class _AboutPanel extends State<AboutPanel> {
                                     ),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(38)),
+                                      borderRadius: const BorderRadius.all(Radius.circular(38)),
                                       boxShadow: [
                                         BoxShadow(
                                           color: AppColors.shadowColor,
                                           spreadRadius: 8,
                                           blurRadius: 8,
-                                          offset: Offset
-                                              .zero, // changes position of shadow
+                                          offset: Offset.zero, // changes position of shadow
                                         ),
                                       ],
                                     ),
@@ -241,8 +232,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     width: 12,
                                   ),
                                   Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: const [
                                       Text("Хахук Рустам",
                                           textAlign: TextAlign.left,
@@ -268,8 +258,7 @@ class _AboutPanel extends State<AboutPanel> {
                                 ],
                               )),
                           Container(
-                              margin:
-                                  const EdgeInsets.only(left: 32, bottom: 16),
+                              margin: const EdgeInsets.only(left: 32, bottom: 16),
                               height: 78,
                               color: AppColors.background,
                               child: Row(
@@ -284,15 +273,13 @@ class _AboutPanel extends State<AboutPanel> {
                                     ),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(38)),
+                                      borderRadius: const BorderRadius.all(Radius.circular(38)),
                                       boxShadow: [
                                         BoxShadow(
                                           color: AppColors.shadowColor,
                                           spreadRadius: 8,
                                           blurRadius: 8,
-                                          offset: Offset
-                                              .zero, // changes position of shadow
+                                          offset: Offset.zero, // changes position of shadow
                                         ),
                                       ],
                                     ),
@@ -301,8 +288,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     width: 12,
                                   ),
                                   Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: const [
                                       Text("Гиренка",
                                           textAlign: TextAlign.left,
@@ -328,8 +314,7 @@ class _AboutPanel extends State<AboutPanel> {
                                 ],
                               )),
                           Container(
-                              margin:
-                                  const EdgeInsets.only(left: 32, bottom: 16),
+                              margin: const EdgeInsets.only(left: 32, bottom: 16),
                               height: 78,
                               color: AppColors.background,
                               child: Row(
@@ -344,15 +329,13 @@ class _AboutPanel extends State<AboutPanel> {
                                     ),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(38)),
+                                      borderRadius: const BorderRadius.all(Radius.circular(38)),
                                       boxShadow: [
                                         BoxShadow(
                                           color: AppColors.shadowColor,
                                           spreadRadius: 8,
                                           blurRadius: 8,
-                                          offset: Offset
-                                              .zero, // changes position of shadow
+                                          offset: Offset.zero, // changes position of shadow
                                         ),
                                       ],
                                     ),
@@ -361,8 +344,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     width: 12,
                                   ),
                                   Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: const [
                                       Text("СерГЕЙ",
                                           textAlign: TextAlign.left,
@@ -388,8 +370,7 @@ class _AboutPanel extends State<AboutPanel> {
                                 ],
                               )),
                           Container(
-                              margin: const EdgeInsets.only(
-                                  top: 32, left: 32, bottom: 16),
+                              margin: const EdgeInsets.only(top: 32, left: 32, bottom: 16),
                               width: MediaQuery.of(context).size.width,
                               color: AppColors.background,
                               child: const Text("Использованные ресурсы",

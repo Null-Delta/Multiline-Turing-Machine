@@ -44,10 +44,7 @@ class LineState extends State<Line> {
   }
 
   jump() {
-    control.jumpTo(
-      index: machine.configuration.linePointers[widget.index],
-      alignment: 0.5,
-      myIndent: _widthOfCell / 2);
+    control.jumpTo(index: machine.configuration.linePointers[widget.index], alignment: 0.5, myIndent: _widthOfCell / 2);
   }
 
   // saveLine() {
@@ -65,7 +62,7 @@ class LineState extends State<Line> {
   //     }
   //   }
   //   machine.configuration.moveLine(widget.index, savedPoint - machine.configuration.linePointers[widget.index]);
-  //   jump(); 
+  //   jump();
   // }
 
   // clearLine() {
@@ -86,9 +83,7 @@ class LineState extends State<Line> {
       itemBuilder: (context, index) {
         if (index == 2002 || index == 0) {
           return Container(
-            padding: index == 2002
-                ? const EdgeInsets.only(left: 320)
-                : const EdgeInsets.only(right: 320),
+            padding: index == 2002 ? const EdgeInsets.only(left: 320) : const EdgeInsets.only(right: 320),
             child: Center(
               child: Text(
                 "А все!",
@@ -104,8 +99,7 @@ class LineState extends State<Line> {
           return Stack(
             children: [
               ChangeNotifierProvider.value(
-                value: machine.configuration.lineContent[widget.index]
-                    [index - 1],
+                value: machine.configuration.lineContent[widget.index][index - 1],
                 child: LineCell(
                   lineIndex: widget.index,
                   index: index - 1,
@@ -113,7 +107,7 @@ class LineState extends State<Line> {
               ),
               Container(
                   padding: const EdgeInsets.fromLTRB(0, 56, 0, 0),
-                  child: SizedBox( 
+                  child: SizedBox(
                       width: 28,
                       height: 20,
                       child: Text((index - 1 - (cellCount - 2) ~/ 2).toString(),

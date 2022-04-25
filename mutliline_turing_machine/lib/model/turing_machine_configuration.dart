@@ -1,14 +1,13 @@
 import 'line_cell_model.dart';
 import 'turing_machine.dart';
 
-
 class TuringMachineConfiguration {
   //содержимое лент
   late List<List<LineCellModel>> lineContent;
 
   //индексы указателей на активные ячейки лент
   late List<int> linePointers;
-  
+
   late int focusedLine = -1;
   //текущее активное состояние
   late int currentStateIndex;
@@ -19,8 +18,7 @@ class TuringMachineConfiguration {
   ActiveState activeState = ActiveState();
 
   TuringMachineConfiguration(int linesCount) {
-    lineContent = List.generate(
-        linesCount, (_) => List.generate(2001, (_) => LineCellModel()));
+    lineContent = List.generate(linesCount, (_) => List.generate(2001, (_) => LineCellModel()));
 
     linePointers = List.generate(linesCount, (_) => 1000);
 
@@ -60,8 +58,7 @@ class TuringMachineConfiguration {
 
   //сдвигает головку ленты и делает ячейку под ней активной
   bool moveLine(int lineIndex, int offset) {
-
-    if(linePointers[lineIndex] + offset < 0 || linePointers[lineIndex] + offset > 2000) {
+    if (linePointers[lineIndex] + offset < 0 || linePointers[lineIndex] + offset > 2000) {
       return false;
     }
 
@@ -85,9 +82,7 @@ class TuringMachineConfiguration {
   }
 
   bool checkSymbol(String symbol, String predicate) =>
-      predicate == "*" ||
-      symbol == predicate ||
-      (predicate == "_" && symbol == " ");
+      predicate == "*" || symbol == predicate || (predicate == "_" && symbol == " ");
 
   //ставит символ на ленту
   void setSymbol(int lineIndex, String symbol) {

@@ -57,7 +57,6 @@ class MainWidget extends StatefulWidget {
 }
 
 class _MainWidgetState extends State<MainWidget> {
-
   late TuringMachine machine = TuringMachine(TuringMachineModel());
 
   late PlutoGridStateManager? tableManager;
@@ -92,12 +91,9 @@ class _MainWidgetState extends State<MainWidget> {
       if (machine.model.countOfStates > 1) {
         setState(
           () {
-            machine.model
-                .deleteState(machine.configuration.currentStateIndex);
-            if (machine.configuration.currentStateIndex >=
-                machine.model.countOfStates) {
-              machine.configuration.currentStateIndex =
-                  machine.model.countOfStates - 1;
+            machine.model.deleteState(machine.configuration.currentStateIndex);
+            if (machine.configuration.currentStateIndex >= machine.model.countOfStates) {
+              machine.configuration.currentStateIndex = machine.model.countOfStates - 1;
             }
           },
         );
@@ -109,8 +105,7 @@ class _MainWidgetState extends State<MainWidget> {
       statesListState.currentState!.setState(() {});
       tableState.currentState!.updateTableState();
       tableManager!.setCurrentSelectingRowsByRange(
-          machine.configuration.currentVatiantIndex,
-          machine.configuration.currentVatiantIndex);
+          machine.configuration.currentVatiantIndex, machine.configuration.currentVatiantIndex);
       onScroll();
 
       if (text != "") {
@@ -184,7 +179,7 @@ class _MainWidgetState extends State<MainWidget> {
   @override
   Widget build(BuildContext context) {
     log("rebuilding");
-    
+
     log(machine.model.info());
     log(machine.configuration.linePointers.toString());
     linePagesState = GlobalKey<LinesPageState>();
@@ -194,10 +189,7 @@ class _MainWidgetState extends State<MainWidget> {
       body: MachineInherit(
         bottomSplitState: commentsState,
         machine: machine,
-        linesFocus: [
-          for (int i = 0; i < machine.model.countOfLines; i++)
-            FocusNode()
-        ],
+        linesFocus: [for (int i = 0; i < machine.model.countOfLines; i++) FocusNode()],
         commentsFocus: commentsFocus,
         linesPageState: linePagesState,
         tableState: tableState,
