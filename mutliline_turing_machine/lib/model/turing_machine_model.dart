@@ -31,8 +31,6 @@ class TuringMachineVariant {
   List<TuringCommand> commandList = [];
   int toState = -1;
 
-  
-
   String info() {
     var result = "      ";
     for (int i = 0; i < commandList.length; i++) {
@@ -61,9 +59,7 @@ class TuringMachineState {
     String result = "";
     result += "    variants:\n";
 
-    for (int variantIndex = 0;
-        variantIndex < ruleList.length;
-        variantIndex++) {
+    for (int variantIndex = 0; variantIndex < ruleList.length; variantIndex++) {
       result += "    variant $variantIndex:\n";
       result += ruleList[variantIndex].info();
     }
@@ -82,15 +78,13 @@ class TuringMachineModel {
 
   void addState() {
     stateList.add(TuringMachineState());
-    stateList.last.ruleList
-        .add(TuringMachineVariant(countOfLines, stateList.length - 1));
+    stateList.last.ruleList.add(TuringMachineVariant(countOfLines, stateList.length - 1));
   }
 
   void deleteState(int number) => stateList.removeAt(number);
 
-  void addVariant(int numberOfState, int atIndex) => stateList[numberOfState]
-      .ruleList
-      .insert(atIndex, TuringMachineVariant(countOfLines, numberOfState));
+  void addVariant(int numberOfState, int atIndex) =>
+      stateList[numberOfState].ruleList.insert(atIndex, TuringMachineVariant(countOfLines, numberOfState));
 
   void deleteVariant(int numberOfState, int numberOfVariant) =>
       stateList[numberOfState].ruleList.removeAt(numberOfVariant);
@@ -113,15 +107,11 @@ class TuringMachineModel {
     }
   }
 
-  void setComandInVariant(int numberOfState, int numberOfVariant,
-      int numberOfLine, TuringCommand command) {
-    stateList[numberOfState]
-        .ruleList[numberOfVariant]
-        .commandList[numberOfLine] = command;
+  void setComandInVariant(int numberOfState, int numberOfVariant, int numberOfLine, TuringCommand command) {
+    stateList[numberOfState].ruleList[numberOfVariant].commandList[numberOfLine] = command;
   }
 
-  void setToStateInVariant(
-          int numberOfState, int numberOfVariant, int toState) =>
+  void setToStateInVariant(int numberOfState, int numberOfVariant, int toState) =>
       stateList[numberOfState].ruleList[numberOfVariant].toState = toState;
 
   void replaceVariants(int numberOfState, int from, int to) {

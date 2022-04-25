@@ -52,17 +52,14 @@ class StatesListState extends State<StatesList> {
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: index ==
-                                machine
-                                    .configuration.activeState.activeStateIndex
+                        color: index == machine.configuration.activeState.activeStateIndex
                             ? AppColors.accent
                             : index == machine.configuration.currentStateIndex
                                 ? AppColors.highlight
                                 : AppColors.background,
                         width: 2,
                       ),
-                      color: index ==
-                              machine.configuration.activeState.activeStateIndex
+                      color: index == machine.configuration.activeState.activeStateIndex
                           ? index == machine.configuration.currentStateIndex
                               ? AppColors.accent
                               : AppColors.background
@@ -78,11 +75,8 @@ class StatesListState extends State<StatesList> {
                       child: Text(
                         "Q${index + 1}",
                         style: TextStyle(
-                            color: index ==
-                                    machine.configuration.activeState
-                                        .activeStateIndex
-                                ? index ==
-                                        machine.configuration.currentStateIndex
+                            color: index == machine.configuration.activeState.activeStateIndex
+                                ? index == machine.configuration.currentStateIndex
                                     ? AppColors.background
                                     : AppColors.accent
                                 : AppColors.text,

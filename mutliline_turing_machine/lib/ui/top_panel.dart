@@ -70,8 +70,7 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Настройки",
                 child: ElevatedButton(
                   onPressed: () {
-                    if(machine.saveMachineJson != null)
-                    {
+                    if (machine.saveMachineJson != null) {
                       widget.importFile(machine.saveMachineJson!);
                       //tableState.currentState!.needInit = true; 
                     }
@@ -95,8 +94,7 @@ class _TopPanelState extends State<TopPanel> {
                 child: ElevatedButton(
                   onPressed: () {
                     //Вызов нового окна поверх.
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const AboutPanel()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutPanel()));
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -116,8 +114,7 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Справочка",
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const Reference()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Reference()));
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -161,19 +158,10 @@ class _TopPanelState extends State<TopPanel> {
                       linePagesState.currentState!.setState(() {});
                       var count = machine.model.countOfLines;
                       if (count != machine.configuration.linePointers.length) {
-                        log("ОШО2");
-
-                        for (int i = 0;
-                            i < (count - machine.configuration.linePointers.length).abs(); i++) {
+                        for (int i = 0; i < (count - machine.configuration.linePointers.length).abs(); i++) {
                           count < machine.configuration.linePointers.length
-                              ? {
-                                  machine.model.addLine(),
-                                  tableState.currentState!.addLine()
-                                }
-                              : {
-                                  machine.model.deleteLine(),
-                                  tableState.currentState!.deleteLine()
-                                };
+                              ? {machine.model.addLine(), tableState.currentState!.addLine()}
+                              : {machine.model.deleteLine(), tableState.currentState!.deleteLine()};
                         }
                       }
                     }

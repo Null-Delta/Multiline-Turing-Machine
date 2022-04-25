@@ -36,9 +36,7 @@ class MachineEngine {
     timer = Timer.periodic(
       Duration(milliseconds: 1000 ~/ timesPerSecond),
       (timer) {
-        _passedConfigurations.add(Configuration(
-            Configuration.convertConfigurations(
-                machine.configuration.lineContent),
+        _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
             machine.configuration.linePointers));
         machine.makeStep();
         onScroll();
@@ -52,8 +50,7 @@ class MachineEngine {
   void stopMachine() {
     active = false;
     _passedConfigurations.add(Configuration(
-        Configuration.convertConfigurations(machine.configuration.lineContent),
-        machine.configuration.linePointers));
+        Configuration.convertConfigurations(machine.configuration.lineContent), machine.configuration.linePointers));
     machine.configuration.currentStateIndex = 0;
     machine.configuration.currentVatiantIndex = -1;
     machine.configuration.activeState.activeStateIndex = -1;

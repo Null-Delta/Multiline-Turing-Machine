@@ -20,8 +20,7 @@ class TuringMachine {
   late String? saveMachineJson;
   late String? saveLinesJson;
 
-  TuringMachineState get currentState =>
-      model.stateList[configuration.currentStateIndex];
+  TuringMachineState get currentState => model.stateList[configuration.currentStateIndex];
 
   bool isWorking() => configuration.activeState.activeStateIndex != -1;
 
@@ -42,8 +41,7 @@ class TuringMachine {
       required List<dynamic> stateList}) {
     configuration = TuringMachineConfiguration(linePointers.length);
 
-    configuration.linePointers =
-        List.generate(linePointers.length, (i) => linePointers[i]);
+    configuration.linePointers = List.generate(linePointers.length, (i) => linePointers[i]);
 
     configuration.lineContent = List.generate(
       lineContent.length,
@@ -68,8 +66,7 @@ class TuringMachine {
         List.generate(
           stateList[i].length,
           (j) => TuringMachineVariant.fromCommandListAndToState(
-              List.generate((stateList[i][j][0]).length,
-                  (k) => TuringCommand.parse((stateList[i][j][0])[k])!),
+              List.generate((stateList[i][j][0]).length, (k) => TuringCommand.parse((stateList[i][j][0])[k])!),
               stateList[i][j][1] as int),
         ),
       ),
@@ -82,8 +79,8 @@ class TuringMachine {
         'linePointers': configuration.linePointers,
         'lineContent': List.generate(
             configuration.lineContent.length,
-            (i) => List.generate(2001,
-                (j) => configuration.lineContent[i][j].symbol)),
+            (i) => List.generate(
+                2001, (j) => configuration.lineContent[i][j].symbol)),
         'description': model.description,
         'stateList': List.generate(
           model.stateList.length,
@@ -92,11 +89,8 @@ class TuringMachine {
               (j) => [
                     List.generate(
                         model.stateList[i].ruleList[j].commandList.length,
-                        (k) =>
-                            
-                            model.stateList[i].ruleList[j].commandList[k]
-                                .toString()
-                            ),
+                        (k) => model.stateList[i].ruleList[j].commandList[k]
+                            .toString()),
                     model.stateList[i].ruleList[j].toState
                   ]),
         ),
@@ -117,8 +111,7 @@ class TuringMachine {
 
     configuration = TuringMachineConfiguration(linePointers.length);
 
-    configuration.linePointers =
-        List.generate(linePointers.length, (i) => linePointers[i]);
+    configuration.linePointers = List.generate(linePointers.length, (i) => linePointers[i]);
 
     configuration.lineContent = List.generate(
       lineContent.length,
@@ -162,16 +155,13 @@ class TuringMachine {
   }
 
   bool findCurrentState() {
-    for (int variantIndex = 0;
-        variantIndex < currentState.ruleList.length;
-        variantIndex++) {
+    for (int variantIndex = 0; variantIndex < currentState.ruleList.length; variantIndex++) {
       var currentVariant = currentState.ruleList[variantIndex];
       bool isSuitable = true;
 
       for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
         var currentCommand = currentVariant.commandList[lineIndex];
-        if (!configuration.checkSymbol(
-            configuration.getSymbol(lineIndex), currentCommand.input)) {
+        if (!configuration.checkSymbol(configuration.getSymbol(lineIndex), currentCommand.input)) {
           isSuitable = false;
           break;
         }
@@ -197,24 +187,20 @@ class TuringMachine {
       configuration.activeState.activeStateIndex = 0;
     }
 
-    for (int variantIndex = 0;
-        variantIndex < currentState.ruleList.length;
-        variantIndex++) {
+    for (int variantIndex = 0; variantIndex < currentState.ruleList.length; variantIndex++) {
       bool isSuitable = true;
       var currentVariant = currentState.ruleList[variantIndex];
 
       for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
         var currentCommand = currentVariant.commandList[lineIndex];
-        if (!configuration.checkSymbol(
-            configuration.getSymbol(lineIndex), currentCommand.input)) {
+        if (!configuration.checkSymbol(configuration.getSymbol(lineIndex), currentCommand.input)) {
           isSuitable = false;
           break;
         }
       }
       if (isSuitable) {
         configuration.currentVatiantIndex = variantIndex;
-        configuration.activeState.activeVariantIndex =
-            configuration.currentVatiantIndex;
+        configuration.activeState.activeVariantIndex = configuration.currentVatiantIndex;
         if (currentVariant.toState >= model.stateList.length) {
           if (activator.isActive) {
             activator.stopMachine();
@@ -259,8 +245,7 @@ class TuringMachine {
             activator.stopMachine();
           }
         }
-        configuration.activeState.activeStateIndex =
-            configuration.currentStateIndex;
+        configuration.activeState.activeStateIndex = configuration.currentStateIndex;
 
         findCurrentState();
         return "";

@@ -34,6 +34,5 @@ class MachineInherit extends InheritedWidget {
     return linesFocus.length != oldWidget.linesFocus.length;
   }
 
-  static MachineInherit? of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<MachineInherit>();
+  static MachineInherit? of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<MachineInherit>();
 }
