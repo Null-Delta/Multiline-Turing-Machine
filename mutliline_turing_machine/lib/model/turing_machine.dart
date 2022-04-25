@@ -41,6 +41,7 @@ class TuringMachine {
 
     configuration.linePointers =
         List.generate(linePointers.length, (i) => linePointers[i]);
+    
 
     configuration.lineContent = List.generate(
       lineContent.length,
@@ -50,9 +51,15 @@ class TuringMachine {
       ),
     );
 
+    for (int i = 0; i < configuration.linePointers.length; i++) {
+      configuration.lineContent[i][linePointers[i]].setActive(true);
+    }
+    
     model = TuringMachineModel();
+
     model.description = description;
     model.countOfLines = lineContent.length;
+
     model.stateList = List.generate(
       stateList.length,
       (i) => TuringMachineState.fromRuleList(
