@@ -59,7 +59,6 @@ class TuringMachine {
 
     model.description = description;
     model.countOfLines = lineContent.length;
-
     model.stateList = List.generate(
       stateList.length,
       (i) => TuringMachineState.fromRuleList(
@@ -77,20 +76,16 @@ class TuringMachine {
 
   Map<String, dynamic> toJson() => {
         'linePointers': configuration.linePointers,
-        'lineContent': List.generate(
-            configuration.lineContent.length,
-            (i) => List.generate(
-                2001, (j) => configuration.lineContent[i][j].symbol)),
+        'lineContent': List.generate(configuration.lineContent.length,
+            (i) => List.generate(2001, (j) => configuration.lineContent[i][j].symbol)),
         'description': model.description,
         'stateList': List.generate(
           model.stateList.length,
           (i) => List.generate(
               model.stateList[i].ruleList.length,
               (j) => [
-                    List.generate(
-                        model.stateList[i].ruleList[j].commandList.length,
-                        (k) => model.stateList[i].ruleList[j].commandList[k]
-                            .toString()),
+                    List.generate(model.stateList[i].ruleList[j].commandList.length,
+                        (k) => model.stateList[i].ruleList[j].commandList[k].toString()),
                     model.stateList[i].ruleList[j].toState
                   ]),
         ),
@@ -98,10 +93,8 @@ class TuringMachine {
 
   Map<String, dynamic> linesToJson() => {
         'linePointers': configuration.linePointers,
-        'lineContent': List.generate(
-            configuration.lineContent.length,
-            (i) => List.generate(2001,
-                (j) => configuration.lineContent[i][j].symbol)),
+        'lineContent': List.generate(configuration.lineContent.length,
+            (i) => List.generate(2001, (j) => configuration.lineContent[i][j].symbol)),
       };
 
   void importLinesJson(String json) {

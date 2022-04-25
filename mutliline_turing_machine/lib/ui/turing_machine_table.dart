@@ -95,6 +95,9 @@ class TuringMachineTableState extends State<TuringMachineTable> {
 
     stateManager.removeRows([rows[rowIndex - 1]]);
 
+    if (selectedRow == -1) {
+      selectedRow = machine.currentState.countOfVariants - 1;
+    }
     if (selectedRow == rows.length) {
       selectedRow -= 1;
     }
@@ -104,6 +107,10 @@ class TuringMachineTableState extends State<TuringMachineTable> {
     }
 
     rows[selectedRow].setState(PlutoRowState.updated);
+
+    if (selectedColumn == -1) {
+      selectedColumn = 1;
+    }
 
     selectedColumn == machine.model.countOfLines + 1
         ? stateManager.setCurrentCell(rows[selectedRow].cells["translate"]!, selectedRow)
@@ -148,7 +155,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
     selectedColumn = -1;
     selectedRow = -1;
 
-    developer.log("${machine.model.stateList[machine.configuration.currentStateIndex].countOfVariants}");
+    developer.log("count ${machine.model.stateList[machine.configuration.currentStateIndex].countOfVariants}");
 
     List<PlutoRow> newRows = [];
 
@@ -173,10 +180,70 @@ class TuringMachineTableState extends State<TuringMachineTable> {
     stateManager.appendRows(newRows);
   }
 
+  void reloadTable() {
+    stateManager.removeRows(rows);
+    stateManager.removeColumns(columns);
+    //initTable();
+
+    List<PlutoColumn> newColumns = [];
+    List<PlutoRow> newRows = [];
+
+    developer.log("count is ${machine.model.countOfLines}");
+    for (int i = 0; i < machine.model.countOfLines + 2; i++) {
+      newColumns.add(
+        PlutoColumn(
+          backgroundColor: AppColors.background,
+          cellPadding: 6,
+          readOnly: i == 0,
+          frozen: i == 0 ? PlutoColumnFrozen.left : PlutoColumnFrozen.none,
+          enableContextMenu: false,
+          enableSorting: false,
+          enableRowDrag: i == 0 ? true : false,
+          enableColumnDrag: false,
+          enableEditingMode: i != 0,
+          enableAutoEditing: false,
+          textAlign: PlutoColumnTextAlign.center,
+          titleTextAlign: PlutoColumnTextAlign.center,
+          width: 84,
+          minWidth: 64,
+          title: i == 0
+              ? "Правила"
+              : i == machine.model.countOfLines + 1
+                  ? "Переход"
+                  : "Лента $i",
+          field: i == machine.model.countOfLines + 1 ? "translate" : "head:$i",
+          type: PlutoColumnType.text(),
+        ),
+      );
+    }
+
+    for (int i = 0; i < machine.model.stateList[machine.configuration.currentStateIndex].countOfVariants; i++) {
+      newRows.add(
+        PlutoRow(
+          cells: {
+            for (int j = 0; j < machine.model.countOfLines + 2; j++)
+              j == machine.model.countOfLines + 1 ? "translate" : "head:$j": PlutoCell(
+                  value: j == 0
+                      ? "№ ${i + 1}"
+                      : j == machine.model.countOfLines + 1
+                          ? "${machine.model.stateList[machine.configuration.currentStateIndex].ruleList[i].toState + 1}"
+                          : machine
+                              .model.stateList[machine.configuration.currentStateIndex].ruleList[i].commandList[j - 1]
+                              .toString())
+          },
+        ),
+      );
+    }
+
+    //stateManager.columns/
+    //stateManager.insertColumns(0, newColumns);
+    stateManager.insertColumns(0, newColumns);
+    stateManager.appendRows(newRows);
+  }
+
   void initTable() {
     columns.clear();
     rows.clear();
-    developer.log("${machine.configuration.currentStateIndex}");
 
     for (int i = 0; i < machine.model.countOfLines + 2; i++) {
       columns.add(

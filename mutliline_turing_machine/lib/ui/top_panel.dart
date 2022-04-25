@@ -72,7 +72,8 @@ class _TopPanelState extends State<TopPanel> {
                   onPressed: () {
                     if (machine.saveMachineJson != null) {
                       widget.importFile(machine.saveMachineJson!);
-                      //tableState.currentState!.needInit = true; 
+                      tableState.currentState!.reloadTable();
+                      //tableState.currentState!.needInit = true;
                     }
                   },
                   child: const SizedBox(
