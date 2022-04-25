@@ -135,14 +135,16 @@ class _MainWidgetState extends State<MainWidget> {
     tableState.currentState!.updateTableState();
   }
 
-  FocusNode linesPageFocus = FocusNode();
-  FocusNode commentsFocus = FocusNode();
 
-  final GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
+  FocusNode commentsFocus = FocusNode();
+  GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
 
   @override
   Widget build(BuildContext context) {
     log("rebuilding");
+
+    linePagesState =  GlobalKey<LinesPageState>();
+    
     return Scaffold(
       backgroundColor: AppColors.background,
       body: MachineInherit(

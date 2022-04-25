@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:mutliline_turing_machine/model/line_cell_model.dart';
 import 'package:mutliline_turing_machine/model/machine_engine.dart';
 import 'turing_machine_configuration.dart';
 import 'turing_machine_model.dart';
@@ -23,10 +24,31 @@ class TuringMachine {
   TuringMachine(TuringMachineModel m) {
     model = m;
     configuration = TuringMachineConfiguration(model.countOfLines);
-
     activator = MachineEngine(this);
   }
 
+  Map<String, dynamic> toJson() => {
+        'linePointers': configuration.linePointers,
+        'lineContent': List.generate(
+            configuration.lineContent.length,
+            (i) => List.generate(
+                2001, (j) => configuration.lineContent[i][j].symbol)),
+        'description': model.description,
+        'stateList': List.generate(
+          model.stateList.length,
+          (i) => List.generate(
+              model.stateList[i].ruleList.length,
+              (j) => [
+                    List.generate(
+                        model.stateList[i].ruleList[j].commandList.length,
+                        (k) => model.stateList[i].ruleList[j].commandList[k]
+                            .toString()),
+                    model.stateList[i].ruleList[j].toState
+                  ]),
+        ),
+      };
+
+  
   bool addLine() {
     if (model.countOfLines >= 16) {
       return false;
@@ -47,9 +69,9 @@ class TuringMachine {
 
   bool findCurrentState() {
     for (int variantIndex = 0;
-        variantIndex < currentState.variantList.length;
+        variantIndex < currentState.ruleList.length;
         variantIndex++) {
-      var currentVariant = currentState.variantList[variantIndex];
+      var currentVariant = currentState.ruleList[variantIndex];
       bool isSuitable = true;
 
       for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
@@ -82,10 +104,10 @@ class TuringMachine {
     }
 
     for (int variantIndex = 0;
-        variantIndex < currentState.variantList.length;
+        variantIndex < currentState.ruleList.length;
         variantIndex++) {
       bool isSuitable = true;
-      var currentVariant = currentState.variantList[variantIndex];
+      var currentVariant = currentState.ruleList[variantIndex];
 
       for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
         var currentCommand = currentVariant.commandList[lineIndex];

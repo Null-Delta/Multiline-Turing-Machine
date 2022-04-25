@@ -5,7 +5,7 @@ class LineCellModel extends ChangeNotifier {
   String symbol;
   bool isActive = false;
   bool isFocus = false;
-
+  
   void setSymbol(String symbol) {
     this.symbol = symbol;
     notifyListeners();
