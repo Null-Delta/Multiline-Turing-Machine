@@ -6,6 +6,7 @@ import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/ui/about_panel.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
+import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
 import '../styles/app_colors.dart';
 import 'lines_page.dart';
 
@@ -14,17 +15,9 @@ class TopPanel extends StatefulWidget {
   TopPanel({
     required this.importFile,
     Key? key,
-    required this.saveLines,
-    required this.loadLines,
-    required this.clearLines
   }) : super(key: key);
 
   void Function(String) importFile; 
-
-  
-  void Function() saveLines;
-  void Function() loadLines;
-  void Function() clearLines;
 
   @override
   State<TopPanel> createState() => _TopPanelState();
@@ -32,14 +25,15 @@ class TopPanel extends StatefulWidget {
 
 class _TopPanelState extends State<TopPanel> {
   static const double iconSize = 28;
-  late TuringMachine machine;
-  late GlobalKey<LinesPageState> linePagesState;
+
+
   late var json;
+
   @override
   Widget build(BuildContext context) {
-    machine = MachineInherit.of(context)!.machine;
+    var machine = MachineInherit.of(context)!.machine;
     var tableState = MachineInherit.of(context)!.tableState;
-    linePagesState = MachineInherit.of(context)!.linesPageState;
+    var linePagesState = MachineInherit.of(context)!.linesPageState;
     return Column(
       children: [
         Container(
@@ -144,7 +138,7 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Сохранить ленты",
                 child: ElevatedButton(
                   onPressed: () {
-                    widget.saveLines();
+                    
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -161,7 +155,7 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Загрузить ленты",
                 child: ElevatedButton(
                   onPressed: () {
-                    widget.loadLines();
+                    
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -178,7 +172,7 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Очистить ленты",
                 child: ElevatedButton(
                   onPressed: () {
-                    widget.clearLines();
+                    
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -196,9 +190,7 @@ class _TopPanelState extends State<TopPanel> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (machine.addLine()) {
-                      linePagesState.currentState?.setState(() {
-                        MachineInherit.of(context)!.lineFocus.add(FocusNode());
-                      });
+                      linePagesState.currentState?.setState(() {});
                       tableState.currentState!.addLine();
                     }
                   },
@@ -218,9 +210,7 @@ class _TopPanelState extends State<TopPanel> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (machine.deleteLine()) {
-                      linePagesState.currentState?.setState(() {
-                        MachineInherit.of(context)!.lineFocus.removeLast();
-                      });
+                      linePagesState.currentState?.setState(() {});
                       tableState.currentState!.deleteLine();
                     }
                   },

@@ -193,7 +193,7 @@ class _MainWidgetState extends State<MainWidget> {
       body: MachineInherit(
         bottomSplitState: commentsState,
         machine: machine,
-        lineFocus: [
+        linesFocus: [
           for (int i = 0; i < machine.model.countOfLines; i++)
             FocusNode()
         ],
@@ -217,15 +217,15 @@ class _MainWidgetState extends State<MainWidget> {
                   children: [
                     TopPanel(
                       importFile: importFile,
-                      saveLines: () {
-                        linePagesState.currentState!.saveLines();
-                      },
-                      loadLines: () {
-                        linePagesState.currentState!.loadLines();
-                      },
-                      clearLines: () {
-                        linePagesState.currentState!.clearLines();
-                      },
+                      // saveLines: () {
+                      //   linePagesState.currentState!.saveLines();
+                      // },
+                      // loadLines: () {
+                      //   linePagesState.currentState!.loadLines();
+                      // },
+                      // clearLines: () {
+                      //   linePagesState.currentState!.clearLines();
+                      // },
                     ),
                     LinesPage(key: linePagesState),
                   ],

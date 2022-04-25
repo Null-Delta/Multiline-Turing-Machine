@@ -50,31 +50,31 @@ class LineState extends State<Line> {
       myIndent: _widthOfCell / 2);
   }
 
-  saveLine() {
-    savedLine = "";
-    for (int i = 0; i <machine.configuration.lineContent[widget.index].length; i++) {
-      savedLine += machine.configuration.lineContent[widget.index][i].symbol;
-    }
-    savedPoint = machine.configuration.linePointers[widget.index];
-  }
+  // saveLine() {
+  //   savedLine = "";
+  //   for (int i = 0; i <machine.configuration.lineContent[widget.index].length; i++) {
+  //     savedLine += machine.configuration.lineContent[widget.index][i].symbol;
+  //   }
+  //   savedPoint = machine.configuration.linePointers[widget.index];
+  // }
 
-  loadLine() {
-    if (savedLine.length == machine.configuration.lineContent[widget.index].length) {
-      for (int i = 0; i < machine.configuration.lineContent[widget.index].length; i++) {
-        machine.configuration.lineContent[widget.index][i].setSymbol(savedLine[i]);
-      }
-    }
-    machine.configuration.moveLine(widget.index, savedPoint - machine.configuration.linePointers[widget.index]);
-    jump(); 
-  }
+  // loadLine() {
+  //   if (savedLine.length == machine.configuration.lineContent[widget.index].length) {
+  //     for (int i = 0; i < machine.configuration.lineContent[widget.index].length; i++) {
+  //       machine.configuration.lineContent[widget.index][i].setSymbol(savedLine[i]);
+  //     }
+  //   }
+  //   machine.configuration.moveLine(widget.index, savedPoint - machine.configuration.linePointers[widget.index]);
+  //   jump(); 
+  // }
 
-  clearLine() {
-    for (int i = 0; i <machine.configuration.lineContent[widget.index].length; i++) {
-      machine.configuration.lineContent[widget.index][i].setSymbol(" ");
-    }
-    machine.configuration.moveLine(widget.index, 1000 - machine.configuration.linePointers[widget.index]);
-    jump();
-  }
+  // clearLine() {
+  //   for (int i = 0; i <machine.configuration.lineContent[widget.index].length; i++) {
+  //     machine.configuration.lineContent[widget.index][i].setSymbol(" ");
+  //   }
+  //   machine.configuration.moveLine(widget.index, 1000 - machine.configuration.linePointers[widget.index]);
+  //   jump();
+  // }
 
   late var line = ScrollablePositionedList.separated(
       physics: const NeverScrollableScrollPhysics(),
@@ -137,7 +137,7 @@ class LineState extends State<Line> {
   @override
   Widget build(BuildContext context) {
     machine = MachineInherit.of(context)!.machine;
-    focus = MachineInherit.of(context)!.lineFocus[widget.index];
+    focus = MachineInherit.of(context)!.linesFocus[widget.index];
     if (control.isAttached) {
       // control.jumpTo(
       //     index: machine.configuration.linePointer[widget.index],

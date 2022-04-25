@@ -28,23 +28,23 @@ class LinesPageState extends State<LinesPage> {
       ),
   ];
 
-  void saveLines(){
-    for (int i = 0; i < countOfLines; i++){
-     linesState[i].currentState!.saveLine(); 
-    }
-  }
+  // void saveLines(){
+  //   for (int i = 0; i < countOfLines; i++){
+  //    linesState[i].currentState!.saveLine(); 
+  //   }
+  // }
 
-  void loadLines(){
-    for (int i = 0; i < countOfLines; i++){
-     linesState[i].currentState!.loadLine(); 
-    }
-  }
+  // void loadLines(){
+  //   for (int i = 0; i < countOfLines; i++){
+  //    linesState[i].currentState!.loadLine(); 
+  //   }
+  // }
 
-  void clearLines(){
-    for (int i = 0; i < countOfLines; i++){
-     linesState[i].currentState!.clearLine(); 
-    }
-  }
+  // void clearLines(){
+  //   for (int i = 0; i < countOfLines; i++){
+  //    linesState[i].currentState!.clearLine(); 
+  //   }
+  // }
 
   void onScroll() {
     for (var element in linesState) {
@@ -52,31 +52,24 @@ class LinesPageState extends State<LinesPage> {
     }
   }
 
-  void checkChanges() {
-    if (linesState.length < countOfLines) {
-      linesState.add(GlobalKey<LineState>());
-    } else if (linesState.length > countOfLines) {
-      linesState.removeLast();
-    }
 
-    if (lines.length < countOfLines) {
-      lines.add(
-        Line(
-          index: countOfLines - 1,
-          key: linesState[countOfLines - 1],
-        ),
-      );
-    } else if (lines.length > countOfLines) {
-      lines.removeLast();
-    }
-  }
-
-  late FocusNode focus = FocusNode();
+  late List<FocusNode> linesFocus;
   @override
   Widget build(BuildContext context) {
     machine = MachineInherit.of(context)!.machine;
     countOfLines = MachineInherit.of(context)!.machine.model.countOfLines;
 
+
+    //Добавление/удаление фокусов лент
+    int focusCount = MachineInherit.of(context)!.linesFocus.length;
+    if (focusCount != countOfLines) {
+      for (int i = 0; i < (focusCount - countOfLines).abs(); i++) {
+        focusCount < countOfLines
+            ? MachineInherit.of(context)!.linesFocus.add(FocusNode())
+            : MachineInherit.of(context)!.linesFocus.removeLast();
+      }
+    }
+    
     //Добавление/удаление лент
     // if (lines.length != countOfLines) {
     //   for (int i = 0; i < (lines.length - countOfLines).abs(); i++) {
@@ -93,6 +86,7 @@ class LinesPageState extends State<LinesPage> {
     //         : {lines.removeLast(), linesState.removeLast()};
     //   }
     // }
+
     linesState = [
       for (int i = 0; i < countOfLines; i++) GlobalKey<LineState>(),
     ];
