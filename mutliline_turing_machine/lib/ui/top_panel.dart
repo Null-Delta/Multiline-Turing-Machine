@@ -27,8 +27,6 @@ class TopPanel extends StatefulWidget {
 class _TopPanelState extends State<TopPanel> {
   static const double iconSize = 28;
 
-  late var json;
-
   @override
   Widget build(BuildContext context) {
     var machine = MachineInherit.of(context)!.machine;
@@ -49,7 +47,10 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Файл",
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    machine.saveMachineJson = machine.toJson().toString();
+                    log(machine.saveMachineJson!);
+                  },
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,
@@ -68,10 +69,10 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Настройки",
                 child: ElevatedButton(
                   onPressed: () {
-                    setState(() {
-                      json = machine.toJson().toString();
-                    });
-                    log(json.toString());
+                    if(machine.saveMachineJson != null)
+                    {
+                      widget.importFile(machine.saveMachineJson!);
+                    }
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -161,12 +162,7 @@ class _TopPanelState extends State<TopPanel> {
                         log("ОШО2");
 
                         for (int i = 0;
-                            i <
-                                (count -
-                                        machine
-                                            .configuration.linePointers.length)
-                                    .abs();
-                            i++) {
+                            i < (count - machine.configuration.linePointers.length).abs(); i++) {
                           count < machine.configuration.linePointers.length
                               ? {
                                   machine.model.addLine(),
