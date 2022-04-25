@@ -166,14 +166,6 @@ class _MainWidgetState extends State<MainWidget> {
     );
   }
 
-  void importFile(String json) {
-    setState(() {
-      machine.loadFromJson(jsonDecode(json)); // = TuringMachine.fromJson(jsonDecode(json));
-      //machine.model
-      //log(machine.configuration.linePointers.length.toString());
-    });
-  }
-
   FocusNode commentsFocus = FocusNode();
   FocusNode statesFocus = FocusScopeNode();
 
@@ -195,8 +187,10 @@ class _MainWidgetState extends State<MainWidget> {
         machine: machine,
         linesFocus: [for (int i = 0; i < machine.model.countOfLines; i++) FocusNode()],
         commentsFocus: commentsFocus,
+        bottomSplitState: commentsState,
         linesPageState: linePagesState,
         tableState: tableState,
+        statesListState: statesListState,
         child: Center(
           child: MultiSplitViewTheme(
             data: MultiSplitViewThemeData(
@@ -212,18 +206,7 @@ class _MainWidgetState extends State<MainWidget> {
               children: [
                 Column(
                   children: [
-                    TopPanel(
-                      importFile: importFile,
-                      // saveLines: () {
-                      //   linePagesState.currentState!.saveLines();
-                      // },
-                      // loadLines: () {
-                      //   linePagesState.currentState!.loadLines();
-                      // },
-                      // clearLines: () {
-                      //   linePagesState.currentState!.clearLines();
-                      // },
-                    ),
+                    TopPanel(),
                     LinesPage(key: linePagesState),
                   ],
                 ),

@@ -15,11 +15,9 @@ import 'lines_page.dart';
 // ignore: must_be_immutable
 class TopPanel extends StatefulWidget {
   TopPanel({
-    required this.importFile,
     Key? key,
   }) : super(key: key);
 
-  void Function(String) importFile;
 
   @override
   State<TopPanel> createState() => _TopPanelState();
@@ -33,6 +31,9 @@ class _TopPanelState extends State<TopPanel> {
     var machine = MachineInherit.of(context)!.machine;
     var tableState = MachineInherit.of(context)!.tableState;
     var linePagesState = MachineInherit.of(context)!.linesPageState;
+    //TODO: исправить, чтобы таблицу не пересобирал
+    var bottomSplitState = MachineInherit.of(context)!.bottomSplitState;
+    var statesListState = MachineInherit.of(context)!.statesListState;
     return Column(
       children: [
         Container(
@@ -71,9 +72,11 @@ class _TopPanelState extends State<TopPanel> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (machine.saveMachineJson != null) {
-                      widget.importFile(machine.saveMachineJson!);
+                      machine.loadFromJson(jsonDecode(machine.saveMachineJson!));
                       tableState.currentState!.reloadTable();
-                      //tableState.currentState!.needInit = true;
+                      statesListState.currentState!.setState(() {});
+                      linePagesState.currentState!.setState(() {});
+                      bottomSplitState.currentState!.setState(() {});
                     }
                   },
                   child: const SizedBox(
