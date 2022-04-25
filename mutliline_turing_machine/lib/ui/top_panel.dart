@@ -6,17 +6,18 @@ import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/ui/about_panel.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
+import 'package:mutliline_turing_machine/ui/referance.dart';
 import '../styles/app_colors.dart';
 import 'lines_page.dart';
 
 // ignore: must_be_immutable
 class TopPanel extends StatefulWidget {
-  TopPanel({
-    Key? key,
-    required this.saveLines,
-    required this.loadLines,
-    required this.clearLines
-  }) : super(key: key);
+  TopPanel(
+      {Key? key,
+      required this.saveLines,
+      required this.loadLines,
+      required this.clearLines})
+      : super(key: key);
 
   void Function() saveLines;
   void Function() loadLines;
@@ -90,9 +91,8 @@ class _TopPanelState extends State<TopPanel> {
                 message: "О приложении",
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const AboutPanel())
-                    );
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const AboutPanel()));
                     //вызов нового окна поверх.
                   },
                   child: const SizedBox(
@@ -112,7 +112,10 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Справочка",
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const Reference()));
+                  },
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,
