@@ -17,6 +17,7 @@ class MachineInherit extends InheritedWidget {
       required this.commentsFocus,
       required this.linesPageState,
       required this.tableState,
+      required this.statesListState,
       required this.bottomSplitState,
       required this.statesFocus})
       : super(child: child, key: key);

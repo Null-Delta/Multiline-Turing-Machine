@@ -187,7 +187,6 @@ class _MainWidgetState extends State<MainWidget> {
         machine: machine,
         linesFocus: [for (int i = 0; i < machine.model.countOfLines; i++) FocusNode()],
         commentsFocus: commentsFocus,
-        bottomSplitState: commentsState,
         linesPageState: linePagesState,
         tableState: tableState,
         statesListState: statesListState,
