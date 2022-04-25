@@ -82,7 +82,7 @@ class _StateCommentsState extends State<StateComments> {
                 style: TextStyle(
                   fontSize: 14,
                   color: AppColors.text,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w400,
                 ),
                 decoration: InputDecoration(
                     contentPadding:
