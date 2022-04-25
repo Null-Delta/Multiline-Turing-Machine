@@ -143,11 +143,14 @@ class _TopPanelState extends State<TopPanel> {
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.addVariantTop,
+                      image: AppImages.save,
                     ),
                   ),
                   style: appButtonStyle,
                 ),
+              ),
+              const SizedBox(
+                width: 6,
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
@@ -171,11 +174,14 @@ class _TopPanelState extends State<TopPanel> {
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.addVariantTop,
+                      image: AppImages.update,
                     ),
                   ),
                   style: appButtonStyle,
                 ),
+              ),
+              const SizedBox(
+                width: 6,
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
@@ -186,11 +192,22 @@ class _TopPanelState extends State<TopPanel> {
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.addVariantTop,
+                      image: AppImages.clear,
                     ),
                   ),
                   style: appButtonStyle,
                 ),
+              ),
+              const SizedBox(
+                width: 6,
+              ),
+              Container(
+                width: 2,
+                color: AppColors.highlight,
+                height: 16,
+              ),
+              const SizedBox(
+                width: 6,
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
@@ -211,6 +228,9 @@ class _TopPanelState extends State<TopPanel> {
                   ),
                   style: appButtonStyle,
                 ),
+              ),
+              const SizedBox(
+                width: 6,
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),

@@ -1,4 +1,5 @@
-import 'dart:developer';
+import 'dart:developer' as developer;
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
@@ -182,7 +183,7 @@ class _BottomPanelState extends State<BottomPanel> {
     message: "Debug",
     child: ElevatedButton(
       onPressed: () {
-        log(machine.model.info());
+        developer.log(machine.model.info());
       },
       child: const SizedBox(
         width: iconSize,
@@ -215,13 +216,17 @@ class _BottomPanelState extends State<BottomPanel> {
 
   late var speedBtn = PopupMenuButton<int>(
     elevation: 24,
+    enableFeedback: true,
     tooltip: "Скорость работы машины",
-    onSelected: (value) {},
-    shape: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(
+    initialValue: 1,
+    onSelected: (value) {
+      //TODO:тут делать изменение скорости
+    },
+    shape: OutlineInputBorder(
+        borderRadius: const BorderRadius.all(
           Radius.circular(8),
         ),
-        borderSide: BorderSide(width: 0, color: Colors.transparent)),
+        borderSide: BorderSide(width: 1, color: AppColors.highlight)),
     child: SizedBox(
       width: iconSize,
       height: iconSize,
@@ -239,13 +244,13 @@ class _BottomPanelState extends State<BottomPanel> {
     ),
     itemBuilder: (context) {
       return [
-        for (int i = 1; i <= 8; i++)
+        for (int i = 0; i <= 3; i++)
           PopupMenuItem<int>(
-            value: i,
+            value: i + 1,
             onTap: () {},
-            height: 28,
+            height: 36,
             child: Text(
-              "${i}x",
+              "${pow(2, i)}x",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.w500,
