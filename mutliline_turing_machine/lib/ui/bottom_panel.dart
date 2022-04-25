@@ -134,7 +134,7 @@ class _BottomPanelState extends State<BottomPanel> {
                   width: double.infinity,
                 ),
               ),
-              Tooltip(
+              /*Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Debug",
                 child: ElevatedButton(
@@ -168,6 +168,7 @@ class _BottomPanelState extends State<BottomPanel> {
                   style: appButtonStyle,
                 ),
               ),
+              */
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Make step",
@@ -180,7 +181,7 @@ class _BottomPanelState extends State<BottomPanel> {
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.help,
+                      image: AppImages.step,
                     ),
                   ),
                   style: appButtonStyle,
@@ -197,7 +198,7 @@ class _BottomPanelState extends State<BottomPanel> {
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.help,
+                      image: AppImages.stop,
                     ),
                   ),
                   style: appButtonStyle,
