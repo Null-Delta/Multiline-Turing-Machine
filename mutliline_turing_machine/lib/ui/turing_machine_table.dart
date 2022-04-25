@@ -312,6 +312,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
         topFocus: widget.topFocus,
         rightFocus: widget.rightFocus,
         onChanged: (event) {
+          if (event.columnIdx == null || event.rowIdx == null) return;
           if (event.columnIdx! != columns.length - 1) {
             var command = TuringCommand.parse(event.value);
             if (command == null) {

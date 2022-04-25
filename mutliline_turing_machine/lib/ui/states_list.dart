@@ -37,9 +37,7 @@ class StatesListState extends State<StatesList> {
             ? AppColors.accent
             : AppColors.accent
         : index == machine.configuration.currentStateIndex
-            ? index == focusedStateIndex
-                ? AppColors.highlight
-                : AppColors.backgroundDark
+            ? AppColors.highlight
             : index == focusedStateIndex
                 ? AppColors.highlight
                 : AppColors.background;
@@ -84,7 +82,6 @@ class StatesListState extends State<StatesList> {
                       setState(() {
                         if (isFocus) {
                           focusedStateIndex = index;
-                          //focus = focusScope.focusedChild!;
                         } else {
                           focusedStateIndex = -1;
                         }

@@ -87,11 +87,9 @@ class PlutoGrid extends StatefulWidget {
 class _PlutoGridState extends State<PlutoGrid> {
   FocusNode? _gridFocusNode;
 
-  final LinkedScrollControllerGroup _verticalScroll =
-      LinkedScrollControllerGroup();
+  final LinkedScrollControllerGroup _verticalScroll = LinkedScrollControllerGroup();
 
-  final LinkedScrollControllerGroup _horizontalScroll =
-      LinkedScrollControllerGroup();
+  final LinkedScrollControllerGroup _horizontalScroll = LinkedScrollControllerGroup();
 
   final List<Function()> _disposeList = [];
 
@@ -393,8 +391,7 @@ class _PlutoGridState extends State<PlutoGrid> {
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (_stateManager.currentCell == null && widget.rows.isNotEmpty) {
-        _stateManager.setCurrentCell(
-            widget.rows.first.cells.entries.first.value, 0);
+        _stateManager.setCurrentCell(widget.rows.first.cells.entries.first.value, 0);
       }
 
       _stateManager.gridFocusNode!.requestFocus();
@@ -440,30 +437,27 @@ class _PlutoGridState extends State<PlutoGrid> {
     /// ));
     /// ```
 
-    if ((event.isKeyPressed(LogicalKeyboardKey.arrowUp)) &&
-        _stateManager.currentCellPosition?.rowIdx == 0) {
+    if ((event.isKeyPressed(LogicalKeyboardKey.arrowUp)) && _stateManager.currentCellPosition?.rowIdx == 0) {
       focusNode.unfocus();
       FocusScope.of(context).unfocus();
       widget.topFocus?.requestFocus();
     }
 
     if ((event.isKeyPressed(LogicalKeyboardKey.arrowRight) ||
-            (event.isKeyPressed(LogicalKeyboardKey.tab) &&
-                !event.isShiftPressed)) &&
-        _stateManager.currentCellPosition?.columnIdx ==
-            _stateManager.columns.length - 1) {
+            (event.isKeyPressed(LogicalKeyboardKey.tab) && !event.isShiftPressed)) &&
+        _stateManager.currentCellPosition?.columnIdx == _stateManager.columns.length - 1) {
       focusNode.unfocus();
       FocusScope.of(context).unfocus();
       widget.rightFocus?.requestFocus();
     }
 
     if ((event.isKeyPressed(LogicalKeyboardKey.arrowLeft) ||
-            (event.isKeyPressed(LogicalKeyboardKey.tab) &&
-                event.isShiftPressed)) &&
+            (event.isKeyPressed(LogicalKeyboardKey.tab) && event.isShiftPressed)) &&
         _stateManager.currentCellPosition?.columnIdx == 0) {
-      focusNode.unfocus();
-      FocusScope.of(context).unfocus();
-      widget.leftFocus?.requestFocus();
+      //focusNode.unfocus();
+      //FocusScope.of(context).unfocus();
+      FocusScope.of(context).focusInDirection(TraversalDirection.left);
+      //widget.leftFocus?.requestFocus();
     }
 
     if (_keyManager!.eventResult.isSkip == false) {
@@ -591,8 +585,7 @@ class _GridContainer extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(PlutoGridSettings.gridPadding),
           child: ClipRRect(
-            borderRadius:
-                configuration.gridBorderRadius.resolve(TextDirection.ltr),
+            borderRadius: configuration.gridBorderRadius.resolve(TextDirection.ltr),
             child: child,
           ),
         ),
@@ -741,8 +734,7 @@ enum PlutoGridMode {
 extension PlutoGridModeExtension on PlutoGridMode? {
   bool get isNormal => this == PlutoGridMode.normal;
 
-  bool get isSelect =>
-      this == PlutoGridMode.select || this == PlutoGridMode.selectWithOneTap;
+  bool get isSelect => this == PlutoGridMode.select || this == PlutoGridMode.selectWithOneTap;
 
   bool get isSelectModeWithOneTap => this == PlutoGridMode.selectWithOneTap;
 
@@ -781,8 +773,7 @@ class PlutoGridSettings {
   static const double shadowLineSize = 3.0;
 
   /// Sum of frozen column division line width
-  static const double totalShadowLineWidth =
-      PlutoGridSettings.shadowLineSize * 2;
+  static const double totalShadowLineWidth = PlutoGridSettings.shadowLineSize * 2;
 
   /// Grid - padding
   static const double gridPadding = 0.0;
@@ -790,8 +781,7 @@ class PlutoGridSettings {
   /// Grid - border width
   static const double gridBorderWidth = 2.0;
 
-  static const double gridInnerSpacing =
-      (gridPadding * 2) + (gridBorderWidth * 2);
+  static const double gridInnerSpacing = (gridPadding * 2) + (gridBorderWidth * 2);
 
   /// Row - Default row height
   static const double rowHeight = 45.0;
@@ -820,32 +810,22 @@ class PlutoGridSettings {
   static const int debounceMillisecondsForColumnFilter = 300;
 }
 
-typedef PlutoOnLoadedEventCallback = void Function(
-    PlutoGridOnLoadedEvent event);
+typedef PlutoOnLoadedEventCallback = void Function(PlutoGridOnLoadedEvent event);
 
-typedef PlutoOnChangedEventCallback = void Function(
-    PlutoGridOnChangedEvent event);
+typedef PlutoOnChangedEventCallback = void Function(PlutoGridOnChangedEvent event);
 
-typedef PlutoOnSelectedEventCallback = void Function(
-    PlutoGridOnSelectedEvent event);
+typedef PlutoOnSelectedEventCallback = void Function(PlutoGridOnSelectedEvent event);
 
-typedef PlutoOnRowCheckedEventCallback = void Function(
-    PlutoGridOnRowCheckedEvent event);
+typedef PlutoOnRowCheckedEventCallback = void Function(PlutoGridOnRowCheckedEvent event);
 
-typedef PlutoOnRowDoubleTapEventCallback = void Function(
-    PlutoGridOnRowDoubleTapEvent event);
+typedef PlutoOnRowDoubleTapEventCallback = void Function(PlutoGridOnRowDoubleTapEvent event);
 
-typedef PlutoOnRowSecondaryTapEventCallback = void Function(
-    PlutoGridOnRowSecondaryTapEvent event);
+typedef PlutoOnRowSecondaryTapEventCallback = void Function(PlutoGridOnRowSecondaryTapEvent event);
 
-typedef PlutoOnRowsMovedEventCallback = void Function(
-    PlutoGridOnRowsMovedEvent event);
+typedef PlutoOnRowsMovedEventCallback = void Function(PlutoGridOnRowsMovedEvent event);
 
-typedef CreateHeaderCallBack = Widget Function(
-    PlutoGridStateManager stateManager);
+typedef CreateHeaderCallBack = Widget Function(PlutoGridStateManager stateManager);
 
-typedef CreateFooterCallBack = Widget Function(
-    PlutoGridStateManager stateManager);
+typedef CreateFooterCallBack = Widget Function(PlutoGridStateManager stateManager);
 
-typedef PlutoRowColorCallback = Color Function(
-    PlutoRowColorContext rowColorContext);
+typedef PlutoRowColorCallback = Color Function(PlutoRowColorContext rowColorContext);
