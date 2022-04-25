@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class LineCellModel extends ChangeNotifier {
   LineCellModel({this.symbol = " "});
+  
   String symbol;
   bool isActive = false;
   bool isFocus = false;

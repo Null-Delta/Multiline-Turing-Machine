@@ -21,9 +21,6 @@ class LineCell extends StatefulWidget {
 }
 
 class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixin*/ {
-  late TuringMachine machine;
-  late FocusNode lineFocus;
-
   // late Animation<Color?> animation;
   // late AnimationController controller;
   // late Color cellColor = AppColors.background;
@@ -43,8 +40,8 @@ class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixi
 
   @override
   Widget build(BuildContext build) {
-    machine = MachineInherit.of(context)!.machine;
-    lineFocus = MachineInherit.of(context)!.lineFocus[widget.lineIndex];
+    var machine = MachineInherit.of(context)!.machine;
+    var lineFocus = MachineInherit.of(context)!.linesFocus[widget.lineIndex];
 
     return Consumer<LineCellModel>(builder: (_, value, __) {
       // if (!controller.isAnimating) {

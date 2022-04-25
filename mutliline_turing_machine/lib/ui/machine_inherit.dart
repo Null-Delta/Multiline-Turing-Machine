@@ -12,7 +12,7 @@ class MachineInherit extends InheritedWidget {
       {Key? key,
       required Widget child,
       required this.machine,
-      required this.lineFocus,
+      required this.linesFocus,
       required this.commentsFocus,
       required this.linesPageState,
       required this.tableState,
@@ -21,7 +21,7 @@ class MachineInherit extends InheritedWidget {
 
   final TuringMachine machine;
 
-  final List<FocusNode> lineFocus;
+  final List<FocusNode> linesFocus;
   final FocusNode commentsFocus;
 
   final GlobalKey<LinesPageState> linesPageState;
@@ -31,7 +31,7 @@ class MachineInherit extends InheritedWidget {
   @override
   bool updateShouldNotify(covariant MachineInherit oldWidget) {
     log("ShouldNotify");
-    return lineFocus.length != oldWidget.lineFocus.length;
+    return linesFocus.length != oldWidget.linesFocus.length;
   }
 
   static MachineInherit? of(BuildContext context) =>
