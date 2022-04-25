@@ -63,7 +63,9 @@ class StatesListState extends State<StatesList> {
                       ),
                       color: index ==
                               machine.configuration.activeState.activeStateIndex
-                          ? AppColors.accent
+                          ? index == machine.configuration.currentStateIndex
+                              ? AppColors.accent
+                              : AppColors.background
                           : index == machine.configuration.currentStateIndex
                               ? AppColors.backgroundDark
                               : AppColors.background,
@@ -79,7 +81,10 @@ class StatesListState extends State<StatesList> {
                             color: index ==
                                     machine.configuration.activeState
                                         .activeStateIndex
-                                ? AppColors.background
+                                ? index ==
+                                        machine.configuration.currentStateIndex
+                                    ? AppColors.background
+                                    : AppColors.accent
                                 : AppColors.text,
                             fontSize: 14,
                             fontWeight: FontWeight.w700),

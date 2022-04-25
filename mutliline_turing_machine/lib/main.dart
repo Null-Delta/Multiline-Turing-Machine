@@ -101,17 +101,22 @@ class _MainWidgetState extends State<MainWidget> {
       }
     },
     onMakeStep: () {
-      widget.machine.makeStep();
+      var text = widget.machine.makeStep();
       statesListState.currentState!.setState(() {});
       tableState.currentState!.updateTableState();
       tableManager!.setCurrentSelectingRowsByRange(
           widget.machine.configuration.currentVatiantIndex,
           widget.machine.configuration.currentVatiantIndex);
       onScroll();
+
+      if (text != "") {
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(errorSnackBar(text));
+      }
     },
     onStartStopWork: () {
       if (!widget.machine.activator.isActive) {
-        widget.machine.activator.startMachine(2, () {
+        widget.machine.activator.startMachine(32, () {
           statesListState.currentState!.setState(() {});
           onScroll();
         });
@@ -136,17 +141,45 @@ class _MainWidgetState extends State<MainWidget> {
     tableState.currentState!.updateTableState();
   }
 
-  FocusNode linesPageFocus = FocusNode();
-  FocusNode commentsFocus = FocusNode();
+  SnackBar errorSnackBar(String text) {
+    return SnackBar(
+      shape: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+          borderSide: BorderSide(
+            color: Colors.transparent,
+            width: 0,
+          )),
+      elevation: 32,
+      width: 640,
+      backgroundColor: AppColors.destructive,
+      behavior: SnackBarBehavior.floating,
+      content: Text(
+        text,
+        style: TextStyle(color: AppColors.background),
+      ),
+      action: SnackBarAction(
+        textColor: AppColors.background,
+        label: 'Ладушки',
+        onPressed: () {},
+      ),
+    );
+  }
 
-  final GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
+  FocusNode commentsFocus = FocusNode();
+  GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
 
   @override
   Widget build(BuildContext context) {
     log("rebuilding");
+
+    linePagesState = GlobalKey<LinesPageState>();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: MachineInherit(
+        bottomSplitState: commentsState,
         machine: widget.machine,
         lineFocus: [
           for (int i = 0; i < widget.machine.model.countOfLines; i++)

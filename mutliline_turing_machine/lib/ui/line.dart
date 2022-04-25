@@ -21,11 +21,10 @@ class LineState extends State<Line> {
   static const double _widthOfCell = 28;
   static const double _widthOfSeparator = 4;
 
-  
   late TuringMachine machine;
   late FocusNode focus;
 
-  int cellCount = 2001;
+  int cellCount = 2003;
   ItemScrollController control = ItemScrollController();
 
   String savedLine = "";
@@ -33,46 +32,57 @@ class LineState extends State<Line> {
 
   scroll() {
     control.scrollTo(
-        index: machine.configuration.linePointer[widget.index],
+        index: machine.configuration.linePointers[widget.index] + 1,
         alignment: 0.5,
-        curve: Curves.easeInOut,
+        curve: Curves.easeOutQuad,
         myIndent: _widthOfCell / 2,
-        duration: const Duration(milliseconds: 200));
+        duration: const Duration(milliseconds: 350));
     // control.jumpTo(
-    //     index: widget.machine.linePointer[widget.index],
+    //     index: machine.configuration.linePointer[widget.index],
     //     alignment: 0.5,
     //     myIndent: _widthOfCell / 2);
   }
+
   jump() {
     control.jumpTo(
-      index: machine.configuration.linePointer[widget.index],
-      alignment: 0.5,
-      myIndent: _widthOfCell / 2);
+        index: machine.configuration.linePointers[widget.index],
+        alignment: 0.5,
+        myIndent: _widthOfCell / 2);
   }
 
   saveLine() {
     savedLine = "";
-    for (int i = 0; i <machine.configuration.lineContent[widget.index].length; i++) {
+    for (int i = 0;
+        i < machine.configuration.lineContent[widget.index].length;
+        i++) {
       savedLine += machine.configuration.lineContent[widget.index][i].symbol;
     }
-    savedPoint = machine.configuration.linePointer[widget.index];
+    savedPoint = machine.configuration.linePointers[widget.index];
   }
 
   loadLine() {
-    if (savedLine.length == machine.configuration.lineContent[widget.index].length) {
-      for (int i = 0; i < machine.configuration.lineContent[widget.index].length; i++) {
-        machine.configuration.lineContent[widget.index][i].setSymbol(savedLine[i]);
+    if (savedLine.length ==
+        machine.configuration.lineContent[widget.index].length) {
+      for (int i = 0;
+          i < machine.configuration.lineContent[widget.index].length;
+          i++) {
+        machine.configuration.lineContent[widget.index][i]
+            .setSymbol(savedLine[i]);
       }
     }
-    machine.configuration.moveLine(widget.index, savedPoint - machine.configuration.linePointer[widget.index]);
-    jump(); 
+    machine.configuration.moveLine(widget.index,
+        savedPoint - machine.configuration.linePointers[widget.index]);
+    jump();
   }
 
   clearLine() {
-    for (int i = 0; i <machine.configuration.lineContent[widget.index].length; i++) {
+    for (int i = 0;
+        i < machine.configuration.lineContent[widget.index].length;
+        i++) {
       machine.configuration.lineContent[widget.index][i].setSymbol(" ");
     }
-    machine.configuration.moveLine(widget.index, 1000 - machine.configuration.linePointer[widget.index]);
+    machine.configuration.moveLine(
+        widget.index, 1000 - machine.configuration.linePointers[widget.index]);
     jump();
   }
 
@@ -80,43 +90,57 @@ class LineState extends State<Line> {
       physics: const NeverScrollableScrollPhysics(),
       itemScrollController: control,
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.only(left: 1000, right: 1000),
+      padding: const EdgeInsets.only(left: 2000, right: 2000),
       itemCount: cellCount,
-      initialScrollIndex: machine.configuration.linePointer[widget.index],
+      initialScrollIndex: machine.configuration.linePointers[widget.index] + 1,
       itemBuilder: (context, index) {
-        return Stack(
-          children: [
-            ChangeNotifierProvider.value(
-              value: machine.configuration.lineContent[widget.index][index],
-              child: LineCell(
-                lineIndex: widget.index,
-                index: index,
+        if (index == 2002 || index == 0) {
+          return Container(
+            padding: index == 2002
+                ? const EdgeInsets.only(left: 320)
+                : const EdgeInsets.only(right: 320),
+            child: Center(
+              child: Text(
+                "А все!",
+                style: TextStyle(
+                  color: AppColors.text,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 20,
+                ),
               ),
             ),
-            Container(
-                padding: const EdgeInsets.fromLTRB(0, 56, 0, 0),
-                child: SizedBox(
-                    width: 28,
-                    height: 20,
-                    child: Text((index - cellCount ~/ 2).toString(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-  
-  
-  
-                          color: Color(0xFF183157),
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 8,
-                        ))))
-          ],
-        );
+          );
+        } else {
+          return Stack(
+            children: [
+              ChangeNotifierProvider.value(
+                value: machine.configuration.lineContent[widget.index]
+                    [index - 1],
+                child: LineCell(
+                  lineIndex: widget.index,
+                  index: index - 1,
+                ),
+              ),
+              Container(
+                  padding: const EdgeInsets.fromLTRB(0, 56, 0, 0),
+                  child: SizedBox(
+                      width: 28,
+                      height: 20,
+                      child: Text((index - 1 - (cellCount - 2) ~/ 2).toString(),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Color(0xFF183157),
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 8,
+                          ))))
+            ],
+          );
+        }
       },
       separatorBuilder: (context, index) {
         return const SizedBox(width: _widthOfSeparator);
       });
-
-
 
   @override
   Widget build(BuildContext context) {

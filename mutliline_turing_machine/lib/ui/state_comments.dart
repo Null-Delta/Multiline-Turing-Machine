@@ -80,9 +80,9 @@ class _StateCommentsState extends State<StateComments> {
                 },
                 maxLines: 10000,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                   color: AppColors.text,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w400,
                 ),
                 decoration: InputDecoration(
                     contentPadding:

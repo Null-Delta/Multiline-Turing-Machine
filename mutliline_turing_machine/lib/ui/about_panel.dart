@@ -28,7 +28,7 @@ class _AboutPanel extends State<AboutPanel> {
             padding: const EdgeInsets.only(
               left: 16,
             ),
-            height: 38,
+            height: 40,
             color: AppColors.background,
             child: Row(
               children: [
@@ -87,20 +87,26 @@ class _AboutPanel extends State<AboutPanel> {
                       child: Row(
                         children: [
                           Container(
+                            clipBehavior: Clip.antiAlias,
                             width: 112,
                             height: 112,
                             child: const Image(
-                                image: AppImages.file,
-                              ),
+                              width: 112,
+                              height: 112,
+                              image: AppImages.appIcon,
+                            ),
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: const BorderRadius.all( Radius.circular(18)),
+                              color: Colors.transparent,
+                              //border:
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(18)),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 3), // changes position of shadow
+                                  color: AppColors.shadowColor,
+                                  spreadRadius: 4,
+                                  blurRadius: 12,
+                                  offset:
+                                      Offset.zero, // changes position of shadow
                                 ),
                               ],
                             ),
@@ -168,7 +174,8 @@ class _AboutPanel extends State<AboutPanel> {
                               fontSize: 18,
                             ))),
                     Container(
-                        padding: const EdgeInsets.only(left: 32,right: 32, bottom: 16),
+                        padding: const EdgeInsets.only(
+                            left: 32, right: 32, bottom: 16),
                         width: MediaQuery.of(context).size.width,
                         color: AppColors.background,
                         child: const Text(
@@ -202,20 +209,23 @@ class _AboutPanel extends State<AboutPanel> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
+                              clipBehavior: Clip.antiAlias,
                               width: 78,
                               height: 78,
-                              child: const Image( 
-                                image: AppImages.file,
-                                ),
+                              child: const Image(
+                                image: AppImages.ZedNull,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: const BorderRadius.all( Radius.circular(38)),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(38)),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3), // changes position of shadow
+                                    color: AppColors.shadowColor,
+                                    spreadRadius: 8,
+                                    blurRadius: 8,
+                                    offset: Offset
+                                        .zero, // changes position of shadow
                                   ),
                                 ],
                               ),
@@ -257,20 +267,23 @@ class _AboutPanel extends State<AboutPanel> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
+                              clipBehavior: Clip.antiAlias,
                               width: 78,
                               height: 78,
-                              child: const Image( 
-                                image: AppImages.file,
-                                ),
+                              child: const Image(
+                                image: AppImages.IAmGirya,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: const BorderRadius.all( Radius.circular(38)),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(38)),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3), // changes position of shadow
+                                    color: AppColors.shadowColor,
+                                    spreadRadius: 8,
+                                    blurRadius: 8,
+                                    offset: Offset
+                                        .zero, // changes position of shadow
                                   ),
                                 ],
                               ),
@@ -312,20 +325,23 @@ class _AboutPanel extends State<AboutPanel> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
+                              clipBehavior: Clip.antiAlias,
                               width: 78,
                               height: 78,
-                              child: const Image( 
-                                image: AppImages.file,
-                                ),
+                              child: const Image(
+                                image: AppImages.StarProxima,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: const BorderRadius.all( Radius.circular(38)),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(38)),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3), // changes position of shadow
+                                    color: AppColors.shadowColor,
+                                    spreadRadius: 8,
+                                    blurRadius: 8,
+                                    offset: Offset
+                                        .zero, // changes position of shadow
                                   ),
                                 ],
                               ),
@@ -360,127 +376,8 @@ class _AboutPanel extends State<AboutPanel> {
                           ],
                         )),
                     Container(
-                        margin: const EdgeInsets.only(left: 32, bottom: 16),
-                        color: AppColors.background,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 78,
-                              height: 78,
-                              child: const Image( 
-                                image: AppImages.file,
-                                ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: const BorderRadius.all( Radius.circular(38)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text("Артём",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Color(0xFF183157),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 18,
-                                    )),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Text("Ждём...",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Color(0xFFA6B2C3),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12,
-                                    )),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Text("Ждём...",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Color(0xFFA6B2C3),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12,
-                                    )),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Text("Ждём...",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Color(0xFFA6B2C3),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12,
-                                    )),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Text("Ждём...",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Color(0xFFA6B2C3),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12,
-                                    )),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Text("Ждём...",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Color(0xFFA6B2C3),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12,
-                                    )),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Text("Ждём...",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Color(0xFFA6B2C3),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12,
-                                    )),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Text("Ждём...",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: Color(0xFFA6B2C3),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12,
-                                    )),
-                              ],
-                            )
-                          ],
-                        )),
-                    Container(
-                        margin: const EdgeInsets.only(top: 32 ,left: 32, bottom: 16),
+                        margin: const EdgeInsets.only(
+                            top: 32, left: 32, bottom: 16),
                         width: MediaQuery.of(context).size.width,
                         color: AppColors.background,
                         child: const Text("Использованные ресурсы",
@@ -494,29 +391,29 @@ class _AboutPanel extends State<AboutPanel> {
                     Column(
                       children: [
                         Container(
-                        margin: const EdgeInsets.only(left: 32),
-                        width: MediaQuery.of(context).size.width,
-                        color: AppColors.background,
-                        child: const Text("пельмени Мироторг",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: Color(0xFF183157),
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12,
-                            ))),
+                            margin: const EdgeInsets.only(left: 32),
+                            width: MediaQuery.of(context).size.width,
+                            color: AppColors.background,
+                            child: const Text("пельмени Мироторг",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Color(0xFF183157),
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12,
+                                ))),
                         Container(
-                        margin: const EdgeInsets.only(left: 32),
-                        width: MediaQuery.of(context).size.width,
-                        color: AppColors.background,
-                        child: const Text("мамина еда",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: Color(0xFF183157),
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12,
-                            ))),
+                            margin: const EdgeInsets.only(left: 32),
+                            width: MediaQuery.of(context).size.width,
+                            color: AppColors.background,
+                            child: const Text("мамина еда",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: Color(0xFF183157),
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12,
+                                ))),
                       ],
                     ),
                     Container(

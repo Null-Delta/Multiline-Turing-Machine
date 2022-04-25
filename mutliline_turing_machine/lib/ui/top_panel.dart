@@ -69,7 +69,9 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Настройки",
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    log(machine.toJson().toString());
+                  },
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,

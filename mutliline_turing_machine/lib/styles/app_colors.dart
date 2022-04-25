@@ -8,4 +8,5 @@ class AppColors {
   static Color text = const Color(0xFF183157);
   static Color accent = const Color(0xFF72A5B5);
   static Color destructive = const Color(0xFF902A2A);
+  static Color shadowColor = const Color(0x40C1C1C1);
 }

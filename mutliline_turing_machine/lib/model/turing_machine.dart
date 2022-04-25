@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:mutliline_turing_machine/model/line_cell_model.dart';
 import 'package:mutliline_turing_machine/model/machine_engine.dart';
 import 'turing_machine_configuration.dart';
 import 'turing_machine_model.dart';
@@ -17,14 +18,80 @@ class TuringMachine {
   TuringMachineState get currentState =>
       model.stateList[configuration.currentStateIndex];
 
+  bool isWorking() => configuration.activeState.activeStateIndex != -1;
+
   // класс, отвечающий за автоматическую работу машины
   late MachineEngine activator;
 
   TuringMachine(TuringMachineModel m) {
     model = m;
     configuration = TuringMachineConfiguration(model.countOfLines);
-
     activator = MachineEngine(this);
+  }
+
+  //NOT TESTED
+  TuringMachine.fromJsonElements(
+      {required List<int> linePointers,
+      required List<List<String>> lineContent,
+      required String description,
+      required List<List<List<dynamic>>> stateList}) {
+    configuration.linePointers = linePointers;
+
+    configuration.lineContent = List.generate(
+      lineContent.length,
+      (i) => List.generate(
+        lineContent[i].length,
+        (j) => LineCellModel(symbol: lineContent[i][j]),
+      ),
+    );
+
+    model.description = description;
+
+    model.stateList = List.generate(
+      stateList.length,
+      (i) => TuringMachineState.fromRuleList(
+        List.generate(
+          stateList[i].length,
+          (j) => TuringMachineVariant.fromCommandListAndToState(
+              List.generate(
+                  (stateList[i][j][0] as List<String>).length,
+                  (k) => TuringCommand.parse(
+                      (stateList[i][j][0] as List<String>)[k])!),
+              stateList[i][j][1] as int),
+        ),
+      ),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'linePointers': configuration.linePointers,
+        'lineContent': List.generate(
+            configuration.lineContent.length,
+            (i) => List.generate(
+                2001, (j) => configuration.lineContent[i][j].symbol)),
+        'description': model.description,
+        'stateList': List.generate(
+          model.stateList.length,
+          (i) => List.generate(
+              model.stateList[i].ruleList.length,
+              (j) => [
+                    List.generate(
+                        model.stateList[i].ruleList[j].commandList.length,
+                        (k) => model.stateList[i].ruleList[j].commandList[k]
+                            .toString()),
+                    model.stateList[i].ruleList[j].toState
+                  ]),
+        ),
+      };
+
+  //NOT TESTED
+  factory TuringMachine.fromJson(Map<String, dynamic> json) {
+    return TuringMachine.fromJsonElements(
+      linePointers: json['linePointers'] as List<int>,
+      lineContent: json['lineContent'] as List<List<String>>,
+      description: json['description'] as String,
+      stateList: json['stateList'] as List<List<List<dynamic>>>,
+    );
   }
 
   bool addLine() {
@@ -47,9 +114,9 @@ class TuringMachine {
 
   bool findCurrentState() {
     for (int variantIndex = 0;
-        variantIndex < currentState.variantList.length;
+        variantIndex < currentState.ruleList.length;
         variantIndex++) {
-      var currentVariant = currentState.variantList[variantIndex];
+      var currentVariant = currentState.ruleList[variantIndex];
       bool isSuitable = true;
 
       for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
@@ -82,10 +149,10 @@ class TuringMachine {
     }
 
     for (int variantIndex = 0;
-        variantIndex < currentState.variantList.length;
+        variantIndex < currentState.ruleList.length;
         variantIndex++) {
       bool isSuitable = true;
-      var currentVariant = currentState.variantList[variantIndex];
+      var currentVariant = currentState.ruleList[variantIndex];
 
       for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
         var currentCommand = currentVariant.commandList[lineIndex];
@@ -103,22 +170,40 @@ class TuringMachine {
           if (activator.isActive) {
             activator.stopMachine();
           }
-          return "Состояние ${currentVariant.toState} не найдено.";
+          return "Состояние ${currentVariant.toState + 1} не найдено.";
         }
+        var canMove = true;
+
         for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
           var currentCommand = currentVariant.commandList[lineIndex];
           configuration.setSymbol(lineIndex, currentCommand.output);
           switch (currentCommand.moveType) {
             case "<":
-              configuration.moveLine(lineIndex, -1);
+              if (!canMove) {
+                configuration.moveLine(lineIndex, -1);
+              } else {
+                canMove = configuration.moveLine(lineIndex, -1);
+              }
               break;
             case ">":
-              configuration.moveLine(lineIndex, 1);
+              if (!canMove) {
+                configuration.moveLine(lineIndex, 1);
+              } else {
+                canMove = configuration.moveLine(lineIndex, 1);
+              }
               break;
             default:
               break;
           }
         }
+
+        if (!canMove) {
+          if (activator.isActive) {
+            activator.stopMachine();
+          }
+          return "Вы достигли конца ленты.\nПеремещение головки невозможно.";
+        }
+
         configuration.currentStateIndex = currentVariant.toState;
         if (currentVariant.toState == -1) {
           if (activator.isActive) {
@@ -127,7 +212,6 @@ class TuringMachine {
         }
         configuration.activeState.activeStateIndex =
             configuration.currentStateIndex;
-        //log(info());
 
         findCurrentState();
         return "";
@@ -137,6 +221,6 @@ class TuringMachine {
     if (activator.isActive) {
       activator.stopMachine();
     }
-    return "Не найден текущий вариант.";
+    return "Не найдено подходящее правило.";
   }
 }

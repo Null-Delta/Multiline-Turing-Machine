@@ -20,10 +20,12 @@ class MachineEngine {
   // запущена ли машина
   late bool active = false;
   bool get isActive => active;
+  int timesPerSecond = 1;
 
   //запускает автоматическую работу с заданной скоростью
-  bool startMachine(int timesPerSecond, Function() onScroll) {
-    if (timesPerSecond <= 0 || timesPerSecond > 16) {
+  bool startMachine(int stepsCount, Function() onScroll) {
+    timesPerSecond = stepsCount;
+    if (timesPerSecond <= 0 || timesPerSecond > 32) {
       return false;
     }
 
@@ -37,7 +39,7 @@ class MachineEngine {
         _passedConfigurations.add(Configuration(
             Configuration.convertConfigurations(
                 machine.configuration.lineContent),
-            machine.configuration.linePointer));
+            machine.configuration.linePointers));
         machine.makeStep();
         onScroll();
         stepCount++;
@@ -51,7 +53,7 @@ class MachineEngine {
     active = false;
     _passedConfigurations.add(Configuration(
         Configuration.convertConfigurations(machine.configuration.lineContent),
-        machine.configuration.linePointer));
+        machine.configuration.linePointers));
     machine.configuration.currentStateIndex = 0;
     machine.configuration.currentVatiantIndex = -1;
     machine.configuration.activeState.activeStateIndex = -1;
