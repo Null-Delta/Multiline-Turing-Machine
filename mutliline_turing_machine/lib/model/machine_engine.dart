@@ -37,7 +37,7 @@ class MachineEngine {
         _passedConfigurations.add(Configuration(
             Configuration.convertConfigurations(
                 machine.configuration.lineContent),
-            machine.configuration.linePointer));
+            machine.configuration.linePointers));
         machine.makeStep();
         onScroll();
         stepCount++;
@@ -51,7 +51,7 @@ class MachineEngine {
     active = false;
     _passedConfigurations.add(Configuration(
         Configuration.convertConfigurations(machine.configuration.lineContent),
-        machine.configuration.linePointer));
+        machine.configuration.linePointers));
     machine.configuration.currentStateIndex = 0;
     machine.configuration.currentVatiantIndex = -1;
     machine.configuration.activeState.activeStateIndex = -1;

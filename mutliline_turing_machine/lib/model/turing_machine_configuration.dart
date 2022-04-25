@@ -1,14 +1,15 @@
 import 'line_cell_model.dart';
 import 'turing_machine.dart';
 
+import 'dart:convert';
+
 class TuringMachineConfiguration {
   //содержимое лент
   late List<List<LineCellModel>> lineContent;
 
   //индексы указателей на активные ячейки лент
-  late List<int> linePointer;
-
-  //
+  late List<int> linePointers;
+  
   late int focusedLine = -1;
   //текущее активное состояние
   late int currentStateIndex;
@@ -22,10 +23,10 @@ class TuringMachineConfiguration {
     lineContent = List.generate(
         linesCount, (_) => List.generate(2001, (_) => LineCellModel()));
 
-    linePointer = List.generate(linesCount, (_) => 1000);
+    linePointers = List.generate(linesCount, (_) => 1000);
 
-    for (int i = 0; i < linePointer.length; i++) {
-      lineContent[i][linePointer[i]].setActive(true);
+    for (int i = 0; i < linePointers.length; i++) {
+      lineContent[i][linePointers[i]].setActive(true);
     }
 
     currentStateIndex = 0;
@@ -34,46 +35,46 @@ class TuringMachineConfiguration {
 
   void clearLine(lineIndex) {
     lineContent[lineIndex] = List.generate(2001, (_) => LineCellModel());
-    linePointer[lineIndex] = 1000;
+    linePointers[lineIndex] = 1000;
   }
 
   void addLine() {
-    linePointer.add(1000);
+    linePointers.add(1000);
     lineContent.add(List.generate(2001, (_) => LineCellModel()));
-    lineContent.last[linePointer.last].setActive(true);
+    lineContent.last[linePointers.last].setActive(true);
   }
 
   void deleteLine() {
     lineContent.removeLast();
-    linePointer.removeLast();
+    linePointers.removeLast();
   }
 
   void setFocus(int lineIndex, bool isFocus) {
     if (isFocus) {
       focusedLine = lineIndex;
-      lineContent[lineIndex][linePointer[lineIndex]].setFocus(true);
+      lineContent[lineIndex][linePointers[lineIndex]].setFocus(true);
     } else {
       focusedLine = -1;
-      lineContent[lineIndex][linePointer[lineIndex]].setFocus(false);
+      lineContent[lineIndex][linePointers[lineIndex]].setFocus(false);
     }
   }
 
   //сдвигает головку ленты и делает ячейку под ней активной
   bool moveLine(int lineIndex, int offset) {
-    
-    if(linePointer[lineIndex] + offset < 0 || linePointer[lineIndex] + offset > 2000) {
+
+    if(linePointers[lineIndex] + offset < 0 || linePointers[lineIndex] + offset > 2000) {
       return false;
     }
 
     if (lineIndex == focusedLine) {
       setFocus(lineIndex, false);
       setActive(lineIndex, false);
-      linePointer[lineIndex] += offset;
+      linePointers[lineIndex] += offset;
       setFocus(lineIndex, true);
       setActive(lineIndex, true);
     } else {
       setActive(lineIndex, false);
-      linePointer[lineIndex] += offset;
+      linePointers[lineIndex] += offset;
       setActive(lineIndex, true);
     }
     return true;
@@ -81,7 +82,7 @@ class TuringMachineConfiguration {
 
   //Возвращает символ ленты на месте указателя
   String getSymbol(int lineIndex) {
-    return lineContent[lineIndex][linePointer[lineIndex]].symbol;
+    return lineContent[lineIndex][linePointers[lineIndex]].symbol;
   }
 
   bool checkSymbol(String symbol, String predicate) =>
@@ -96,22 +97,22 @@ class TuringMachineConfiguration {
         : symbol == "*"
             ? getSymbol(lineIndex)
             : symbol;
-    lineContent[lineIndex][linePointer[lineIndex]].setSymbol(inputSymbol);
+    lineContent[lineIndex][linePointers[lineIndex]].setSymbol(inputSymbol);
   }
 
   //ставит символ на ленту и смещает указатель вправо
   void writeSymbol(int lineIndex, String symbol) {
-    lineContent[lineIndex][linePointer[lineIndex]].setSymbol(symbol);
+    lineContent[lineIndex][linePointers[lineIndex]].setSymbol(symbol);
     moveLine(lineIndex, 1);
   }
 
   //очищает текуший символ ленты и сдвигает указатель влево
   void clearSymbol(int lineIndex) {
-    lineContent[lineIndex][linePointer[lineIndex]].setSymbol(" ");
+    lineContent[lineIndex][linePointers[lineIndex]].setSymbol(" ");
     moveLine(lineIndex, -1);
   }
 
   void setActive(int lineIndex, bool isActive) {
-    lineContent[lineIndex][linePointer[lineIndex]].setActive(isActive);
+    lineContent[lineIndex][linePointers[lineIndex]].setActive(isActive);
   }
 }

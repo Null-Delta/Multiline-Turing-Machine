@@ -62,12 +62,12 @@ class TuringMachineTableState extends State<TuringMachineTable> {
                   value: i == 0
                       ? "№ ${rowIndex + 1}"
                       : i == machine.model.countOfLines + 1
-                          ? "${machine.model.stateList[machine.configuration.currentStateIndex].variantList[rowIndex].toState + 1}"
+                          ? "${machine.model.stateList[machine.configuration.currentStateIndex].ruleList[rowIndex].toState + 1}"
                           : machine
                               .model
                               .stateList[
                                   machine.configuration.currentStateIndex]
-                              .variantList[rowIndex]
+                              .ruleList[rowIndex]
                               .commandList[i - 1]
                               .toString())
       },
@@ -185,12 +185,12 @@ class TuringMachineTableState extends State<TuringMachineTable> {
                       value: j == 0
                           ? "№ ${i + 1}"
                           : j == machine.model.countOfLines + 1
-                              ? "${machine.model.stateList[machine.configuration.currentStateIndex].variantList[i].toState + 1}"
+                              ? "${machine.model.stateList[machine.configuration.currentStateIndex].ruleList[i].toState + 1}"
                               : machine
                                   .model
                                   .stateList[
                                       machine.configuration.currentStateIndex]
-                                  .variantList[i]
+                                  .ruleList[i]
                                   .commandList[j - 1]
                                   .toString())
           },
@@ -248,12 +248,12 @@ class TuringMachineTableState extends State<TuringMachineTable> {
                       value: j == 0
                           ? "№ ${i + 1}"
                           : j == machine.model.countOfLines + 1
-                              ? "${machine.model.stateList[machine.configuration.currentStateIndex].variantList[i].toState + 1}"
+                              ? "${machine.model.stateList[machine.configuration.currentStateIndex].ruleList[i].toState + 1}"
                               : machine
                                   .model
                                   .stateList[
                                       machine.configuration.currentStateIndex]
-                                  .variantList[i]
+                                  .ruleList[i]
                                   .commandList[j - 1]
                                   .toString())
           },

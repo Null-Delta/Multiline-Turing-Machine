@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class TuringCommand {
   String input = "*";
   String output = "*";
@@ -29,14 +31,7 @@ class TuringMachineVariant {
   List<TuringCommand> commandList = [];
   int toState = -1;
 
-  TuringMachineVariant(int countOfLines, int state) {
-    while (countOfLines > 0) {
-      commandList.add(TuringCommand());
-      countOfLines--;
-    }
-
-    toState = state;
-  }
+  
 
   String info() {
     var result = "      ";
@@ -46,24 +41,37 @@ class TuringMachineVariant {
     result += "$toState\n";
     return result;
   }
+
+  TuringMachineVariant(int countOfLines, int state) {
+    while (countOfLines > 0) {
+      commandList.add(TuringCommand());
+      countOfLines--;
+    }
+    toState = state;
+  }
+
+  TuringMachineVariant.fromCommandListAndToState(this.commandList, this.toState);
 }
 
 class TuringMachineState {
-  int get countOfVariants => variantList.length;
-  List<TuringMachineVariant> variantList = [];
+  int get countOfVariants => ruleList.length;
+  List<TuringMachineVariant> ruleList = [];
 
   String info() {
     String result = "";
     result += "    variants:\n";
 
     for (int variantIndex = 0;
-        variantIndex < variantList.length;
+        variantIndex < ruleList.length;
         variantIndex++) {
       result += "    variant $variantIndex:\n";
-      result += variantList[variantIndex].info();
+      result += ruleList[variantIndex].info();
     }
     return result;
   }
+
+  TuringMachineState.fromRuleList(this.ruleList);
+  TuringMachineState();
 }
 
 class TuringMachineModel {
@@ -71,28 +79,27 @@ class TuringMachineModel {
   int get countOfStates => stateList.length;
   int countOfLines = 1;
   List<TuringMachineState> stateList = [];
-  String modelDescription = "";
 
   void addState() {
     stateList.add(TuringMachineState());
-    stateList.last.variantList
+    stateList.last.ruleList
         .add(TuringMachineVariant(countOfLines, stateList.length - 1));
   }
 
   void deleteState(int number) => stateList.removeAt(number);
 
   void addVariant(int numberOfState, int atIndex) => stateList[numberOfState]
-      .variantList
+      .ruleList
       .insert(atIndex, TuringMachineVariant(countOfLines, numberOfState));
 
   void deleteVariant(int numberOfState, int numberOfVariant) =>
-      stateList[numberOfState].variantList.removeAt(numberOfVariant);
+      stateList[numberOfState].ruleList.removeAt(numberOfVariant);
 
   void addLine() {
     countOfLines++;
     for (int i = 0; i < countOfStates; i++) {
       for (int j = 0; j < stateList[i].countOfVariants; j++) {
-        stateList[i].variantList[j].commandList.add(TuringCommand());
+        stateList[i].ruleList[j].commandList.add(TuringCommand());
       }
     }
   }
@@ -101,7 +108,7 @@ class TuringMachineModel {
     countOfLines--;
     for (int i = 0; i < countOfStates; i++) {
       for (int j = 0; j < stateList[i].countOfVariants; j++) {
-        stateList[i].variantList[j].commandList.removeLast();
+        stateList[i].ruleList[j].commandList.removeLast();
       }
     }
   }
@@ -109,17 +116,17 @@ class TuringMachineModel {
   void setComandInVariant(int numberOfState, int numberOfVariant,
       int numberOfLine, TuringCommand command) {
     stateList[numberOfState]
-        .variantList[numberOfVariant]
+        .ruleList[numberOfVariant]
         .commandList[numberOfLine] = command;
   }
 
   void setToStateInVariant(
           int numberOfState, int numberOfVariant, int toState) =>
-      stateList[numberOfState].variantList[numberOfVariant].toState = toState;
+      stateList[numberOfState].ruleList[numberOfVariant].toState = toState;
 
   void replaceVariants(int numberOfState, int from, int to) {
-    var element = stateList[numberOfState].variantList.removeAt(from);
-    stateList[numberOfState].variantList.insert(to, element);
+    var element = stateList[numberOfState].ruleList.removeAt(from);
+    stateList[numberOfState].ruleList.insert(to, element);
   }
 
   TuringMachineModel() {

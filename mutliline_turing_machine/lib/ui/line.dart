@@ -31,7 +31,7 @@ class LineState extends State<Line> {
   scroll() {
     //log("scrooooooooool: ${machine.linePointer[widget.index]}");
     control.scrollTo(
-        index: machine.configuration.linePointer[widget.index] + 1,
+        index: machine.configuration.linePointers[widget.index] + 1,
         alignment: 0.5,
         curve: Curves.easeOutQuad,
         myIndent: _widthOfCell / 2,
@@ -48,7 +48,7 @@ class LineState extends State<Line> {
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.only(left: 2000, right: 2000),
       itemCount: cellCount,
-      initialScrollIndex: machine.configuration.linePointer[widget.index] + 1,
+      initialScrollIndex: machine.configuration.linePointers[widget.index] + 1,
       itemBuilder: (context, index) {
         if (index == 2001 || index == 0) {
           return Container(
