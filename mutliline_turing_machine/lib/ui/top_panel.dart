@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
+import 'package:mutliline_turing_machine/ui/about_panel.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import '../styles/app_colors.dart';
 import 'lines_page.dart';
@@ -87,6 +88,9 @@ class _TopPanelState extends State<TopPanel> {
                 message: "О приложении",
                 child: ElevatedButton(
                   onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const AboutPanel())
+                    );
                     //вызов нового окна поверх.
                   },
                   child: const SizedBox(
