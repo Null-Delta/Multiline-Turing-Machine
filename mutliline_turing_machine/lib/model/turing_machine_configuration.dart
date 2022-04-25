@@ -1,7 +1,6 @@
 import 'line_cell_model.dart';
 import 'turing_machine.dart';
 
-import 'dart:convert';
 
 class TuringMachineConfiguration {
   //содержимое лент

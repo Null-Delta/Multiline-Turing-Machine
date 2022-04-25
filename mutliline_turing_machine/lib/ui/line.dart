@@ -79,7 +79,7 @@ class LineState extends State<Line> {
               ),
               Container(
                   padding: const EdgeInsets.fromLTRB(0, 56, 0, 0),
-                  child: SizedBox(
+                  child: SizedBox( 
                       width: 28,
                       height: 20,
                       child: Text((index - 1 - (cellCount - 2) ~/ 2).toString(),

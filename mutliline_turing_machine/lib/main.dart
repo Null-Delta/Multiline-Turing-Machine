@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
@@ -40,21 +42,22 @@ class MyApp extends StatelessWidget {
           900: AppColors.accent,
         }),
       ),
-      home: MainWidget(),
+      home: const MainWidget(),
     );
   }
 }
 
 class MainWidget extends StatefulWidget {
-  MainWidget({Key? key}) : super(key: key);
-
-  final TuringMachine machine = TuringMachine(TuringMachineModel());
+  const MainWidget({Key? key}) : super(key: key);
 
   @override
   State<MainWidget> createState() => _MainWidgetState();
 }
 
 class _MainWidgetState extends State<MainWidget> {
+
+  late TuringMachine machine = TuringMachine(TuringMachineModel());
+
   late PlutoGridStateManager? tableManager;
   final tableState = GlobalKey<TuringMachineTableState>();
 
@@ -80,19 +83,19 @@ class _MainWidgetState extends State<MainWidget> {
     },
     onAddState: () {
       statesListState.currentState!.setState(() {
-        widget.machine.model.addState();
+        machine.model.addState();
       });
     },
     onDeleteState: () {
-      if (widget.machine.model.countOfStates > 1) {
+      if (machine.model.countOfStates > 1) {
         setState(
           () {
-            widget.machine.model
-                .deleteState(widget.machine.configuration.currentStateIndex);
-            if (widget.machine.configuration.currentStateIndex >=
-                widget.machine.model.countOfStates) {
-              widget.machine.configuration.currentStateIndex =
-                  widget.machine.model.countOfStates - 1;
+            machine.model
+                .deleteState(machine.configuration.currentStateIndex);
+            if (machine.configuration.currentStateIndex >=
+                machine.model.countOfStates) {
+              machine.configuration.currentStateIndex =
+                  machine.model.countOfStates - 1;
             }
           },
         );
@@ -100,12 +103,12 @@ class _MainWidgetState extends State<MainWidget> {
       }
     },
     onMakeStep: () {
-      var text = widget.machine.makeStep();
+      var text = machine.makeStep();
       statesListState.currentState!.setState(() {});
       tableState.currentState!.updateTableState();
       tableManager!.setCurrentSelectingRowsByRange(
-          widget.machine.configuration.currentVatiantIndex,
-          widget.machine.configuration.currentVatiantIndex);
+          machine.configuration.currentVatiantIndex,
+          machine.configuration.currentVatiantIndex);
       onScroll();
 
       if (text != "") {
@@ -114,13 +117,13 @@ class _MainWidgetState extends State<MainWidget> {
       }
     },
     onStartStopWork: () {
-      if (!widget.machine.activator.isActive) {
-        widget.machine.activator.startMachine(32, () {
+      if (!machine.activator.isActive) {
+        machine.activator.startMachine(32, () {
           statesListState.currentState!.setState(() {});
           onScroll();
         });
       } else {
-        widget.machine.activator.stopMachine();
+        machine.activator.stopMachine();
       }
     },
     onCommentsShow: () {
@@ -134,7 +137,7 @@ class _MainWidgetState extends State<MainWidget> {
 
   void updateSelectedState(int newState) {
     statesListState.currentState!.setState(() {
-      widget.machine.configuration.currentStateIndex = newState;
+      machine.configuration.currentStateIndex = newState;
     });
 
     tableState.currentState!.updateTableState();
@@ -166,22 +169,31 @@ class _MainWidgetState extends State<MainWidget> {
     );
   }
 
+  void importFile(String json) {
+    setState(() {
+      machine = TuringMachine.fromJson(jsonDecode(json));
+      log(machine.configuration.linePointers.length.toString());
+    });
+  }
+
   FocusNode commentsFocus = FocusNode();
   GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
 
   @override
   Widget build(BuildContext context) {
     log("rebuilding");
-
+    
+    log(machine.model.info());
+    log(machine.configuration.linePointers.toString());
     linePagesState = GlobalKey<LinesPageState>();
 
     return Scaffold(
       backgroundColor: AppColors.background,
       body: MachineInherit(
         bottomSplitState: commentsState,
-        machine: widget.machine,
+        machine: machine,
         lineFocus: [
-          for (int i = 0; i < widget.machine.model.countOfLines; i++)
+          for (int i = 0; i < machine.model.countOfLines; i++)
             FocusNode()
         ],
         commentsFocus: commentsFocus,
@@ -202,7 +214,7 @@ class _MainWidgetState extends State<MainWidget> {
               children: [
                 Column(
                   children: [
-                    const TopPanel(),
+                    TopPanel(importFile: importFile, ),
                     LinesPage(key: linePagesState),
                   ],
                 ),

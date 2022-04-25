@@ -10,10 +10,14 @@ import 'lines_page.dart';
 
 // ignore: must_be_immutable
 class TopPanel extends StatefulWidget {
-  const TopPanel({
+  TopPanel({
+    required this.importFile,
     Key? key,
   }) : super(key: key);
 
+  void Function(String) importFile; 
+
+  
   @override
   State<TopPanel> createState() => _TopPanelState();
 }
@@ -22,7 +26,7 @@ class _TopPanelState extends State<TopPanel> {
   static const double iconSize = 28;
   late TuringMachine machine;
   late GlobalKey<LinesPageState> linePagesState;
-
+  late var json;
   @override
   Widget build(BuildContext context) {
     machine = MachineInherit.of(context)!.machine;
@@ -62,7 +66,14 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Настройки",
                 child: ElevatedButton(
                   onPressed: () {
-                    log(machine.toJson().toString());
+                    
+                    setState(() {
+                      json = machine.toJson().toString();
+                    });
+                    log(json.toString());
+                    
+                    
+                    
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -81,7 +92,10 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "О приложении",
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    log(json);
+                    widget.importFile(json);
+                  },
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,
