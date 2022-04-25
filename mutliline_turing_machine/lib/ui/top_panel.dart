@@ -97,7 +97,7 @@ class _TopPanelState extends State<TopPanel> {
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
-                message: "Справка",
+                message: "Справочка",
                 child: ElevatedButton(
                   onPressed: () {},
                   child: const SizedBox(

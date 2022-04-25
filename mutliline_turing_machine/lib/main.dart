@@ -7,6 +7,7 @@ import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
+import 'package:mutliline_turing_machine/ui/referance.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'styles/app_colors.dart';
 import 'ui/lines_page.dart';
@@ -135,7 +136,6 @@ class _MainWidgetState extends State<MainWidget> {
     tableState.currentState!.updateTableState();
   }
 
-
   FocusNode commentsFocus = FocusNode();
   GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
 
@@ -143,8 +143,11 @@ class _MainWidgetState extends State<MainWidget> {
   Widget build(BuildContext context) {
     log("rebuilding");
 
-    linePagesState =  GlobalKey<LinesPageState>();
-    
+    linePagesState = GlobalKey<LinesPageState>();
+
+    return Scaffold(
+      body: Reference(),
+    );
     return Scaffold(
       backgroundColor: AppColors.background,
       body: MachineInherit(
