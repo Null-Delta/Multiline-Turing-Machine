@@ -29,7 +29,6 @@ class TuringMachine {
     activator = MachineEngine(this);
   }
 
-
   //NOT TESTED
   TuringMachine.fromJsonElements(
       {required List<int> linePointers,
@@ -64,7 +63,6 @@ class TuringMachine {
     );
   }
 
-
   Map<String, dynamic> toJson() => {
         'linePointers': configuration.linePointers,
         'lineContent': List.generate(
@@ -86,7 +84,6 @@ class TuringMachine {
         ),
       };
 
-
   //NOT TESTED
   factory TuringMachine.fromJson(Map<String, dynamic> json) {
     return TuringMachine.fromJsonElements(
@@ -96,7 +93,6 @@ class TuringMachine {
       stateList: json['stateList'] as List<List<List<dynamic>>>,
     );
   }
-
 
   bool addLine() {
     if (model.countOfLines >= 16) {
@@ -174,22 +170,40 @@ class TuringMachine {
           if (activator.isActive) {
             activator.stopMachine();
           }
-          return "Состояние ${currentVariant.toState} не найдено.";
+          return "Состояние ${currentVariant.toState + 1} не найдено.";
         }
+        var canMove = true;
+
         for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
           var currentCommand = currentVariant.commandList[lineIndex];
           configuration.setSymbol(lineIndex, currentCommand.output);
           switch (currentCommand.moveType) {
             case "<":
-              configuration.moveLine(lineIndex, -1);
+              if (!canMove) {
+                configuration.moveLine(lineIndex, -1);
+              } else {
+                canMove = configuration.moveLine(lineIndex, -1);
+              }
               break;
             case ">":
-              configuration.moveLine(lineIndex, 1);
+              if (!canMove) {
+                configuration.moveLine(lineIndex, 1);
+              } else {
+                canMove = configuration.moveLine(lineIndex, 1);
+              }
               break;
             default:
               break;
           }
         }
+
+        if (!canMove) {
+          if (activator.isActive) {
+            activator.stopMachine();
+          }
+          return "Вы достигли конца ленты.\nПеремещение головки невозможно.";
+        }
+
         configuration.currentStateIndex = currentVariant.toState;
         if (currentVariant.toState == -1) {
           if (activator.isActive) {
@@ -198,7 +212,6 @@ class TuringMachine {
         }
         configuration.activeState.activeStateIndex =
             configuration.currentStateIndex;
-        //log(info());
 
         findCurrentState();
         return "";
@@ -208,6 +221,6 @@ class TuringMachine {
     if (activator.isActive) {
       activator.stopMachine();
     }
-    return "Не найден текущий вариант.";
+    return "Не найдено подходящее правило.";
   }
 }

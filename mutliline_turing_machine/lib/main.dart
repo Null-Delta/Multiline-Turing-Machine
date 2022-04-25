@@ -100,13 +100,18 @@ class _MainWidgetState extends State<MainWidget> {
       }
     },
     onMakeStep: () {
-      widget.machine.makeStep();
+      var text = widget.machine.makeStep();
       statesListState.currentState!.setState(() {});
       tableState.currentState!.updateTableState();
       tableManager!.setCurrentSelectingRowsByRange(
           widget.machine.configuration.currentVatiantIndex,
           widget.machine.configuration.currentVatiantIndex);
       onScroll();
+
+      if (text != "") {
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(errorSnackBar(text));
+      }
     },
     onStartStopWork: () {
       if (!widget.machine.activator.isActive) {
@@ -135,6 +140,31 @@ class _MainWidgetState extends State<MainWidget> {
     tableState.currentState!.updateTableState();
   }
 
+  SnackBar errorSnackBar(String text) {
+    return SnackBar(
+      shape: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+          borderSide: BorderSide(
+            color: Colors.transparent,
+            width: 0,
+          )),
+      elevation: 32,
+      width: 640,
+      backgroundColor: AppColors.destructive,
+      behavior: SnackBarBehavior.floating,
+      content: Text(
+        text,
+        style: TextStyle(color: AppColors.background),
+      ),
+      action: SnackBarAction(
+        textColor: AppColors.background,
+        label: 'Ладушки',
+        onPressed: () {},
+      ),
+    );
+  }
 
   FocusNode commentsFocus = FocusNode();
   GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
@@ -143,8 +173,8 @@ class _MainWidgetState extends State<MainWidget> {
   Widget build(BuildContext context) {
     log("rebuilding");
 
-    linePagesState =  GlobalKey<LinesPageState>();
-    
+    linePagesState = GlobalKey<LinesPageState>();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: MachineInherit(

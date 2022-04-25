@@ -50,9 +50,9 @@ class LineState extends State<Line> {
       itemCount: cellCount,
       initialScrollIndex: machine.configuration.linePointers[widget.index] + 1,
       itemBuilder: (context, index) {
-        if (index == 2001 || index == 0) {
+        if (index == 2002 || index == 0) {
           return Container(
-            padding: index == 2001
+            padding: index == 2002
                 ? const EdgeInsets.only(left: 320)
                 : const EdgeInsets.only(right: 320),
             child: Center(
