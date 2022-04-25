@@ -65,10 +65,8 @@ class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixi
               child: Container(
                 decoration: !value.isActive
                     ? BoxDecoration(
-                        border:
-                            Border.all(width: 2, color: AppColors.highlight),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(7)),
+                        border: Border.all(width: 2, color: AppColors.highlight),
+                        borderRadius: const BorderRadius.all(Radius.circular(7)),
                         color: AppColors.background,
                       )
                     : BoxDecoration(
@@ -101,8 +99,7 @@ class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixi
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(7),
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                      color: AppColors.background),
+                                  decoration: BoxDecoration(color: AppColors.background),
                                 ),
                               ),
                             )

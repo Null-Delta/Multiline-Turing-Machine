@@ -119,15 +119,11 @@ class _BottomPanelState extends State<BottomPanel> {
           width: iconSize,
           height: iconSize,
           child: Image(
-            color: commentsState.currentState?.needShowComments ?? true
-                ? AppColors.background
-                : AppColors.text,
+            color: commentsState.currentState?.needShowComments ?? true ? AppColors.background : AppColors.text,
             image: AppImages.comments,
           ),
         ),
-        style: commentsState.currentState?.needShowComments ?? true
-            ? activeAppButtonStyle
-            : appButtonStyle,
+        style: commentsState.currentState?.needShowComments ?? true ? activeAppButtonStyle : appButtonStyle,
       ),
     );
   }
@@ -172,14 +168,11 @@ class _BottomPanelState extends State<BottomPanel> {
           width: iconSize,
           height: iconSize,
           child: Image(
-            color: machine.activator.isActive
-                ? AppColors.background
-                : AppColors.text,
+            color: machine.activator.isActive ? AppColors.background : AppColors.text,
             image: AppImages.timer,
           ),
         ),
-        style:
-            machine.activator.isActive ? activeAppButtonStyle : appButtonStyle,
+        style: machine.activator.isActive ? activeAppButtonStyle : appButtonStyle,
       ),
     );
   }
