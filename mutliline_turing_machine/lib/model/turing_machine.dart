@@ -37,9 +37,12 @@ class TuringMachine {
     configuration.linePointers = linePointers;
 
     configuration.lineContent = List.generate(
-        lineContent.length,
-        (i) => List.generate(lineContent[i].length,
-            (j) => LineCellModel(symbol: lineContent[i][j])));
+      lineContent.length,
+      (i) => List.generate(
+        lineContent[i].length,
+        (j) => LineCellModel(symbol: lineContent[i][j]),
+      ),
+    );
 
     model.description = description;
 
@@ -80,6 +83,18 @@ class TuringMachine {
                   ]),
         ),
       };
+
+
+  //NOT TESTED
+  factory TuringMachine.fromJson(Map<String, dynamic> json) {
+    return TuringMachine.fromJsonElements(
+      linePointers: json['linePointers'] as List<int>,
+      lineContent: json['lineContent'] as List<List<String>>,
+      description: json['description'] as String,
+      stateList: json['stateList'] as List<List<List<dynamic>>>,
+    );
+  }
+
 
   bool addLine() {
     if (model.countOfLines >= 16) {
