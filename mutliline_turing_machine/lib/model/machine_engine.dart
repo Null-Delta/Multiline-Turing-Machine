@@ -20,9 +20,11 @@ class MachineEngine {
   // запущена ли машина
   late bool active = false;
   bool get isActive => active;
+  int timesPerSecond = 1;
 
   //запускает автоматическую работу с заданной скоростью
-  bool startMachine(int timesPerSecond, Function() onScroll) {
+  bool startMachine(int stepsCount, Function() onScroll) {
+    timesPerSecond = stepsCount;
     if (timesPerSecond <= 0 || timesPerSecond > 32) {
       return false;
     }

@@ -221,6 +221,51 @@ class _BottomPanelState extends State<BottomPanel> {
     ),
   );
 
+  late var speedBtn = PopupMenuButton<int>(
+    elevation: 24,
+    tooltip: "Скорость работы машины",
+    onSelected: (value) {},
+    shape: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(8),
+        ),
+        borderSide: BorderSide(width: 0, color: Colors.transparent)),
+    child: SizedBox(
+      width: iconSize,
+      height: iconSize,
+      child: Center(
+        child: Text(
+          "1x",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 12,
+            color: AppColors.text,
+          ),
+        ),
+      ),
+    ),
+    itemBuilder: (context) {
+      return [
+        for (int i = 1; i <= 8; i++)
+          PopupMenuItem<int>(
+            value: i,
+            onTap: () {},
+            height: 28,
+            child: Text(
+              "${i}x",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 12,
+                color: AppColors.text,
+              ),
+            ),
+          )
+      ];
+    },
+  );
+
   late GlobalKey<BottomSplitPanelState> commentsState;
 
   @override
@@ -255,9 +300,13 @@ class _BottomPanelState extends State<BottomPanel> {
                         width: double.infinity,
                       ),
                     ),
-                    debugBtn,
+                    divider,
                     spacer,
                     stopBtn,
+                    spacer,
+                    debugBtn,
+                    spacer,
+                    speedBtn,
                     spacer,
                     timerBtn(),
                     spacer,
@@ -284,6 +333,8 @@ class _BottomPanelState extends State<BottomPanel> {
                       ),
                     ),
                     debugBtn,
+                    spacer,
+                    speedBtn,
                     spacer,
                     timerBtn(),
                     spacer,
