@@ -16,6 +16,9 @@ class TuringMachine {
   late TuringMachineModel model;
   late TuringMachineConfiguration configuration;
 
+  late String? saveMachineJson;
+  late String? saveLinesJson;
+
   TuringMachineState get currentState =>
       model.stateList[configuration.currentStateIndex];
 
@@ -54,7 +57,7 @@ class TuringMachine {
     for (int i = 0; i < configuration.linePointers.length; i++) {
       configuration.lineContent[i][linePointers[i]].setActive(true);
     }
-    
+
     model = TuringMachineModel();
 
     model.description = description;
@@ -98,13 +101,46 @@ class TuringMachine {
         ),
       };
 
+   Map<String, dynamic> linesToJson() => {
+        '"linePointers"': configuration.linePointers,
+        '"lineContent"': List.generate(
+            configuration.lineContent.length,
+            (i) => List.generate(
+                2001, (j) => "\"" + configuration.lineContent[i][j].symbol + "\"")),
+      };
+    
+  void importLinesJson(String json) {
+    var map = jsonDecode(json);
+    List<dynamic> linePointers = map['linePointers'];
+    List<dynamic> lineContent = map['lineContent'];
+
+    configuration = TuringMachineConfiguration(linePointers.length);
+
+    configuration.linePointers =
+        List.generate(linePointers.length, (i) => linePointers[i]);
+
+    configuration.lineContent = List.generate(
+      lineContent.length,
+      (i) => List.generate(
+        lineContent[i].length,
+        (j) => LineCellModel(symbol: lineContent[i][j]),
+      ),
+    );
+
+    for (int i = 0; i < configuration.linePointers.length; i++) {
+      configuration.lineContent[i][linePointers[i]].setActive(true);
+    }
+
+    model.countOfLines = lineContent.length;
+  }
+
   //NOT TESTED
   factory TuringMachine.fromJson(Map<String, dynamic> json) {
     return TuringMachine.fromJsonElements(
-      linePointers: json['linePointers'] as List<dynamic>,
-      lineContent: json['lineContent'] as List<dynamic>,
-      description: json['description'] as String,
-      stateList: json['stateList'] as List<dynamic>,
+      linePointers: json['linePointers'],
+      lineContent: json['lineContent'],
+      description: json['description'],
+      stateList: json['stateList'],
     );
   }
 

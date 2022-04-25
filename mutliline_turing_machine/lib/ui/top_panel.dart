@@ -95,10 +95,10 @@ class _TopPanelState extends State<TopPanel> {
                 message: "О приложении",
                 child: ElevatedButton(
                   onPressed: () {
+                    //Вызов нового окна поверх.
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => const AboutPanel())
                     );
-                    //вызов нового окна поверх.
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -138,7 +138,7 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Сохранить ленты",
                 child: ElevatedButton(
                   onPressed: () {
-                    
+                    machine.saveLinesJson = machine.linesToJson().toString();
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -155,6 +155,11 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Загрузить ленты",
                 child: ElevatedButton(
                   onPressed: () {
+                    if(machine.saveLinesJson != null) {
+                      machine.importLinesJson(machine.saveLinesJson!);
+                      linePagesState.currentState!.setState(() {
+                     });
+                    }
                     
                   },
                   child: const SizedBox(
