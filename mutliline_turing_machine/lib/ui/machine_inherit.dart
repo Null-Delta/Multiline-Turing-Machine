@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
+import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
 
 import 'bottom_split_panel.dart';
@@ -16,7 +17,8 @@ class MachineInherit extends InheritedWidget {
       required this.commentsFocus,
       required this.linesPageState,
       required this.tableState,
-      required this.bottomSplitState})
+      required this.bottomSplitState,
+      required this.statesListState})
       : super(child: child, key: key);
 
   final TuringMachine machine;
@@ -27,6 +29,7 @@ class MachineInherit extends InheritedWidget {
   final GlobalKey<LinesPageState> linesPageState;
   final GlobalKey<TuringMachineTableState> tableState;
   final GlobalKey<BottomSplitPanelState> bottomSplitState;
+  final GlobalKey<StatesListState> statesListState;
 
   @override
   bool updateShouldNotify(covariant MachineInherit oldWidget) {
@@ -34,5 +37,6 @@ class MachineInherit extends InheritedWidget {
     return linesFocus.length != oldWidget.linesFocus.length;
   }
 
-  static MachineInherit? of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<MachineInherit>();
+  static MachineInherit? of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<MachineInherit>();
 }
