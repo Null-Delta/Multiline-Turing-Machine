@@ -68,6 +68,7 @@ class _StateCommentsState extends State<StateComments> {
                 } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft) &&
                     textController.selection.start == 0) {
                   FocusScope.of(context)
+                      .parent!
                       .focusInDirection(TraversalDirection.left);
                 }
                 return KeyEventResult.ignored;

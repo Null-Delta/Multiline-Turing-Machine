@@ -29,6 +29,7 @@ class PlutoGrid extends StatefulWidget {
     this.mode = PlutoGridMode.normal,
     this.topFocus,
     this.rightFocus,
+    this.leftFocus,
   }) : super(key: key);
 
   final List<PlutoColumn> columns;
@@ -61,6 +62,7 @@ class PlutoGrid extends StatefulWidget {
 
   final FocusNode? topFocus;
   final FocusNode? rightFocus;
+  final FocusNode? leftFocus;
 
   /// [PlutoGridMode.normal]
   /// Normal grid with cell editing.
@@ -461,7 +463,7 @@ class _PlutoGridState extends State<PlutoGrid> {
         _stateManager.currentCellPosition?.columnIdx == 0) {
       focusNode.unfocus();
       FocusScope.of(context).unfocus();
-      widget.topFocus?.requestFocus();
+      widget.leftFocus?.requestFocus();
     }
 
     if (_keyManager!.eventResult.isSkip == false) {
