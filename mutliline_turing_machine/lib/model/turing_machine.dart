@@ -139,6 +139,8 @@ class TuringMachine {
             : model.deleteLine();
       }
     }
+
+    //log("LINES " + model.countOfLines.toString() + " " + linePointers.length.toString());
   }
 
   //NOT TESTED
