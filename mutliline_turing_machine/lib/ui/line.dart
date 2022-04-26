@@ -37,7 +37,8 @@ class LineState extends State<Line> {
   }
 
   jumpToStart() {
-    control.jumpTo(index: machine.configuration.linePointers[widget.index] + 1, alignment: 0.5, myIndent: _widthOfCell / 2);
+    control.jumpTo(
+        index: machine.configuration.linePointers[widget.index] + 1, alignment: 0.5, myIndent: _widthOfCell / 2);
   }
 
   late var line = ScrollablePositionedList.separated(
@@ -50,7 +51,7 @@ class LineState extends State<Line> {
       itemBuilder: (context, index) {
         if (index == 2002 || index == 0) {
           return Container(
-            padding: index == 2002 ? const EdgeInsets.only(left: 320) : const EdgeInsets.only(right: 320),
+            padding: index == 2002 ? const EdgeInsets.only(left: 280) : const EdgeInsets.only(right: 280),
             child: Center(
               child: Text(
                 "А все!",

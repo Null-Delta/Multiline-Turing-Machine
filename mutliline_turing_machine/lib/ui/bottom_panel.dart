@@ -271,42 +271,6 @@ class _BottomPanelState extends State<BottomPanel> {
         ),
       ),
     );
-    return PopupMenuButton<int>(
-      elevation: 24,
-      enableFeedback: true,
-      tooltip: "Скорость работы машины",
-      initialValue: 1,
-      onSelected: (value) {
-        setState(() {
-          timesPerSec = pow(2, value - 1).toInt();
-          widget.onNewSpeed(timesPerSec);
-        });
-      },
-      shape: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(
-            Radius.circular(8),
-          ),
-          borderSide: BorderSide(width: 1, color: AppColors.highlight)),
-      itemBuilder: (context) {
-        return [
-          for (int i = 0; i <= 4; i++)
-            PopupMenuItem<int>(
-              value: i + 1,
-              onTap: () {},
-              height: 36,
-              child: Text(
-                "${pow(2, i)}x",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
-                  color: AppColors.text,
-                ),
-              ),
-            )
-        ];
-      },
-    );
   }
 
   late GlobalKey<BottomSplitPanelState> commentsState;
@@ -352,8 +316,8 @@ class _BottomPanelState extends State<BottomPanel> {
                     spacer,
                     stopBtn,
                     spacer,
-                    debugBtn,
-                    spacer,
+                    // debugBtn,
+                    // spacer,
                     speedBtn(),
                     spacer,
                     timerBtn(),
@@ -380,8 +344,8 @@ class _BottomPanelState extends State<BottomPanel> {
                         width: double.infinity,
                       ),
                     ),
-                    debugBtn,
-                    spacer,
+                    // debugBtn,
+                    // spacer,
                     speedBtn(),
                     spacer,
                     timerBtn(),

@@ -18,6 +18,8 @@ class AppImages {
   static const AssetImage stop = AssetImage('resources/images/stop.png');
   static const AssetImage timer = AssetImage('resources/images/timer.png');
   static const AssetImage update = AssetImage('resources/images/update.png');
+  static const AssetImage back = AssetImage('resources/images/back.png');
+  static const AssetImage arrowRight = AssetImage('resources/images/arrow_right.png');
   static const AssetImage appIcon = AssetImage('resources/images/app_icon.png');
   static const AssetImage ZedNull = AssetImage('resources/images/zed_null.jpg');
   static const AssetImage IAmGirya = AssetImage('resources/images/i_am_girya.jpg');

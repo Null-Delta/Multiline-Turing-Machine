@@ -77,7 +77,7 @@ class Reference extends StatelessWidget {
                           Navigator.of(context).pop();
                         },
                         child: const Image(
-                          image: AppImages.file,
+                          image: AppImages.back,
                         )),
                   ),
                   Container(
