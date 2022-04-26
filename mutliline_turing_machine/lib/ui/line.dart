@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_colors.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
+import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:provider/provider.dart';
 import '../scrollAbleList/scrollable_positioned_list.dart';
 import 'line_cell.dart';
@@ -24,16 +25,22 @@ class LineState extends State<Line> {
   late TuringMachine machine;
   late FocusNode focus;
 
+  late LineAnimationState animationState;
   int cellCount = 2003;
   ItemScrollController control = ItemScrollController();
 
   scroll() {
-    control.scrollTo(
-        index: machine.configuration.linePointers[widget.index] + 1,
-        alignment: 0.5,
-        curve: Curves.easeOutQuad,
-        myIndent: _widthOfCell / 2,
-        duration: const Duration(milliseconds: 350));
+    if (animationState.isAnimate) {
+      control.scrollTo(
+          index: machine.configuration.linePointers[widget.index] + 1,
+          alignment: 0.5,
+          curve: Curves.easeOutQuad,
+          myIndent: _widthOfCell / 2,
+          duration: const Duration(milliseconds: 350));
+    } else {
+      control.jumpTo(
+          index: machine.configuration.linePointers[widget.index] + 1, alignment: 0.5, myIndent: _widthOfCell / 2);
+    }
   }
 
   jumpToStart() {
@@ -98,6 +105,7 @@ class LineState extends State<Line> {
   Widget build(BuildContext context) {
     machine = MachineInherit.of(context)!.machine;
     focus = MachineInherit.of(context)!.linesFocus[widget.index];
+    animationState = MachineInherit.of(context)!.animationState;
     if (control.isAttached) {
       // control.jumpTo(
       //     index: machine.configuration.linePointer[widget.index],

@@ -11,7 +11,9 @@ import 'package:mutliline_turing_machine/ui/about_panel.dart';
 import 'package:mutliline_turing_machine/ui/custom_popup.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:mutliline_turing_machine/ui/referance.dart';
+import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
+import 'package:provider/provider.dart';
 import '../styles/app_colors.dart';
 import 'lines_page.dart';
 
@@ -36,6 +38,8 @@ class _TopPanelState extends State<TopPanel> {
     var linePagesState = MachineInherit.of(context)!.linesPageState;
     var bottomSplitState = MachineInherit.of(context)!.bottomSplitState;
     var statesListState = MachineInherit.of(context)!.statesListState;
+    var animationState = MachineInherit.of(context)!.animationState;
+
     return Column(
       children: [
         Container(
@@ -64,8 +68,7 @@ class _TopPanelState extends State<TopPanel> {
                           ),
                         ),
                         onTap: () {
-                          var emptyMachine =
-                              TuringMachine(TuringMachineModel());
+                          var emptyMachine = TuringMachine(TuringMachineModel());
 
                           machine.loadFromJson(emptyMachine.toJson());
                           tableState.currentState!.reloadTable();
@@ -85,10 +88,8 @@ class _TopPanelState extends State<TopPanel> {
                           ),
                         ),
                         onTap: () async {
-                          FilePickerResult? result = await FilePicker.platform
-                              .pickFiles(
-                                  type: FileType.custom,
-                                  allowedExtensions: ['mtm']);
+                          FilePickerResult? result =
+                              await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['mtm']);
                           if (result != null) {
                             log(result.files.first.path!);
                             File file = File(result.files.first.path!);
@@ -113,10 +114,8 @@ class _TopPanelState extends State<TopPanel> {
                           ),
                         ),
                         onTap: () async {
-                          String? result = await FilePicker.platform.saveFile(
-                              fileName: 'save.mtm',
-                              type: FileType.custom,
-                              allowedExtensions: ['mtm']);
+                          String? result = await FilePicker.platform
+                              .saveFile(fileName: 'save.mtm', type: FileType.custom, allowedExtensions: ['mtm']);
                           if (result != null) {
                             log(result);
                             File file = File(result);
@@ -139,7 +138,14 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Настройки",
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                      return ChangeNotifierProvider.value(
+                        value: animationState,
+                        child: const SettingsPanel(),
+                      );
+                    }));
+                  },
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,
@@ -159,8 +165,7 @@ class _TopPanelState extends State<TopPanel> {
                 child: ElevatedButton(
                   onPressed: () {
                     //Вызов нового окна поверх.
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const AboutPanel()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutPanel()));
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -180,8 +185,7 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Справочка",
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const Reference()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Reference()));
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -228,22 +232,10 @@ class _TopPanelState extends State<TopPanel> {
                       linePagesState.currentState!.setState(() {});
                       var count = machine.model.countOfLines;
                       if (count != machine.configuration.linePointers.length) {
-                        for (int i = 0;
-                            i <
-                                (count -
-                                        machine
-                                            .configuration.linePointers.length)
-                                    .abs();
-                            i++) {
+                        for (int i = 0; i < (count - machine.configuration.linePointers.length).abs(); i++) {
                           count < machine.configuration.linePointers.length
-                              ? {
-                                  machine.model.addLine(),
-                                  tableState.currentState!.addLine()
-                                }
-                              : {
-                                  machine.model.deleteLine(),
-                                  tableState.currentState!.deleteLine()
-                                };
+                              ? {machine.model.addLine(), tableState.currentState!.addLine()}
+                              : {machine.model.deleteLine(), tableState.currentState!.deleteLine()};
                         }
                       }
                     }

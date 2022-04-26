@@ -12,6 +12,7 @@ import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:mutliline_turing_machine/ui/referance.dart';
+import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'styles/app_colors.dart';
 import 'ui/about_panel.dart';
@@ -63,6 +64,8 @@ class _MainWidgetState extends State<MainWidget> {
 
   late PlutoGridStateManager? tableManager;
   final tableState = GlobalKey<TuringMachineTableState>();
+
+  var lineAnimate = LineAnimationState(true);
 
   var commentsState = GlobalKey<BottomSplitPanelState>();
   var bottomPanelState = GlobalKey<BottomPanelState>();
@@ -229,6 +232,7 @@ class _MainWidgetState extends State<MainWidget> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: MachineInherit(
+        animationState: lineAnimate,
         statesFocus: statesFocus,
         bottomSplitState: commentsState,
         machine: machine,
