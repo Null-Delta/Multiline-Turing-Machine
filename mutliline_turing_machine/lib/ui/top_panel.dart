@@ -57,7 +57,7 @@ class _TopPanelState extends State<TopPanel> {
                       PopupMenuItem(
                           onTap: () {
                             var emptyMachine = TuringMachine(TuringMachineModel());
-
+                            
                             machine.loadFromJson(jsonDecode(jsonEncode(emptyMachine.toJson())));
                             tableState.currentState!.reloadTable();
                             statesListState.currentState!.setState(() {});
@@ -99,7 +99,15 @@ class _TopPanelState extends State<TopPanel> {
                           onTap: () async {
                             FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.any);
                             if(result != null) {
-                              log(result.files.first.name);
+                              log(result.files.first.path!);
+                              File file = File(result.files.first.path!);
+                              String json = await file.readAsString();
+                              
+                              machine.loadFromJson(jsonDecode(json));
+                              tableState.currentState!.reloadTable();
+                              statesListState.currentState!.setState(() {});
+                              linePagesState.currentState!.setState(() {});
+                              bottomSplitState.currentState!.setState(() {});
                             }
                           },
                           child: Text(
