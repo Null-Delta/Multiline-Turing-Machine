@@ -14,7 +14,7 @@ class BottomSplitPanel extends StatefulWidget {
 class BottomSplitPanelState extends State<BottomSplitPanel> {
   var needShowComments = true;
 
-  void chaneCommentsShow() {
+  void changeCommentsShow() {
     setState(() {
       needShowComments = !needShowComments;
     });
@@ -29,7 +29,8 @@ class BottomSplitPanelState extends State<BottomSplitPanel> {
             resizable: true,
             minimalSize: 256,
             initialWeights: const [0.7, 0.3],
-            children: [widget.table, const StateComments()],
+            //Коментарии без конст, т.к. эта панель ребилдится для обновления комментариев, можете исправить
+            children: [widget.table, StateComments()],
           )
         : widget.table;
   }
