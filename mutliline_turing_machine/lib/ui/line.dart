@@ -27,9 +27,6 @@ class LineState extends State<Line> {
   int cellCount = 2003;
   ItemScrollController control = ItemScrollController();
 
-  String savedLine = "";
-  int savedPoint = -1;
-
   scroll() {
     control.scrollTo(
         index: machine.configuration.linePointers[widget.index] + 1,
@@ -37,41 +34,11 @@ class LineState extends State<Line> {
         curve: Curves.easeOutQuad,
         myIndent: _widthOfCell / 2,
         duration: const Duration(milliseconds: 350));
-    // control.jumpTo(
-    //     index: machine.configuration.linePointer[widget.index],
-    //     alignment: 0.5,
-    //     myIndent: _widthOfCell / 2);
   }
 
-  jump() {
-    control.jumpTo(index: machine.configuration.linePointers[widget.index], alignment: 0.5, myIndent: _widthOfCell / 2);
+  jumpToStart() {
+    control.jumpTo(index: machine.configuration.linePointers[widget.index] + 1, alignment: 0.5, myIndent: _widthOfCell / 2);
   }
-
-  // saveLine() {
-  //   savedLine = "";
-  //   for (int i = 0; i <machine.configuration.lineContent[widget.index].length; i++) {
-  //     savedLine += machine.configuration.lineContent[widget.index][i].symbol;
-  //   }
-  //   savedPoint = machine.configuration.linePointers[widget.index];
-  // }
-
-  // loadLine() {
-  //   if (savedLine.length == machine.configuration.lineContent[widget.index].length) {
-  //     for (int i = 0; i < machine.configuration.lineContent[widget.index].length; i++) {
-  //       machine.configuration.lineContent[widget.index][i].setSymbol(savedLine[i]);
-  //     }
-  //   }
-  //   machine.configuration.moveLine(widget.index, savedPoint - machine.configuration.linePointers[widget.index]);
-  //   jump();
-  // }
-
-  // clearLine() {
-  //   for (int i = 0; i <machine.configuration.lineContent[widget.index].length; i++) {
-  //     machine.configuration.lineContent[widget.index][i].setSymbol(" ");
-  //   }
-  //   machine.configuration.moveLine(widget.index, 1000 - machine.configuration.linePointers[widget.index]);
-  //   jump();
-  // }
 
   late var line = ScrollablePositionedList.separated(
       physics: const NeverScrollableScrollPhysics(),
