@@ -140,7 +140,7 @@ class _MainWidgetState extends State<MainWidget> {
       });
     },
     onCommentsShow: () {
-      commentsState.currentState!.chaneCommentsShow();
+      commentsState.currentState!.changeCommentsShow();
     },
   );
 
