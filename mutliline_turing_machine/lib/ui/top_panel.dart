@@ -17,7 +17,6 @@ import 'lines_page.dart';
 
 import 'package:file_picker/file_picker.dart';
 
-
 class TopPanel extends StatefulWidget {
   const TopPanel({
     Key? key,
@@ -55,57 +54,79 @@ class _TopPanelState extends State<TopPanel> {
                   itemBuilder: (context) {
                     return [
                       PopupMenuItem(
-                          onTap: () {
-                            var emptyMachine = TuringMachine(TuringMachineModel());
+                        height: 32,
+                        child: Text(
+                          "Новый файл",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.text,
+                          ),
+                        ),
+                        onTap: () {
+                          var emptyMachine =
+                              TuringMachine(TuringMachineModel());
 
-                            machine.loadFromJson(jsonDecode(jsonEncode(emptyMachine.toJson())));
+                          machine.loadFromJson(emptyMachine.toJson());
+                          tableState.currentState!.reloadTable();
+                          statesListState.currentState!.setState(() {});
+                          linePagesState.currentState!.setState(() {});
+                          bottomSplitState.currentState!.setState(() {});
+                        },
+                      ),
+                      PopupMenuItem(
+                        height: 32,
+                        child: Text(
+                          "Загрузить",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.text,
+                          ),
+                        ),
+                        onTap: () async {
+                          FilePickerResult? result = await FilePicker.platform
+                              .pickFiles(
+                                  type: FileType.custom,
+                                  allowedExtensions: ['mtm']);
+                          if (result != null) {
+                            log(result.files.first.path!);
+                            File file = File(result.files.first.path!);
+                            String json = await file.readAsString();
+
+                            machine.loadFromJson(jsonDecode(json));
                             tableState.currentState!.reloadTable();
                             statesListState.currentState!.setState(() {});
                             linePagesState.currentState!.setState(() {});
                             bottomSplitState.currentState!.setState(() {});
-                          },
-                          height: 32,
-                          child: Text(
-                            "Новый файл",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.text,
-                            ),
-                          )),
+                          }
+                        },
+                      ),
                       PopupMenuItem(
-                          height: 32,
-                          onTap: () async {
-                            String? result = await FilePicker.platform.saveFile();
-                            if(result != null) {
-                              log(result);
-                            }
-                            
-                          },
-                          child: Text(
-                            "Сохранить как",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.text,
-                            ),
-                          )),
-                      PopupMenuItem(
-                          height: 32,
-                          onTap: () async {
-                            FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.any);
-                            if(result != null) {
-                              log(result.files.first.name);
-                            }
-                          },
-                          child: Text(
-                            "Загрузить",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.text,
-                            ),
-                          )),
+                        height: 32,
+                        child: Text(
+                          "Сохранить как",
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.text,
+                          ),
+                        ),
+                        onTap: () async {
+                          String? result = await FilePicker.platform.saveFile(
+                              fileName: 'save.mtm',
+                              type: FileType.custom,
+                              allowedExtensions: ['mtm']);
+                          if (result != null) {
+                            log(result);
+                            File file = File(result);
+                            IOSink sink = file.openWrite();
+                            String json = jsonEncode(machine.toJson());
+                            sink.write(json);
+                            file.create();
+                          }
+                        },
+                      ),
                     ];
                   },
                   child: const Image(
@@ -118,15 +139,7 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Настройки",
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (machine.saveMachineJson != null) {
-                      machine.loadFromJson(jsonDecode(machine.saveMachineJson!));
-                      tableState.currentState!.reloadTable();
-                      statesListState.currentState!.setState(() {});
-                      linePagesState.currentState!.setState(() {});
-                      bottomSplitState.currentState!.setState(() {});
-                    }
-                  },
+                  onPressed: () {},
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,
@@ -146,7 +159,8 @@ class _TopPanelState extends State<TopPanel> {
                 child: ElevatedButton(
                   onPressed: () {
                     //Вызов нового окна поверх.
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutPanel()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const AboutPanel()));
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -166,7 +180,8 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Справочка",
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Reference()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const Reference()));
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -213,10 +228,22 @@ class _TopPanelState extends State<TopPanel> {
                       linePagesState.currentState!.setState(() {});
                       var count = machine.model.countOfLines;
                       if (count != machine.configuration.linePointers.length) {
-                        for (int i = 0; i < (count - machine.configuration.linePointers.length).abs(); i++) {
+                        for (int i = 0;
+                            i <
+                                (count -
+                                        machine
+                                            .configuration.linePointers.length)
+                                    .abs();
+                            i++) {
                           count < machine.configuration.linePointers.length
-                              ? {machine.model.addLine(), tableState.currentState!.addLine()}
-                              : {machine.model.deleteLine(), tableState.currentState!.deleteLine()};
+                              ? {
+                                  machine.model.addLine(),
+                                  tableState.currentState!.addLine()
+                                }
+                              : {
+                                  machine.model.deleteLine(),
+                                  tableState.currentState!.deleteLine()
+                                };
                         }
                       }
                     }
