@@ -1,5 +1,6 @@
 import 'package:mutliline_turing_machine/model/line_cell_model.dart';
 import 'package:mutliline_turing_machine/model/machine_engine.dart';
+import 'configurations.dart';
 import 'turing_machine_configuration.dart';
 import 'turing_machine_model.dart';
 
@@ -19,8 +20,7 @@ class TuringMachine {
   late String? saveMachineJson;
   late String? saveLinesJson;
 
-  TuringMachineState get currentState =>  model.stateList[configuration.currentStateIndex];
-   
+  TuringMachineState get currentState => model.stateList[configuration.currentStateIndex];
 
   bool isWorking() => configuration.activeState.activeStateIndex != -1 || activator.active;
 
@@ -225,6 +225,10 @@ class TuringMachine {
   //иначе - сообщение об ошибке
   String makeStep() {
     if (configuration.activeState.activeStateIndex == -1) {
+      activator.stepCount = 0;
+      activator.configurationSet.clear();
+      activator.configurationSet.add(
+          Configuration(Configuration.convertConfigurations(configuration.lineContent), configuration.linePointers));
       configuration.currentStateIndex = 0;
       configuration.activeState.activeStateIndex = 0;
     }
@@ -289,6 +293,8 @@ class TuringMachine {
         configuration.activeState.activeStateIndex = configuration.currentStateIndex;
 
         findCurrentState();
+        activator.configurationSet.add(
+            Configuration(Configuration.convertConfigurations(configuration.lineContent), configuration.linePointers));
         return "";
       }
     }
