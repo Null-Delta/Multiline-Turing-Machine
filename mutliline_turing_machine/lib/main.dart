@@ -113,15 +113,29 @@ class _MainWidgetState extends State<MainWidget> {
         ScaffoldMessenger.of(context).showSnackBar(errorSnackBar(text));
       }
     },
-    onStartStopWork: () {
+    onResetWork: () {
+      machine.activator.resetMachine();
+      statesListState.currentState!.setState(() {});
+      tableState.currentState!.updateTableState();
+      tableManager!.setCurrentSelectingRowsByRange(
+          machine.configuration.currentVatiantIndex, machine.configuration.currentVatiantIndex);
+    },
+
+    onStartStopWork: (int timesPerSec) {
       if (!machine.activator.isActive) {
-        machine.activator.startMachine(32, () {
+        machine.activator.startMachine(timesPerSec, () {
           statesListState.currentState!.setState(() {});
           onScroll();
         });
       } else {
         machine.activator.stopMachine();
       }
+    },
+    onNewSpeed: (int timesPerSec) {
+      machine.activator.setNewSpeed(timesPerSec, () {
+        statesListState.currentState!.setState(() {});
+        onScroll();
+      });
     },
     onCommentsShow: () {
       commentsState.currentState!.chaneCommentsShow();

@@ -19,6 +19,8 @@ class BottomPanel extends StatefulWidget {
       required this.onDeleteState,
       required this.onMakeStep,
       required this.onStartStopWork,
+      required this.onNewSpeed,
+      required this.onResetWork,
       required this.onCommentsShow})
       : super(key: key);
   PlutoGridStateManager? tableManager;
@@ -27,7 +29,9 @@ class BottomPanel extends StatefulWidget {
   void Function() onAddState;
   void Function() onDeleteState;
   void Function() onMakeStep;
-  void Function() onStartStopWork;
+  void Function() onResetWork;
+  void Function(int timesPerSec) onStartStopWork;
+  void Function(int timesPerSec) onNewSpeed;
   void Function() onCommentsShow;
   final FocusNode topFocus = FocusNode();
 
@@ -39,6 +43,8 @@ class _BottomPanelState extends State<BottomPanel> {
   late TuringMachine machine;
 
   static const double iconSize = 28;
+
+  int timesPerSec= 4;
 
   late var addStateBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
@@ -162,7 +168,7 @@ class _BottomPanelState extends State<BottomPanel> {
       child: ElevatedButton(
         onPressed: () {
           setState(() {
-            widget.onStartStopWork();
+            widget.onStartStopWork(timesPerSec);
           });
         },
         child: SizedBox(
@@ -198,16 +204,19 @@ class _BottomPanelState extends State<BottomPanel> {
 
   late var stopBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
-    message: "Остановить машину",
+    message: "Сбросить работу машины",
     child: ElevatedButton(
       onPressed: () {
-        //log(machine.model.info());
+        widget.onResetWork();
+        setState(() {
+          
+        });
       },
       child: const SizedBox(
         width: iconSize,
         height: iconSize,
         child: Image(
-          image: AppImages.happy,
+          image: AppImages.stop,
         ),
       ),
       style: appButtonStyle,
@@ -220,7 +229,8 @@ class _BottomPanelState extends State<BottomPanel> {
     tooltip: "Скорость работы машины",
     initialValue: 1,
     onSelected: (value) {
-      //TODO:тут делать изменение скорости
+      timesPerSec = pow(2, value-1).toInt();
+      widget.onNewSpeed(timesPerSec);
     },
     shape: OutlineInputBorder(
         borderRadius: const BorderRadius.all(
@@ -232,7 +242,7 @@ class _BottomPanelState extends State<BottomPanel> {
       height: iconSize,
       child: Center(
         child: Text(
-          "1x",
+          "2x",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w600,
@@ -246,11 +256,12 @@ class _BottomPanelState extends State<BottomPanel> {
       return [
         for (int i = 0; i <= 3; i++)
           PopupMenuItem<int>(
-            value: i + 1,
-            onTap: () {},
+            value: i+1,
+            onTap: () {
+            },
             height: 36,
             child: Text(
-              "${pow(2, i)}x",
+              "${pow(2,i)}x",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.w500,

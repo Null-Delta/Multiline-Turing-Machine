@@ -23,41 +23,62 @@ class MachineEngine {
   int timesPerSecond = 1;
 
   //запускает автоматическую работу с заданной скоростью
-  bool startMachine(int stepsCount, Function() onScroll) {
-    timesPerSecond = stepsCount;
+  bool startMachine(int timesPerSecond, Function() onScroll) {
     if (timesPerSecond <= 0 || timesPerSecond > 32) {
       return false;
     }
 
     stepCount = 0;
     _passedConfigurations.clear();
+    _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
+            machine.configuration.linePointers));
     active = true;
 
     timer = Timer.periodic(
       Duration(milliseconds: 1000 ~/ timesPerSecond),
       (timer) {
-        _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
-            machine.configuration.linePointers));
         machine.makeStep();
         onScroll();
         stepCount++;
+        _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
+            machine.configuration.linePointers));
       },
     );
     return true;
   }
 
-  // останавливает работу, приводя машину в начальное состояние, но при этом сохраняя количество конфигураций и шагов.
+  // останавливает работу, сохраняя состояние
+  void setNewSpeed(int timesPerSecond, Function() onScroll) {
+    timer!.cancel();
+    timer = Timer.periodic(
+      Duration(milliseconds: 1000 ~/ timesPerSecond),
+      (timer) {
+        machine.makeStep();
+        onScroll();
+        stepCount++;
+        _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
+            machine.configuration.linePointers));
+      },
+    );
+  }
+
+  // останавливает работу, сохраняя состояние
   void stopMachine() {
     active = false;
     _passedConfigurations.add(Configuration(
         Configuration.convertConfigurations(machine.configuration.lineContent), machine.configuration.linePointers));
+    if (timer != null && timer!.isActive) {
+      timer!.cancel();
+    }
+  }
+
+  // останавливает работу, приводит машину к начальному состоянию
+  void resetMachine() {
+    stopMachine();
     machine.configuration.currentStateIndex = 0;
     machine.configuration.currentVatiantIndex = -1;
     machine.configuration.activeState.activeStateIndex = -1;
     machine.configuration.activeState.activeVariantIndex = -1;
-    if (timer != null && timer!.isActive) {
-      timer!.cancel();
-    }
   }
 
   MachineEngine(this.machine);
