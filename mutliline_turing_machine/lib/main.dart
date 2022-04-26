@@ -65,6 +65,7 @@ class _MainWidgetState extends State<MainWidget> {
   var commentsState = GlobalKey<BottomSplitPanelState>();
   var statesListState = GlobalKey<StatesListState>();
 
+  GlobalKey textOfCountConfigurations = GlobalKey();
   late var table = TuringMachineTable(
     key: tableState,
     topFocus: bottomPanel.topFocus,
@@ -76,6 +77,7 @@ class _MainWidgetState extends State<MainWidget> {
   );
 
   late var bottomPanel = BottomPanel(
+    textToUpdate: textOfCountConfigurations,
     onAddVariant: () {
       tableState.currentState!.addVariant();
     },
@@ -113,15 +115,29 @@ class _MainWidgetState extends State<MainWidget> {
         ScaffoldMessenger.of(context).showSnackBar(errorSnackBar(text));
       }
     },
-    onStartStopWork: () {
+    onResetWork: () {
+      machine.activator.resetMachine();
+      statesListState.currentState!.setState(() {});
+      tableState.currentState!.updateTableState();
+      tableManager!.setCurrentSelectingRowsByRange(
+          machine.configuration.currentVatiantIndex, machine.configuration.currentVatiantIndex);
+    },
+
+    onStartStopWork: (int timesPerSec) {
       if (!machine.activator.isActive) {
-        machine.activator.startMachine(32, () {
+        machine.activator.startMachine(timesPerSec, () {
           statesListState.currentState!.setState(() {});
           onScroll();
-        });
+        }, textOfCountConfigurations);
       } else {
         machine.activator.stopMachine();
       }
+    },
+    onNewSpeed: (int timesPerSec) {
+      machine.activator.setNewSpeed(timesPerSec, () {
+        statesListState.currentState!.setState(() {});
+        onScroll();
+      });
     },
     onCommentsShow: () {
       commentsState.currentState!.chaneCommentsShow();
@@ -170,7 +186,7 @@ class _MainWidgetState extends State<MainWidget> {
   FocusNode statesFocus = FocusScopeNode();
 
   GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
-
+  
   @override
   Widget build(BuildContext context) {
     log("rebuilding");

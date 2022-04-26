@@ -19,9 +19,10 @@ class TuringMachine {
   late String? saveMachineJson;
   late String? saveLinesJson;
 
-  TuringMachineState get currentState => model.stateList[configuration.currentStateIndex];
+  TuringMachineState get currentState =>  model.stateList[configuration.currentStateIndex];
+   
 
-  bool isWorking() => configuration.activeState.activeStateIndex != -1;
+  bool isWorking() => configuration.activeState.activeStateIndex != -1 || activator.active;
 
   // класс, отвечающий за автоматическую работу машины
   late MachineEngine activator;
@@ -244,7 +245,7 @@ class TuringMachine {
         configuration.activeState.activeVariantIndex = configuration.currentVatiantIndex;
         if (currentVariant.toState >= model.stateList.length) {
           if (activator.isActive) {
-            activator.stopMachine();
+            activator.resetMachine();
           }
           return "Состояние ${currentVariant.toState + 1} не найдено.";
         }
@@ -275,16 +276,15 @@ class TuringMachine {
 
         if (!canMove) {
           if (activator.isActive) {
-            activator.stopMachine();
+            activator.resetMachine();
           }
           return "Вы достигли конца ленты.\nПеремещение головки невозможно.";
         }
 
         configuration.currentStateIndex = currentVariant.toState;
         if (currentVariant.toState == -1) {
-          if (activator.isActive) {
-            activator.stopMachine();
-          }
+          activator.resetMachine();
+          return "Работа завершена";
         }
         configuration.activeState.activeStateIndex = configuration.currentStateIndex;
 
@@ -294,7 +294,7 @@ class TuringMachine {
     }
     configuration.currentVatiantIndex = -1;
     if (activator.isActive) {
-      activator.stopMachine();
+      activator.resetMachine();
     }
     return "Не найдено подходящее правило.";
   }
