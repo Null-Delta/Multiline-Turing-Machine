@@ -11,6 +11,7 @@ class AppImages {
   static const AssetImage file = AssetImage('resources/images/file.png');
   static const AssetImage happy = AssetImage('resources/images/happy.png');
   static const AssetImage help = AssetImage('resources/images/help.png');
+  static const AssetImage load = AssetImage('resources/images/load.png');
   static const AssetImage save = AssetImage('resources/images/save.png');
   static const AssetImage settings = AssetImage('resources/images/settings.png');
   static const AssetImage step = AssetImage('resources/images/step.png');
