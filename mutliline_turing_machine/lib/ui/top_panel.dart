@@ -210,7 +210,7 @@ class _TopPanelState extends State<TopPanel> {
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.update,
+                      image: AppImages.load,
                     ),
                   ),
                   style: appButtonStyle,
@@ -261,7 +261,7 @@ class _TopPanelState extends State<TopPanel> {
                     width: iconSize,
                     height: iconSize,
                     child: Image(
-                      image: AppImages.addVariantTop,
+                      image: AppImages.addVariantDown,
                     ),
                   ),
                   style: appButtonStyle,
