@@ -87,6 +87,7 @@ class _TopPanelState extends State<TopPanel> {
                         onTap: () async {
                           FilePickerResult? result = await FilePicker.platform
                               .pickFiles(
+                                  dialogTitle: '',
                                   type: FileType.custom,
                                   allowedExtensions: ['mtm']);
                           if (result != null) {
@@ -118,6 +119,11 @@ class _TopPanelState extends State<TopPanel> {
                               type: FileType.custom,
                               allowedExtensions: ['mtm']);
                           if (result != null) {
+                            if(result.contains('.')) {
+                              log("message " + result.indexOf('.').toString());
+                              result = result.substring(0, result.indexOf('.'));
+                            }
+                            result+= '.mtm';
                             log(result);
                             File file = File(result);
                             IOSink sink = file.openWrite();
