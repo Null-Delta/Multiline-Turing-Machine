@@ -43,7 +43,7 @@ class _AboutPanel extends State<AboutPanel> {
                       width: iconSize,
                       height: iconSize,
                       child: Image(
-                        image: AppImages.file,
+                        image: AppImages.back,
                       ),
                     ),
                     style: appButtonStyle,
