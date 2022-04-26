@@ -76,11 +76,15 @@ class _TopPanelState extends State<TopPanel> {
                       PopupMenuItem(
                           height: 32,
                           onTap: () async {
-                            String? result = await FilePicker.platform.saveFile();
-                            if(result != null) {
-                              log(result);
-                            }
-                            
+                              String? result = await FilePicker.platform.saveFile(type: FileType.custom, allowedExtensions: ['mtm']);
+                              if(result != null) {
+                                log(result);
+                                File file = File(result);
+                                IOSink sink = file.openWrite();
+                                String json = jsonEncode(machine.toJson());
+                                sink.write(json);
+                                file.create();
+                              }
                           },
                           child: Text(
                             "Сохранить как",
