@@ -3,9 +3,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
+import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/ui/about_panel.dart';
+import 'package:mutliline_turing_machine/ui/custom_popup.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:mutliline_turing_machine/ui/referance.dart';
 import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
@@ -17,7 +19,6 @@ class TopPanel extends StatefulWidget {
   TopPanel({
     Key? key,
   }) : super(key: key);
-
 
   @override
   State<TopPanel> createState() => _TopPanelState();
@@ -45,24 +46,56 @@ class _TopPanelState extends State<TopPanel> {
           color: AppColors.background,
           child: Row(
             children: [
-              Tooltip(
-                waitDuration: const Duration(milliseconds: 500),
-                message: "Файл",
-                child: ElevatedButton(
-                  onPressed: () {
-                    machine.saveMachineJson = jsonEncode(machine.toJson());
-                    log(machine.saveMachineJson!);
+              CustomPopup(
+                  tooltip: "Файл",
+                  onSelected: (value) => {},
+                  initValue: null,
+                  itemBuilder: (context) {
+                    return [
+                      PopupMenuItem(
+                          onTap: () {
+                            var emptyMachine = TuringMachine(TuringMachineModel());
+
+                            machine.loadFromJson(jsonDecode(jsonEncode(emptyMachine.toJson())));
+                            tableState.currentState!.reloadTable();
+                            statesListState.currentState!.setState(() {});
+                            linePagesState.currentState!.setState(() {});
+                            bottomSplitState.currentState!.setState(() {});
+                          },
+                          height: 32,
+                          child: Text(
+                            "Новая машина",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.text,
+                            ),
+                          )),
+                      PopupMenuItem(
+                          height: 32,
+                          child: Text(
+                            "Сохранить машину",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.text,
+                            ),
+                          )),
+                      PopupMenuItem(
+                          height: 32,
+                          child: Text(
+                            "Загрузить машину",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.text,
+                            ),
+                          )),
+                    ];
                   },
-                  child: const SizedBox(
-                    width: iconSize,
-                    height: iconSize,
-                    child: Image(
-                      image: AppImages.file,
-                    ),
-                  ),
-                  style: appButtonStyle,
-                ),
-              ),
+                  child: const Image(
+                    image: AppImages.file,
+                  )),
               const SizedBox(
                 width: 6,
               ),
