@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'configurations.dart';
 
@@ -23,7 +24,7 @@ class MachineEngine {
   int timesPerSecond = 1;
 
   //запускает автоматическую работу с заданной скоростью
-  bool startMachine(int timesPerSecond, Function() onScroll) {
+  bool startMachine(int timesPerSecond, Function() onScroll, GlobalKey textCounter) {
     if (timesPerSecond <= 0 || timesPerSecond > 32) {
       return false;
     }
@@ -42,6 +43,9 @@ class MachineEngine {
         stepCount++;
         _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
             machine.configuration.linePointers));
+        textCounter.currentState!.setState(() {
+          
+        });
       },
     );
     return true;
@@ -49,17 +53,20 @@ class MachineEngine {
 
   // останавливает работу, сохраняя состояние
   void setNewSpeed(int timesPerSecond, Function() onScroll) {
-    timer!.cancel();
-    timer = Timer.periodic(
-      Duration(milliseconds: 1000 ~/ timesPerSecond),
-      (timer) {
-        machine.makeStep();
-        onScroll();
-        stepCount++;
-        _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
-            machine.configuration.linePointers));
-      },
-    );
+    if (active)
+    {
+      timer!.cancel();
+      timer = Timer.periodic(
+        Duration(milliseconds: 1000 ~/ timesPerSecond),
+        (timer) {
+          machine.makeStep();
+          onScroll();
+          stepCount++;
+          _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
+              machine.configuration.linePointers));
+        },
+      );
+    }
   }
 
   // останавливает работу, сохраняя состояние

@@ -8,17 +8,23 @@ class Configuration {
   @override
   bool operator ==(other) {
     bool same = true;
+    if (lines.length < (other as Configuration).lines.length) {
+      return false;
+    } else if (lines.length > (other).lines.length) {
+      return true;
+    }
+
     for (int i = 0; i < lines.length; i++) {
       if (!same) {
         break;
       }
-      same = (other as Configuration).lines[i] == lines[i] && same;
+      same = (other).lines[i] == lines[i] && same;
     }
     for (int i = 0; i < pointers.length; i++) {
       if (!same) {
         break;
       }
-      same = (other as Configuration).pointers[i] == pointers[i] && same;
+      same = (other).pointers[i] == pointers[i] && same;
     }
     return same;
   }

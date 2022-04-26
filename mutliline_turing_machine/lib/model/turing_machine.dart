@@ -22,7 +22,7 @@ class TuringMachine {
   TuringMachineState get currentState =>  model.stateList[configuration.currentStateIndex];
    
 
-  bool isWorking() => configuration.activeState.activeStateIndex != -1;
+  bool isWorking() => configuration.activeState.activeStateIndex != -1 || activator.active;
 
   // класс, отвечающий за автоматическую работу машины
   late MachineEngine activator;

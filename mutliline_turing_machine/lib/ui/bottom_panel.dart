@@ -1,6 +1,7 @@
 import 'dart:developer' as developer;
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:mutliline_turing_machine/model/configurations.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
@@ -21,6 +22,7 @@ class BottomPanel extends StatefulWidget {
       required this.onStartStopWork,
       required this.onNewSpeed,
       required this.onResetWork,
+      required this.textToUpdate,
       required this.onCommentsShow})
       : super(key: key);
   PlutoGridStateManager? tableManager;
@@ -33,6 +35,7 @@ class BottomPanel extends StatefulWidget {
   void Function(int timesPerSec) onStartStopWork;
   void Function(int timesPerSec) onNewSpeed;
   void Function() onCommentsShow;
+  GlobalKey textToUpdate;
   final FocusNode topFocus = FocusNode();
 
   @override
@@ -223,14 +226,16 @@ class _BottomPanelState extends State<BottomPanel> {
     ),
   );
 
-  late var speedBtn = PopupMenuButton<int>(
+  speedBtn() { return PopupMenuButton<int>(
     elevation: 24,
     enableFeedback: true,
     tooltip: "Скорость работы машины",
     initialValue: 1,
     onSelected: (value) {
-      timesPerSec = pow(2, value-1).toInt();
-      widget.onNewSpeed(timesPerSec);
+      setState(() {
+        timesPerSec = pow(2, value-1).toInt();
+        widget.onNewSpeed(timesPerSec);  
+      });
     },
     shape: OutlineInputBorder(
         borderRadius: const BorderRadius.all(
@@ -242,7 +247,7 @@ class _BottomPanelState extends State<BottomPanel> {
       height: iconSize,
       child: Center(
         child: Text(
-          "2x",
+          "${timesPerSec}x",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.w600,
@@ -254,7 +259,7 @@ class _BottomPanelState extends State<BottomPanel> {
     ),
     itemBuilder: (context) {
       return [
-        for (int i = 0; i <= 3; i++)
+        for (int i = 0; i <= 4; i++)
           PopupMenuItem<int>(
             value: i+1,
             onTap: () {
@@ -273,6 +278,7 @@ class _BottomPanelState extends State<BottomPanel> {
       ];
     },
   );
+  }
 
   late GlobalKey<BottomSplitPanelState> commentsState;
 
@@ -308,13 +314,43 @@ class _BottomPanelState extends State<BottomPanel> {
                         width: double.infinity,
                       ),
                     ),
+                    Container(
+                      clipBehavior: Clip.antiAlias,
+                      width: iconSize*3,
+                      height: iconSize+4,
+                      child: Row(
+                        children: [
+                          const Image(
+                            width: iconSize,
+                            height: iconSize,
+                            image: AppImages.appIcon,
+                          ),
+                          Text(
+                            "${machine.activator.countConfigurations}",
+                            key: widget.textToUpdate,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                              color: Color(0xFF183157),
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            )
+                          ),
+                        ]
+                      ),
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                        //border:
+                        borderRadius: BorderRadius.all(Radius.circular(18)),
+                        ),
+                    ),
                     divider,
                     spacer,
                     stopBtn,
                     spacer,
                     debugBtn,
                     spacer,
-                    speedBtn,
+                    speedBtn(),
                     spacer,
                     timerBtn(),
                     spacer,
@@ -342,7 +378,7 @@ class _BottomPanelState extends State<BottomPanel> {
                     ),
                     debugBtn,
                     spacer,
-                    speedBtn,
+                    speedBtn(),
                     spacer,
                     timerBtn(),
                     spacer,
