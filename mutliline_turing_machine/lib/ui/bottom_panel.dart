@@ -13,6 +13,8 @@ import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
 import '../styles/app_colors.dart';
 
+import 'dart:math';
+
 // ignore: must_be_immutable
 class BottomPanel extends StatefulWidget {
   BottomPanel(
@@ -122,7 +124,7 @@ class BottomPanelState extends State<BottomPanel> {
   commentsBtn() {
     return Tooltip(
       waitDuration: const Duration(milliseconds: 500),
-      message: "Комментарии",
+      message: "Скрыть комментарии",
       child: ElevatedButton(
         onPressed: () {
           setState(() {
@@ -171,7 +173,7 @@ class BottomPanelState extends State<BottomPanel> {
   timerBtn() {
     return Tooltip(
       waitDuration: const Duration(milliseconds: 500),
-      message: "Запустить/Остановить машину",
+      message: "Автоматическая работа",
       child: ElevatedButton(
         onPressed: () {
           setState(() {
@@ -211,7 +213,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   late var stopBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
-    message: "Сбросить работу машины",
+    message: "Сбросить работу",
     child: ElevatedButton(
       onPressed: () {
         widget.onResetWork();
@@ -230,13 +232,14 @@ class BottomPanelState extends State<BottomPanel> {
 
   speedBtn() {
     return CustomPopup(
+      tooltip: 'Скорость работы',
       onSelected: (value) {
         setState(() {
           timesPerSec = pow(2, value - 1).toInt();
           widget.onNewSpeed(timesPerSec, scafoldState);
         });
       },
-      initValue: 1,
+      initValue: log(timesPerSec)~/log(2) + 1,
       itemBuilder: (context) {
         return [
           for (int i = 0; i <= 4; i++)
@@ -248,8 +251,8 @@ class BottomPanelState extends State<BottomPanel> {
                 "${pow(2, i)}x",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
                   color: AppColors.text,
                 ),
               ),
@@ -264,8 +267,8 @@ class BottomPanelState extends State<BottomPanel> {
             "${timesPerSec}x",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              fontSize: 13,
               color: AppColors.text,
             ),
           ),
@@ -320,9 +323,9 @@ class BottomPanelState extends State<BottomPanel> {
                     spacer,
                     // debugBtn,
                     // spacer,
-                    speedBtn(),
-                    spacer,
                     timerBtn(),
+                    spacer,
+                    speedBtn(),
                     spacer,
                     makeStepBtn,
                     spacer,
@@ -348,9 +351,9 @@ class BottomPanelState extends State<BottomPanel> {
                     ),
                     // debugBtn,
                     // spacer,
-                    speedBtn(),
-                    spacer,
                     timerBtn(),
+                    spacer,
+                    speedBtn(),
                     spacer,
                     makeStepBtn,
                     spacer,

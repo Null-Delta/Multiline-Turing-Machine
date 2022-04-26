@@ -28,7 +28,7 @@ class BottomSplitPanelState extends State<BottomSplitPanel> {
             axis: Axis.horizontal,
             resizable: true,
             minimalSize: 256,
-            initialWeights: const [0.7, 0.3],
+            initialWeights: const [0.8, 0.2],
             //Коментарии без конст, т.к. эта панель ребилдится для обновления комментариев, можете исправить
             children: [widget.table, StateComments()],
           )
