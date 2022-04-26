@@ -46,7 +46,6 @@ class MachineEngine {
     timer = Timer.periodic(
       Duration(milliseconds: 1000 ~/ timesPerSecond),
       (timer) {
-        machine.makeStep();
         onScroll();
         stepCount++;
       },
@@ -61,7 +60,6 @@ class MachineEngine {
       timer = Timer.periodic(
         Duration(milliseconds: 1000 ~/ timesPerSecond),
         (timer) {
-          machine.makeStep();
           onScroll();
           stepCount++;
           configurationSet.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),

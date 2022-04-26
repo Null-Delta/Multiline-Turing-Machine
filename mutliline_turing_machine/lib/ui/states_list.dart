@@ -104,7 +104,11 @@ class StatesListState extends State<StatesList> {
                       return KeyEventResult.ignored;
                     },
                     child: GestureDetector(
-                      onTap: () => widget.onStateSelect(index),
+                      onTap: () {
+                        if (!machine.activator.isActive) {
+                          widget.onStateSelect(index);
+                        }
+                      },
                       child: Container(
                         clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
