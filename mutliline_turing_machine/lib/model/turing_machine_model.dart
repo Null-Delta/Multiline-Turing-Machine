@@ -114,9 +114,18 @@ class TuringMachineModel {
   void setToStateInVariant(int numberOfState, int numberOfVariant, int toState) =>
       stateList[numberOfState].ruleList[numberOfVariant].toState = toState;
 
-  void replaceVariants(int numberOfState, int from, int to) {
-    var element = stateList[numberOfState].ruleList.removeAt(from);
-    stateList[numberOfState].ruleList.insert(to, element);
+  void replaceVariants(int state, List<int> indexes, int to) {
+    List<TuringMachineVariant> replacingRules = [];
+
+    stateList[state].ruleList.asMap().forEach((key, value) {
+      if (indexes.contains(key)) {
+        replacingRules.add(value);
+      }
+    });
+
+    stateList[state].ruleList.removeWhere((element) => replacingRules.contains(element));
+
+    stateList[state].ruleList.insertAll(to, replacingRules);
   }
 
   TuringMachineModel() {

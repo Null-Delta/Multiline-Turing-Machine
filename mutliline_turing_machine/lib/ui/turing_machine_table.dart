@@ -30,6 +30,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
   int selectedRow = -1;
   int selectedColumn = -1;
   int? draggingIndex;
+  List<int>? dragRows;
 
   bool needInit = true;
 
@@ -38,6 +39,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
   void onStateUpdate() {
     if (stateManager.isDraggingRow) {
       draggingIndex ??= stateManager.dragTargetRowIdx;
+      dragRows = stateManager.dragRows.map((e) => rows.indexOf(e)).toList();
     } else {
       if (stateManager.currentCell != null) {
         selectedRow = rows.indexOf(stateManager.currentCell!.row);
@@ -334,8 +336,12 @@ class TuringMachineTableState extends State<TuringMachineTable> {
           }
         },
         onRowsMoved: (event) {
-          machine.model.replaceVariants(machine.configuration.currentStateIndex, draggingIndex!, event.idx!);
+          developer.log("${event.idx}");
+
+          machine.model.replaceVariants(machine.configuration.currentStateIndex, dragRows!, event.idx!);
+
           draggingIndex = null;
+          dragRows = null;
 
           for (int i = 0; i < machine.currentState.countOfVariants; i++) {
             stateManager.changeCellValue(rows[i].cells["head:0"]!, "№ ${i + 1}", force: true, notify: true);
