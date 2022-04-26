@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
@@ -14,9 +15,11 @@ import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
 import '../styles/app_colors.dart';
 import 'lines_page.dart';
 
-// ignore: must_be_immutable
+import 'package:file_picker/file_picker.dart';
+
+
 class TopPanel extends StatefulWidget {
-  TopPanel({
+  const TopPanel({
     Key? key,
   }) : super(key: key);
 
@@ -32,7 +35,6 @@ class _TopPanelState extends State<TopPanel> {
     var machine = MachineInherit.of(context)!.machine;
     var tableState = MachineInherit.of(context)!.tableState;
     var linePagesState = MachineInherit.of(context)!.linesPageState;
-    //TODO: исправить, чтобы таблицу не пересобирал
     var bottomSplitState = MachineInherit.of(context)!.bottomSplitState;
     var statesListState = MachineInherit.of(context)!.statesListState;
     return Column(
@@ -64,7 +66,7 @@ class _TopPanelState extends State<TopPanel> {
                           },
                           height: 32,
                           child: Text(
-                            "Новая машина",
+                            "Новый файл",
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -73,8 +75,15 @@ class _TopPanelState extends State<TopPanel> {
                           )),
                       PopupMenuItem(
                           height: 32,
+                          onTap: () async {
+                            String? result = await FilePicker.platform.saveFile();
+                            if(result != null) {
+                              log(result);
+                            }
+                            
+                          },
                           child: Text(
-                            "Сохранить машину",
+                            "Сохранить как",
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -83,8 +92,14 @@ class _TopPanelState extends State<TopPanel> {
                           )),
                       PopupMenuItem(
                           height: 32,
+                          onTap: () async {
+                            FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.any);
+                            if(result != null) {
+                              log(result.files.first.name);
+                            }
+                          },
                           child: Text(
-                            "Загрузить машину",
+                            "Загрузить",
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,

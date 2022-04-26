@@ -17,8 +17,8 @@ class TuringMachine {
   late TuringMachineModel model;
   late TuringMachineConfiguration configuration;
 
-  late String? saveMachineJson;
-  late String? saveLinesJson;
+  String? saveMachineJson;
+  String? saveLinesJson;
 
   TuringMachineState get currentState => model.stateList[configuration.currentStateIndex];
 
