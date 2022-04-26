@@ -21,6 +21,7 @@ class TuringMachine {
   String? saveLinesJson;
 
   TuringMachineState get currentState => model.stateList[configuration.currentStateIndex];
+  TuringMachineState get activeState => model.stateList[configuration.activeState.activeStateIndex];
 
   bool isWorking() => configuration.activeState.activeStateIndex != -1 || activator.active;
 
@@ -197,8 +198,8 @@ class TuringMachine {
   }
 
   bool findCurrentState() {
-    for (int variantIndex = 0; variantIndex < currentState.ruleList.length; variantIndex++) {
-      var currentVariant = currentState.ruleList[variantIndex];
+    for (int variantIndex = 0; variantIndex < activeState.ruleList.length; variantIndex++) {
+      var currentVariant = activeState.ruleList[variantIndex];
       bool isSuitable = true;
 
       for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
@@ -233,9 +234,9 @@ class TuringMachine {
       configuration.activeState.activeStateIndex = 0;
     }
 
-    for (int variantIndex = 0; variantIndex < currentState.ruleList.length; variantIndex++) {
+    for (int variantIndex = 0; variantIndex < activeState.ruleList.length; variantIndex++) {
       bool isSuitable = true;
-      var currentVariant = currentState.ruleList[variantIndex];
+      var currentVariant = activeState.ruleList[variantIndex];
 
       for (int lineIndex = 0; lineIndex < model.countOfLines; lineIndex++) {
         var currentCommand = currentVariant.commandList[lineIndex];
@@ -249,7 +250,7 @@ class TuringMachine {
         configuration.activeState.activeVariantIndex = configuration.currentVatiantIndex;
         if (currentVariant.toState >= model.stateList.length) {
           if (activator.isActive) {
-            activator.resetMachine();
+            activator.stopMachine();
           }
           return "Состояние ${currentVariant.toState + 1} не найдено.";
         }
@@ -280,16 +281,17 @@ class TuringMachine {
 
         if (!canMove) {
           if (activator.isActive) {
-            activator.resetMachine();
+            activator.stopMachine();
           }
-          return "Вы достигли конца ленты.\nПеремещение головки невозможно.";
+          return "Вы достигли конца ленты. Перемещение головки невозможно.";
         }
 
-        configuration.currentStateIndex = currentVariant.toState;
         if (currentVariant.toState == -1) {
-          activator.resetMachine();
-          return "Работа завершена";
+          activator.stopMachine();
+          return "!";
         }
+        configuration.currentStateIndex = currentVariant.toState;
+
         configuration.activeState.activeStateIndex = configuration.currentStateIndex;
 
         findCurrentState();
@@ -300,7 +302,7 @@ class TuringMachine {
     }
     configuration.currentVatiantIndex = -1;
     if (activator.isActive) {
-      activator.resetMachine();
+      activator.stopMachine();
     }
     return "Не найдено подходящее правило.";
   }

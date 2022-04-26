@@ -33,24 +33,25 @@ class BottomPanel extends StatefulWidget {
   void Function() onDeleteVariant;
   void Function() onAddState;
   void Function() onDeleteState;
-  void Function() onMakeStep;
+  void Function(BuildContext) onMakeStep;
   void Function() onResetWork;
-  void Function(int timesPerSec) onStartStopWork;
-  void Function(int timesPerSec) onNewSpeed;
+  void Function(int timesPerSec, BuildContext) onStartStopWork;
+  void Function(int timesPerSec, BuildContext) onNewSpeed;
   void Function() onCommentsShow;
   GlobalKey textToUpdate;
   final FocusNode topFocus = FocusNode();
 
   @override
-  State<BottomPanel> createState() => _BottomPanelState();
+  State<BottomPanel> createState() => BottomPanelState();
 }
 
-class _BottomPanelState extends State<BottomPanel> {
+class BottomPanelState extends State<BottomPanel> {
   late TuringMachine machine;
 
   static const double iconSize = 28;
 
   int timesPerSec = 4;
+  late var scafoldState;
 
   late var addStateBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
@@ -153,7 +154,7 @@ class _BottomPanelState extends State<BottomPanel> {
     child: ElevatedButton(
       onPressed: () {
         setState(() {
-          widget.onMakeStep();
+          widget.onMakeStep(scafoldState);
         });
       },
       child: const SizedBox(
@@ -174,7 +175,7 @@ class _BottomPanelState extends State<BottomPanel> {
       child: ElevatedButton(
         onPressed: () {
           setState(() {
-            widget.onStartStopWork(timesPerSec);
+            widget.onStartStopWork(timesPerSec, context);
           });
         },
         child: SizedBox(
@@ -232,7 +233,7 @@ class _BottomPanelState extends State<BottomPanel> {
       onSelected: (value) {
         setState(() {
           timesPerSec = pow(2, value - 1).toInt();
-          widget.onNewSpeed(timesPerSec);
+          widget.onNewSpeed(timesPerSec, scafoldState);
         });
       },
       initValue: 1,
@@ -277,6 +278,7 @@ class _BottomPanelState extends State<BottomPanel> {
 
   @override
   Widget build(BuildContext context) {
+    scafoldState = context;
     machine = MachineInherit.of(context)!.machine;
     commentsState = MachineInherit.of(context)!.bottomSplitState;
     //commentsState.currentState!.comm
@@ -309,7 +311,7 @@ class _BottomPanelState extends State<BottomPanel> {
                     ),
                     ChangeNotifierProvider.value(
                       value: machine.activator.configurationSet,
-                      child: ConfigurationCounter(),
+                      child: const ConfigurationCounter(),
                     ),
                     spacer,
                     divider,
