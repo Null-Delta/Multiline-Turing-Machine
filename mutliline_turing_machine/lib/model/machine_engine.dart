@@ -3,15 +3,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'configurations.dart';
 
+class ConfigurationSet extends ChangeNotifier {
+  Set<Configuration> _passedConfigurations = {};
+  int get countConfigurations => _passedConfigurations.length;
+
+  void clear() {
+    _passedConfigurations.clear();
+    notifyListeners();
+  }
+
+  void add(Configuration conf) {
+    _passedConfigurations.add(conf);
+    notifyListeners();
+  }
+}
+
 // класс, отвечающий за автоматическую работу машины
 class MachineEngine {
   late TuringMachine machine;
 
   //множество конфигураций, пройденные машиной
-  Set<Configuration> _passedConfigurations = {};
-
-  int get countConfigurations => _passedConfigurations.length;
-
+  ConfigurationSet configurationSet = ConfigurationSet();
   //количество шагов данного запуска
   late int stepCount;
 
@@ -29,10 +41,6 @@ class MachineEngine {
       return false;
     }
 
-    stepCount = 0;
-    _passedConfigurations.clear();
-    _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
-            machine.configuration.linePointers));
     active = true;
 
     timer = Timer.periodic(
@@ -41,11 +49,6 @@ class MachineEngine {
         machine.makeStep();
         onScroll();
         stepCount++;
-        _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
-            machine.configuration.linePointers));
-        textCounter.currentState!.setState(() {
-          
-        });
       },
     );
     return true;
@@ -53,8 +56,7 @@ class MachineEngine {
 
   // останавливает работу, сохраняя состояние
   void setNewSpeed(int timesPerSecond, Function() onScroll) {
-    if (active)
-    {
+    if (active) {
       timer!.cancel();
       timer = Timer.periodic(
         Duration(milliseconds: 1000 ~/ timesPerSecond),
@@ -62,7 +64,7 @@ class MachineEngine {
           machine.makeStep();
           onScroll();
           stepCount++;
-          _passedConfigurations.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
+          configurationSet.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
               machine.configuration.linePointers));
         },
       );
@@ -72,7 +74,7 @@ class MachineEngine {
   // останавливает работу, сохраняя состояние
   void stopMachine() {
     active = false;
-    _passedConfigurations.add(Configuration(
+    configurationSet.add(Configuration(
         Configuration.convertConfigurations(machine.configuration.lineContent), machine.configuration.linePointers));
     if (timer != null && timer!.isActive) {
       timer!.cancel();

@@ -7,7 +7,9 @@ import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
+import 'package:mutliline_turing_machine/ui/configuration_counter.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
+import 'package:provider/provider.dart';
 import '../styles/app_colors.dart';
 
 // ignore: must_be_immutable
@@ -47,7 +49,7 @@ class _BottomPanelState extends State<BottomPanel> {
 
   static const double iconSize = 28;
 
-  int timesPerSec= 4;
+  int timesPerSec = 4;
 
   late var addStateBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
@@ -211,9 +213,7 @@ class _BottomPanelState extends State<BottomPanel> {
     child: ElevatedButton(
       onPressed: () {
         widget.onResetWork();
-        setState(() {
-          
-        });
+        setState(() {});
       },
       child: const SizedBox(
         width: iconSize,
@@ -226,58 +226,58 @@ class _BottomPanelState extends State<BottomPanel> {
     ),
   );
 
-  speedBtn() { return PopupMenuButton<int>(
-    elevation: 24,
-    enableFeedback: true,
-    tooltip: "Скорость работы машины",
-    initialValue: 1,
-    onSelected: (value) {
-      setState(() {
-        timesPerSec = pow(2, value-1).toInt();
-        widget.onNewSpeed(timesPerSec);  
-      });
-    },
-    shape: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(8),
-        ),
-        borderSide: BorderSide(width: 1, color: AppColors.highlight)),
-    child: SizedBox(
-      width: iconSize,
-      height: iconSize,
-      child: Center(
-        child: Text(
-          "${timesPerSec}x",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 12,
-            color: AppColors.text,
+  speedBtn() {
+    return PopupMenuButton<int>(
+      elevation: 24,
+      enableFeedback: true,
+      tooltip: "Скорость работы машины",
+      initialValue: 1,
+      onSelected: (value) {
+        setState(() {
+          timesPerSec = pow(2, value - 1).toInt();
+          widget.onNewSpeed(timesPerSec);
+        });
+      },
+      shape: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(8),
+          ),
+          borderSide: BorderSide(width: 1, color: AppColors.highlight)),
+      child: SizedBox(
+        width: iconSize,
+        height: iconSize,
+        child: Center(
+          child: Text(
+            "${timesPerSec}x",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+              color: AppColors.text,
+            ),
           ),
         ),
       ),
-    ),
-    itemBuilder: (context) {
-      return [
-        for (int i = 0; i <= 4; i++)
-          PopupMenuItem<int>(
-            value: i+1,
-            onTap: () {
-            },
-            height: 36,
-            child: Text(
-              "${pow(2,i)}x",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 12,
-                color: AppColors.text,
+      itemBuilder: (context) {
+        return [
+          for (int i = 0; i <= 4; i++)
+            PopupMenuItem<int>(
+              value: i + 1,
+              onTap: () {},
+              height: 36,
+              child: Text(
+                "${pow(2, i)}x",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color: AppColors.text,
+                ),
               ),
-            ),
-          )
-      ];
-    },
-  );
+            )
+        ];
+      },
+    );
   }
 
   late GlobalKey<BottomSplitPanelState> commentsState;
@@ -314,36 +314,11 @@ class _BottomPanelState extends State<BottomPanel> {
                         width: double.infinity,
                       ),
                     ),
-                    Container(
-                      clipBehavior: Clip.antiAlias,
-                      width: iconSize*3,
-                      height: iconSize+4,
-                      child: Row(
-                        children: [
-                          const Image(
-                            width: iconSize,
-                            height: iconSize,
-                            image: AppImages.appIcon,
-                          ),
-                          Text(
-                            "${machine.activator.countConfigurations}",
-                            key: widget.textToUpdate,
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(
-                              color: Color(0xFF183157),
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14,
-                            )
-                          ),
-                        ]
-                      ),
-                      decoration: const BoxDecoration(
-                        color: Colors.transparent,
-                        //border:
-                        borderRadius: BorderRadius.all(Radius.circular(18)),
-                        ),
+                    ChangeNotifierProvider.value(
+                      value: machine.activator.configurationSet,
+                      child: ConfigurationCounter(),
                     ),
+                    spacer,
                     divider,
                     spacer,
                     stopBtn,
