@@ -8,6 +8,7 @@ import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
 import 'package:mutliline_turing_machine/ui/configuration_counter.dart';
+import 'package:mutliline_turing_machine/ui/custom_popup.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
 import '../styles/app_colors.dart';
@@ -227,6 +228,49 @@ class _BottomPanelState extends State<BottomPanel> {
   );
 
   speedBtn() {
+    return CustomPopup(
+      onSelected: (value) {
+        setState(() {
+          timesPerSec = pow(2, value - 1).toInt();
+          widget.onNewSpeed(timesPerSec);
+        });
+      },
+      initValue: 1,
+      itemBuilder: (context) {
+        return [
+          for (int i = 0; i <= 4; i++)
+            PopupMenuItem<int>(
+              value: i + 1,
+              onTap: () {},
+              height: 32,
+              child: Text(
+                "${pow(2, i)}x",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color: AppColors.text,
+                ),
+              ),
+            )
+        ];
+      },
+      child: SizedBox(
+        width: iconSize,
+        height: iconSize,
+        child: Center(
+          child: Text(
+            "${timesPerSec}x",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+              color: AppColors.text,
+            ),
+          ),
+        ),
+      ),
+    );
     return PopupMenuButton<int>(
       elevation: 24,
       enableFeedback: true,
@@ -243,21 +287,6 @@ class _BottomPanelState extends State<BottomPanel> {
             Radius.circular(8),
           ),
           borderSide: BorderSide(width: 1, color: AppColors.highlight)),
-      child: SizedBox(
-        width: iconSize,
-        height: iconSize,
-        child: Center(
-          child: Text(
-            "${timesPerSec}x",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 12,
-              color: AppColors.text,
-            ),
-          ),
-        ),
-      ),
       itemBuilder: (context) {
         return [
           for (int i = 0; i <= 4; i++)

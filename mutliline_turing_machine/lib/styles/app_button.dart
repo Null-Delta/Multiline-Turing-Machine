@@ -27,6 +27,18 @@ ButtonStyle appButtonStyle = ButtonStyle(
         return AppColors.text;
       },
     ),
+    overlayColor: MaterialStateProperty.resolveWith(
+      (states) {
+        if (states.contains(MaterialState.selected)) {
+          return AppColors.highlight;
+        } else if (states.contains(MaterialState.disabled)) {
+          return AppColors.highlight;
+        } else if (states.contains(MaterialState.hovered)) {
+          return AppColors.highlight;
+        }
+        return AppColors.highlight;
+      },
+    ),
     padding: MaterialStateProperty.all(EdgeInsets.zero),
     minimumSize: MaterialStateProperty.all(
       const Size.square(28),

@@ -185,9 +185,10 @@ class TuringMachineTableState extends State<TuringMachineTable> {
   }
 
   void reloadTable() {
+    selectedRow = -1;
+    selectedColumn = -1;
     stateManager.removeRows(rows);
     stateManager.removeColumns(columns);
-    //initTable();
 
     List<PlutoColumn> newColumns = [];
     List<PlutoRow> newRows = [];
