@@ -173,7 +173,7 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Сохранить ленты",
                 child: ElevatedButton(
                   onPressed: () {
-                    machine.saveLinesJson = machine.linesToJson().toString();
+                    machine.saveLinesJson = jsonEncode(machine.linesToJson());
                   },
                   child: const SizedBox(
                     width: iconSize,
@@ -223,7 +223,9 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Очистить ленты",
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    linePagesState.currentState!.clearAllLines();
+                  },
                   child: const SizedBox(
                     width: iconSize,
                     height: iconSize,
