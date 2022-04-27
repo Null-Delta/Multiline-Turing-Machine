@@ -64,10 +64,10 @@ class _AboutPanel extends State<AboutPanel> {
               ],
             ),
           ),
-          Divider(
-            height: 2,
+          const Divider(
+            height: 0,
             thickness: 2,
-            color: AppColors.highlight,
+            color: Color(0xFFE7E8F3)
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -127,7 +127,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: const [
                                       Text(
-                                        "Многоленточная\nМашина Тьюринга",
+                                        "Эмулятор Машины\nТьюринга",
                                         maxLines: 2,
                                         overflow: TextOverflow.clip,
                                         textAlign: TextAlign.left,
@@ -173,6 +173,7 @@ class _AboutPanel extends State<AboutPanel> {
                           const SizedBox(
                             height: 16,
                           ),
+                          /*
                           Container(
                             padding: const EdgeInsets.only(left: 32, bottom: 16),
                             width: MediaQuery.of(context).size.width,
@@ -204,6 +205,7 @@ class _AboutPanel extends State<AboutPanel> {
                               ),
                             ),
                           ),
+                          */
                           Container(
                             padding: const EdgeInsets.only(left: 32, bottom: 32),
                             width: MediaQuery.of(context).size.width,
@@ -267,109 +269,20 @@ class _AboutPanel extends State<AboutPanel> {
                                       height: 4,
                                     ),
                                     Text(
-                                      "Главная соска",
+                                      "zed.null@icloud.com",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: Color(0xFFA6B2C3),
                                         fontFamily: 'Inter',
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 32, bottom: 16),
-                            color: AppColors.background,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  clipBehavior: Clip.antiAlias,
-                                  width: 78,
-                                  height: 78,
-                                  child: const Image(
-                                    image: AppImages.IAmGirya,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(38),
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: AppColors.shadowColor,
-                                        spreadRadius: 8,
-                                        blurRadius: 8,
-                                        offset: Offset.zero, // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text(
-                                      "Гиренка",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Color(0xFF183157),
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 20,
                                       ),
                                     ),
                                     SizedBox(
                                       height: 4,
                                     ),
                                     Text(
-                                      "Соска",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Color(0xFFA6B2C3),
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Соска",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Color(0xFFA6B2C3),
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Соска",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Color(0xFFA6B2C3),
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Соска",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Color(0xFFA6B2C3),
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Соска",
+                                      "Моделирование, вёрстка",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: Color(0xFFA6B2C3),
@@ -418,7 +331,7 @@ class _AboutPanel extends State<AboutPanel> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: const [
                                     Text(
-                                      "СерГЕЙ",
+                                      "Прозоров Сергей",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: Color(0xFF183157),
@@ -431,7 +344,92 @@ class _AboutPanel extends State<AboutPanel> {
                                       height: 4,
                                     ),
                                     Text(
-                                      "Не гей, сергей",
+                                      "max.prozoroff@yandex.ru",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: Color(0xFFA6B2C3),
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      "Работа с файлами, вёрстка",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: Color(0xFFA6B2C3),
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(left: 32, bottom: 16),
+                            color: AppColors.background,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  clipBehavior: Clip.antiAlias,
+                                  width: 78,
+                                  height: 78,
+                                  child: const Image(
+                                    image: AppImages.IAmGirya,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(38),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: AppColors.shadowColor,
+                                        spreadRadius: 8,
+                                        blurRadius: 8,
+                                        offset: Offset.zero, // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      "Гиренко Даниил",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: Color(0xFF183157),
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      "iamgirya@yandex.ru",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: Color(0xFFA6B2C3),
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Моделирование, вёрстка",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: Color(0xFFA6B2C3),
