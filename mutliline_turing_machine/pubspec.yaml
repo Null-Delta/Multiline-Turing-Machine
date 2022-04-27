@@ -44,6 +44,7 @@ dependencies:
       url: https://github.com/google/flutter-desktop-embedding
       path: plugins/window_size
   url_launcher: ^6.1.0
+  msix: 
 
 dev_dependencies:
   flutter_test:
@@ -117,3 +118,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+msix_config:
+  display_name: Многоленточная машина Тьюринга
+  publisher_display_name: NullExpt
+  identity_name: company.suite.flutterapp
+  msix_version: 1.0.0.0
