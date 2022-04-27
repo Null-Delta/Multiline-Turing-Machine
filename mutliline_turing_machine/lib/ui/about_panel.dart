@@ -64,11 +64,7 @@ class _AboutPanel extends State<AboutPanel> {
               ],
             ),
           ),
-          const Divider(
-            height: 0,
-            thickness: 2,
-            color: Color(0xFFE7E8F3)
-          ),
+          const Divider(height: 0, thickness: 2, color: Color(0xFFE7E8F3)),
           Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -112,7 +108,8 @@ class _AboutPanel extends State<AboutPanel> {
                                         color: AppColors.shadowColor,
                                         spreadRadius: 4,
                                         blurRadius: 12,
-                                        offset: Offset.zero, // changes position of shadow
+                                        offset: Offset
+                                            .zero, // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -124,7 +121,8 @@ class _AboutPanel extends State<AboutPanel> {
                                   height: 112,
                                   color: AppColors.background,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: const [
                                       Text(
                                         "Эмулятор Машины\nТьюринга",
@@ -154,16 +152,16 @@ class _AboutPanel extends State<AboutPanel> {
                                       SizedBox(
                                         height: 6,
                                       ),
-                                      // Text(
-                                      //   "nullexp.ru/mtm",
-                                      //   textAlign: TextAlign.left,
-                                      //   style: TextStyle(
-                                      //     color: Color(0xFF72A5B5),
-                                      //     fontFamily: 'Inter',
-                                      //     fontWeight: FontWeight.w700,
-                                      //     fontSize: 16,
-                                      //   ),
-                                      // )
+                                      Text(
+                                        "nullexp.ru",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          color: Color(0xFF72A5B5),
+                                          fontFamily: 'Inter',
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                        ),
+                                      )
                                     ],
                                   ),
                                 )
@@ -207,7 +205,8 @@ class _AboutPanel extends State<AboutPanel> {
                           ),
                           */
                           Container(
-                            padding: const EdgeInsets.only(left: 32, bottom: 32),
+                            padding:
+                                const EdgeInsets.only(left: 32, bottom: 32),
                             width: MediaQuery.of(context).size.width,
                             color: AppColors.background,
                             child: const Text(
@@ -244,7 +243,8 @@ class _AboutPanel extends State<AboutPanel> {
                                         color: AppColors.shadowColor,
                                         spreadRadius: 8,
                                         blurRadius: 8,
-                                        offset: Offset.zero, // changes position of shadow
+                                        offset: Offset
+                                            .zero, // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -282,7 +282,9 @@ class _AboutPanel extends State<AboutPanel> {
                                       height: 4,
                                     ),
                                     Text(
-                                      "Моделирование, вёрстка",
+                                      "Дизайн всего приложения, проектирование, справка, \n"
+                                              "панель правил, состояний и комментариев, иконки,\n" +
+                                          "нижняя панель инстументов, настройки.",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: Color(0xFFA6B2C3),
@@ -319,7 +321,8 @@ class _AboutPanel extends State<AboutPanel> {
                                         color: AppColors.shadowColor,
                                         spreadRadius: 8,
                                         blurRadius: 8,
-                                        offset: Offset.zero, // changes position of shadow
+                                        offset: Offset
+                                            .zero, // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -357,7 +360,9 @@ class _AboutPanel extends State<AboutPanel> {
                                       height: 4,
                                     ),
                                     Text(
-                                      "Работа с файлами, вёрстка",
+                                      "Импорт/экспорт сохранений, ячейка ленты, \n" +
+                                          "ввод в ленту, добавление/удаление лент, \n" +
+                                          "вверхняя панель инстументов, тестирование.",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: Color(0xFFA6B2C3),
@@ -394,7 +399,8 @@ class _AboutPanel extends State<AboutPanel> {
                                         color: AppColors.shadowColor,
                                         spreadRadius: 8,
                                         blurRadius: 8,
-                                        offset: Offset.zero, // changes position of shadow
+                                        offset: Offset
+                                            .zero, // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -429,7 +435,9 @@ class _AboutPanel extends State<AboutPanel> {
                                       ),
                                     ),
                                     Text(
-                                      "Моделирование, вёрстка",
+                                      "Модель машины Тьюринга, лента, очистка ленты,\n" +
+                                          "раздел \"О приложении\", подсчёт конфигураций,\n" +
+                                          "автоматическая работа машины Тьюринга.",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: Color(0xFFA6B2C3),
@@ -444,7 +452,8 @@ class _AboutPanel extends State<AboutPanel> {
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(top: 32, left: 32, bottom: 16),
+                            margin: const EdgeInsets.only(
+                                top: 32, left: 32, bottom: 16),
                             width: MediaQuery.of(context).size.width,
                             color: AppColors.background,
                             child: const Text(
