@@ -295,11 +295,11 @@ class _AboutPanel extends State<AboutPanel> {
                                     ),
                                     SizedBox(
                                       height: 20,
-                                      width: 109,
+                                      width: 200,
                                       child: ElevatedButton(
                                         onPressed: () { launchUrlString('https://github.com/Zed-Null'); },
                                         child: Text(
-                                          "github/Zed-Null",
+                                          "Github - Zed-Null",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             color: AppColors.accent,
@@ -393,11 +393,11 @@ class _AboutPanel extends State<AboutPanel> {
                                     ),
                                     SizedBox(
                                       height: 20,
-                                      width: 130,
+                                      width: 200,
                                       child: ElevatedButton(
                                         onPressed: () { launchUrlString('https://github.com/StarProxima'); },
                                         child: Text(
-                                          "github/StarProxima",
+                                          "Github - StarProxima",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             color: AppColors.accent,
@@ -484,11 +484,11 @@ class _AboutPanel extends State<AboutPanel> {
                                     ),
                                     SizedBox(
                                       height: 20,
-                                      width: 107,
+                                      width: 200,
                                       child: ElevatedButton(
                                         onPressed: () { launchUrlString('https://github.com/iamgirya'); },
                                         child: Text(
-                                          "github/iamgirya",
+                                          "Github - iamgirya",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             color: AppColors.accent,
