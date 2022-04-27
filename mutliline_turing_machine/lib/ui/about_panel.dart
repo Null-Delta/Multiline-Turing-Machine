@@ -155,7 +155,7 @@ class _AboutPanel extends State<AboutPanel> {
                                         height: 6,
                                       ),
                                       SizedBox(
-                                          width: 140,
+                                          width: 95,
                                           height: 20,
                                           child: 
                                           ElevatedButton(
