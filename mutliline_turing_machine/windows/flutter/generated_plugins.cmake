@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   material_snackbar
+  url_launcher_windows
   window_size
 )
 
