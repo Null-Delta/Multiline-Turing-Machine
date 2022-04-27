@@ -129,7 +129,8 @@ class _MainWidgetState extends State<MainWidget> {
       if (text != "" && !isShackBarShow) {
         isShackBarShow = true;
         MaterialSnackBarMessenger.of(sfContext).emptyQueue();
-        MaterialSnackBarMessenger.of(sfContext).showSnackBar(snackbar: errorSnackBar(text));
+        MaterialSnackBarMessenger.of(sfContext)
+            .showSnackBar(snackbar: errorSnackBar(text), alignment: Alignment.bottomRight);
       }
     },
     onResetWork: () {
@@ -151,7 +152,8 @@ class _MainWidgetState extends State<MainWidget> {
 
             isShackBarShow = true;
             MaterialSnackBarMessenger.of(sfContext).emptyQueue();
-            MaterialSnackBarMessenger.of(sfContext).showSnackBar(snackbar: errorSnackBar(message));
+            MaterialSnackBarMessenger.of(sfContext)
+                .showSnackBar(snackbar: errorSnackBar(message), alignment: Alignment.bottomRight);
           }
 
           statesListState.currentState!.setState(() {});
@@ -174,7 +176,8 @@ class _MainWidgetState extends State<MainWidget> {
 
           isShackBarShow = true;
           MaterialSnackBarMessenger.of(sfContext).emptyQueue();
-          MaterialSnackBarMessenger.of(sfContext).showSnackBar(snackbar: errorSnackBar(message));
+          MaterialSnackBarMessenger.of(sfContext)
+              .showSnackBar(snackbar: errorSnackBar(message), alignment: Alignment.bottomRight);
         }
 
         statesListState.currentState!.setState(() {});
