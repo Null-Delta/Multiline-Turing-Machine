@@ -369,7 +369,7 @@ class _AboutPanel extends State<AboutPanel> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         const Text(
-                                          "Прозоров Сергей",
+                                          "Прозоров Максим",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             color: Color(0xFF183157),
@@ -382,7 +382,7 @@ class _AboutPanel extends State<AboutPanel> {
                                           height: 4,
                                         ),
                                         Text(
-                                          "max.prozoroff@yandex.ru",
+                                          "maks.prozorov1@yandex.ru",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             color: AppColors.accent,
