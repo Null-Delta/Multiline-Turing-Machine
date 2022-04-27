@@ -19,13 +19,15 @@ import 'package:window_size/window_size.dart';
 import 'styles/app_colors.dart';
 import 'ui/about_panel.dart';
 import 'ui/lines_page.dart';
+import 'ui/recond_hot_key_dialog.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
 import 'ui/turing_machine_table.dart';
+import 'package:hotkey_manager/hotkey_manager.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await hotKeyManager.unregisterAll();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('Многоленточная машина тьюринга');
     setWindowMinSize(const Size(460, 600));
@@ -35,6 +37,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -193,6 +196,7 @@ class _MainWidgetState extends State<MainWidget> {
   );
 
   bool isShackBarShow = false;
+  bool inAnotherPage = false;
 
   void onScroll() {
     linePagesState.currentState!.onScroll();
@@ -234,8 +238,32 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   Widget build(BuildContext context) {
-    log("rebuilding");
 
+    // в любом месте программы
+    bool aboutButton = false;
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.f1,
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (hotKey) {
+        if (!aboutButton && !Navigator.of(context).canPop()){
+          aboutButton = true;
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutPanel()));
+        }
+      },
+      keyUpHandler: (hotKey){
+        if (aboutButton){
+          aboutButton = false;
+
+        }
+      },
+    );
+    //
+
+
+
+    log("rebuilding");
     log(machine.model.info());
     log(machine.configuration.linePointers.toString());
     linePagesState = GlobalKey<LinesPageState>();
@@ -267,7 +295,7 @@ class _MainWidgetState extends State<MainWidget> {
               children: [
                 Column(
                   children: [
-                    TopPanel(),
+                    const TopPanel(),
                     LinesPage(key: linePagesState),
                   ],
                 ),
