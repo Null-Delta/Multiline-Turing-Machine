@@ -110,8 +110,7 @@ class _AboutPanel extends State<AboutPanel> {
                                         color: AppColors.shadowColor,
                                         spreadRadius: 4,
                                         blurRadius: 12,
-                                        offset: Offset
-                                            .zero, // changes position of shadow
+                                        offset: Offset.zero, // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -123,8 +122,7 @@ class _AboutPanel extends State<AboutPanel> {
                                   height: 112,
                                   color: AppColors.background,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       const Text(
                                         "Эмулятор Машины\nТьюринга",
@@ -155,24 +153,25 @@ class _AboutPanel extends State<AboutPanel> {
                                         height: 6,
                                       ),
                                       SizedBox(
-                                          width: 95,
-                                          height: 20,
-                                          child: 
-                                          ElevatedButton(
-                                            //'https://https://nullexp.ru/mtm'
-                                            onPressed: () { launchUrlString('https://https://nullexp.ru'); },
-                                            child: const Text(
-                                                "nullexp.ru",
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                  color: Color(0xFF72A5B5),
-                                                  fontFamily: 'Inter',
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 18,
-                                                ),
-                                              ),
-                                            style: appButtonStyle,
+                                        width: 95,
+                                        height: 20,
+                                        child: ElevatedButton(
+                                          //'https://https://nullexp.ru/mtm'
+                                          onPressed: () {
+                                            launchUrlString('https://https://nullexp.ru');
+                                          },
+                                          child: const Text(
+                                            "nullexp.ru",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              color: Color(0xFF72A5B5),
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 18,
+                                            ),
                                           ),
+                                          style: appButtonStyle,
+                                        ),
                                       )
                                     ],
                                   ),
@@ -217,8 +216,7 @@ class _AboutPanel extends State<AboutPanel> {
                           ),
                           */
                           Container(
-                            padding:
-                                const EdgeInsets.only(left: 32, bottom: 32),
+                            padding: const EdgeInsets.only(left: 32, bottom: 32),
                             width: MediaQuery.of(context).size.width,
                             color: AppColors.background,
                             child: const Text(
@@ -255,8 +253,7 @@ class _AboutPanel extends State<AboutPanel> {
                                         color: AppColors.shadowColor,
                                         spreadRadius: 8,
                                         blurRadius: 8,
-                                        offset: Offset
-                                            .zero, // changes position of shadow
+                                        offset: Offset.zero, // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -264,42 +261,28 @@ class _AboutPanel extends State<AboutPanel> {
                                 const SizedBox(
                                   width: 12,
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      "Хахук Рустам",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Color(0xFF183157),
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    Text(
-                                      "zed.null@icloud.com",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: AppColors.accent,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                      width: 200,
-                                      child: ElevatedButton(
-                                        onPressed: () { launchUrlString('https://github.com/Zed-Null'); },
-                                        child: Text(
-                                          "Github - Zed-Null",
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.only(right: 32),
+                                    constraints: const BoxConstraints(minWidth: double.infinity),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          "Хахук Рустам",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            color: Color(0xFF183157),
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                        Text(
+                                          "zed.null@icloud.com",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             color: AppColors.accent,
@@ -308,24 +291,41 @@ class _AboutPanel extends State<AboutPanel> {
                                             fontSize: 14,
                                           ),
                                         ),
-                                        style: appButtonStyle,
-                                      ),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            launchUrlString('https://github.com/Zed-Null');
+                                          },
+                                          child: Text(
+                                            "Github - Zed Null",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              color: AppColors.accent,
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          style: linkButtonStyle,
+                                        ),
+                                        Container(
+                                          constraints: const BoxConstraints(maxWidth: double.infinity),
+                                          child: const Text(
+                                            "Дизайн всего приложения, проектирование, справка, панель правил, состояний и комментариев, иконки, нижняя панель инстументов, настройки.",
+                                            textAlign: TextAlign.justify,
+                                            style: TextStyle(
+                                              color: Color(0xFFA6B2C3),
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    const Text(
-                                      "Дизайн всего приложения, проектирование, справка, \n"
-                                              "панель правил, состояний и комментариев, иконки,\n" "нижняя панель инстументов, настройки.",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Color(0xFFA6B2C3),
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 )
                               ],
                             ),
@@ -353,8 +353,7 @@ class _AboutPanel extends State<AboutPanel> {
                                         color: AppColors.shadowColor,
                                         spreadRadius: 8,
                                         blurRadius: 8,
-                                        offset: Offset
-                                            .zero, // changes position of shadow
+                                        offset: Offset.zero, // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -362,42 +361,28 @@ class _AboutPanel extends State<AboutPanel> {
                                 const SizedBox(
                                   width: 12,
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      "Прозоров Сергей",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Color(0xFF183157),
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    Text(
-                                      "max.prozoroff@yandex.ru",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: AppColors.accent,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                      width: 200,
-                                      child: ElevatedButton(
-                                        onPressed: () { launchUrlString('https://github.com/StarProxima'); },
-                                        child: Text(
-                                          "Github - StarProxima",
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.only(right: 32),
+                                    constraints: const BoxConstraints(minWidth: double.infinity),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          "Прозоров Сергей",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            color: Color(0xFF183157),
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                        Text(
+                                          "max.prozoroff@yandex.ru",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             color: AppColors.accent,
@@ -406,20 +391,41 @@ class _AboutPanel extends State<AboutPanel> {
                                             fontSize: 14,
                                           ),
                                         ),
-                                        style: appButtonStyle,
-                                      ),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            launchUrlString('https://github.com/StarProxima');
+                                          },
+                                          child: Text(
+                                            "Github - StarProxima",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              color: AppColors.accent,
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          style: linkButtonStyle,
+                                        ),
+                                        Container(
+                                          constraints: const BoxConstraints(maxWidth: double.infinity),
+                                          child: const Text(
+                                            "Импорт/экспорт сохранений, ячейка ленты, ввод в ленту, добавление/удаление лент, вверхняя панель инстументов, тестирование.",
+                                            textAlign: TextAlign.justify,
+                                            style: TextStyle(
+                                              color: Color(0xFFA6B2C3),
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const Text(
-                                      "Импорт/экспорт сохранений, ячейка ленты, \n" "ввод в ленту, добавление/удаление лент, \n" "вверхняя панель инстументов, тестирование.",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Color(0xFFA6B2C3),
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 )
                               ],
                             ),
@@ -447,8 +453,7 @@ class _AboutPanel extends State<AboutPanel> {
                                         color: AppColors.shadowColor,
                                         spreadRadius: 8,
                                         blurRadius: 8,
-                                        offset: Offset
-                                            .zero, // changes position of shadow
+                                        offset: Offset.zero, // changes position of shadow
                                       ),
                                     ],
                                   ),
@@ -456,39 +461,28 @@ class _AboutPanel extends State<AboutPanel> {
                                 const SizedBox(
                                   width: 12,
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      "Гиренко Даниил",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Color(0xFF183157),
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    Text(
-                                      "iamgirya@yandex.ru",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: AppColors.accent,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                      width: 200,
-                                      child: ElevatedButton(
-                                        onPressed: () { launchUrlString('https://github.com/iamgirya'); },
-                                        child: Text(
-                                          "Github - iamgirya",
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.only(right: 32),
+                                    constraints: const BoxConstraints(minWidth: double.infinity),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          "Гиренко Даниил",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            color: Color(0xFF183157),
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                        Text(
+                                          "iamgirya@yandex.ru",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             color: AppColors.accent,
@@ -497,27 +491,44 @@ class _AboutPanel extends State<AboutPanel> {
                                             fontSize: 14,
                                           ),
                                         ),
-                                        style: appButtonStyle,
-                                      ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            launchUrlString('https://github.com/iamgirya');
+                                          },
+                                          child: Text(
+                                            "Github - iamgirya",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              color: AppColors.accent,
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          style: linkButtonStyle,
+                                        ),
+                                        Container(
+                                          constraints: const BoxConstraints(maxWidth: double.infinity),
+                                          child: const Text(
+                                            "Модель машины Тьюринга, лента, очистка ленты, раздел \"О приложении\", подсчёт конфигураций, автоматическая работа машины Тьюринга.",
+                                            textAlign: TextAlign.justify,
+                                            style: TextStyle(
+                                              color: Color(0xFFA6B2C3),
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const Text(
-                                      "Модель машины Тьюринга, лента, очистка ленты,\n" "раздел \"О приложении\", подсчёт конфигураций,\n" "автоматическая работа машины Тьюринга.",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Color(0xFFA6B2C3),
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 )
                               ],
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(
-                                top: 32, left: 32, bottom: 16),
+                            margin: const EdgeInsets.only(top: 32, left: 32, bottom: 16),
                             width: MediaQuery.of(context).size.width,
                             color: AppColors.background,
                             child: const Text(
@@ -534,43 +545,82 @@ class _AboutPanel extends State<AboutPanel> {
                           Column(
                             children: [
                               Container(
-                                margin: const EdgeInsets.only(left: 32),
+                                margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
                                 width: MediaQuery.of(context).size.width,
                                 color: AppColors.background,
                                 child: const Text(
-                                  "пельмени Мироторг",
-                                  textAlign: TextAlign.left,
+                                  "• Multi split view: Copyright (c) 2021 Carlos Eduardo Leite de Andrade",
+                                  textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     color: Color(0xFF183157),
                                     fontFamily: 'Inter',
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 16,
+                                    fontSize: 14,
                                   ),
                                 ),
                               ),
                               Container(
-                                margin: const EdgeInsets.only(left: 32),
+                                margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
                                 width: MediaQuery.of(context).size.width,
                                 color: AppColors.background,
                                 child: const Text(
-                                  "мамина еда",
-                                  textAlign: TextAlign.left,
+                                  "• Material snackbar: Copyright (c) 2020 Rounded Infinity",
+                                  textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     color: Color(0xFF183157),
                                     fontFamily: 'Inter',
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 16,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
+                                width: MediaQuery.of(context).size.width,
+                                color: AppColors.background,
+                                child: const Text(
+                                  "• File Picker: Copyright (c) 2018 Miguel Ruivo",
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    color: Color(0xFF183157),
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
+                                width: MediaQuery.of(context).size.width,
+                                color: AppColors.background,
+                                child: const Text(
+                                  "• Pluto Grid: Copyright (c) [2020] [PlutoGrid]",
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    color: Color(0xFF183157),
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(left: 32, right: 32, bottom: 32),
+                                width: MediaQuery.of(context).size.width,
+                                color: AppColors.background,
+                                child: const Text(
+                                  "• Scollable Positioned List: Copyright 2018 the Dart project authors, Inc.",
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    color: Color(0xFF183157),
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          Container(
-                            color: AppColors.background,
-                            height: MediaQuery.of(context).size.height - 578 > 0
-                                ? MediaQuery.of(context).size.height - 578
-                                : 0,
-                          )
                         ],
                       ),
                     ),
