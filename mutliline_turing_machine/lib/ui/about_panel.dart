@@ -155,24 +155,26 @@ class _AboutPanel extends State<AboutPanel> {
                                         height: 6,
                                       ),
                                       SizedBox(
-                                          width: 95,
-                                          height: 20,
-                                          child: 
-                                          ElevatedButton(
-                                            //'https://https://nullexp.ru/mtm'
-                                            onPressed: () { launchUrlString('https://https://nullexp.ru'); },
-                                            child: const Text(
-                                                "nullexp.ru",
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                  color: Color(0xFF72A5B5),
-                                                  fontFamily: 'Inter',
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 18,
-                                                ),
-                                              ),
-                                            style: appButtonStyle,
+                                        width: 95,
+                                        height: 20,
+                                        child: ElevatedButton(
+                                          //'https://https://nullexp.ru/mtm'
+                                          onPressed: () {
+                                            launchUrlString(
+                                                'https://https://nullexp.ru');
+                                          },
+                                          child: const Text(
+                                            "nullexp.ru",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              color: Color(0xFF72A5B5),
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 18,
+                                            ),
                                           ),
+                                          style: appButtonStyle,
+                                        ),
                                       )
                                     ],
                                   ),
@@ -297,7 +299,10 @@ class _AboutPanel extends State<AboutPanel> {
                                       height: 20,
                                       width: 200,
                                       child: ElevatedButton(
-                                        onPressed: () { launchUrlString('https://github.com/Zed-Null'); },
+                                        onPressed: () {
+                                          launchUrlString(
+                                              'https://github.com/Zed-Null');
+                                        },
                                         child: Text(
                                           "Github - Zed-Null",
                                           textAlign: TextAlign.left,
@@ -316,7 +321,8 @@ class _AboutPanel extends State<AboutPanel> {
                                     ),
                                     const Text(
                                       "Дизайн всего приложения, проектирование, справка, \n"
-                                              "панель правил, состояний и комментариев, иконки,\n" "нижняя панель инстументов, настройки.",
+                                      "панель правил, состояний и комментариев, иконки,\n"
+                                      "нижняя панель инстументов, настройки.",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: Color(0xFFA6B2C3),
@@ -379,7 +385,7 @@ class _AboutPanel extends State<AboutPanel> {
                                       height: 4,
                                     ),
                                     Text(
-                                      "max.prozoroff@yandex.ru",
+                                      "maks.prozorov1@yandex.ru",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: AppColors.accent,
@@ -395,7 +401,10 @@ class _AboutPanel extends State<AboutPanel> {
                                       height: 20,
                                       width: 200,
                                       child: ElevatedButton(
-                                        onPressed: () { launchUrlString('https://github.com/StarProxima'); },
+                                        onPressed: () {
+                                          launchUrlString(
+                                              'https://github.com/StarProxima');
+                                        },
                                         child: Text(
                                           "Github - StarProxima",
                                           textAlign: TextAlign.left,
@@ -410,7 +419,9 @@ class _AboutPanel extends State<AboutPanel> {
                                       ),
                                     ),
                                     const Text(
-                                      "Импорт/экспорт сохранений, ячейка ленты, \n" "ввод в ленту, добавление/удаление лент, \n" "вверхняя панель инстументов, тестирование.",
+                                      "Импорт/экспорт сохранений, ячейка ленты, \n"
+                                      "ввод в ленту, добавление/удаление лент, \n"
+                                      "вверхняя панель инстументов, тестирование.",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: Color(0xFFA6B2C3),
@@ -486,7 +497,10 @@ class _AboutPanel extends State<AboutPanel> {
                                       height: 20,
                                       width: 200,
                                       child: ElevatedButton(
-                                        onPressed: () { launchUrlString('https://github.com/iamgirya'); },
+                                        onPressed: () {
+                                          launchUrlString(
+                                              'https://github.com/iamgirya');
+                                        },
                                         child: Text(
                                           "Github - iamgirya",
                                           textAlign: TextAlign.left,
@@ -501,7 +515,9 @@ class _AboutPanel extends State<AboutPanel> {
                                       ),
                                     ),
                                     const Text(
-                                      "Модель машины Тьюринга, лента, очистка ленты,\n" "раздел \"О приложении\", подсчёт конфигураций,\n" "автоматическая работа машины Тьюринга.",
+                                      "Модель машины Тьюринга, лента, очистка ленты,\n"
+                                      "раздел \"О приложении\", подсчёт конфигураций,\n"
+                                      "автоматическая работа машины Тьюринга.",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         color: Color(0xFFA6B2C3),
