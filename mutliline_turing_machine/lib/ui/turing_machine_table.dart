@@ -268,7 +268,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
           width: 84,
           minWidth: 64,
           title: i == 0
-              ? "Правила"
+              ? "Команды"
               : i == machine.model.countOfLines + 1
                   ? "Переход"
                   : "Лента $i",
