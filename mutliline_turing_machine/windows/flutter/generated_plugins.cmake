@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   material_snackbar
+  window_size
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)
