@@ -27,7 +27,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    setWindowTitle('Эмулятор машина Тьюринга');
+    setWindowTitle('Эмулятор машины Тьюринга');
     setWindowMinSize(const Size(460, 600));
   }
   runApp(const MyApp());

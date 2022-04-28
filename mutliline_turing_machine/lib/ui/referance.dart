@@ -103,7 +103,6 @@ class Reference extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Container(
                   padding: const EdgeInsets.only(bottom: 32),
-                  //color: Colors.redAccent,
                   constraints: const BoxConstraints(minWidth: double.infinity),
                   child: Column(
                     children: [
