@@ -155,23 +155,27 @@ class _AboutPanel extends State<AboutPanel> {
                                           height: 6,
                                         ),
                                         SizedBox(
-                                          width: 95,
                                           height: 20,
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              launchUrlString('https://nullexp.ru');
-                                            },
-                                            child: const Text(
-                                              "nullexp.ru",
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                color: Color(0xFF72A5B5),
-                                                fontFamily: 'Inter',
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 18,
+                                          child: Tooltip(
+                                            waitDuration: const Duration(milliseconds: 200),
+                                            verticalOffset: 12,
+                                            message: "Сайт разработчиков",
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                launchUrlString('https://nullexp.ru');
+                                              },
+                                              child: const Text(
+                                                "nullexp.ru",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  color: Color(0xFF72A5B5),
+                                                  fontFamily: 'Inter',
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 18,
+                                                ),
                                               ),
+                                              style: linkButtonStyle,
                                             ),
-                                            style: appButtonStyle,
                                           ),
                                         )
                                       ],
@@ -383,7 +387,7 @@ class _AboutPanel extends State<AboutPanel> {
                                             height: 4,
                                           ),
                                           Text(
-                                            "maks.prozorov1@yandex.ru",
+                                            "StarProxima@yandex.ru",
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               color: AppColors.accent,
