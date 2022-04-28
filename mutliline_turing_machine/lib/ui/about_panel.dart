@@ -152,13 +152,13 @@ class _AboutPanel extends State<AboutPanel> {
                                           ),
                                         ),
                                         const SizedBox(
-                                          height: 6,
+                                          height: 8,
                                         ),
                                         SizedBox(
                                           height: 20,
                                           child: Tooltip(
                                             waitDuration: const Duration(milliseconds: 200),
-                                            verticalOffset: 12,
+                                            verticalOffset: 14,
                                             message: "Сайт разработчиков",
                                             child: ElevatedButton(
                                               onPressed: () {
@@ -185,7 +185,7 @@ class _AboutPanel extends State<AboutPanel> {
                               ),
                             ),
                             const SizedBox(
-                              height: 16,
+                              height: 26,
                             ),
                             /*
                             Container(
@@ -273,18 +273,26 @@ class _AboutPanel extends State<AboutPanel> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          const Text(
-                                            "Хахук Рустам",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Color(0xFF183157),
-                                              fontFamily: 'Inter',
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 20,
+                                          Tooltip(
+                                            waitDuration: const Duration(milliseconds: 300),
+                                            message: "https://github.com/Zed-Null",
+                                            verticalOffset: 14,
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                launchUrlString('https://github.com/Zed-Null');
+                                              },
+                                              child: const Text(
+                                                "Хахук Рустам",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  color: Color(0xFF183157),
+                                                  fontFamily: 'Inter',
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                              style: linkButtonStyle,
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 4,
                                           ),
                                           Text(
                                             "zed.null@icloud.com",
@@ -297,23 +305,7 @@ class _AboutPanel extends State<AboutPanel> {
                                             ),
                                           ),
                                           const SizedBox(
-                                            height: 4,
-                                          ),
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              launchUrlString('https://github.com/Zed-Null');
-                                            },
-                                            child: Text(
-                                              "Github - Zed Null",
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                color: AppColors.accent,
-                                                fontFamily: 'Inter',
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            style: linkButtonStyle,
+                                            height: 8,
                                           ),
                                           Container(
                                             constraints: const BoxConstraints(maxWidth: double.infinity),
@@ -373,18 +365,26 @@ class _AboutPanel extends State<AboutPanel> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          const Text(
-                                            "Прозоров Максим",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Color(0xFF183157),
-                                              fontFamily: 'Inter',
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 20,
+                                          Tooltip(
+                                            waitDuration: const Duration(milliseconds: 300),
+                                            message: "https://github.com/StarProxima",
+                                            verticalOffset: 14,
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                launchUrlString('https://github.com/StarProxima');
+                                              },
+                                              child: const Text(
+                                                "Прозоров Максим",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  color: Color(0xFF183157),
+                                                  fontFamily: 'Inter',
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                              style: linkButtonStyle,
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 4,
                                           ),
                                           Text(
                                             "StarProxima@yandex.ru",
@@ -397,23 +397,7 @@ class _AboutPanel extends State<AboutPanel> {
                                             ),
                                           ),
                                           const SizedBox(
-                                            height: 4,
-                                          ),
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              launchUrlString('https://github.com/StarProxima');
-                                            },
-                                            child: Text(
-                                              "Github - StarProxima",
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                color: AppColors.accent,
-                                                fontFamily: 'Inter',
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            style: linkButtonStyle,
+                                            height: 8,
                                           ),
                                           Container(
                                             constraints: const BoxConstraints(maxWidth: double.infinity),
@@ -473,18 +457,26 @@ class _AboutPanel extends State<AboutPanel> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          const Text(
-                                            "Гиренко Даниил",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Color(0xFF183157),
-                                              fontFamily: 'Inter',
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 20,
+                                          Tooltip(
+                                            waitDuration: const Duration(milliseconds: 300),
+                                            message: "https://github.com/iamgirya",
+                                            verticalOffset: 14,
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                launchUrlString('https://github.com/iamgirya');
+                                              },
+                                              child: const Text(
+                                                "Гиренко Даниил",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  color: Color(0xFF183157),
+                                                  fontFamily: 'Inter',
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                              style: linkButtonStyle,
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 4,
                                           ),
                                           Text(
                                             "iamgirya@yandex.ru",
@@ -496,26 +488,13 @@ class _AboutPanel extends State<AboutPanel> {
                                               fontSize: 14,
                                             ),
                                           ),
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              launchUrlString('https://github.com/iamgirya');
-                                            },
-                                            child: Text(
-                                              "Github - iamgirya",
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                color: AppColors.accent,
-                                                fontFamily: 'Inter',
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                            style: linkButtonStyle,
+                                          const SizedBox(
+                                            height: 8,
                                           ),
                                           Container(
                                             constraints: const BoxConstraints(maxWidth: double.infinity),
                                             child: const Text(
-                                              "Модель машины Тьюринга, лента, очистка ленты, раздел \"О приложении\", подсчёт конфигураций, автоматическая работа машины Тьюринга.",
+                                              "Модель машины Тьюринга, лента, очистка ленты, раздел \"О приложении\", подсчёт конфигураций, автоматическая работа машины Тьюринга.",
                                               textAlign: TextAlign.justify,
                                               style: TextStyle(
                                                 color: Color(0xFFA6B2C3),
