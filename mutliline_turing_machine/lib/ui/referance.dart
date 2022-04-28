@@ -31,7 +31,7 @@ class Reference extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 640),
       alignment: Alignment.topLeft,
       margin: const EdgeInsets.only(bottom: 16, left: 32, right: 32, top: 32),
-      child: Text(
+      child: SelectableText(
         name,
         textAlign: TextAlign.left,
         style: TextStyle(
@@ -48,7 +48,7 @@ class Reference extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 640),
       alignment: Alignment.topLeft,
       margin: const EdgeInsets.only(bottom: 16, left: 32, right: 32, top: 16),
-      child: Text(
+      child: SelectableText(
         name,
         textAlign: TextAlign.left,
         style: TextStyle(
@@ -65,7 +65,7 @@ class Reference extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 640),
       alignment: Alignment.topLeft,
       margin: const EdgeInsets.only(left: 32, right: 32),
-      child: Text(
+      child: SelectableText(
         name,
         textAlign: TextAlign.justify,
         style: TextStyle(
@@ -103,7 +103,7 @@ class Reference extends StatelessWidget {
                   Container(
                     width: 8,
                   ),
-                  Text(
+                  SelectableText(
                     "Справочка",
                     style: TextStyle(
                       color: AppColors.text,
@@ -130,7 +130,11 @@ class Reference extends StatelessWidget {
                     children: [
                       title("Общие сведения"),
                       text(
-                          "Машина Тьюринга - абстрактная вычислительная машина, предложенная Аланом Тьюрингом в 1936 году, которая манипулирует символами на полосе ленты в соответствии с таблицей правил. Многоленточная машина Тьюринга является расширением данной идеи, внося возможность использовать неограниченное количество лент."),
+                          """Машина Тьюринга - абстрактная вычислительная машина, предложенная Аланом Тьюрингом в 1936 году, которая манипулирует символами на полосе ленты в соответствии с таблицей правил.
+
+Многоленточная машина Тьюринга является расширением данной идеи, внося возможность использовать неограниченное количество лент.
+
+В данной реализации лента состоит из двух тысяч ячеек, а количество лент ограничено шестнадцатью. """),
                       title("Интерфейс"),
                       text("""Интерфейс приложения можно условно разделить на 5 частей:
       • Верхняя панель инструментов

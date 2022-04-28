@@ -1,4 +1,4 @@
-# mutliline_turing_machine
+# Эмулятор Многоленточной Машины Тьюринга
 
 A new Flutter project.
 

@@ -27,7 +27,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    setWindowTitle('Эмулятор машины Тьюринга');
+    setWindowTitle('Эмулятор MMT');
     setWindowMinSize(const Size(460, 600));
   }
   runApp(const MyApp());
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Симулятор Машины Тьюринга',
+      title: 'Эмулятор Многоленточной Машины Тьюринга',
       theme: ThemeData(
         fontFamily: "Inter",
         backgroundColor: AppColors.background,

@@ -44,7 +44,6 @@ dependencies:
       url: https://github.com/google/flutter-desktop-embedding
       path: plugins/window_size
   url_launcher: ^6.1.0
-  msix: 
 
 dev_dependencies:
   flutter_test:
@@ -56,13 +55,21 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
-
+  msix: ^3.5.1
+  
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
+msix_config:
+  display_name: Эмулятор ММТ
+  msix_version: 1.0.0.0
+  certificate_path: C:\Users\maksp\CERTIFICATE.pfx
+  certificate_password: jopa111_rustam
+
 flutter:
 
+  
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -118,8 +125,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-msix_config:
-  display_name: Многоленточная машина Тьюринга
-  publisher_display_name: NullExpt
-  identity_name: company.suite.flutterapp
-  msix_version: 1.0.0.0
