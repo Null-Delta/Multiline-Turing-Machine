@@ -89,7 +89,7 @@ class _TopPanelState extends State<TopPanel> {
                         ),
                         onTap: () async {
                           FilePickerResult? result = await FilePicker.platform
-                              .pickFiles(dialogTitle: '', type: FileType.custom, allowedExtensions: ['mtm']);
+                              .pickFiles(dialogTitle: '', type: FileType.custom, allowedExtensions: ['mmt']);
                           if (result != null) {
                             log(result.files.first.path!);
                             File file = File(result.files.first.path!);
@@ -115,13 +115,13 @@ class _TopPanelState extends State<TopPanel> {
                         ),
                         onTap: () async {
                           String? result = await FilePicker.platform
-                              .saveFile(fileName: 'save.mtm', type: FileType.custom, allowedExtensions: ['mtm']);
+                              .saveFile(fileName: 'save.mmt', type: FileType.custom, allowedExtensions: ['mmt']);
                           if (result != null) {
                             if (result.contains('.')) {
                               log("message " + result.indexOf('.').toString());
                               result = result.substring(0, result.indexOf('.'));
                             }
-                            result += '.mtm';
+                            result += '.mmt';
                             log(result);
                             File file = File(result);
                             IOSink sink = file.openWrite();
