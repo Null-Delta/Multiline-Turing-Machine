@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Эмулятор Многоленточной Машины Тьюринга',
+      title: 'Эмулятор Машины Тьюринга',
       theme: ThemeData(
         fontFamily: "Inter",
         backgroundColor: AppColors.background,
@@ -263,7 +263,8 @@ class _MainWidgetState extends State<MainWidget> {
             child: MultiSplitView(
               antiAliasingWorkaround: false,
               axis: Axis.vertical,
-              minimalSize: 256,
+              minimalSizes: const [204, 396],
+              initialWeights: const [0.33, 0.64],
               children: [
                 Column(
                   children: [
