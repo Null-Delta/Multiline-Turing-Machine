@@ -1,7 +1,4 @@
-import 'dart:convert';
 import 'dart:developer';
-
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:material_snackbar/snackbar.dart';
@@ -12,12 +9,10 @@ import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
-import 'package:mutliline_turing_machine/ui/referance.dart';
 import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'package:window_size/window_size.dart';
 import 'styles/app_colors.dart';
-import 'ui/about_panel.dart';
 import 'ui/lines_page.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';

@@ -27,7 +27,7 @@ class Reference extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 640),
       alignment: Alignment.topLeft,
       margin: const EdgeInsets.only(bottom: 16, left: 32, right: 32, top: 32),
-      child: SelectableText(
+      child: Text(
         name,
         textAlign: TextAlign.left,
         style: TextStyle(
@@ -44,7 +44,7 @@ class Reference extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 640),
       alignment: Alignment.topLeft,
       margin: const EdgeInsets.only(bottom: 16, left: 32, right: 32, top: 16),
-      child: SelectableText(
+      child: Text(
         name,
         textAlign: TextAlign.left,
         style: TextStyle(
@@ -61,7 +61,7 @@ class Reference extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 640),
       alignment: Alignment.topLeft,
       margin: const EdgeInsets.only(left: 32, right: 32),
-      child: SelectableText(
+      child: Text(
         name,
         textAlign: TextAlign.justify,
         style: TextStyle(
@@ -99,7 +99,7 @@ class Reference extends StatelessWidget {
                   Container(
                     width: 8,
                   ),
-                  SelectableText(
+                  Text(
                     "Справочка",
                     style: TextStyle(
                       color: AppColors.text,

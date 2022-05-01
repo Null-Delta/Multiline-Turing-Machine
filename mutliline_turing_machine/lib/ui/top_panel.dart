@@ -12,10 +12,8 @@ import 'package:mutliline_turing_machine/ui/custom_popup.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:mutliline_turing_machine/ui/referance.dart';
 import 'package:mutliline_turing_machine/ui/settings_panel.dart';
-import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
 import 'package:provider/provider.dart';
 import '../styles/app_colors.dart';
-import 'lines_page.dart';
 
 import 'package:file_picker/file_picker.dart';
 

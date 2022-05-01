@@ -30,13 +30,13 @@ ButtonStyle appButtonStyle = ButtonStyle(
     ),
     overlayColor: MaterialStateProperty.resolveWith(
       (states) {
-        if (states.contains(MaterialState.selected)) {
-          return AppColors.highlight;
-        } else if (states.contains(MaterialState.disabled)) {
-          return AppColors.highlight;
-        } else if (states.contains(MaterialState.hovered)) {
-          return AppColors.highlight;
-        }
+        // if (states.contains(MaterialState.selected)) {
+        //   return AppColors.highlight;
+        // } else if (states.contains(MaterialState.disabled)) {
+        //   return AppColors.highlight;
+        // } else if (states.contains(MaterialState.hovered)) {
+        //   return AppColors.highlight;
+        // }
         return AppColors.highlight;
       },
     ),
@@ -61,26 +61,38 @@ ButtonStyle activeAppButtonStyle = ButtonStyle(
     elevation: MaterialStateProperty.all(0),
     backgroundColor: MaterialStateProperty.resolveWith(
       (states) {
-        if (states.contains(MaterialState.selected)) {
-          return AppColors.accent;
-        } else if (states.contains(MaterialState.disabled)) {
-          return AppColors.accent;
-        } else if (states.contains(MaterialState.hovered)) {
-          return AppColors.accent;
-        }
+        // if (states.contains(MaterialState.selected)) {
+        //   return AppColors.accent;
+        // } else if (states.contains(MaterialState.disabled)) {
+        //   return AppColors.accent;
+        // } else if (states.contains(MaterialState.hovered)) {
+        //   return AppColors.accent;
+        // }
         return AppColors.accent;
       },
     ),
     foregroundColor: MaterialStateProperty.resolveWith(
       (states) {
-        if (states.contains(MaterialState.selected)) {
-          return AppColors.background;
-        } else if (states.contains(MaterialState.disabled)) {
-          return AppColors.background;
-        } else if (states.contains(MaterialState.hovered)) {
-          return AppColors.background;
-        }
+        // if (states.contains(MaterialState.selected)) {
+        //   return AppColors.background;
+        // } else if (states.contains(MaterialState.disabled)) {
+        //   return AppColors.background;
+        // } else if (states.contains(MaterialState.hovered)) {
+        //   return AppColors.background;
+        // }
         return AppColors.background;
+      },
+    ),
+    overlayColor: MaterialStateProperty.resolveWith(
+      (states) {
+        // if (states.contains(MaterialState.selected)) {
+        //   return AppColors.background;
+        // } else if (states.contains(MaterialState.disabled)) {
+        //   return AppColors.background;
+        // } else if (states.contains(MaterialState.hovered)) {
+        //   return AppColors.background;
+        // }
+        return AppColors.accent;
       },
     ),
     padding: MaterialStateProperty.all(EdgeInsets.zero),
