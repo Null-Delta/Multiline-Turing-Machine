@@ -32,7 +32,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  multi_split_view: ^1.12.0
+  multi_split_view: ^1.13.0
   rxdart: ^0.27.3
   intl: ^0.17.0
   linked_scroll_controller: ^0.2.0
@@ -41,7 +41,7 @@ dependencies:
   material_snackbar: ^2.0.0-nullsafety.1
   window_size:
     git:
-      url: https://github.com/google/flutter-desktop-embedding
+      url: https://github.com/google/flutter-desktop-embedding.git
       path: plugins/window_size
   url_launcher: ^6.1.0
 

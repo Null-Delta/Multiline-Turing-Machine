@@ -614,6 +614,21 @@ class _AboutPanel extends State<AboutPanel> {
                                   width: MediaQuery.of(context).size.width,
                                   color: AppColors.background,
                                   child: const Text(
+                                    "• Window Size: Copyright [2018] [stuartmorgan]",
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                      color: Color(0xFF183157),
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
+                                  width: MediaQuery.of(context).size.width,
+                                  color: AppColors.background,
+                                  child: const Text(
                                     "• Material snackbar: Copyright (c) 2020 Rounded Infinity",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
@@ -681,7 +696,6 @@ class _AboutPanel extends State<AboutPanel> {
               ),
             ),
             Container(
-              
               margin: const EdgeInsets.only(top: 4, bottom: 4),
               alignment: FractionalOffset.bottomCenter,
               width: MediaQuery.of(context).size.width,
@@ -699,61 +713,6 @@ class _AboutPanel extends State<AboutPanel> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Container(
-                  width: double.infinity,
-                  height: 50,
-                  color: Colors.orangeAccent,
-                  child: Center(
-                    child: Text(
-                      'Header',
-                      style: TextStyle(color: Colors.white, letterSpacing: 4),
-                    ),
-                  ),
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 100,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      title: Center(child: Text('$index')),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: double.infinity,
-                height: 50,
-                color: Colors.blueAccent,
-                child: Center(
-                  child: Text(
-                    'Footer',
-                    style: TextStyle(color: Colors.white, letterSpacing: 4),
-                  ),
-                ),
-              ),
-            ),
-          )
-        ],
       ),
     );
   }
