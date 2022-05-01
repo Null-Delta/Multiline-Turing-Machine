@@ -304,6 +304,6 @@ class TuringMachine {
     if (activator.isActive) {
       activator.stopMachine();
     }
-    return "Не найдено подходящее правило.";
+    return "Не найдена подходящяя команда.";
   }
 }
