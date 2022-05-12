@@ -87,7 +87,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   late var addRuleBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
-    message: "Добавить правило",
+    message: "Добавить команду",
     child: ElevatedButton(
       onPressed: () {
         widget.onAddVariant();
@@ -102,7 +102,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   late var deleteRuleBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
-    message: "Удалить правило",
+    message: "Удалить команду",
     child: ElevatedButton(
       onPressed: () {
         widget.onDeleteVariant();
@@ -118,17 +118,11 @@ class BottomPanelState extends State<BottomPanel> {
     width: 6,
   );
 
- 
-
   late var divider = Container(
     color: AppColors.highlight,
     width: 2,
     height: 16,
   );
-
-  
-
-  
 
   late var debugBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
@@ -181,14 +175,11 @@ class BottomPanelState extends State<BottomPanel> {
           width: iconSize,
           height: iconSize,
           child: Image(
-            color: machine.activator.isActive
-                ? AppColors.background
-                : AppColors.text,
+            color: machine.activator.isActive ? AppColors.background : AppColors.text,
             image: AppImages.timer,
           ),
         ),
-        style:
-            machine.activator.isActive ? activeAppButtonStyle : appButtonStyle,
+        style: machine.activator.isActive ? activeAppButtonStyle : appButtonStyle,
       ),
     );
   }
@@ -202,7 +193,7 @@ class BottomPanelState extends State<BottomPanel> {
           widget.onNewSpeed(timesPerSec, scafoldState);
         });
       },
-      initValue: log(timesPerSec)~/log(2) + 1,
+      initValue: log(timesPerSec) ~/ log(2) + 1,
       itemBuilder: (context) {
         return [
           for (int i = 0; i <= 4; i++)
@@ -260,7 +251,7 @@ class BottomPanelState extends State<BottomPanel> {
     ),
   );
 
-   commentsBtn() {
+  commentsBtn() {
     return Tooltip(
       waitDuration: const Duration(milliseconds: 500),
       message: "Скрыть комментарии",
@@ -274,18 +265,15 @@ class BottomPanelState extends State<BottomPanel> {
           width: iconSize,
           height: iconSize,
           child: Image(
-            color: commentsState.currentState?.needShowComments ?? true
-                ? AppColors.background
-                : AppColors.text,
+            color: commentsState.currentState?.needShowComments ?? true ? AppColors.background : AppColors.text,
             image: AppImages.comments,
           ),
         ),
-        style: commentsState.currentState?.needShowComments ?? true
-            ? activeAppButtonStyle
-            : appButtonStyle,
+        style: commentsState.currentState?.needShowComments ?? true ? activeAppButtonStyle : appButtonStyle,
       ),
     );
   }
+
   late GlobalKey<BottomSplitPanelState> commentsState;
 
   @override
