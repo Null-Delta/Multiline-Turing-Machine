@@ -252,11 +252,16 @@ class _TopPanelState extends State<TopPanel> {
   }
 
   Timer? timer;
+  int savedIndex = 0;
   void startAutoSave(TuringMachine machine) {
     timer = Timer.periodic(
-      const Duration(seconds: 7),
+      const Duration(minutes: 3),
       (timer) async {
-        String savePath = Directory.current.path + "\\save\\autosave.mmt";
+        
+        String savePath = Directory.current.path + "\\save\\autosave"+savedIndex.toString()+".mmt";
+        savedIndex++;
+        if (savedIndex == 10)
+          savedIndex = 0;
         File file = File(savePath);
         IOSink sink = file.openWrite();
         String json = jsonEncode(machine.toJson());
