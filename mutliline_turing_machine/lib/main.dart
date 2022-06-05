@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:material_snackbar/snackbar.dart';
 import 'package:material_snackbar/snackbar_messenger.dart';
 import 'package:multi_split_view/multi_split_view.dart';
@@ -258,6 +259,7 @@ class _MainWidgetState extends State<MainWidget> {
                       Navigator.of(context).pop(true);
                     } else {
                       String? result = await FilePicker.platform.saveFile(
+                          initialDirectory: Directory.current.path + "\\save",
                           lockParentWindow: true,
                           fileName: 'save.mmt',
                           type: FileType.custom,
