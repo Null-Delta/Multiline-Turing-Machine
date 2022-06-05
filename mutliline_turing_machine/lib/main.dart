@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:material_snackbar/snackbar.dart';
 import 'package:material_snackbar/snackbar_messenger.dart';
@@ -13,8 +15,9 @@ import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'package:window_size/window_size.dart';
 import 'styles/app_colors.dart';
+import 'ui/about_panel.dart';
 import 'ui/lines_page.dart';
-import 'ui/recond_hot_key_dialog.dart';
+import 'ui/referance.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
 import 'ui/turing_machine_table.dart';
@@ -231,32 +234,9 @@ class _MainWidgetState extends State<MainWidget> {
 
   GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
 
+ 
   @override
   Widget build(BuildContext context) {
-
-    // в любом месте программы
-    bool aboutButton = false;
-    hotKeyManager.register(
-      HotKey(
-        KeyCode.f1,
-        scope: HotKeyScope.inapp,
-      ),
-      keyDownHandler: (hotKey) {
-        if (!aboutButton && !Navigator.of(context).canPop()){
-          aboutButton = true;
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutPanel()));
-        }
-      },
-      keyUpHandler: (hotKey){
-        if (aboutButton){
-          aboutButton = false;
-
-        }
-      },
-    );
-    //
-
-
 
     log("rebuilding");
     log(machine.model.info());

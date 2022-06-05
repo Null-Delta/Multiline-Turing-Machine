@@ -1,6 +1,7 @@
 import 'dart:developer' as developer;
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
@@ -54,7 +55,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   late var addStateBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
-    message: "Добавить состояние",
+    message: "Добавить состояние (Crtl+Shift+'+')",
     child: ElevatedButton(
       focusNode: widget.topFocus,
       onPressed: () {
@@ -73,7 +74,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   late var deleteStateBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
-    message: "Удалить состояние",
+    message: "Удалить состояние (Crtl+Shift+'-')",
     child: ElevatedButton(
       onPressed: () {
         widget.onDeleteState();
@@ -87,11 +88,10 @@ class BottomPanelState extends State<BottomPanel> {
 
   late var addRuleBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
-    message: "Добавить команду",
+    message: "Добавить команду (Crtl+'+')",
     child: ElevatedButton(
       onPressed: () {
         widget.onAddVariant();
-        //widget.tableManager!.getRowByIdx(0)!.cells["head:0"]
       },
       child: const Image(
         image: AppImages.addVariantDown,
@@ -102,7 +102,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   late var deleteRuleBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
-    message: "Удалить команду",
+    message: "Удалить команду (Crtl+'+')",
     child: ElevatedButton(
       onPressed: () {
         widget.onDeleteVariant();
@@ -144,7 +144,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   late var stopBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
-    message: "Сбросить работу",
+    message: "Сбросить работу (Crtl+E)",
     child: ElevatedButton(
       onPressed: () {
         widget.onResetWork();
@@ -164,7 +164,7 @@ class BottomPanelState extends State<BottomPanel> {
   timerBtn() {
     return Tooltip(
       waitDuration: const Duration(milliseconds: 500),
-      message: "Автоматическая работа",
+      message: "Автоматическая работа (Crtl+R)",
       child: ElevatedButton(
         onPressed: () {
           setState(() {
@@ -186,7 +186,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   speedBtn() {
     return CustomPopup(
-      tooltip: 'Скорость работы',
+      tooltip: 'Скорость работы (Crtl+T)',
       onSelected: (value) {
         setState(() {
           timesPerSec = pow(2, value - 1).toInt();
@@ -233,7 +233,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   late var makeStepBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
-    message: "Сделать шаг",
+    message: "Сделать шаг (Crtl+Space)",
     child: ElevatedButton(
       onPressed: () {
         setState(() {
@@ -254,7 +254,7 @@ class BottomPanelState extends State<BottomPanel> {
   commentsBtn() {
     return Tooltip(
       waitDuration: const Duration(milliseconds: 500),
-      message: "Скрыть комментарии",
+      message: "Скрыть комментарии (Crtl+H)",
       child: ElevatedButton(
         onPressed: () {
           setState(() {
@@ -276,11 +276,141 @@ class BottomPanelState extends State<BottomPanel> {
 
   late GlobalKey<BottomSplitPanelState> commentsState;
 
+  void loadDownHotKeys()
+  {
+    //комментарии
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.keyH,
+        modifiers: [KeyModifier.control],
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (hotKey) {
+          setState(() {
+            widget.onCommentsShow();
+          });
+        },
+    );
+    
+    //авто/стоп
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.keyR,
+        modifiers: [KeyModifier.control],
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (hotKey) {
+          setState(() {
+            widget.onStartStopWork(timesPerSec, context);
+          });
+        },
+    );
+
+    //сбросить
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.keyE,
+        modifiers: [KeyModifier.control],
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (hotKey) {
+        widget.onResetWork();
+        setState(() {});
+      },
+    );
+
+    //повысить скорость
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.keyT,
+        modifiers: [KeyModifier.control],
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (hotKey) {
+        setState(() {
+          timesPerSec = (timesPerSec*2).toInt();
+          if (timesPerSec > 16) {
+            timesPerSec = 1;
+          }
+          widget.onNewSpeed(timesPerSec, scafoldState);
+        });
+      },
+    );
+
+    //сделать шаг
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.space,
+        modifiers: [KeyModifier.control],
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (hotKey) {
+        setState(() {
+          widget.onMakeStep(scafoldState);
+        });
+      },
+    );
+
+    //добавить состояние
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.equal,
+        modifiers: [KeyModifier.control, KeyModifier.shift],
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (hotKey) {
+        widget.onAddState();
+      },
+    );
+
+    //удалить состояние
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.minus,
+        modifiers: [KeyModifier.control, KeyModifier.shift],
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (hotKey) {
+        widget.onDeleteState();
+      },
+    );
+
+    //добавить команду
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.equal,
+        modifiers: [KeyModifier.control],
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler:
+       (hotKey) {
+        widget.onAddVariant();
+      },
+    );
+
+    //удалить команду
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.minus,
+        modifiers: [KeyModifier.control],
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (hotKey) {
+        widget.onDeleteVariant();
+      },
+    );
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     scafoldState = context;
     machine = MachineInherit.of(context)!.machine;
     commentsState = MachineInherit.of(context)!.bottomSplitState;
+
+    loadDownHotKeys();
+
     //commentsState.currentState!.comm
     return Column(
       children: [
