@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  flutter_window_close
   material_snackbar
   url_launcher_windows
   window_size

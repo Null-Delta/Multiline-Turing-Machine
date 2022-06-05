@@ -16,6 +16,7 @@ class TuringMachine {
   //модель машины тьюринга
   late TuringMachineModel model;
   late TuringMachineConfiguration configuration;
+  late String? filePath;
 
   String? saveMachineJson;
   String? saveLinesJson;
@@ -30,6 +31,7 @@ class TuringMachine {
 
   TuringMachine(TuringMachineModel m) {
     model = m;
+    filePath = null;
     configuration = TuringMachineConfiguration(model.countOfLines);
     activator = MachineEngine(this);
   }

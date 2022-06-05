@@ -54,10 +54,11 @@ class _CustomPopupState extends State<CustomPopup> {
           widget.onSelected(value);
         },
         shape: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(8),
-            ),
-            borderSide: BorderSide(width: 0, color: Colors.transparent)),
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+          borderSide: BorderSide(width: 0, color: Colors.transparent),
+        ),
         itemBuilder: widget.itemBuilder,
         child: MouseRegion(
           onEnter: (event) {

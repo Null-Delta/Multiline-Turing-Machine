@@ -67,6 +67,7 @@ class _TopPanelState extends State<TopPanel> {
                         onTap: () {
                           var emptyMachine = TuringMachine(TuringMachineModel());
 
+                          machine.filePath = null;
                           machine.loadFromJson(emptyMachine.toJson());
                           tableState.currentState!.reloadTable();
                           statesListState.currentState!.setState(() {});
@@ -92,6 +93,7 @@ class _TopPanelState extends State<TopPanel> {
                             File file = File(result.files.first.path!);
                             String json = await file.readAsString();
 
+                            machine.filePath = result.files.first.path;
                             machine.loadFromJson(jsonDecode(json));
                             tableState.currentState!.reloadTable();
                             statesListState.currentState!.setState(() {});
@@ -125,6 +127,8 @@ class _TopPanelState extends State<TopPanel> {
                             String json = jsonEncode(machine.toJson());
                             sink.write(json);
                             file.create();
+
+                            machine.filePath = result;
                           }
                         },
                       ),

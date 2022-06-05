@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:material_snackbar/snackbar.dart';
 import 'package:material_snackbar/snackbar_messenger.dart';
@@ -17,6 +19,7 @@ import 'ui/lines_page.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
 import 'ui/turing_machine_table.dart';
+import 'package:flutter_window_close/flutter_window_close.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -216,6 +219,80 @@ class _MainWidgetState extends State<MainWidget> {
   FocusNode statesFocus = FocusScopeNode();
 
   GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
+
+  @override
+  void initState() {
+    FlutterWindowClose.setWindowShouldCloseHandler(() async {
+      return await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              backgroundColor: Theme.of(context).backgroundColor,
+              titleTextStyle: TextStyle(color: Theme.of(context).cardColor, fontSize: 16, fontWeight: FontWeight.w500),
+              shape: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(8),
+                ),
+                borderSide: BorderSide(width: 0, color: Colors.transparent),
+              ),
+              title: const Text('Сохранить файл перед выходом?'),
+              actions: [
+                ElevatedButton(
+                  onPressed: () async {
+                    if (machine.filePath != null) {
+                      File file = File(machine.filePath!);
+                      IOSink sink = file.openWrite();
+                      String json = jsonEncode(machine.toJson());
+                      sink.write(json);
+                      file.create();
+                      Navigator.of(context).pop(true);
+                    } else {
+                      String? result = await FilePicker.platform.saveFile(
+                          lockParentWindow: true,
+                          fileName: 'save.mmt',
+                          type: FileType.custom,
+                          allowedExtensions: ['mmt']);
+
+                      if (result != null) {
+                        if (result.contains('.')) {
+                          log("message " + result.indexOf('.').toString());
+                          result = result.substring(0, result.indexOf('.'));
+                        }
+                        result += '.mmt';
+                        log(result);
+                        File file = File(result);
+                        IOSink sink = file.openWrite();
+                        String json = jsonEncode(machine.toJson());
+                        sink.write(json);
+                        file.create();
+
+                        Navigator.of(context).pop(true);
+                      }
+                    }
+                  },
+                  child: const Text(' Да '),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
+                    foregroundColor: MaterialStateProperty.all(Theme.of(context).cardColor),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: const Text(' Нет '),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
+                    foregroundColor: MaterialStateProperty.all(Theme.of(context).cardColor),
+                  ),
+                )
+              ],
+            );
+          });
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
