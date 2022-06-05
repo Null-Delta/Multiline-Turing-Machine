@@ -23,11 +23,25 @@ class LineCellState extends State<LineCell> {
   Widget build(BuildContext build) {
     var machine = MachineInherit.of(context)!.machine;
     var lineFocus = MachineInherit.of(context)!.linesFocus[widget.lineIndex];
-
+    var linePage = MachineInherit.of(context)!.linesPageState;
     return Consumer<LineCellModel>(builder: (_, value, __) {
       return GestureDetector(
-        onTap: () {
+        onTapDown: (_) {
+          
+          machine.configuration.setFocus(widget.lineIndex, widget.index);
           lineFocus.requestFocus();
+          if(!machine.activator.isActive)
+          {
+            linePage.currentState!.scrollLineToFocus();
+          }
+          
+        },
+        onSecondaryTap: () {
+          lineFocus.requestFocus();
+          var offset = widget.index - machine.configuration.linePointers[widget.lineIndex];
+          machine.configuration.moveLine(widget.lineIndex, offset);
+          machine.configuration.setFocus(widget.lineIndex, widget.index);
+          linePage.currentState!.scrollLine(index:widget.lineIndex, offset: offset);
         },
         child: Align(
           alignment: const Alignment(0.0, 0.0),
@@ -73,7 +87,7 @@ class LineCellState extends State<LineCell> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(7),
                                 child: Container(
-                                  decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+                                  decoration: BoxDecoration(color: value.isActive ? Theme.of(context).backgroundColor : Theme.of(context).primaryColor),
                                 ),
                               ),
                             )
