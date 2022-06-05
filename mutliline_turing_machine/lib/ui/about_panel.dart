@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
@@ -17,6 +18,7 @@ class _AboutPanel extends State<AboutPanel> {
 
   @override
   Widget build(BuildContext context) {
+
     return DefaultTextStyle(
       style: const TextStyle(),
       child: Container(

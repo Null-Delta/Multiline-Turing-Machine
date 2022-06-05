@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -15,24 +16,31 @@ import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'package:window_size/window_size.dart';
+import 'styles/app_colors.dart';
+import 'ui/about_panel.dart';
 import 'ui/lines_page.dart';
+import 'ui/referance.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
 import 'ui/turing_machine_table.dart';
-import 'package:flutter_window_close/flutter_window_close.dart';
+import 'package:hotkey_manager/hotkey_manager.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await hotKeyManager.unregisterAll();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('Эмулятор MMT');
     setWindowMinSize(const Size(460, 600));
   }
+  Directory(Directory.current.path + "\\save").create().then((Directory directory) {
+    log(directory.path);
+  });
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -181,6 +189,7 @@ class _MainWidgetState extends State<MainWidget> {
   );
 
   bool isShackBarShow = false;
+  bool inAnotherPage = false;
 
   void onScroll() {
     linePagesState.currentState!.onScroll();
@@ -220,6 +229,7 @@ class _MainWidgetState extends State<MainWidget> {
 
   GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
 
+ 
   @override
   void initState() {
     FlutterWindowClose.setWindowShouldCloseHandler(() async {
@@ -296,7 +306,6 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   Widget build(BuildContext context) {
-    log("rebuilding");
 
     linePagesState = GlobalKey<LinesPageState>();
 
@@ -328,7 +337,7 @@ class _MainWidgetState extends State<MainWidget> {
               children: [
                 Column(
                   children: [
-                    TopPanel(),
+                    const TopPanel(),
                     LinesPage(key: linePagesState),
                   ],
                 ),
