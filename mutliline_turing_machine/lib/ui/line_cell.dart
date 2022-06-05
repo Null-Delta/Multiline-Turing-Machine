@@ -52,13 +52,21 @@ class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixi
       //   }
       // }
       return GestureDetector(
-        onTap: () {
+        onTapDown: (_) {
+          
+          machine.configuration.setFocus(widget.lineIndex, widget.index);
           lineFocus.requestFocus();
+          if(!machine.activator.isActive)
+          {
+            linePage.currentState!.scrollLineToFocus();
+          }
           
         },
-        onDoubleTap: () {
+        onSecondaryTap: () {
+          lineFocus.requestFocus();
           var offset = widget.index - machine.configuration.linePointers[widget.lineIndex];
           machine.configuration.moveLine(widget.lineIndex, offset);
+          machine.configuration.setFocus(widget.lineIndex, widget.index);
           linePage.currentState!.scrollLine(index:widget.lineIndex, offset: offset);
         },
         child: Align(

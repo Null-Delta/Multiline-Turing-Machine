@@ -43,6 +43,24 @@ class LineState extends State<Line> {
     }
   }
 
+  scrollToFocus({int offset = 0}) {
+    if(machine.configuration.focusedLine == widget.index)
+    {
+      if (animationState.isAnimate) {
+      control.scrollTo(
+          index: machine.configuration.focusedIndex + 1,
+          alignment: 0.5,
+          curve: Curves.easeOutQuad,
+          myIndent: _widthOfCell / 2,
+          duration: Duration(milliseconds: 350 + (offset*20).abs()));
+      } else {
+        control.jumpTo(
+            index: machine.configuration.focusedIndex + 1, alignment: 0.5, myIndent: _widthOfCell / 2);
+      }
+    }
+    
+  }
+
   jumpToStart() {
     control.jumpTo(
         index: machine.configuration.linePointers[widget.index] + 1, alignment: 0.5, myIndent: _widthOfCell / 2);
@@ -115,42 +133,64 @@ class LineState extends State<Line> {
 
     return GestureDetector(
       onTap: () {
-        focus.requestFocus();
+        //focus.requestFocus();
       },
       child: Align(
         alignment: Alignment.center,
         child: Focus(
           onFocusChange: (value) {
             setState(() {
-              machine.configuration.setFocus(widget.index, value);
+              machine.configuration.setFocusLine(widget.index, value);
+              
+              if(!machine.activator.isActive)
+              {
+                if(value)
+                {
+                  scrollToFocus();
+                }
+                else
+                {
+                  scroll();
+                }
+              }
+              
+              
             });
           },
           focusNode: focus,
           onKey: (node, event) {
-            if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
-              machine.configuration.moveLine(widget.index, 1);
-              scroll();
-              return KeyEventResult.skipRemainingHandlers;
-            } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft)) {
-              machine.configuration.moveLine(widget.index, -1);
-              scroll();
-              return KeyEventResult.skipRemainingHandlers;
-            } else if (event.isKeyPressed(LogicalKeyboardKey.backspace)) {
-              machine.configuration.clearSymbol(widget.index);
-              scroll();
-              return KeyEventResult.skipRemainingHandlers;
-            } else if (event.character != null &&
+            if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) 
+            {
+              machine.configuration.moveLineInput(1);
+            }
+            else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft)) 
+            {
+              machine.configuration.moveLineInput(-1);
+            } else if (event.isKeyPressed(LogicalKeyboardKey.backspace)) 
+            {
+              machine.configuration.clearSymbol();
+            }
+            else if (event.character != null &&
                 event.character != "_" &&
                 event.character != "*" &&
                 !event.isKeyPressed(LogicalKeyboardKey.arrowUp) &&
                 !event.isKeyPressed(LogicalKeyboardKey.arrowDown) &&
                 !event.isKeyPressed(LogicalKeyboardKey.tab) &&
-                !event.isKeyPressed(LogicalKeyboardKey.enter)) {
-              machine.configuration.writeSymbol(widget.index, event.character!);
-              scroll();
+                !event.isKeyPressed(LogicalKeyboardKey.enter)) 
+              {
+                machine.configuration.writeSymbol(event.character!);
+              }
+            else
+            {
+              return KeyEventResult.ignored;
             }
-
-            return KeyEventResult.ignored;
+              
+            if(!machine.activator.isActive)
+              {
+                scrollToFocus();
+              }
+            return KeyEventResult.skipRemainingHandlers;  
+           
           },
           child: Container(
             decoration: BoxDecoration(

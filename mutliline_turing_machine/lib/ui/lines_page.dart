@@ -55,6 +55,10 @@ class LinesPageState extends State<LinesPage> {
       linesState[index].currentState?.scroll(offset: offset);
   }
 
+  void scrollLineToFocus() {
+      linesState[machine.configuration.focusedLine].currentState?.scrollToFocus();
+  }
+
   late List<FocusNode> linesFocus;
   @override
   Widget build(BuildContext context) {
