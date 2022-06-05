@@ -42,7 +42,7 @@ class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixi
   Widget build(BuildContext build) {
     var machine = MachineInherit.of(context)!.machine;
     var lineFocus = MachineInherit.of(context)!.linesFocus[widget.lineIndex];
-
+    var linePage = MachineInherit.of(context)!.linesPageState;
     return Consumer<LineCellModel>(builder: (_, value, __) {
       // if (!controller.isAnimating) {
       //   if (value.isActive) {
@@ -54,6 +54,12 @@ class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixi
       return GestureDetector(
         onTap: () {
           lineFocus.requestFocus();
+          
+        },
+        onDoubleTap: () {
+          var offset = widget.index - machine.configuration.linePointers[widget.lineIndex];
+          machine.configuration.moveLine(widget.lineIndex, offset);
+          linePage.currentState!.scrollLine(index:widget.lineIndex, offset: offset);
         },
         child: Align(
           alignment: const Alignment(0.0, 0.0),
@@ -99,7 +105,7 @@ class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixi
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(7),
                                 child: Container(
-                                  decoration: BoxDecoration(color: AppColors.background),
+                                  decoration: BoxDecoration(color: value.isActive ? AppColors.background : AppColors.accent),
                                 ),
                               ),
                             )

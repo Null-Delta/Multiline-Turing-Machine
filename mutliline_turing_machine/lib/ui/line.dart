@@ -8,7 +8,7 @@ import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:provider/provider.dart';
 import '../scrollAbleList/scrollable_positioned_list.dart';
 import 'line_cell.dart';
-
+import 'dart:math' as math;
 class Line extends StatefulWidget {
   const Line({Key? key, required this.index}) : super(key: key);
 
@@ -29,14 +29,14 @@ class LineState extends State<Line> {
   int cellCount = 2003;
   ItemScrollController control = ItemScrollController();
 
-  scroll() {
+  scroll({int offset = 0}) {
     if (animationState.isAnimate) {
       control.scrollTo(
           index: machine.configuration.linePointers[widget.index] + 1,
           alignment: 0.5,
           curve: Curves.easeOutQuad,
           myIndent: _widthOfCell / 2,
-          duration: const Duration(milliseconds: 350));
+          duration: Duration(milliseconds: 350 + (offset*20).abs()));
     } else {
       control.jumpTo(
           index: machine.configuration.linePointers[widget.index] + 1, alignment: 0.5, myIndent: _widthOfCell / 2);
