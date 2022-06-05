@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 
 class TuringCommand {
@@ -6,11 +8,15 @@ class TuringCommand {
   String moveType = "_";
 
   static TuringCommand? parse(String value) {
+    log(value);
     String letters = value.replaceAll(RegExp(r' '), "");
+
+    log(letters);
+
     if (letters.isEmpty) {
       return TuringCommand.init('*', '*', '_');
     } else {
-      if (letters.length == 3 && letters[2].contains(RegExp("[>|<|_]"))) {
+      if (letters.length == 3 && letters[2].contains(RegExp("[>|<|_|Ю|Б]"))) {
         return TuringCommand.init(letters[0], letters[1], letters[2]);
       } else {
         return null;
@@ -23,7 +29,14 @@ class TuringCommand {
     return input + " " + output + " " + moveType;
   }
 
-  TuringCommand.init(this.input, this.output, this.moveType);
+  TuringCommand.init(this.input, this.output, String move) {
+    moveType = move == "Ю"
+        ? ">"
+        : move == "Б"
+            ? "<"
+            : move;
+  }
+
   TuringCommand();
 }
 
