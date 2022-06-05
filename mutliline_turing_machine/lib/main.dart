@@ -1,7 +1,4 @@
-import 'dart:convert';
 import 'dart:developer';
-
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:material_snackbar/snackbar.dart';
@@ -12,12 +9,10 @@ import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
-import 'package:mutliline_turing_machine/ui/referance.dart';
 import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'package:window_size/window_size.dart';
 import 'styles/app_colors.dart';
-import 'ui/about_panel.dart';
 import 'ui/lines_page.dart';
 import 'ui/recond_hot_key_dialog.dart';
 import 'ui/top_panel.dart';
@@ -29,7 +24,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await hotKeyManager.unregisterAll();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    setWindowTitle('Многоленточная машина тьюринга');
+    setWindowTitle('Эмулятор MMT');
     setWindowMinSize(const Size(460, 600));
   }
   runApp(const MyApp());
@@ -41,7 +36,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Симулятор Машины Тьюринга',
+      title: 'Эмулятор Машины Тьюринга',
       theme: ThemeData(
         fontFamily: "Inter",
         backgroundColor: AppColors.background,
@@ -291,7 +286,8 @@ class _MainWidgetState extends State<MainWidget> {
             child: MultiSplitView(
               antiAliasingWorkaround: false,
               axis: Axis.vertical,
-              minimalSize: 256,
+              minimalSizes: const [204, 396],
+              initialWeights: const [0.33, 0.64],
               children: [
                 Column(
                   children: [

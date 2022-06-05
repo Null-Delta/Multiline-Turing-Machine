@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "33CC10EC2044A3C60003C045"
-               BuildableName = "mutliline_turing_machine.app"
+               BuildableName = "&#x42d;&#x43c;&#x443;&#x43b;&#x44f;&#x442;&#x43e;&#x440; &#x41c;&#x430;&#x448;&#x438;&#x43d;&#x44b; &#x422;&#x44c;&#x44e;&#x440;&#x438;&#x43d;&#x433;&#x430;.app"
                BlueprintName = "Runner"
                ReferencedContainer = "container:Runner.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "33CC10EC2044A3C60003C045"
-            BuildableName = "mutliline_turing_machine.app"
+            BuildableName = "&#x42d;&#x43c;&#x443;&#x43b;&#x44f;&#x442;&#x43e;&#x440; &#x41c;&#x430;&#x448;&#x438;&#x43d;&#x44b; &#x422;&#x44c;&#x44e;&#x440;&#x438;&#x43d;&#x433;&#x430;.app"
             BlueprintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
@@ -40,7 +40,7 @@
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -54,7 +54,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "33CC10EC2044A3C60003C045"
-            BuildableName = "mutliline_turing_machine.app"
+            BuildableName = "&#x42d;&#x43c;&#x443;&#x43b;&#x44f;&#x442;&#x43e;&#x440; &#x41c;&#x430;&#x448;&#x438;&#x43d;&#x44b; &#x422;&#x44c;&#x44e;&#x440;&#x438;&#x43d;&#x433;&#x430;.app"
             BlueprintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
@@ -71,7 +71,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "33CC10EC2044A3C60003C045"
-            BuildableName = "mutliline_turing_machine.app"
+            BuildableName = "&#x42d;&#x43c;&#x443;&#x43b;&#x44f;&#x442;&#x43e;&#x440; &#x41c;&#x430;&#x448;&#x438;&#x43d;&#x44b; &#x422;&#x44c;&#x44e;&#x440;&#x438;&#x43d;&#x433;&#x430;.app"
             BlueprintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>

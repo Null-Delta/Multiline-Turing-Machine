@@ -26,9 +26,8 @@ class BottomSplitPanelState extends State<BottomSplitPanel> {
         ? MultiSplitView(
             antiAliasingWorkaround: false,
             axis: Axis.horizontal,
+            minimalSizes: const [322, 138],
             resizable: true,
-            minimalSize: 196,
-            initialWeights: const [0.8, 0.2],
             children: [widget.table, StateComments()],
           )
         : widget.table;

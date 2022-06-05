@@ -1,7 +1,6 @@
 import 'dart:developer' as developer;
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:mutliline_turing_machine/model/configurations.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
@@ -12,8 +11,6 @@ import 'package:mutliline_turing_machine/ui/custom_popup.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
 import '../styles/app_colors.dart';
-
-import 'dart:math';
 
 // ignore: must_be_immutable
 class BottomPanel extends StatefulWidget {
@@ -90,7 +87,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   late var addRuleBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
-    message: "Добавить правило",
+    message: "Добавить команду",
     child: ElevatedButton(
       onPressed: () {
         widget.onAddVariant();
@@ -105,7 +102,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   late var deleteRuleBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
-    message: "Удалить правило",
+    message: "Удалить команду",
     child: ElevatedButton(
       onPressed: () {
         widget.onDeleteVariant();
@@ -121,77 +118,11 @@ class BottomPanelState extends State<BottomPanel> {
     width: 6,
   );
 
-  commentsBtn() {
-    return Tooltip(
-      waitDuration: const Duration(milliseconds: 500),
-      message: "Скрыть комментарии",
-      child: ElevatedButton(
-        onPressed: () {
-          setState(() {
-            widget.onCommentsShow();
-          });
-        },
-        child: SizedBox(
-          width: iconSize,
-          height: iconSize,
-          child: Image(
-            color: commentsState.currentState?.needShowComments ?? true ? AppColors.background : AppColors.text,
-            image: AppImages.comments,
-          ),
-        ),
-        style: commentsState.currentState?.needShowComments ?? true ? activeAppButtonStyle : appButtonStyle,
-      ),
-    );
-  }
-
   late var divider = Container(
     color: AppColors.highlight,
     width: 2,
     height: 16,
   );
-
-  late var makeStepBtn = Tooltip(
-    waitDuration: const Duration(milliseconds: 500),
-    message: "Сделать шаг",
-    child: ElevatedButton(
-      onPressed: () {
-        setState(() {
-          widget.onMakeStep(scafoldState);
-        });
-      },
-      child: const SizedBox(
-        width: iconSize,
-        height: iconSize,
-        child: Image(
-          image: AppImages.step,
-        ),
-      ),
-      style: appButtonStyle,
-    ),
-  );
-
-  timerBtn() {
-    return Tooltip(
-      waitDuration: const Duration(milliseconds: 500),
-      message: "Автоматическая работа",
-      child: ElevatedButton(
-        onPressed: () {
-          setState(() {
-            widget.onStartStopWork(timesPerSec, context);
-          });
-        },
-        child: SizedBox(
-          width: iconSize,
-          height: iconSize,
-          child: Image(
-            color: machine.activator.isActive ? AppColors.background : AppColors.text,
-            image: AppImages.timer,
-          ),
-        ),
-        style: machine.activator.isActive ? activeAppButtonStyle : appButtonStyle,
-      ),
-    );
-  }
 
   late var debugBtn = Tooltip(
     waitDuration: const Duration(milliseconds: 500),
@@ -230,6 +161,29 @@ class BottomPanelState extends State<BottomPanel> {
     ),
   );
 
+  timerBtn() {
+    return Tooltip(
+      waitDuration: const Duration(milliseconds: 500),
+      message: "Автоматическая работа",
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            widget.onStartStopWork(timesPerSec, context);
+          });
+        },
+        child: SizedBox(
+          width: iconSize,
+          height: iconSize,
+          child: Image(
+            color: machine.activator.isActive ? AppColors.background : AppColors.text,
+            image: AppImages.timer,
+          ),
+        ),
+        style: machine.activator.isActive ? activeAppButtonStyle : appButtonStyle,
+      ),
+    );
+  }
+
   speedBtn() {
     return CustomPopup(
       tooltip: 'Скорость работы',
@@ -239,7 +193,7 @@ class BottomPanelState extends State<BottomPanel> {
           widget.onNewSpeed(timesPerSec, scafoldState);
         });
       },
-      initValue: log(timesPerSec)~/log(2) + 1,
+      initValue: log(timesPerSec) ~/ log(2) + 1,
       itemBuilder: (context) {
         return [
           for (int i = 0; i <= 4; i++)
@@ -273,6 +227,49 @@ class BottomPanelState extends State<BottomPanel> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  late var makeStepBtn = Tooltip(
+    waitDuration: const Duration(milliseconds: 500),
+    message: "Сделать шаг",
+    child: ElevatedButton(
+      onPressed: () {
+        setState(() {
+          widget.onMakeStep(scafoldState);
+        });
+      },
+      child: const SizedBox(
+        width: iconSize,
+        height: iconSize,
+        child: Image(
+          image: AppImages.step,
+        ),
+      ),
+      style: appButtonStyle,
+    ),
+  );
+
+  commentsBtn() {
+    return Tooltip(
+      waitDuration: const Duration(milliseconds: 500),
+      message: "Скрыть комментарии",
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            widget.onCommentsShow();
+          });
+        },
+        child: SizedBox(
+          width: iconSize,
+          height: iconSize,
+          child: Image(
+            color: commentsState.currentState?.needShowComments ?? true ? AppColors.background : AppColors.text,
+            image: AppImages.comments,
+          ),
+        ),
+        style: commentsState.currentState?.needShowComments ?? true ? activeAppButtonStyle : appButtonStyle,
       ),
     );
   }
