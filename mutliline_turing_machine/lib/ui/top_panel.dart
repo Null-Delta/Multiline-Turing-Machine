@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
+import 'package:material_snackbar/snackbar.dart';
+import 'package:material_snackbar/snackbar_messenger.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
@@ -111,7 +114,7 @@ class _TopPanelState extends State<TopPanel> {
       ),
       keyDownHandler: (hotKey) async {
         String? result = await FilePicker.platform
-            .saveFile(fileName: 'save.mmt', type: FileType.custom, allowedExtensions: ['mmt']);
+            .saveFile(initialDirectory: Directory.current.path + "\\save" ,fileName: 'save.mmt', type: FileType.custom, allowedExtensions: ['mmt']);
         if (result != null) {
           if (result.contains('.')) {
             log("message " + result.indexOf('.').toString());
@@ -202,7 +205,7 @@ class _TopPanelState extends State<TopPanel> {
       ),
       keyDownHandler: (hotKey) async {
         FilePickerResult? result = await FilePicker.platform
-            .pickFiles(dialogTitle: '', type: FileType.custom, allowedExtensions: ['mmt']);
+            .pickFiles(initialDirectory: Directory.current.path + "\\save" ,dialogTitle: '', type: FileType.custom, allowedExtensions: ['mmt']);
         if (result != null) {
           log(result.files.first.path!);
           File file = File(result.files.first.path!);
@@ -248,13 +251,23 @@ class _TopPanelState extends State<TopPanel> {
     );
   }
 
-
+  Timer? timer;
+  void startAutoSave(TuringMachine machine) {
+    timer = Timer.periodic(
+      const Duration(seconds: 7),
+      (timer) async {
+        String savePath = Directory.current.path + "\\save\\autosave.mmt";
+        File file = File(savePath);
+        IOSink sink = file.openWrite();
+        String json = jsonEncode(machine.toJson());
+        sink.write(json);
+        file.create();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    //хоткей на настройки
-    
 
     var machine = MachineInherit.of(context)!.machine;
     var tableState = MachineInherit.of(context)!.tableState;
@@ -262,6 +275,8 @@ class _TopPanelState extends State<TopPanel> {
     var bottomSplitState = MachineInherit.of(context)!.bottomSplitState;
     var statesListState = MachineInherit.of(context)!.statesListState;
     var animationState = MachineInherit.of(context)!.animationState;
+
+    startAutoSave(machine);
 
     loadTopHotKeys(machine, tableState, linePagesState, bottomSplitState, statesListState, animationState);
 
@@ -314,7 +329,7 @@ class _TopPanelState extends State<TopPanel> {
                         ),
                         onTap: () async {
                           FilePickerResult? result = await FilePicker.platform
-                              .pickFiles(dialogTitle: '', type: FileType.custom, allowedExtensions: ['mmt']);
+                              .pickFiles(initialDirectory: Directory.current.path + "\\save" ,dialogTitle: '', type: FileType.custom, allowedExtensions: ['mmt']);
                           if (result != null) {
                             log(result.files.first.path!);
                             File file = File(result.files.first.path!);
@@ -340,7 +355,7 @@ class _TopPanelState extends State<TopPanel> {
                         ),
                         onTap: () async {
                           String? result = await FilePicker.platform
-                              .saveFile(fileName: 'save.mmt', type: FileType.custom, allowedExtensions: ['mmt']);
+                              .saveFile(initialDirectory: Directory.current.path + "\\save" ,fileName: 'save.mmt', type: FileType.custom, allowedExtensions: ['mmt']);
                           if (result != null) {
                             if (result.contains('.')) {
                               log("message " + result.indexOf('.').toString());

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -30,12 +31,15 @@ void main() async {
     setWindowTitle('Эмулятор MMT');
     setWindowMinSize(const Size(460, 600));
   }
+  Directory(Directory.current.path + "\\save").create().then((Directory directory) {
+    log(directory.path);
+  });
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -242,6 +246,8 @@ class _MainWidgetState extends State<MainWidget> {
     log(machine.model.info());
     log(machine.configuration.linePointers.toString());
     linePagesState = GlobalKey<LinesPageState>();
+
+    
 
     return Scaffold(
       backgroundColor: AppColors.background,
