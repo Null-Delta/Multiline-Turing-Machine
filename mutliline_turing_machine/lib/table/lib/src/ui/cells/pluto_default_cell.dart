@@ -26,8 +26,7 @@ class PlutoDefaultCell extends PlutoStatefulWidget {
   _PlutoDefaultCellState createState() => _PlutoDefaultCellState();
 }
 
-abstract class _PlutoDefaultCellStateWithChange
-    extends PlutoStateWithChange<PlutoDefaultCell> {
+abstract class _PlutoDefaultCellStateWithChange extends PlutoStateWithChange<PlutoDefaultCell> {
   bool? _canRowDrag;
 
   @override
@@ -64,7 +63,7 @@ class _PlutoDefaultCellState extends _PlutoDefaultCellStateWithChange {
             dragIcon: Icon(
               Icons.drag_indicator,
               size: widget.stateManager.configuration!.iconSize,
-              color: widget.stateManager.configuration!.iconColor,
+              color: Theme.of(context).cardColor,
             ),
           ),
         if (widget.column.enableRowChecked)
@@ -167,10 +166,8 @@ class __RowDragIconWidgetState extends State<_RowDragIconWidget> {
             child: PlutoShadowContainer(
               width: widget.column.width,
               height: widget.stateManager.rowHeight,
-              backgroundColor:
-                  widget.stateManager.configuration!.gridBackgroundColor,
-              borderColor:
-                  widget.stateManager.configuration!.activatedBorderColor,
+              backgroundColor: widget.stateManager.configuration!.gridBackgroundColor,
+              borderColor: widget.stateManager.configuration!.activatedBorderColor,
               child: Row(
                 children: [
                   Container(
@@ -209,12 +206,10 @@ class _CheckboxSelectionWidget extends PlutoStatefulWidget {
   });
 
   @override
-  __CheckboxSelectionWidgetState createState() =>
-      __CheckboxSelectionWidgetState();
+  __CheckboxSelectionWidgetState createState() => __CheckboxSelectionWidgetState();
 }
 
-abstract class __CheckboxSelectionWidgetStateWithChange
-    extends PlutoStateWithChange<_CheckboxSelectionWidget> {
+abstract class __CheckboxSelectionWidgetStateWithChange extends PlutoStateWithChange<_CheckboxSelectionWidget> {
   bool? _checked;
 
   @override
@@ -225,8 +220,7 @@ abstract class __CheckboxSelectionWidgetStateWithChange
   }
 }
 
-class __CheckboxSelectionWidgetState
-    extends __CheckboxSelectionWidgetStateWithChange {
+class __CheckboxSelectionWidgetState extends __CheckboxSelectionWidgetStateWithChange {
   void _handleOnChanged(bool? changed) {
     if (changed == _checked) {
       return;
@@ -251,7 +245,7 @@ class __CheckboxSelectionWidgetState
       value: _checked,
       handleOnChanged: _handleOnChanged,
       scale: 0.86,
-      unselectedColor: widget.stateManager.configuration!.iconColor,
+      unselectedColor: Theme.of(context).cardColor,
       activeColor: widget.stateManager.configuration!.activatedBorderColor,
       checkColor: widget.stateManager.configuration!.activatedColor,
     );
@@ -286,7 +280,11 @@ class _BuildDefaultCellWidget extends StatelessWidget {
           ))
         : Text(
             column.formattedValueForDisplay(cell.value),
-            style: stateManager.configuration!.cellTextStyle.copyWith(
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).cardColor,
+            ).copyWith(
               decoration: TextDecoration.none,
               fontWeight: FontWeight.w500,
             ),

@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
-import 'package:mutliline_turing_machine/styles/app_colors.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:provider/provider.dart';
@@ -63,7 +62,7 @@ class LineState extends State<Line> {
               child: Text(
                 "А все!",
                 style: TextStyle(
-                  color: AppColors.text,
+                  color: Theme.of(context).cardColor,
                   fontWeight: FontWeight.normal,
                   fontSize: 20,
                 ),
@@ -87,8 +86,8 @@ class LineState extends State<Line> {
                       height: 20,
                       child: Text((index - 1 - (cellCount - 2) ~/ 2).toString(),
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Color(0xFF183157),
+                          style: TextStyle(
+                            color: Theme.of(context).cardColor,
                             fontFamily: 'Inter',
                             fontWeight: FontWeight.w600,
                             fontSize: 8,
@@ -153,12 +152,7 @@ class LineState extends State<Line> {
             return KeyEventResult.ignored;
           },
           child: Container(
-            decoration: BoxDecoration(
-              color: AppColors.backgroundDark,
-              // border: Border.all(
-              //   color: focus.hasFocus ? AppColors.accent : AppColors.backgroundDark,
-              // ),
-            ),
+            decoration: BoxDecoration(color: Theme.of(context).hoverColor),
             width: MediaQuery.of(context).size.width,
             height: 67,
             child: line,

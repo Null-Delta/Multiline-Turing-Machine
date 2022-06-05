@@ -13,7 +13,6 @@ import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:mutliline_turing_machine/ui/referance.dart';
 import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:provider/provider.dart';
-import '../styles/app_colors.dart';
 
 import 'package:file_picker/file_picker.dart';
 
@@ -46,7 +45,7 @@ class _TopPanelState extends State<TopPanel> {
             right: 6,
           ),
           height: 40,
-          color: AppColors.background,
+          color: Theme.of(context).backgroundColor,
           child: Row(
             children: [
               CustomPopup(
@@ -62,7 +61,7 @@ class _TopPanelState extends State<TopPanel> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.text,
+                            color: Theme.of(context).cardColor,
                           ),
                         ),
                         onTap: () {
@@ -82,7 +81,7 @@ class _TopPanelState extends State<TopPanel> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.text,
+                            color: Theme.of(context).cardColor,
                           ),
                         ),
                         onTap: () async {
@@ -108,7 +107,7 @@ class _TopPanelState extends State<TopPanel> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.text,
+                            color: Theme.of(context).cardColor,
                           ),
                         ),
                         onTap: () async {
@@ -131,9 +130,7 @@ class _TopPanelState extends State<TopPanel> {
                       ),
                     ];
                   },
-                  child: const Image(
-                    image: AppImages.file,
-                  )),
+                  child: Image(image: AppImages.file, color: Theme.of(context).cardColor)),
               const SizedBox(
                 width: 6,
               ),
@@ -149,14 +146,15 @@ class _TopPanelState extends State<TopPanel> {
                       );
                     }));
                   },
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: iconSize,
                     height: iconSize,
                     child: Image(
                       image: AppImages.settings,
+                      color: Theme.of(context).cardColor,
                     ),
                   ),
-                  style: appButtonStyle,
+                  style: appButtonStyle(context),
                 ),
               ),
               const SizedBox(
@@ -170,14 +168,12 @@ class _TopPanelState extends State<TopPanel> {
                     //Вызов нового окна поверх.
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutPanel()));
                   },
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                      image: AppImages.happy,
-                    ),
+                    child: Image(image: AppImages.happy, color: Theme.of(context).cardColor),
                   ),
-                  style: appButtonStyle,
+                  style: appButtonStyle(context),
                 ),
               ),
               const SizedBox(
@@ -190,14 +186,12 @@ class _TopPanelState extends State<TopPanel> {
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Reference()));
                   },
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                      image: AppImages.help,
-                    ),
+                    child: Image(image: AppImages.help, color: Theme.of(context).cardColor),
                   ),
-                  style: appButtonStyle,
+                  style: appButtonStyle(context),
                 ),
               ),
               Expanded(
@@ -212,14 +206,12 @@ class _TopPanelState extends State<TopPanel> {
                   onPressed: () {
                     machine.saveLinesJson = jsonEncode(machine.linesToJson());
                   },
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                      image: AppImages.save,
-                    ),
+                    child: Image(image: AppImages.save, color: Theme.of(context).cardColor),
                   ),
-                  style: appButtonStyle,
+                  style: appButtonStyle(context),
                 ),
               ),
               const SizedBox(
@@ -243,14 +235,12 @@ class _TopPanelState extends State<TopPanel> {
                       }
                     }
                   },
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                      image: AppImages.load,
-                    ),
+                    child: Image(image: AppImages.load, color: Theme.of(context).cardColor),
                   ),
-                  style: appButtonStyle,
+                  style: appButtonStyle(context),
                 ),
               ),
               const SizedBox(
@@ -263,14 +253,12 @@ class _TopPanelState extends State<TopPanel> {
                   onPressed: () {
                     linePagesState.currentState!.clearAllLines();
                   },
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                      image: AppImages.clear,
-                    ),
+                    child: Image(image: AppImages.clear, color: Theme.of(context).cardColor),
                   ),
-                  style: appButtonStyle,
+                  style: appButtonStyle(context),
                 ),
               ),
               const SizedBox(
@@ -278,7 +266,7 @@ class _TopPanelState extends State<TopPanel> {
               ),
               Container(
                 width: 2,
-                color: AppColors.highlight,
+                color: Theme.of(context).highlightColor,
                 height: 16,
               ),
               const SizedBox(
@@ -294,14 +282,12 @@ class _TopPanelState extends State<TopPanel> {
                       tableState.currentState!.addLine();
                     }
                   },
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                      image: AppImages.addVariantDown,
-                    ),
+                    child: Image(image: AppImages.addVariantDown, color: Theme.of(context).cardColor),
                   ),
-                  style: appButtonStyle,
+                  style: appButtonStyle(context),
                 ),
               ),
               const SizedBox(
@@ -317,14 +303,12 @@ class _TopPanelState extends State<TopPanel> {
                       tableState.currentState!.deleteLine();
                     }
                   },
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                      image: AppImages.deleteVariant,
-                    ),
+                    child: Image(image: AppImages.deleteVariant, color: Theme.of(context).cardColor),
                   ),
-                  style: appButtonStyle,
+                  style: appButtonStyle(context),
                 ),
               ),
             ],
@@ -333,7 +317,7 @@ class _TopPanelState extends State<TopPanel> {
         Divider(
           height: 2,
           thickness: 2,
-          color: AppColors.highlight,
+          color: Theme.of(context).highlightColor,
         ),
       ],
     );

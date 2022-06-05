@@ -213,34 +213,34 @@ class _CellContainer extends StatelessWidget {
     required this.cellPadding,
   });
 
-  Color? _currentCellColor() {
+  Color? _currentCellColor(BuildContext context) {
     if (!hasFocus) {
       return configuration.gridBackgroundColor;
     }
 
     if (!isEditing) {
-      return selectingMode.isRow ? configuration.activatedColor : null;
+      return selectingMode.isRow ? Theme.of(context).hoverColor : null;
     }
 
-    return readOnly == true ? configuration.cellColorInReadOnlyState : configuration.cellColorInEditState;
+    return readOnly == true ? Theme.of(context).highlightColor : Theme.of(context).backgroundColor;
   }
 
-  BoxDecoration _boxDecoration() {
+  BoxDecoration _boxDecoration(BuildContext context) {
     if (isCurrentCell) {
       return BoxDecoration(
-        color: _currentCellColor(),
+        color: _currentCellColor(context),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
         border: Border.all(
-          color: hasFocus ? configuration.activatedBorderColor : configuration.inactivatedBorderColor,
+          color: hasFocus ? Theme.of(context).highlightColor : Theme.of(context).highlightColor,
           width: 2,
         ),
       );
     } else if (isSelectedCell) {
       return BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(6)),
-        color: configuration.activatedColor,
+        color: Theme.of(context).hoverColor,
         border: Border.all(
-          color: hasFocus ? configuration.activatedBorderColor : configuration.inactivatedBorderColor,
+          color: hasFocus ? configuration.activatedBorderColor : Theme.of(context).highlightColor,
           width: 2,
         ),
       );
@@ -265,7 +265,7 @@ class _CellContainer extends StatelessWidget {
       height: height,
       child: Container(
         margin: const EdgeInsets.all(3),
-        decoration: _boxDecoration(),
+        decoration: _boxDecoration(context),
         child: Padding(
           // New - Customisable cellPadding
           padding: EdgeInsets.symmetric(

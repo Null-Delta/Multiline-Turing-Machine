@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/machine_engine.dart';
-import 'package:mutliline_turing_machine/styles/app_colors.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:provider/provider.dart';
 
@@ -24,16 +23,17 @@ class _ConfigurationCounterState extends State<ConfigurationCounter> {
           padding: const EdgeInsets.only(left: 4),
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(6)),
-              color: AppColors.backgroundDark,
-              border: Border.all(color: AppColors.highlight, width: 2)),
+              color: Theme.of(context).hoverColor,
+              border: Border.all(color: Theme.of(context).highlightColor, width: 2)),
           width: 72,
-          height: 28,
+          height: 30,
           child: Row(
             children: [
-              const Image(
+              Image(
                 width: 24,
                 height: 24,
                 image: AppImages.arrowRight,
+                color: Theme.of(context).cardColor,
               ),
               Expanded(
                 child: Container(
@@ -41,7 +41,8 @@ class _ConfigurationCounterState extends State<ConfigurationCounter> {
                   child: Text(
                     "${value.countConfigurations}",
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
+                      color: Theme.of(context).cardColor,
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                     ),

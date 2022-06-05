@@ -1,11 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
 import '../model/line_cell_model.dart';
-import '../styles/app_colors.dart';
 
 class LineCell extends StatefulWidget {
   const LineCell({
@@ -20,37 +18,13 @@ class LineCell extends StatefulWidget {
   State<LineCell> createState() => LineCellState();
 }
 
-class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixin*/ {
-  // late Animation<Color?> animation;
-  // late AnimationController controller;
-  // late Color cellColor = AppColors.background;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   controller = AnimationController(
-  //       duration: const Duration(milliseconds: 300), vsync: this);
-  //   animation = ColorTween(begin: AppColors.background, end: AppColors.accent)
-  //       .animate(controller)
-  //     ..addListener(() {
-  //       setState(() {
-  //         cellColor = animation.value ?? cellColor;
-  //       });
-  //     });
-  // }
-
+class LineCellState extends State<LineCell> {
   @override
   Widget build(BuildContext build) {
     var machine = MachineInherit.of(context)!.machine;
     var lineFocus = MachineInherit.of(context)!.linesFocus[widget.lineIndex];
 
     return Consumer<LineCellModel>(builder: (_, value, __) {
-      // if (!controller.isAnimating) {
-      //   if (value.isActive) {
-      //     controller.forward();
-      //   } else if(controller.isCompleted) {
-      //     controller.reverse();
-      //   }
-      // }
       return GestureDetector(
         onTap: () {
           lineFocus.requestFocus();
@@ -65,12 +39,12 @@ class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixi
               child: Container(
                 decoration: !value.isActive
                     ? BoxDecoration(
-                        border: Border.all(width: 2, color: AppColors.highlight),
+                        border: Border.all(width: 2, color: Theme.of(context).highlightColor),
                         borderRadius: const BorderRadius.all(Radius.circular(7)),
-                        color: AppColors.background,
+                        color: Theme.of(context).backgroundColor,
                       )
                     : BoxDecoration(
-                        color: AppColors.accent,
+                        color: Theme.of(context).primaryColor,
                       ),
                 child: Align(
                   alignment: Alignment.center,
@@ -84,9 +58,9 @@ class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixi
                           fontWeight: FontWeight.w500,
                           color: !value.isActive
                               ? value.symbol == " "
-                                  ? AppColors.disable
-                                  : AppColors.text
-                              : AppColors.background,
+                                  ? Theme.of(context).disabledColor
+                                  : Theme.of(context).cardColor
+                              : Theme.of(context).backgroundColor,
                         ),
                       ),
                       value.isFocus
@@ -99,7 +73,7 @@ class LineCellState extends State<LineCell> /*with SingleTickerProviderStateMixi
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(7),
                                 child: Container(
-                                  decoration: BoxDecoration(color: AppColors.background),
+                                  decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
                                 ),
                               ),
                             )

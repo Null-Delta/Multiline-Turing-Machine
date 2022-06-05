@@ -270,7 +270,11 @@ mixin TextCellState<T extends TextCell> on State<T> implements TextFieldProps {
           onEditingComplete: _handleOnComplete,
           onSubmitted: (a) => _handleOnComplete(),
           onTap: _handleOnTap,
-          style: widget.stateManager.configuration!.cellTextStyle,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).cardColor,
+          ),
           decoration: const InputDecoration(
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(8),

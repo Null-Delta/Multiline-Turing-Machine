@@ -6,13 +6,13 @@ import 'package:material_snackbar/snackbar_messenger.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
+import 'package:mutliline_turing_machine/styles/app_themes.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'package:window_size/window_size.dart';
-import 'styles/app_colors.dart';
 import 'ui/lines_page.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
@@ -34,22 +34,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Эмулятор Машины Тьюринга',
-      theme: ThemeData(
-        fontFamily: "Inter",
-        backgroundColor: AppColors.background,
-        primarySwatch: MaterialColor(AppColors.accent.value, {
-          50: AppColors.accent,
-          100: AppColors.accent,
-          200: AppColors.accent,
-          300: AppColors.accent,
-          400: AppColors.accent,
-          500: AppColors.accent,
-          600: AppColors.accent,
-          700: AppColors.accent,
-          800: AppColors.accent,
-          900: AppColors.accent,
-        }),
-      ),
+      darkTheme: dark,
+      theme: light,
+      themeMode: ThemeMode.system,
       home: const MainWidget(),
     );
   }
@@ -76,15 +63,18 @@ class _MainWidgetState extends State<MainWidget> {
 
   GlobalKey textOfCountConfigurations = GlobalKey();
 
-  late var table = TuringMachineTable(
-    key: tableState,
-    topFocus: bottomPanel.topFocus,
-    rightFocus: commentsFocus,
-    onLoaded: (manager) {
-      tableManager = manager;
-      bottomPanel.tableManager = manager;
-    },
-  );
+  TuringMachineTable table() {
+    log("table update");
+    return TuringMachineTable(
+      key: tableState,
+      topFocus: bottomPanel.topFocus,
+      rightFocus: commentsFocus,
+      onLoaded: (manager) {
+        tableManager = manager;
+        bottomPanel.tableManager = manager;
+      },
+    );
+  }
 
   late var bottomPanel = BottomPanel(
     key: bottomPanelState,
@@ -212,12 +202,12 @@ class _MainWidgetState extends State<MainWidget> {
                 Radius.circular(6),
               ),
               borderSide: BorderSide(color: Colors.transparent, width: 0)),
-          backgroundColor: text == "!" ? AppColors.accent : AppColors.destructive,
-          actionTextColor: AppColors.background,
-          contentTextStyle: TextStyle(color: AppColors.background)),
+          backgroundColor: text == "!" ? Theme.of(context).primaryColor : Theme.of(context).errorColor,
+          actionTextColor: Theme.of(context).backgroundColor,
+          contentTextStyle: TextStyle(color: Theme.of(context).backgroundColor)),
       content: Text(
         text == "!" ? "Машина завершила выполнение." : text,
-        style: TextStyle(color: AppColors.background),
+        style: TextStyle(color: Theme.of(context).backgroundColor),
       ),
     );
   }
@@ -231,12 +221,10 @@ class _MainWidgetState extends State<MainWidget> {
   Widget build(BuildContext context) {
     log("rebuilding");
 
-    log(machine.model.info());
-    log(machine.configuration.linePointers.toString());
     linePagesState = GlobalKey<LinesPageState>();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: MachineInherit(
         animationState: lineAnimate,
         statesFocus: statesFocus,
@@ -252,7 +240,7 @@ class _MainWidgetState extends State<MainWidget> {
             data: MultiSplitViewThemeData(
               dividerThickness: 2,
               dividerPainter: DividerPainter(
-                backgroundColor: AppColors.highlight,
+                backgroundColor: Theme.of(context).highlightColor,
               ),
             ),
             child: MultiSplitView(
@@ -281,19 +269,19 @@ class _MainWidgetState extends State<MainWidget> {
                           ),
                           Container(
                             width: 2,
-                            color: AppColors.highlight,
+                            color: Theme.of(context).highlightColor,
                           ),
                           Expanded(
                             child: MultiSplitViewTheme(
                               data: MultiSplitViewThemeData(
                                 dividerThickness: 2,
                                 dividerPainter: DividerPainter(
-                                  backgroundColor: AppColors.highlight,
+                                  backgroundColor: Theme.of(context).highlightColor,
                                 ),
                               ),
                               child: BottomSplitPanel(
                                 key: commentsState,
-                                table: table,
+                                table: table(),
                               ),
                             ),
                           )

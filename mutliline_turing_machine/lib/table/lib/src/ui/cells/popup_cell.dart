@@ -24,8 +24,7 @@ abstract class GridPopupProps {
   Icon? icon;
 }
 
-mixin PopupCellState<T extends PopupCell> on State<T>
-    implements GridPopupProps {
+mixin PopupCellState<T extends PopupCell> on State<T> implements GridPopupProps {
   TextEditingController? _textController;
 
   FocusNode? _textFocus;
@@ -67,8 +66,7 @@ mixin PopupCellState<T extends PopupCell> on State<T>
     super.initState();
 
     _textController = TextEditingController()
-      ..text =
-          widget.column.formattedValueForDisplayInEditing(widget.cell.value);
+      ..text = widget.column.formattedValueForDisplayInEditing(widget.cell.value);
 
     _textFocus = FocusNode(onKey: _handleKeyboardFocusOnKey);
   }
@@ -95,9 +93,7 @@ mixin PopupCellState<T extends PopupCell> on State<T>
       createHeader: createHeader,
       createFooter: createFooter,
       configuration: widget.stateManager.configuration?.copyWith(
-        gridBorderRadius:
-            widget.stateManager.configuration?.gridPopupBorderRadius ??
-                BorderRadius.zero,
+        gridBorderRadius: widget.stateManager.configuration?.gridPopupBorderRadius ?? BorderRadius.zero,
         defaultColumnTitlePadding: PlutoGridSettings.columnTitlePadding,
         defaultCellPadding: PlutoGridSettings.cellPadding,
         rowHeight: widget.stateManager.configuration!.rowHeight,
@@ -140,29 +136,25 @@ mixin PopupCellState<T extends PopupCell> on State<T>
       if (fieldOnSelected == null) {
         for (var entry in popupRows[i].cells.entries) {
           if (popupRows[i].cells[entry.key]!.value == widget.cell.value) {
-            event.stateManager.setCurrentCell(
-                event.stateManager.refRows[i].cells[entry.key], i);
+            event.stateManager.setCurrentCell(event.stateManager.refRows[i].cells[entry.key], i);
             break;
           }
         }
       } else {
         if (popupRows[i].cells[fieldOnSelected!]!.value == widget.cell.value) {
-          event.stateManager.setCurrentCell(
-              event.stateManager.refRows[i].cells[fieldOnSelected!], i);
+          event.stateManager.setCurrentCell(event.stateManager.refRows[i].cells[fieldOnSelected!], i);
           break;
         }
       }
     }
 
     if (event.stateManager.currentRowIdx != null) {
-      final rowIdxToMove =
-          event.stateManager.currentRowIdx! + 1 + offsetOfScrollRowIdx;
+      final rowIdxToMove = event.stateManager.currentRowIdx! + 1 + offsetOfScrollRowIdx;
 
       if (rowIdxToMove < event.stateManager.refRows.length) {
         event.stateManager.moveScrollByRow(PlutoMoveDirection.up, rowIdxToMove);
       } else {
-        event.stateManager.moveScrollByRow(
-            PlutoMoveDirection.up, event.stateManager.refRows.length);
+        event.stateManager.moveScrollByRow(PlutoMoveDirection.up, event.stateManager.refRows.length);
       }
     }
   }
@@ -172,9 +164,7 @@ mixin PopupCellState<T extends PopupCell> on State<T>
 
     dynamic selectedValue;
 
-    if (event.row != null &&
-        fieldOnSelected != null &&
-        event.row!.cells.containsKey(fieldOnSelected)) {
+    if (event.row != null && fieldOnSelected != null && event.row!.cells.containsKey(fieldOnSelected)) {
       selectedValue = event.row!.cells[fieldOnSelected!]!.value;
     } else if (event.cell != null) {
       selectedValue = event.cell!.value;
@@ -208,7 +198,11 @@ mixin PopupCellState<T extends PopupCell> on State<T>
           readOnly: true,
           textInputAction: TextInputAction.none,
           onTap: openPopup,
-          style: widget.stateManager.configuration!.cellTextStyle,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).cardColor,
+          ),
           decoration: const InputDecoration(
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(0),
@@ -223,7 +217,7 @@ mixin PopupCellState<T extends PopupCell> on State<T>
           left: widget.column.textAlign.isRight ? -10 : null,
           child: IconButton(
             icon: icon!,
-            color: widget.stateManager.configuration!.iconColor,
+            color: Theme.of(context).cardColor,
             iconSize: widget.stateManager.configuration!.iconSize,
             onPressed: openPopup,
           ),

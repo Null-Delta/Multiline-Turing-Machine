@@ -3,8 +3,7 @@ import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import '../styles/app_colors.dart';
-        
+
 class AboutPanel extends StatefulWidget {
   const AboutPanel({Key? key}) : super(key: key);
 
@@ -15,13 +14,13 @@ class AboutPanel extends StatefulWidget {
 class _AboutPanel extends State<AboutPanel> {
   static const double iconSize = 28;
   late TuringMachine machine;
- 
+
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
       style: const TextStyle(),
       child: Container(
-        color: AppColors.background,
+        color: Theme.of(context).backgroundColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,7 +29,7 @@ class _AboutPanel extends State<AboutPanel> {
                 left: 6,
               ),
               height: 40,
-              color: AppColors.background,
+              color: Theme.of(context).backgroundColor,
               child: Row(
                 children: [
                   Tooltip(
@@ -40,24 +39,25 @@ class _AboutPanel extends State<AboutPanel> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: const SizedBox(
+                      child: SizedBox(
                         width: iconSize,
                         height: iconSize,
                         child: Image(
                           image: AppImages.back,
+                          color: Theme.of(context).cardColor,
                         ),
                       ),
-                      style: appButtonStyle,
+                      style: appButtonStyle(context),
                     ),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
-                  const Text(
+                  Text(
                     "О приложении",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      color: Color(0xFF183157),
+                      color: Theme.of(context).cardColor,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w700,
                       fontSize: 16,
@@ -66,17 +66,17 @@ class _AboutPanel extends State<AboutPanel> {
                 ],
               ),
             ),
-            const Divider(height: 0, thickness: 2, color: Color(0xFFE7E8F3)),
+            Divider(height: 0, thickness: 2, color: Theme.of(context).highlightColor),
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Container(
-                  color: AppColors.background,
+                  color: Theme.of(context).backgroundColor,
                   child: Center(
                     child: Container(
                       constraints: const BoxConstraints(maxWidth: 640),
                       child: Container(
-                        color: AppColors.background,
+                        color: Theme.of(context).backgroundColor,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -87,7 +87,7 @@ class _AboutPanel extends State<AboutPanel> {
                                 right: 0,
                               ),
                               height: 112,
-                              color: AppColors.background,
+                              color: Theme.of(context).backgroundColor,
                               child: Row(
                                 children: [
                                   Container(
@@ -107,7 +107,7 @@ class _AboutPanel extends State<AboutPanel> {
                                       ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: AppColors.shadowColor,
+                                          color: Theme.of(context).shadowColor,
                                           spreadRadius: 4,
                                           blurRadius: 12,
                                           offset: Offset.zero, // changes position of shadow
@@ -120,17 +120,16 @@ class _AboutPanel extends State<AboutPanel> {
                                   ),
                                   Container(
                                     height: 112,
-                                    color: AppColors.background,
+                                    color: Theme.of(context).backgroundColor,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
+                                        Text(
                                           "Эмулятор Многоленточной \nМашины Тьюринга",
                                           maxLines: 2,
-                                          //overflow: TextOverflow.clip,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
-                                            color: Color(0xFF183157),
+                                            color: Theme.of(context).cardColor,
                                             fontFamily: 'Inter',
                                             fontWeight: FontWeight.w700,
                                             fontSize: 24,
@@ -139,17 +138,17 @@ class _AboutPanel extends State<AboutPanel> {
                                         const SizedBox(
                                           height: 6,
                                         ),
-                                        const Tooltip(
-                                          waitDuration: Duration(milliseconds: 200),
+                                        Tooltip(
+                                          waitDuration: const Duration(milliseconds: 200),
                                           message: "28.04.2022",
                                           verticalOffset: 14,
                                           child: Text(
-                                            "Версия 1.0",
+                                            "Версия 1.1",
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
-                                              color: Color(0xFFA6B2C3),
+                                              color: Theme.of(context).cardColor.withOpacity(0.5),
                                               fontFamily: 'Inter',
-                                              fontWeight: FontWeight.w700,
+                                              fontWeight: FontWeight.w500,
                                               fontSize: 16,
                                             ),
                                           ),
@@ -167,13 +166,13 @@ class _AboutPanel extends State<AboutPanel> {
                                               onPressed: () {
                                                 launchUrlString('https://nullexp.ru');
                                               },
-                                              child: const Text(
+                                              child: Text(
                                                 "nullexp.ru",
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
-                                                  color: Color(0xFF72A5B5),
+                                                  color: Theme.of(context).primaryColor,
                                                   fontFamily: 'Inter',
-                                                  fontWeight: FontWeight.w700,
+                                                  fontWeight: FontWeight.w500,
                                                   fontSize: 18,
                                                 ),
                                               ),
@@ -190,109 +189,15 @@ class _AboutPanel extends State<AboutPanel> {
                             const SizedBox(
                               height: 42,
                             ),
-                            
-                            // Container(
-                            //   padding: const EdgeInsets.only(left: 32, bottom: 16),
-                            //   width: MediaQuery.of(context).size.width,
-                            //   color: AppColors.background,
-                            //   child: const Text(
-                            //     "Приложение",
-                            //     textAlign: TextAlign.left,
-                            //     style: TextStyle(
-                            //       color: Color(0xFF183157),
-                            //       fontFamily: 'Inter',
-                            //       fontWeight: FontWeight.w700,
-                            //       fontSize: 24,
-                            //     ),
-                            //   ),
-                            // ),
-                            // Container(
-                            //   padding: const EdgeInsets.only(left: 32, right: 32),
-                            //   width: MediaQuery.of(context).size.width,
-                            //   color: AppColors.background,
-                            //   child: Row(
-                            //     children: [const Text(
-                            //       "У приложения открытый исходный код: ",
-                            //       maxLines: 3,
-                            //       textAlign: TextAlign.justify,
-                            //       style: TextStyle(
-                            //         color: Color(0xFF183157),
-                            //         fontFamily: 'Inter',
-                            //         fontWeight: FontWeight.w500,
-                            //         fontSize: 16,
-                            //       ),
-                            //     ),
-                            //     Tooltip(
-                            //       waitDuration: const Duration(milliseconds: 300),
-                            //       message: "https://github.com/Zed-Null/Multiline-Turing-Machine",
-                            //       verticalOffset: 14,
-                            //       child: ElevatedButton(
-                            //         onPressed: () {
-                            //           launchUrlString('https://github.com/Zed-Null/Multiline-Turing-Machine');
-                            //         },
-                            //         child: const Text(
-                            //           "репозиторий.",
-                                      
-                            //           style: TextStyle(
-                            //             color: Color(0xFF72A5B5),
-                            //             fontFamily: 'Inter',
-                            //             fontWeight: FontWeight.w700,
-                            //             fontSize: 16,
-                            //           ),
-                            //         ),
-                            //         style: linkButtonStyle,
-                            //       ),
-                            //     ),
-                            //     ],
-                            //   ),
-                            // ),
-                            
-                            // const SizedBox(
-                            //   height: 16,
-                            // ),
-                            
-                            /*
-                            Container(
-                              padding: const EdgeInsets.only(left: 32, bottom: 16),
-                              width: MediaQuery.of(context).size.width,
-                              color: AppColors.background,
-                              child: const Text(
-                                "Анекдот",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Color(0xFF183157),
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.only(left: 32, right: 32, bottom: 16),
-                              width: MediaQuery.of(context).size.width,
-                              color: AppColors.background,
-                              child: const Text(
-                                "В дверь постучали под ритм гимна СССР. 'Клим Саныч' - сказал Дмитрий Юрьич.",
-                                maxLines: 3,
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(
-                                  color: Color(0xFF183157),
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            */
                             Container(
                               padding: const EdgeInsets.only(left: 32, bottom: 24),
                               width: MediaQuery.of(context).size.width,
-                              color: AppColors.background,
-                              child: const Text(
+                              color: Theme.of(context).backgroundColor,
+                              child: Text(
                                 "Разработчики",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  color: Color(0xFF183157),
+                                  color: Theme.of(context).cardColor,
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w700,
                                   fontSize: 24,
@@ -301,7 +206,7 @@ class _AboutPanel extends State<AboutPanel> {
                             ),
                             Container(
                               margin: const EdgeInsets.only(left: 32, bottom: 16),
-                              color: AppColors.background,
+                              color: Theme.of(context).backgroundColor,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -319,7 +224,7 @@ class _AboutPanel extends State<AboutPanel> {
                                       ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: AppColors.shadowColor,
+                                          color: Theme.of(context).shadowColor,
                                           spreadRadius: 8,
                                           blurRadius: 8,
                                           offset: Offset.zero, // changes position of shadow
@@ -339,19 +244,19 @@ class _AboutPanel extends State<AboutPanel> {
                                         children: [
                                           Tooltip(
                                             waitDuration: const Duration(milliseconds: 300),
-                                            message: "https://github.com/Zed-Null",
+                                            message: "https://github.com/Null-Delta",
                                             verticalOffset: 14,
                                             child: ElevatedButton(
                                               onPressed: () {
-                                                launchUrlString('https://github.com/Zed-Null');
+                                                launchUrlString('https://github.com/Null-Delta');
                                               },
-                                              child: const Text(
+                                              child: Text(
                                                 "Хахук Рустам",
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
-                                                  color: Color(0xFF183157),
+                                                  color: Theme.of(context).cardColor,
                                                   fontFamily: 'Inter',
-                                                  fontWeight: FontWeight.w700,
+                                                  fontWeight: FontWeight.w500,
                                                   fontSize: 20,
                                                 ),
                                               ),
@@ -359,12 +264,12 @@ class _AboutPanel extends State<AboutPanel> {
                                             ),
                                           ),
                                           SelectableText(
-                                            "zed.null@icloud.com",
+                                            "delta.null@vk.com",
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
-                                              color: AppColors.accent,
+                                              color: Theme.of(context).primaryColor,
                                               fontFamily: 'Inter',
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w400,
                                               fontSize: 14,
                                             ),
                                           ),
@@ -373,13 +278,13 @@ class _AboutPanel extends State<AboutPanel> {
                                           ),
                                           Container(
                                             constraints: const BoxConstraints(maxWidth: double.infinity),
-                                            child: const Text(
+                                            child: Text(
                                               "Дизайн всего приложения, проектирование, справка, панель правил, состояний и комментариев, иконки, нижняя панель инстументов, настройки.",
                                               textAlign: TextAlign.justify,
                                               style: TextStyle(
-                                                color: Color(0xFFA6B2C3),
+                                                color: Theme.of(context).cardColor.withOpacity(0.5),
                                                 fontFamily: 'Inter',
-                                                fontWeight: FontWeight.w500,
+                                                fontWeight: FontWeight.w400,
                                                 fontSize: 14,
                                               ),
                                             ),
@@ -393,7 +298,7 @@ class _AboutPanel extends State<AboutPanel> {
                             ),
                             Container(
                               margin: const EdgeInsets.only(left: 32, bottom: 16),
-                              color: AppColors.background,
+                              color: Theme.of(context).backgroundColor,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -411,7 +316,7 @@ class _AboutPanel extends State<AboutPanel> {
                                       ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: AppColors.shadowColor,
+                                          color: Theme.of(context).shadowColor,
                                           spreadRadius: 8,
                                           blurRadius: 8,
                                           offset: Offset.zero, // changes position of shadow
@@ -437,13 +342,13 @@ class _AboutPanel extends State<AboutPanel> {
                                               onPressed: () {
                                                 launchUrlString('https://github.com/StarProxima');
                                               },
-                                              child: const Text(
+                                              child: Text(
                                                 "Прозоров Максим",
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
-                                                  color: Color(0xFF183157),
+                                                  color: Theme.of(context).cardColor,
                                                   fontFamily: 'Inter',
-                                                  fontWeight: FontWeight.w700,
+                                                  fontWeight: FontWeight.w500,
                                                   fontSize: 20,
                                                 ),
                                               ),
@@ -454,9 +359,9 @@ class _AboutPanel extends State<AboutPanel> {
                                             "StarProxima@yandex.ru",
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
-                                              color: AppColors.accent,
+                                              color: Theme.of(context).primaryColor,
                                               fontFamily: 'Inter',
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w400,
                                               fontSize: 14,
                                             ),
                                           ),
@@ -465,13 +370,13 @@ class _AboutPanel extends State<AboutPanel> {
                                           ),
                                           Container(
                                             constraints: const BoxConstraints(maxWidth: double.infinity),
-                                            child: const Text(
+                                            child: Text(
                                               "Импорт/экспорт сохранений, ячейка ленты, ввод в ленту, добавление/удаление лент, вверхняя панель инстументов, тестирование.",
                                               textAlign: TextAlign.justify,
                                               style: TextStyle(
-                                                color: Color(0xFFA6B2C3),
+                                                color: Theme.of(context).cardColor.withOpacity(0.5),
                                                 fontFamily: 'Inter',
-                                                fontWeight: FontWeight.w500,
+                                                fontWeight: FontWeight.w400,
                                                 fontSize: 14,
                                               ),
                                             ),
@@ -485,7 +390,7 @@ class _AboutPanel extends State<AboutPanel> {
                             ),
                             Container(
                               margin: const EdgeInsets.only(left: 32, bottom: 16),
-                              color: AppColors.background,
+                              color: Theme.of(context).backgroundColor,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -503,7 +408,7 @@ class _AboutPanel extends State<AboutPanel> {
                                       ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: AppColors.shadowColor,
+                                          color: Theme.of(context).shadowColor,
                                           spreadRadius: 8,
                                           blurRadius: 8,
                                           offset: Offset.zero, // changes position of shadow
@@ -529,13 +434,13 @@ class _AboutPanel extends State<AboutPanel> {
                                               onPressed: () {
                                                 launchUrlString('https://github.com/iamgirya');
                                               },
-                                              child: const Text(
+                                              child: Text(
                                                 "Гиренко Даниил",
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
-                                                  color: Color(0xFF183157),
+                                                  color: Theme.of(context).cardColor,
                                                   fontFamily: 'Inter',
-                                                  fontWeight: FontWeight.w700,
+                                                  fontWeight: FontWeight.w500,
                                                   fontSize: 20,
                                                 ),
                                               ),
@@ -546,9 +451,9 @@ class _AboutPanel extends State<AboutPanel> {
                                             "iamgirya@yandex.ru",
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
-                                              color: AppColors.accent,
+                                              color: Theme.of(context).primaryColor,
                                               fontFamily: 'Inter',
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w400,
                                               fontSize: 14,
                                             ),
                                           ),
@@ -557,13 +462,13 @@ class _AboutPanel extends State<AboutPanel> {
                                           ),
                                           Container(
                                             constraints: const BoxConstraints(maxWidth: double.infinity),
-                                            child: const Text(
+                                            child: Text(
                                               "Модель машины Тьюринга, лента, очистка ленты, раздел \"О приложении\", подсчёт конфигураций, автоматическая работа машины Тьюринга.",
                                               textAlign: TextAlign.justify,
                                               style: TextStyle(
-                                                color: Color(0xFFA6B2C3),
+                                                color: Theme.of(context).cardColor.withOpacity(0.5),
                                                 fontFamily: 'Inter',
-                                                fontWeight: FontWeight.w500,
+                                                fontWeight: FontWeight.w400,
                                                 fontSize: 14,
                                               ),
                                             ),
@@ -578,12 +483,12 @@ class _AboutPanel extends State<AboutPanel> {
                             Container(
                               margin: const EdgeInsets.only(top: 32, left: 32, bottom: 16),
                               width: MediaQuery.of(context).size.width,
-                              color: AppColors.background,
-                              child: const Text(
+                              color: Theme.of(context).backgroundColor,
+                              child: Text(
                                 "Использованные ресурсы",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  color: Color(0xFF183157),
+                                  color: Theme.of(context).cardColor,
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w700,
                                   fontSize: 24,
@@ -595,14 +500,14 @@ class _AboutPanel extends State<AboutPanel> {
                                 Container(
                                   margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
                                   width: MediaQuery.of(context).size.width,
-                                  color: AppColors.background,
-                                  child: const Text(
+                                  color: Theme.of(context).backgroundColor,
+                                  child: Text(
                                     "• Multi split view: Copyright (c) 2021 Carlos Eduardo Leite de Andrade",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                      color: Color(0xFF183157),
+                                      color: Theme.of(context).cardColor,
                                       fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w400,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -610,14 +515,14 @@ class _AboutPanel extends State<AboutPanel> {
                                 Container(
                                   margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
                                   width: MediaQuery.of(context).size.width,
-                                  color: AppColors.background,
-                                  child: const Text(
+                                  color: Theme.of(context).backgroundColor,
+                                  child: Text(
                                     "• Window Size: Copyright [2018] [stuartmorgan]",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                      color: Color(0xFF183157),
+                                      color: Theme.of(context).cardColor,
                                       fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w400,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -625,14 +530,14 @@ class _AboutPanel extends State<AboutPanel> {
                                 Container(
                                   margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
                                   width: MediaQuery.of(context).size.width,
-                                  color: AppColors.background,
-                                  child: const Text(
+                                  color: Theme.of(context).backgroundColor,
+                                  child: Text(
                                     "• Material snackbar: Copyright (c) 2020 Rounded Infinity",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                      color: Color(0xFF183157),
+                                      color: Theme.of(context).cardColor,
                                       fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w400,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -640,14 +545,14 @@ class _AboutPanel extends State<AboutPanel> {
                                 Container(
                                   margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
                                   width: MediaQuery.of(context).size.width,
-                                  color: AppColors.background,
-                                  child: const Text(
+                                  color: Theme.of(context).backgroundColor,
+                                  child: Text(
                                     "• File Picker: Copyright (c) 2018 Miguel Ruivo",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                      color: Color(0xFF183157),
+                                      color: Theme.of(context).cardColor,
                                       fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w400,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -655,14 +560,14 @@ class _AboutPanel extends State<AboutPanel> {
                                 Container(
                                   margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
                                   width: MediaQuery.of(context).size.width,
-                                  color: AppColors.background,
-                                  child: const Text(
+                                  color: Theme.of(context).backgroundColor,
+                                  child: Text(
                                     "• Pluto Grid: Copyright (c) [2020] [PlutoGrid]",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                      color: Color(0xFF183157),
+                                      color: Theme.of(context).cardColor,
                                       fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w400,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -670,42 +575,25 @@ class _AboutPanel extends State<AboutPanel> {
                                 Container(
                                   margin: const EdgeInsets.only(left: 32, right: 32, bottom: 32),
                                   width: MediaQuery.of(context).size.width,
-                                  color: AppColors.background,
-                                  child: const Text(
+                                  color: Theme.of(context).backgroundColor,
+                                  child: Text(
                                     "• Scollable Positioned List: Copyright 2018 the Dart project authors, Inc.",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                      color: Color(0xFF183157),
+                                      color: Theme.of(context).cardColor,
                                       fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w400,
                                       fontSize: 14,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                            
                           ],
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 4, bottom: 4),
-              alignment: FractionalOffset.bottomCenter,
-              width: MediaQuery.of(context).size.width,
-              color: AppColors.background,
-              child: const Text(
-                "Developed by the NullExp team specifically for Kuban State University",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFFA6B2C3),
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 13,
                 ),
               ),
             ),

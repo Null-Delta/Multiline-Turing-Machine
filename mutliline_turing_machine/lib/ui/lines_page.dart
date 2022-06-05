@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/ui/line.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
-import '../styles/app_colors.dart';
 import 'dart:math';
 
 class LinesPage extends StatefulWidget {
@@ -15,7 +14,6 @@ class LinesPage extends StatefulWidget {
 }
 
 class LinesPageState extends State<LinesPage> {
-
   late TuringMachine machine;
   late int countOfLines;
 
@@ -31,10 +29,8 @@ class LinesPageState extends State<LinesPage> {
       ),
   ];
 
-
-  void clearAllLines()
-  { 
-    for(int i = 0; i < countOfLines; i++) {
+  void clearAllLines() {
+    for (int i = 0; i < countOfLines; i++) {
       for (int j = 0; j < machine.configuration.lineContent[i].length; j++) {
         machine.configuration.lineContent[i][j].setSymbol(" ");
       }
@@ -42,7 +38,6 @@ class LinesPageState extends State<LinesPage> {
       machine.configuration.moveLine(i, dif);
       linesState[i].currentState?.jumpToStart();
     }
-    
   }
 
   void onScroll() {
@@ -96,7 +91,7 @@ class LinesPageState extends State<LinesPage> {
     ];
     return Expanded(
       child: Container(
-        color: AppColors.backgroundDark,
+        color: Theme.of(context).hoverColor,
         child: ListView.builder(
             controller: ScrollController(),
             itemCount: lines.length,

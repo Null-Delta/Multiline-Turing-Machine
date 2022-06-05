@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mutliline_turing_machine/styles/app_colors.dart';
 
 class CustomPopup extends StatefulWidget {
   const CustomPopup(
@@ -44,9 +43,11 @@ class _CustomPopupState extends State<CustomPopup> {
         setState(() {});
       },
       child: PopupMenuButton(
+        color: Theme.of(context).backgroundColor,
         tooltip: widget.tooltip,
         key: state,
-        elevation: 24,
+        elevation: 12,
+        offset: Offset.zero,
         initialValue: widget.initValue,
         enableFeedback: true,
         onSelected: (value) {
@@ -74,7 +75,9 @@ class _CustomPopupState extends State<CustomPopup> {
             height: 28,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(6)),
-              color: focus.hasFocus || isMouseInButton ? AppColors.highlight : AppColors.background,
+              color: focus.hasFocus || isMouseInButton
+                  ? Theme.of(context).highlightColor
+                  : Theme.of(context).backgroundColor,
             ),
             child: widget.child,
           ),

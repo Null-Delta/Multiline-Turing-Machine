@@ -10,7 +10,6 @@ import 'package:mutliline_turing_machine/ui/configuration_counter.dart';
 import 'package:mutliline_turing_machine/ui/custom_popup.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
-import '../styles/app_colors.dart';
 
 // ignore: must_be_immutable
 class BottomPanel extends StatefulWidget {
@@ -52,114 +51,85 @@ class BottomPanelState extends State<BottomPanel> {
   int timesPerSec = 4;
   late var scafoldState;
 
-  late var addStateBtn = Tooltip(
-    waitDuration: const Duration(milliseconds: 500),
-    message: "Добавить состояние",
-    child: ElevatedButton(
-      focusNode: widget.topFocus,
-      onPressed: () {
-        widget.onAddState();
-      },
-      child: const SizedBox(
-        width: iconSize,
-        height: iconSize,
-        child: Image(
-          image: AppImages.addState,
+  Tooltip addStateBtn() => Tooltip(
+        waitDuration: const Duration(milliseconds: 500),
+        message: "Добавить состояние",
+        child: ElevatedButton(
+          focusNode: widget.topFocus,
+          onPressed: () {
+            widget.onAddState();
+          },
+          child: SizedBox(
+            width: iconSize,
+            height: iconSize,
+            child: Image(image: AppImages.addState, color: Theme.of(context).cardColor),
+          ),
+          style: appButtonStyle(context),
         ),
-      ),
-      style: appButtonStyle,
-    ),
-  );
+      );
 
-  late var deleteStateBtn = Tooltip(
-    waitDuration: const Duration(milliseconds: 500),
-    message: "Удалить состояние",
-    child: ElevatedButton(
-      onPressed: () {
-        widget.onDeleteState();
-      },
-      child: const Image(
-        image: AppImages.deleteState,
-      ),
-      style: appButtonStyle,
-    ),
-  );
+  Tooltip deleteStateBtn() => Tooltip(
+        waitDuration: const Duration(milliseconds: 500),
+        message: "Удалить состояние",
+        child: ElevatedButton(
+          onPressed: () {
+            widget.onDeleteState();
+          },
+          child: Image(image: AppImages.deleteState, color: Theme.of(context).cardColor),
+          style: appButtonStyle(context),
+        ),
+      );
 
-  late var addRuleBtn = Tooltip(
-    waitDuration: const Duration(milliseconds: 500),
-    message: "Добавить команду",
-    child: ElevatedButton(
-      onPressed: () {
-        widget.onAddVariant();
-        //widget.tableManager!.getRowByIdx(0)!.cells["head:0"]
-      },
-      child: const Image(
-        image: AppImages.addVariantDown,
-      ),
-      style: appButtonStyle,
-    ),
-  );
+  Tooltip addRuleBtn() => Tooltip(
+        waitDuration: const Duration(milliseconds: 500),
+        message: "Добавить команду",
+        child: ElevatedButton(
+          onPressed: () {
+            widget.onAddVariant();
+          },
+          child: Image(image: AppImages.addVariantDown, color: Theme.of(context).cardColor),
+          style: appButtonStyle(context),
+        ),
+      );
 
-  late var deleteRuleBtn = Tooltip(
-    waitDuration: const Duration(milliseconds: 500),
-    message: "Удалить команду",
-    child: ElevatedButton(
-      onPressed: () {
-        widget.onDeleteVariant();
-      },
-      child: const Image(
-        image: AppImages.deleteVariant,
-      ),
-      style: appButtonStyle,
-    ),
-  );
+  Tooltip deleteRuleBtn() => Tooltip(
+        waitDuration: const Duration(milliseconds: 500),
+        message: "Удалить команду",
+        child: ElevatedButton(
+          onPressed: () {
+            widget.onDeleteVariant();
+          },
+          child: Image(image: AppImages.deleteVariant, color: Theme.of(context).cardColor),
+          style: appButtonStyle(context),
+        ),
+      );
 
   late var spacer = const SizedBox(
     width: 6,
   );
 
   late var divider = Container(
-    color: AppColors.highlight,
+    color: Theme.of(context).highlightColor,
     width: 2,
     height: 16,
   );
 
-  late var debugBtn = Tooltip(
-    waitDuration: const Duration(milliseconds: 500),
-    message: "Debug",
-    child: ElevatedButton(
-      onPressed: () {
-        developer.log(machine.model.info());
-      },
-      child: const SizedBox(
-        width: iconSize,
-        height: iconSize,
-        child: Image(
-          image: AppImages.help,
+  Tooltip stopBtn() => Tooltip(
+        waitDuration: const Duration(milliseconds: 500),
+        message: "Сбросить работу",
+        child: ElevatedButton(
+          onPressed: () {
+            widget.onResetWork();
+            setState(() {});
+          },
+          child: SizedBox(
+            width: iconSize,
+            height: iconSize,
+            child: Image(image: AppImages.stop, color: Theme.of(context).cardColor),
+          ),
+          style: appButtonStyle(context),
         ),
-      ),
-      style: appButtonStyle,
-    ),
-  );
-
-  late var stopBtn = Tooltip(
-    waitDuration: const Duration(milliseconds: 500),
-    message: "Сбросить работу",
-    child: ElevatedButton(
-      onPressed: () {
-        widget.onResetWork();
-        setState(() {});
-      },
-      child: const SizedBox(
-        width: iconSize,
-        height: iconSize,
-        child: Image(
-          image: AppImages.stop,
-        ),
-      ),
-      style: appButtonStyle,
-    ),
-  );
+      );
 
   timerBtn() {
     return Tooltip(
@@ -175,11 +145,11 @@ class BottomPanelState extends State<BottomPanel> {
           width: iconSize,
           height: iconSize,
           child: Image(
-            color: machine.activator.isActive ? AppColors.background : AppColors.text,
+            color: machine.activator.isActive ? Theme.of(context).backgroundColor : Theme.of(context).cardColor,
             image: AppImages.timer,
           ),
         ),
-        style: machine.activator.isActive ? activeAppButtonStyle : appButtonStyle,
+        style: machine.activator.isActive ? activeAppButtonStyle(context) : appButtonStyle(context),
       ),
     );
   }
@@ -207,7 +177,7 @@ class BottomPanelState extends State<BottomPanel> {
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 13,
-                  color: AppColors.text,
+                  color: Theme.of(context).cardColor,
                 ),
               ),
             )
@@ -223,7 +193,7 @@ class BottomPanelState extends State<BottomPanel> {
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 13,
-              color: AppColors.text,
+              color: Theme.of(context).cardColor,
             ),
           ),
         ),
@@ -231,25 +201,25 @@ class BottomPanelState extends State<BottomPanel> {
     );
   }
 
-  late var makeStepBtn = Tooltip(
-    waitDuration: const Duration(milliseconds: 500),
-    message: "Сделать шаг",
-    child: ElevatedButton(
-      onPressed: () {
-        setState(() {
-          widget.onMakeStep(scafoldState);
-        });
-      },
-      child: const SizedBox(
-        width: iconSize,
-        height: iconSize,
-        child: Image(
-          image: AppImages.step,
+  Tooltip makeStepBtn() {
+    return Tooltip(
+      waitDuration: const Duration(milliseconds: 500),
+      message: "Сделать шаг",
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            widget.onMakeStep(scafoldState);
+          });
+        },
+        child: SizedBox(
+          width: iconSize,
+          height: iconSize,
+          child: Image(image: AppImages.step, color: Theme.of(context).cardColor),
         ),
+        style: appButtonStyle(context),
       ),
-      style: appButtonStyle,
-    ),
-  );
+    );
+  }
 
   commentsBtn() {
     return Tooltip(
@@ -265,11 +235,15 @@ class BottomPanelState extends State<BottomPanel> {
           width: iconSize,
           height: iconSize,
           child: Image(
-            color: commentsState.currentState?.needShowComments ?? true ? AppColors.background : AppColors.text,
+            color: commentsState.currentState?.needShowComments ?? true
+                ? Theme.of(context).backgroundColor
+                : Theme.of(context).cardColor,
             image: AppImages.comments,
           ),
         ),
-        style: commentsState.currentState?.needShowComments ?? true ? activeAppButtonStyle : appButtonStyle,
+        style: commentsState.currentState?.needShowComments ?? true
+            ? activeAppButtonStyle(context)
+            : appButtonStyle(context),
       ),
     );
   }
@@ -290,19 +264,19 @@ class BottomPanelState extends State<BottomPanel> {
             right: 6,
           ),
           height: 40,
-          color: AppColors.background,
+          color: Theme.of(context).backgroundColor,
           child: Row(
             children: machine.isWorking()
                 ? [
-                    addStateBtn,
+                    addStateBtn(),
                     spacer,
-                    deleteStateBtn,
+                    deleteStateBtn(),
                     spacer,
                     divider,
                     spacer,
-                    addRuleBtn,
+                    addRuleBtn(),
                     spacer,
-                    deleteRuleBtn,
+                    deleteRuleBtn(),
                     spacer,
                     Expanded(
                       child: Container(
@@ -316,7 +290,7 @@ class BottomPanelState extends State<BottomPanel> {
                     spacer,
                     divider,
                     spacer,
-                    stopBtn,
+                    stopBtn(),
                     spacer,
                     // debugBtn,
                     // spacer,
@@ -324,22 +298,22 @@ class BottomPanelState extends State<BottomPanel> {
                     spacer,
                     speedBtn(),
                     spacer,
-                    makeStepBtn,
+                    makeStepBtn(),
                     spacer,
                     divider,
                     spacer,
                     commentsBtn(),
                   ]
                 : [
-                    addStateBtn,
+                    addStateBtn(),
                     spacer,
-                    deleteStateBtn,
+                    deleteStateBtn(),
                     spacer,
                     divider,
                     spacer,
-                    addRuleBtn,
+                    addRuleBtn(),
                     spacer,
-                    deleteRuleBtn,
+                    deleteRuleBtn(),
                     spacer,
                     Expanded(
                       child: Container(
@@ -352,7 +326,7 @@ class BottomPanelState extends State<BottomPanel> {
                     spacer,
                     speedBtn(),
                     spacer,
-                    makeStepBtn,
+                    makeStepBtn(),
                     spacer,
                     divider,
                     spacer,
@@ -363,7 +337,7 @@ class BottomPanelState extends State<BottomPanel> {
         Divider(
           height: 2,
           thickness: 2,
-          color: AppColors.highlight,
+          color: Theme.of(context).highlightColor,
         ),
       ],
     );

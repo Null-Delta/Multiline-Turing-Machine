@@ -2,97 +2,71 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mutliline_turing_machine/styles/app_colors.dart';
 
-ButtonStyle appButtonStyle = ButtonStyle(
-    elevation: MaterialStateProperty.all(0),
-    backgroundColor: MaterialStateProperty.resolveWith(
-      (states) {
-        if (states.contains(MaterialState.selected)) {
-          return AppColors.accent;
-        } else if (states.contains(MaterialState.disabled)) {
-          return AppColors.highlight;
-        } else if (states.contains(MaterialState.hovered)) {
-          return AppColors.backgroundDark;
-        }
-        return AppColors.background;
-      },
-    ),
-    foregroundColor: MaterialStateProperty.resolveWith(
-      (states) {
-        if (states.contains(MaterialState.selected)) {
-          return AppColors.background;
-        } else if (states.contains(MaterialState.disabled)) {
-          return AppColors.disable;
-        } else if (states.contains(MaterialState.hovered)) {
-          return AppColors.text;
-        }
-        return AppColors.text;
-      },
-    ),
-    overlayColor: MaterialStateProperty.resolveWith(
-      (states) {
-        // if (states.contains(MaterialState.selected)) {
-        //   return AppColors.highlight;
-        // } else if (states.contains(MaterialState.disabled)) {
-        //   return AppColors.highlight;
-        // } else if (states.contains(MaterialState.hovered)) {
-        //   return AppColors.highlight;
-        // }
-        return AppColors.highlight;
-      },
-    ),
-    padding: MaterialStateProperty.all(EdgeInsets.zero),
-    minimumSize: MaterialStateProperty.all(
-      const Size.square(28),
-    ),
-    fixedSize: MaterialStateProperty.all(
-      const Size.square(28),
-    ),
-    maximumSize: MaterialStateProperty.all(
-      const Size.square(28),
-    ),
-    shadowColor: MaterialStateProperty.all(Colors.transparent),
-    shape: MaterialStateProperty.all(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(6),
+ButtonStyle appButtonStyle(BuildContext context) {
+  return ButtonStyle(
+      elevation: MaterialStateProperty.all(0),
+      backgroundColor: MaterialStateProperty.resolveWith(
+        (states) {
+          if (states.contains(MaterialState.selected)) {
+            return Theme.of(context).primaryColor;
+          } else if (states.contains(MaterialState.disabled)) {
+            return Theme.of(context).highlightColor;
+          } else if (states.contains(MaterialState.hovered)) {
+            return Theme.of(context).hoverColor;
+          }
+          return Theme.of(context).backgroundColor;
+        },
       ),
-    ));
+      foregroundColor: MaterialStateProperty.resolveWith(
+        (states) {
+          if (states.contains(MaterialState.selected)) {
+            return Theme.of(context).primaryColor;
+          } else if (states.contains(MaterialState.disabled)) {
+            return Theme.of(context).disabledColor;
+          } else if (states.contains(MaterialState.hovered)) {
+            return Theme.of(context).cardColor;
+          }
+          return Theme.of(context).cardColor;
+        },
+      ),
+      overlayColor: MaterialStateProperty.resolveWith(
+        (states) {
+          return Theme.of(context).highlightColor;
+        },
+      ),
+      padding: MaterialStateProperty.all(EdgeInsets.zero),
+      minimumSize: MaterialStateProperty.all(
+        const Size.square(28),
+      ),
+      fixedSize: MaterialStateProperty.all(
+        const Size.square(28),
+      ),
+      maximumSize: MaterialStateProperty.all(
+        const Size.square(28),
+      ),
+      shadowColor: MaterialStateProperty.all(Colors.transparent),
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
+        ),
+      ));
+}
 
-ButtonStyle activeAppButtonStyle = ButtonStyle(
+activeAppButtonStyle(BuildContext context) => ButtonStyle(
     elevation: MaterialStateProperty.all(0),
     backgroundColor: MaterialStateProperty.resolveWith(
       (states) {
-        // if (states.contains(MaterialState.selected)) {
-        //   return AppColors.accent;
-        // } else if (states.contains(MaterialState.disabled)) {
-        //   return AppColors.accent;
-        // } else if (states.contains(MaterialState.hovered)) {
-        //   return AppColors.accent;
-        // }
-        return AppColors.accent;
+        return Theme.of(context).primaryColor;
       },
     ),
     foregroundColor: MaterialStateProperty.resolveWith(
       (states) {
-        // if (states.contains(MaterialState.selected)) {
-        //   return AppColors.background;
-        // } else if (states.contains(MaterialState.disabled)) {
-        //   return AppColors.background;
-        // } else if (states.contains(MaterialState.hovered)) {
-        //   return AppColors.background;
-        // }
-        return AppColors.background;
+        return Theme.of(context).backgroundColor;
       },
     ),
     overlayColor: MaterialStateProperty.resolveWith(
       (states) {
-        // if (states.contains(MaterialState.selected)) {
-        //   return AppColors.background;
-        // } else if (states.contains(MaterialState.disabled)) {
-        //   return AppColors.background;
-        // } else if (states.contains(MaterialState.hovered)) {
-        //   return AppColors.background;
-        // }
-        return AppColors.accent;
+        return Theme.of(context).primaryColor;
       },
     ),
     padding: MaterialStateProperty.all(EdgeInsets.zero),
@@ -117,13 +91,13 @@ ButtonStyle linkButtonStyle = ButtonStyle(
     backgroundColor: MaterialStateProperty.resolveWith(
       (states) {
         if (states.contains(MaterialState.selected)) {
-          return AppColors.background;
+          return Colors.transparent;
         } else if (states.contains(MaterialState.disabled)) {
-          return AppColors.background;
+          return Colors.transparent;
         } else if (states.contains(MaterialState.hovered)) {
-          return AppColors.background;
+          return Colors.transparent;
         }
-        return AppColors.background;
+        return Colors.transparent;
       },
     ),
     foregroundColor: MaterialStateProperty.resolveWith(
@@ -141,13 +115,13 @@ ButtonStyle linkButtonStyle = ButtonStyle(
     overlayColor: MaterialStateProperty.resolveWith(
       (states) {
         if (states.contains(MaterialState.selected)) {
-          return AppColors.background;
+          return Colors.transparent;
         } else if (states.contains(MaterialState.disabled)) {
-          return AppColors.background;
+          return Colors.transparent;
         } else if (states.contains(MaterialState.hovered)) {
-          return AppColors.background;
+          return Colors.transparent;
         }
-        return AppColors.background;
+        return Colors.transparent;
       },
     ),
     padding: MaterialStateProperty.all(EdgeInsets.zero),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import '../model/turing_machine.dart';
-import '../styles/app_colors.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 import '../styles/table_configuration.dart';
 import 'dart:developer' as developer;
@@ -123,7 +122,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
 
   void addLine() {
     var column = PlutoColumn(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).backgroundColor,
       cellPadding: 6,
       readOnly: false,
       frozen: PlutoColumnFrozen.none,
@@ -197,7 +196,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
     for (int i = 0; i < machine.model.countOfLines + 2; i++) {
       newColumns.add(
         PlutoColumn(
-          backgroundColor: AppColors.background,
+          backgroundColor: Theme.of(context).backgroundColor,
           cellPadding: 6,
           readOnly: i == 0,
           frozen: i == 0 ? PlutoColumnFrozen.left : PlutoColumnFrozen.none,
@@ -253,7 +252,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
     for (int i = 0; i < machine.model.countOfLines + 2; i++) {
       columns.add(
         PlutoColumn(
-          backgroundColor: AppColors.background,
+          backgroundColor: Colors.transparent,
           cellPadding: 6,
           readOnly: i == 0,
           frozen: i == 0 ? PlutoColumnFrozen.left : PlutoColumnFrozen.none,
@@ -307,7 +306,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
     }
 
     return Container(
-      color: AppColors.background,
+      color: Theme.of(context).backgroundColor,
       child: PlutoGrid(
         rows: rows,
         leftFocus: widget.leftFocus,
@@ -354,7 +353,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
           widget.onLoaded(event.stateManager);
           event.stateManager.addListener(onStateUpdate);
         },
-        configuration: tableConfiguration,
+        configuration: getConfig(context),
       ),
     );
   }

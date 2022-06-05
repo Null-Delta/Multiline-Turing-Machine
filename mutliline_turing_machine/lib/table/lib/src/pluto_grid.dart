@@ -150,7 +150,7 @@ class _PlutoGridState extends State<PlutoGrid> {
         right: 0,
         child: PlutoShadowLine(
           axis: Axis.horizontal,
-          color: _stateManager.configuration!.gridBorderColor,
+          color: Theme.of(context).highlightColor,
           shadow: _stateManager.configuration!.enableGridBorderShadow,
         ),
         key: _stackKeys[_StackName.headerDivider],
@@ -212,7 +212,7 @@ class _PlutoGridState extends State<PlutoGrid> {
         bottom: _stateManager.footerHeight,
         child: PlutoShadowLine(
           axis: Axis.vertical,
-          color: _stateManager.configuration!.gridBorderColor,
+          color: Theme.of(context).highlightColor,
           shadow: _stateManager.configuration!.enableGridBorderShadow,
         ),
         key: _stackKeys[_StackName.leftFrozenDivider],
@@ -225,7 +225,7 @@ class _PlutoGridState extends State<PlutoGrid> {
         child: PlutoShadowLine(
           axis: Axis.vertical,
           reverse: true,
-          color: _stateManager.configuration!.gridBorderColor,
+          color: Theme.of(context).highlightColor,
           shadow: _stateManager.configuration!.enableGridBorderShadow,
         ),
         key: _stackKeys[_StackName.rightFrozenDivider],
@@ -237,7 +237,7 @@ class _PlutoGridState extends State<PlutoGrid> {
         right: 0,
         child: PlutoShadowLine(
           axis: Axis.horizontal,
-          color: _stateManager.configuration!.gridBorderColor,
+          color: Theme.of(context).highlightColor,
           shadow: _stateManager.configuration!.enableGridBorderShadow,
         ),
         key: _stackKeys[_StackName.columnRowDivider],

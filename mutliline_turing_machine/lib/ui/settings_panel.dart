@@ -4,7 +4,6 @@ import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
-import '../styles/app_colors.dart';
 
 class LineAnimationState extends ChangeNotifier {
   bool isAnimate = true;
@@ -39,7 +38,7 @@ class _SettingsPanel extends State<SettingsPanel> {
       return DefaultTextStyle(
         style: const TextStyle(),
         child: Container(
-          color: AppColors.background,
+          color: Theme.of(context).backgroundColor,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -48,7 +47,7 @@ class _SettingsPanel extends State<SettingsPanel> {
                   left: 6,
                 ),
                 height: 40,
-                color: AppColors.background,
+                color: Theme.of(context).backgroundColor,
                 child: Row(
                   children: [
                     Tooltip(
@@ -61,24 +60,25 @@ class _SettingsPanel extends State<SettingsPanel> {
                             value.setState(innerValue);
                           }
                         },
-                        child: const SizedBox(
+                        child: SizedBox(
                           width: iconSize,
                           height: iconSize,
                           child: Image(
                             image: AppImages.back,
+                            color: Theme.of(context).cardColor,
                           ),
                         ),
-                        style: appButtonStyle,
+                        style: appButtonStyle(context),
                       ),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
-                    const Text(
+                    Text(
                       "Настройки",
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        color: Color(0xFF183157),
+                        color: Theme.of(context).cardColor,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
@@ -90,19 +90,19 @@ class _SettingsPanel extends State<SettingsPanel> {
               Divider(
                 height: 2,
                 thickness: 2,
-                color: AppColors.highlight,
+                color: Theme.of(context).highlightColor,
               ),
               Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: Container(
-                    color: AppColors.background,
+                    color: Theme.of(context).backgroundColor,
                     child: Center(
                       child: Container(
                         constraints: const BoxConstraints(maxWidth: 640),
                         child: Container(
                           padding: const EdgeInsets.only(left: 32, right: 32, top: 16, bottom: 16),
-                          color: AppColors.background,
+                          color: Theme.of(context).backgroundColor,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -112,7 +112,7 @@ class _SettingsPanel extends State<SettingsPanel> {
                                     child: Text(
                                       "Анимация лент",
                                       style: TextStyle(
-                                        color: AppColors.text,
+                                        color: Theme.of(context).cardColor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -125,7 +125,7 @@ class _SettingsPanel extends State<SettingsPanel> {
                                     child: Text(
                                       value.isAnimate ? "Вкл" : "Выкл",
                                       style: TextStyle(
-                                        color: AppColors.accent,
+                                        color: Theme.of(context).primaryColor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                       ),

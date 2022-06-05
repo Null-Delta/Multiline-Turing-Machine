@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
-import 'package:mutliline_turing_machine/styles/app_colors.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 
 class StatesList extends StatefulWidget {
@@ -24,23 +23,23 @@ class StatesListState extends State<StatesList> {
   Color backgroundColor(int index) {
     return index == machine.configuration.activeState.activeStateIndex
         ? index == machine.configuration.currentStateIndex
-            ? AppColors.accent
-            : AppColors.background
+            ? Theme.of(context).primaryColor
+            : Theme.of(context).backgroundColor
         : index == machine.configuration.currentStateIndex
-            ? AppColors.backgroundDark
-            : AppColors.background;
+            ? Theme.of(context).hoverColor
+            : Theme.of(context).backgroundColor;
   }
 
   Color borderColor(int index) {
     return index == machine.configuration.activeState.activeStateIndex
         ? index == machine.configuration.currentStateIndex
-            ? AppColors.accent
-            : AppColors.accent
+            ? Theme.of(context).primaryColor
+            : Theme.of(context).primaryColor
         : index == machine.configuration.currentStateIndex
-            ? AppColors.highlight
+            ? Theme.of(context).highlightColor
             : index == focusedStateIndex
-                ? AppColors.highlight
-                : AppColors.background;
+                ? Theme.of(context).highlightColor
+                : Theme.of(context).backgroundColor;
   }
 
   @override
@@ -52,7 +51,7 @@ class StatesListState extends State<StatesList> {
       //node: focusScope,
       child: Container(
         width: 84,
-        color: AppColors.background,
+        color: Theme.of(context).backgroundColor,
         child: Column(
           children: [
             SizedBox(
@@ -62,8 +61,8 @@ class StatesListState extends State<StatesList> {
                   "Состояния",
                   style: TextStyle(
                     fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.text,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).cardColor,
                   ),
                 ),
               ),
@@ -71,7 +70,7 @@ class StatesListState extends State<StatesList> {
             Divider(
               height: 2,
               thickness: 2,
-              color: AppColors.highlight,
+              color: Theme.of(context).highlightColor,
             ),
             Expanded(
               child: ListView.separated(
@@ -128,9 +127,9 @@ class StatesListState extends State<StatesList> {
                             style: TextStyle(
                                 color: index == machine.configuration.activeState.activeStateIndex
                                     ? index == machine.configuration.currentStateIndex
-                                        ? AppColors.background
-                                        : AppColors.accent
-                                    : AppColors.text,
+                                        ? Theme.of(context).backgroundColor
+                                        : Theme.of(context).primaryColor
+                                    : Theme.of(context).cardColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700),
                           ),
