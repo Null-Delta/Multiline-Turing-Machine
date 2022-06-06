@@ -21,7 +21,6 @@ import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
 import 'package:provider/provider.dart';
-
 import 'package:file_picker/file_picker.dart';
 
 import 'snackbar.dart';
@@ -220,17 +219,16 @@ class _TopPanelState extends State<TopPanel> {
     timer = Timer.periodic(
       const Duration(minutes: 3),
       (timer) async {
-        String savePath = Directory.current.path +
-            "\\save\\autosave" +
-            savedIndex.toString() +
-            ".mmt";
-        savedIndex++;
-        if (savedIndex == 10) savedIndex = 0;
-        File file = File(savePath);
-        IOSink sink = file.openWrite();
-        String json = jsonEncode(machine.toJson());
-        sink.write(json);
-        file.create();
+        if (Platform.isWindows) {
+          String savePath = Directory.current.path + "\\save\\autosave" + savedIndex.toString() + ".mmt";
+          savedIndex++;
+          if (savedIndex == 10) savedIndex = 0;
+          File file = File(savePath);
+          IOSink sink = file.openWrite();
+          String json = jsonEncode(machine.toJson());
+          sink.write(json);
+          file.create();
+        }
       },
     );
   }

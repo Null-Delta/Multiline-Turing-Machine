@@ -94,7 +94,17 @@ class TuringMachineModel {
     stateList.last.ruleList.add(TuringMachineVariant(countOfLines, stateList.length - 1));
   }
 
-  void deleteState(int number) => stateList.removeAt(number);
+  void deleteState(int number) {
+    for (int i = 0; i < stateList.length; i++) {
+      for (int j = 0; j < stateList[i].ruleList.length; j++) {
+        if (stateList[i].ruleList[j].toState > number) {
+          stateList[i].ruleList[j].toState -= 1;
+        }
+      }
+    }
+
+    stateList.removeAt(number);
+  }
 
   void addVariant(int numberOfState, int atIndex) =>
       stateList[numberOfState].ruleList.insert(atIndex, TuringMachineVariant(countOfLines, numberOfState));
