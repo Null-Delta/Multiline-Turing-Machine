@@ -95,7 +95,7 @@ class TuringMachineModel {
   }
 
   void deleteState(int number) {
-    for (int i = number + 1; i < stateList.length; i++) {
+    for (int i = 0; i < stateList.length; i++) {
       for (int j = 0; j < stateList[i].ruleList.length; j++) {
         if (stateList[i].ruleList[j].toState > number) {
           stateList[i].ruleList[j].toState -= 1;
