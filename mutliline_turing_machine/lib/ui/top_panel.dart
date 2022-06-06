@@ -12,6 +12,7 @@ import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/ui/about_panel.dart';
+import 'package:mutliline_turing_machine/ui/app_theme.dart';
 import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
 import 'package:mutliline_turing_machine/ui/custom_popup.dart';
 import 'package:mutliline_turing_machine/ui/lines_page.dart';
@@ -35,6 +36,19 @@ class TopPanel extends StatefulWidget {
 
 class _TopPanelState extends State<TopPanel> {
   static const double iconSize = 28;
+
+  late TuringMachine machine = MachineInherit.of(context)!.machine;
+  late GlobalKey<TuringMachineTableState> tableState =
+      MachineInherit.of(context)!.tableState;
+  late GlobalKey<LinesPageState> linePagesState =
+      MachineInherit.of(context)!.linesPageState;
+  late GlobalKey<BottomSplitPanelState> bottomSplitState =
+      MachineInherit.of(context)!.bottomSplitState;
+  late GlobalKey<StatesListState> statesListState =
+      MachineInherit.of(context)!.statesListState;
+  late LineAnimationState animationState =
+      MachineInherit.of(context)!.animationState;
+  late AppTheme theme = MachineInherit.of(context)!.theme;
 
   void loadTopHotKeys(
       TuringMachine machine,
@@ -85,10 +99,18 @@ class _TopPanelState extends State<TopPanel> {
           linePagesState.currentState!.setState(() {});
           var count = machine.model.countOfLines;
           if (count != machine.configuration.linePointers.length) {
-            for (int i = 0; i < (count - machine.configuration.linePointers.length).abs(); i++) {
+            for (int i = 0;
+                i < (count - machine.configuration.linePointers.length).abs();
+                i++) {
               count < machine.configuration.linePointers.length
-                  ? {machine.model.addLine(), tableState.currentState!.addLine()}
-                  : {machine.model.deleteLine(), tableState.currentState!.deleteLine()};
+                  ? {
+                      machine.model.addLine(),
+                      tableState.currentState!.addLine()
+                    }
+                  : {
+                      machine.model.deleteLine(),
+                      tableState.currentState!.deleteLine()
+                    };
             }
           }
         }
@@ -172,7 +194,8 @@ class _TopPanelState extends State<TopPanel> {
       keyDownHandler: (hotKey) {
         if (!aboutButton && !Navigator.of(context).canPop()) {
           aboutButton = true;
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutPanel()));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const AboutPanel()));
         }
       },
       keyUpHandler: (hotKey) {
@@ -191,7 +214,8 @@ class _TopPanelState extends State<TopPanel> {
       keyDownHandler: (hotKey) {
         if (!referenceButton && !Navigator.of(context).canPop()) {
           referenceButton = true;
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Reference()));
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => const Reference()));
         }
       },
       keyUpHandler: (hotKey) {
@@ -265,7 +289,10 @@ class _TopPanelState extends State<TopPanel> {
     timer = Timer.periodic(
       const Duration(minutes: 3),
       (timer) async {
-        String savePath = Directory.current.path + "\\save\\autosave" + savedIndex.toString() + ".mmt";
+        String savePath = Directory.current.path +
+            "\\save\\autosave" +
+            savedIndex.toString() +
+            ".mmt";
         savedIndex++;
         if (savedIndex == 10) savedIndex = 0;
         File file = File(savePath);
@@ -277,19 +304,128 @@ class _TopPanelState extends State<TopPanel> {
     );
   }
 
+  void newFile() {
+    TuringMachine emptyMachine = TuringMachine(TuringMachineModel());
+    machine.filePath = null;
+    machine.loadFromJson(emptyMachine.toJson());
+    tableState.currentState!.reloadTable();
+    statesListState.currentState!.setState(() {});
+    linePagesState.currentState!.reBuild();
+    bottomSplitState.currentState!.setState(() {});
+  }
+
+  Future<void> loadFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        initialDirectory: Directory.current.path + "\\save",
+        dialogTitle: '',
+        type: FileType.custom,
+        allowedExtensions: ['mmt']);
+    if (result != null) {
+      log(result.files.first.path!);
+      File file = File(result.files.first.path!);
+      String json = await file.readAsString();
+
+      machine.loadFromJson(jsonDecode(json));
+      machine.filePath = result.files.first.path;
+
+      tableState.currentState!.reloadTable();
+      statesListState.currentState!.setState(() {});
+      linePagesState.currentState!.reBuild();
+      bottomSplitState.currentState!.setState(() {});
+    }
+  }
+
+  Future<void> saveFile() async {
+    String? result = await FilePicker.platform.saveFile(
+        initialDirectory: Directory.current.path + "\\save",
+        fileName: 'save.mmt',
+        type: FileType.custom,
+        allowedExtensions: ['mmt']);
+
+    if (result != null) {
+      if (result.contains('.')) {
+        log("message " + result.indexOf('.').toString());
+        result = result.substring(0, result.indexOf('.'));
+      }
+
+      result += '.mmt';
+      log(result);
+      File file = File(result);
+      IOSink sink = file.openWrite();
+      String json = jsonEncode(machine.toJson());
+      sink.write(json);
+      file.create();
+
+      machine.filePath = result;
+    }
+  }
+
+  void settings() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return ChangeNotifierProvider.value(
+        value: animationState,
+        child: SettingsPanel(
+          theme: theme,
+        ),
+      );
+    }));
+  }
+
+  void aboutApp() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const AboutPanel()));
+  }
+
+  void help() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const AboutPanel()));
+  }
+  
+  void saveAllLines() {
+    machine.saveLinesJson = jsonEncode(machine.linesToJson());
+  }
+
+  void loadAllLines() {
+      if (machine.saveLinesJson != null) {
+        machine.importLinesJson(machine.saveLinesJson!);
+        tableState.currentState!.reloadTable();
+        linePagesState.currentState!.reBuild();
+        bottomSplitState.currentState!.setState(() {});
+      }
+  }
+
+  void clearAllLines() {
+    linePagesState.currentState!.clearAllLines();
+  }
+
+  void addLine() {
+    if (machine.addLine()) {
+      linePagesState.currentState?.setState(() {});
+      tableState.currentState!.addLine();
+    }
+  }
+
+  void deleteLine() {
+    if (machine.deleteLine()) {
+      linePagesState.currentState?.setState(() {});
+      tableState.currentState!.deleteLine();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var machine = MachineInherit.of(context)!.machine;
-    var tableState = MachineInherit.of(context)!.tableState;
-    var linePagesState = MachineInherit.of(context)!.linesPageState;
-    var bottomSplitState = MachineInherit.of(context)!.bottomSplitState;
-    var statesListState = MachineInherit.of(context)!.statesListState;
-    var animationState = MachineInherit.of(context)!.animationState;
-    var theme = MachineInherit.of(context)!.theme;
+    machine = MachineInherit.of(context)!.machine;
+    tableState = MachineInherit.of(context)!.tableState;
+    linePagesState = MachineInherit.of(context)!.linesPageState;
+    bottomSplitState = MachineInherit.of(context)!.bottomSplitState;
+    statesListState = MachineInherit.of(context)!.statesListState;
+    animationState = MachineInherit.of(context)!.animationState;
+    theme = MachineInherit.of(context)!.theme;
 
     startAutoSave(machine);
 
-    loadTopHotKeys(machine, tableState, linePagesState, bottomSplitState, statesListState, animationState);
+    loadTopHotKeys(machine, tableState, linePagesState, bottomSplitState,
+        statesListState, animationState);
 
     return Column(
       children: [
@@ -329,21 +465,14 @@ class _TopPanelState extends State<TopPanel> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context).cardColor.withOpacity(0.5),
+                                color: Theme.of(context)
+                                    .cardColor
+                                    .withOpacity(0.5),
                               ),
                             ),
                           ],
                         ),
-                        onTap: () {
-                          var emptyMachine = TuringMachine(TuringMachineModel());
-
-                          machine.filePath = null;
-                          machine.loadFromJson(emptyMachine.toJson());
-                          tableState.currentState!.reloadTable();
-                          statesListState.currentState!.setState(() {});
-                          linePagesState.currentState!.setState(() {});
-                          bottomSplitState.currentState!.setState(() {});
-                        },
+                        onTap: newFile,
                       ),
                       PopupMenuItem(
                         height: 32,
@@ -366,31 +495,14 @@ class _TopPanelState extends State<TopPanel> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context).cardColor.withOpacity(0.5),
+                                color: Theme.of(context)
+                                    .cardColor
+                                    .withOpacity(0.5),
                               ),
                             ),
                           ],
                         ),
-                        onTap: () async {
-                          FilePickerResult? result = await FilePicker.platform.pickFiles(
-                              initialDirectory: Directory.current.path + "\\save",
-                              dialogTitle: '',
-                              type: FileType.custom,
-                              allowedExtensions: ['mmt']);
-                          if (result != null) {
-                            log(result.files.first.path!);
-                            File file = File(result.files.first.path!);
-                            String json = await file.readAsString();
-
-                            machine.loadFromJson(jsonDecode(json));
-                            machine.filePath = result.files.first.path;
-                            
-                            tableState.currentState!.reloadTable();
-                            statesListState.currentState!.setState(() {});
-                            linePagesState.currentState!.reBuild();
-                            bottomSplitState.currentState!.setState(() {});
-                          }
-                        },
+                        onTap: loadFile,
                       ),
                       PopupMenuItem(
                         height: 32,
@@ -413,37 +525,20 @@ class _TopPanelState extends State<TopPanel> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context).cardColor.withOpacity(0.5),
+                                color: Theme.of(context)
+                                    .cardColor
+                                    .withOpacity(0.5),
                               ),
                             ),
                           ],
                         ),
-                        onTap: () async {
-                          String? result = await FilePicker.platform.saveFile(
-                              initialDirectory: Directory.current.path + "\\save",
-                              fileName: 'save.mmt',
-                              type: FileType.custom,
-                              allowedExtensions: ['mmt']);
-                          if (result != null) {
-                            if (result.contains('.')) {
-                              log("message " + result.indexOf('.').toString());
-                              result = result.substring(0, result.indexOf('.'));
-                            }
-                            result += '.mmt';
-                            log(result);
-                            File file = File(result);
-                            IOSink sink = file.openWrite();
-                            String json = jsonEncode(machine.toJson());
-                            sink.write(json);
-                            file.create();
-
-                            machine.filePath = result;
-                          }
-                        },
+                        onTap: saveFile,
                       ),
                     ];
                   },
-                  child: Image(image: AppImages.file, color: Theme.of(context).cardColor)),
+                  child: Image(
+                      image: AppImages.file,
+                      color: Theme.of(context).cardColor)),
               const SizedBox(
                 width: 6,
               ),
@@ -451,16 +546,7 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Настройки (F6)",
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                      return ChangeNotifierProvider.value(
-                        value: animationState,
-                        child: SettingsPanel(
-                          theme: theme,
-                        ),
-                      );
-                    }));
-                  },
+                  onPressed: settings,
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
@@ -479,13 +565,13 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "О приложении (F2)",
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutPanel()));
-                  },
+                  onPressed: aboutApp,
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(image: AppImages.happy, color: Theme.of(context).cardColor),
+                    child: Image(
+                        image: AppImages.happy,
+                        color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -497,13 +583,13 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Справочка (F1)",
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Reference()));
-                  },
+                  onPressed: help,
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(image: AppImages.help, color: Theme.of(context).cardColor),
+                    child: Image(
+                        image: AppImages.help,
+                        color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -517,13 +603,13 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Сохранить все ленты (Crtl+Shift+S)",
                 child: ElevatedButton(
-                  onPressed: () {
-                    machine.saveLinesJson = jsonEncode(machine.linesToJson());
-                  },
+                  onPressed: saveAllLines,
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(image: AppImages.save, color: Theme.of(context).cardColor),
+                    child: Image(
+                        image: AppImages.save,
+                        color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -535,18 +621,13 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Загрузить все ленты (Crtl+Shift+L)",
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (machine.saveLinesJson != null) {
-                      machine.importLinesJson(machine.saveLinesJson!);
-                      tableState.currentState!.reloadTable();
-                      linePagesState.currentState!.reBuild();
-                      bottomSplitState.currentState!.setState(() {});
-                    }
-                  },
+                  onPressed: loadAllLines,
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(image: AppImages.load, color: Theme.of(context).cardColor),
+                    child: Image(
+                        image: AppImages.load,
+                        color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -558,13 +639,13 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Очистить все ленты (Crtl+Shift+C)",
                 child: ElevatedButton(
-                  onPressed: () {
-                    linePagesState.currentState!.clearAllLines();
-                  },
+                  onPressed: clearAllLines,
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(image: AppImages.clear, color: Theme.of(context).cardColor),
+                    child: Image(
+                        image: AppImages.clear,
+                        color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -584,16 +665,13 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Добавить ленту в конец (Crtl+])",
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (machine.addLine()) {
-                      linePagesState.currentState?.setState(() {});
-                      tableState.currentState!.addLine();
-                    }
-                  },
+                  onPressed: addLine,
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(image: AppImages.addVariantDown, color: Theme.of(context).cardColor),
+                    child: Image(
+                        image: AppImages.addVariantDown,
+                        color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -605,16 +683,13 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Удалить последнюю ленту (Crtl+[ )",
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (machine.deleteLine()) {
-                      linePagesState.currentState?.setState(() {});
-                      tableState.currentState!.deleteLine();
-                    }
-                  },
+                  onPressed: deleteLine,
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(image: AppImages.deleteVariant, color: Theme.of(context).cardColor),
+                    child: Image(
+                        image: AppImages.deleteVariant,
+                        color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),

@@ -30,7 +30,7 @@ class LineState extends State<Line> {
 
   scroll({int offset = 0, int speed = 1}) {
     if (animationState.isAnimate) {
-      log("scroll" + speed.toString());
+      //log("scroll" + speed.toString());
       
       control.scrollTo(
           index: machine.configuration.linePointers[widget.index] + 1,

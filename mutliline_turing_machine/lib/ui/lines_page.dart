@@ -41,7 +41,7 @@ class LinesPageState extends State<LinesPage> {
   }
 
   void onScroll() {
-    machine =  MachineInherit.of(context)!.machine;
+    //machine =  MachineInherit.of(context)!.machine;
     for (int i = 0; i < linesState.length; i++) {
       linesState[i].currentState?.scroll(speed: machine.activator.timesPerSecond);
     }
