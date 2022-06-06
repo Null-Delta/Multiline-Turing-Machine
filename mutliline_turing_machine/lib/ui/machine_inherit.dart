@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
+import 'package:mutliline_turing_machine/ui/app_theme.dart';
 import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
@@ -21,7 +22,8 @@ class MachineInherit extends InheritedWidget {
       required this.statesListState,
       required this.bottomSplitState,
       required this.statesFocus,
-      required this.animationState})
+      required this.animationState,
+      required this.theme})
       : super(child: child, key: key);
 
   final TuringMachine machine;
@@ -35,6 +37,8 @@ class MachineInherit extends InheritedWidget {
   final GlobalKey<BottomSplitPanelState> bottomSplitState;
   final GlobalKey<StatesListState> statesListState;
   final LineAnimationState animationState;
+
+  final AppTheme theme;
 
   @override
   bool updateShouldNotify(covariant MachineInherit oldWidget) {

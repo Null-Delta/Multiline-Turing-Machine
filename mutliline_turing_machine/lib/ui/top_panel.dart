@@ -24,8 +24,6 @@ import 'package:provider/provider.dart';
 
 import 'package:file_picker/file_picker.dart';
 
-
-
 class TopPanel extends StatefulWidget {
   const TopPanel({
     Key? key,
@@ -38,9 +36,13 @@ class TopPanel extends StatefulWidget {
 class _TopPanelState extends State<TopPanel> {
   static const double iconSize = 28;
 
-
-  void loadTopHotKeys(TuringMachine machine, GlobalKey<TuringMachineTableState> tableState, GlobalKey<LinesPageState> linePagesState, GlobalKey<BottomSplitPanelState> bottomSplitState, GlobalKey<StatesListState> statesListState, LineAnimationState animationState)
-  {
+  void loadTopHotKeys(
+      TuringMachine machine,
+      GlobalKey<TuringMachineTableState> tableState,
+      GlobalKey<LinesPageState> linePagesState,
+      GlobalKey<BottomSplitPanelState> bottomSplitState,
+      GlobalKey<StatesListState> statesListState,
+      LineAnimationState animationState) {
     // новый файл
     hotKeyManager.register(
       HotKey(
@@ -49,14 +51,14 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyDownHandler: (hotKey) {
-          var emptyMachine = TuringMachine(TuringMachineModel());
+        var emptyMachine = TuringMachine(TuringMachineModel());
 
-          machine.loadFromJson(emptyMachine.toJson());
-          tableState.currentState!.reloadTable();
-          statesListState.currentState!.setState(() {});
-          linePagesState.currentState!.setState(() {});
-          bottomSplitState.currentState!.setState(() {});
-        },
+        machine.loadFromJson(emptyMachine.toJson());
+        tableState.currentState!.reloadTable();
+        statesListState.currentState!.setState(() {});
+        linePagesState.currentState!.setState(() {});
+        bottomSplitState.currentState!.setState(() {});
+      },
     );
 
     //сохранение ленты
@@ -67,8 +69,8 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyDownHandler: (hotKey) {
-          machine.saveLinesJson = jsonEncode(machine.linesToJson());
-        },
+        machine.saveLinesJson = jsonEncode(machine.linesToJson());
+      },
     );
     //загрузка ленты
     hotKeyManager.register(
@@ -100,8 +102,8 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyDownHandler: (hotKey) {
-          linePagesState.currentState!.clearAllLines();
-        },
+        linePagesState.currentState!.clearAllLines();
+      },
     );
 
     //сохранение
@@ -112,8 +114,11 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyDownHandler: (hotKey) async {
-        String? result = await FilePicker.platform
-            .saveFile(initialDirectory: Directory.current.path + "\\save" ,fileName: 'save.mmt', type: FileType.custom, allowedExtensions: ['mmt']);
+        String? result = await FilePicker.platform.saveFile(
+            initialDirectory: Directory.current.path + "\\save",
+            fileName: 'save.mmt',
+            type: FileType.custom,
+            allowedExtensions: ['mmt']);
         if (result != null) {
           if (result.contains('.')) {
             log("message " + result.indexOf('.').toString());
@@ -137,24 +142,27 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyDownHandler: (hotKey) {
-        if (!settingsButton && !Navigator.of(context).canPop()){
+        var theme = MachineInherit.of(context)!.theme;
+
+        if (!settingsButton && !Navigator.of(context).canPop()) {
           settingsButton = true;
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                      return ChangeNotifierProvider.value(
-                        value: animationState,
-                        child: const SettingsPanel(),
-                      );
-                    }));
+            return ChangeNotifierProvider.value(
+              value: animationState,
+              child: SettingsPanel(
+                theme: theme,
+              ),
+            );
+          }));
         }
       },
-      keyUpHandler: (hotKey){
-        if (settingsButton){
+      keyUpHandler: (hotKey) {
+        if (settingsButton) {
           settingsButton = false;
-
         }
       },
     );
-    
+
     bool aboutButton = false;
     hotKeyManager.register(
       HotKey(
@@ -162,15 +170,14 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyDownHandler: (hotKey) {
-        if (!aboutButton && !Navigator.of(context).canPop()){
+        if (!aboutButton && !Navigator.of(context).canPop()) {
           aboutButton = true;
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutPanel()));
         }
       },
-      keyUpHandler: (hotKey){
-        if (aboutButton){
+      keyUpHandler: (hotKey) {
+        if (aboutButton) {
           aboutButton = false;
-
         }
       },
     );
@@ -182,15 +189,14 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyDownHandler: (hotKey) {
-        if (!referenceButton && !Navigator.of(context).canPop()){
+        if (!referenceButton && !Navigator.of(context).canPop()) {
           referenceButton = true;
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Reference()));
         }
       },
-      keyUpHandler: (hotKey){
-        if (referenceButton){
+      keyUpHandler: (hotKey) {
+        if (referenceButton) {
           referenceButton = false;
-
         }
       },
     );
@@ -203,8 +209,11 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyDownHandler: (hotKey) async {
-        FilePickerResult? result = await FilePicker.platform
-            .pickFiles(initialDirectory: Directory.current.path + "\\save" ,dialogTitle: '', type: FileType.custom, allowedExtensions: ['mmt']);
+        FilePickerResult? result = await FilePicker.platform.pickFiles(
+            initialDirectory: Directory.current.path + "\\save",
+            dialogTitle: '',
+            type: FileType.custom,
+            allowedExtensions: ['mmt']);
         if (result != null) {
           log(result.files.first.path!);
           File file = File(result.files.first.path!);
@@ -256,11 +265,9 @@ class _TopPanelState extends State<TopPanel> {
     timer = Timer.periodic(
       const Duration(minutes: 3),
       (timer) async {
-        
-        String savePath = Directory.current.path + "\\save\\autosave"+savedIndex.toString()+".mmt";
+        String savePath = Directory.current.path + "\\save\\autosave" + savedIndex.toString() + ".mmt";
         savedIndex++;
-        if (savedIndex == 10)
-          savedIndex = 0;
+        if (savedIndex == 10) savedIndex = 0;
         File file = File(savePath);
         IOSink sink = file.openWrite();
         String json = jsonEncode(machine.toJson());
@@ -272,13 +279,13 @@ class _TopPanelState extends State<TopPanel> {
 
   @override
   Widget build(BuildContext context) {
-
     var machine = MachineInherit.of(context)!.machine;
     var tableState = MachineInherit.of(context)!.tableState;
     var linePagesState = MachineInherit.of(context)!.linesPageState;
     var bottomSplitState = MachineInherit.of(context)!.bottomSplitState;
     var statesListState = MachineInherit.of(context)!.statesListState;
     var animationState = MachineInherit.of(context)!.animationState;
+    var theme = MachineInherit.of(context)!.theme;
 
     startAutoSave(machine);
 
@@ -303,13 +310,29 @@ class _TopPanelState extends State<TopPanel> {
                     return [
                       PopupMenuItem(
                         height: 32,
-                        child: Text(
-                          "Новый файл (Crtl+N)",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).cardColor,
-                          ),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Новый файл",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).cardColor,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            const Spacer(),
+                            Text(
+                              "Crtl + N",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).cardColor.withOpacity(0.5),
+                              ),
+                            ),
+                          ],
                         ),
                         onTap: () {
                           var emptyMachine = TuringMachine(TuringMachineModel());
@@ -324,17 +347,36 @@ class _TopPanelState extends State<TopPanel> {
                       ),
                       PopupMenuItem(
                         height: 32,
-                        child: Text(
-                          "Загрузить (Crtl+O)",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).cardColor,
-                          ),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Загрузить",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).cardColor,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            const Spacer(),
+                            Text(
+                              "Crtl + O",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).cardColor.withOpacity(0.5),
+                              ),
+                            ),
+                          ],
                         ),
                         onTap: () async {
-                          FilePickerResult? result = await FilePicker.platform
-                              .pickFiles(initialDirectory: Directory.current.path + "\\save" ,dialogTitle: '', type: FileType.custom, allowedExtensions: ['mmt']);
+                          FilePickerResult? result = await FilePicker.platform.pickFiles(
+                              initialDirectory: Directory.current.path + "\\save",
+                              dialogTitle: '',
+                              type: FileType.custom,
+                              allowedExtensions: ['mmt']);
                           if (result != null) {
                             log(result.files.first.path!);
                             File file = File(result.files.first.path!);
@@ -351,17 +393,36 @@ class _TopPanelState extends State<TopPanel> {
                       ),
                       PopupMenuItem(
                         height: 32,
-                        child: Text(
-                          "Сохранить как (Crtl+S)",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).cardColor,
-                          ),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Сохранить как",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).cardColor,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            const Spacer(),
+                            Text(
+                              "Crtl + S",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).cardColor.withOpacity(0.5),
+                              ),
+                            ),
+                          ],
                         ),
                         onTap: () async {
-                          String? result = await FilePicker.platform
-                              .saveFile(initialDirectory: Directory.current.path + "\\save" ,fileName: 'save.mmt', type: FileType.custom, allowedExtensions: ['mmt']);
+                          String? result = await FilePicker.platform.saveFile(
+                              initialDirectory: Directory.current.path + "\\save",
+                              fileName: 'save.mmt',
+                              type: FileType.custom,
+                              allowedExtensions: ['mmt']);
                           if (result != null) {
                             if (result.contains('.')) {
                               log("message " + result.indexOf('.').toString());
@@ -393,7 +454,9 @@ class _TopPanelState extends State<TopPanel> {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                       return ChangeNotifierProvider.value(
                         value: animationState,
-                        child: const SettingsPanel(),
+                        child: SettingsPanel(
+                          theme: theme,
+                        ),
                       );
                     }));
                   },

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
+import 'package:mutliline_turing_machine/ui/hotkey_widget.dart';
 
 class CustumScrollController extends ScrollController {
   CustumScrollController({int scrollSpeed = 40}) {
@@ -66,10 +67,14 @@ class Reference extends StatelessWidget {
         style: TextStyle(
           color: Theme.of(context).cardColor.withOpacity(0.6),
           fontWeight: FontWeight.w400,
-          fontSize: 16,
+          fontSize: 14,
         ),
       ),
     );
+  }
+
+  Widget hotKey(String name, List<String> hotKey, BuildContext context) {
+    return HotKeyWidget(name: name, hotKey: hotKey);
   }
 
   @override
@@ -232,31 +237,30 @@ class Reference extends StatelessWidget {
                             context),
                         title("Управление и горячие клавиши", context),
                         text(
-                            """Помимо навигации с помощью мыши, можно перемещаться по интерфейсу с использованием клавиатуры, нажимая “Tab” и “Shift + Tab” для перемещения фокуса вперед и назад, соответственно. Также можно использовать стрелочки для смещения фокуса.
-
-Горячие клавиши:
-
-      • Справка f1
-      • О приложении f2
-      • Настройки f6
-      • Новый файл Сtrl+N
-      • Сохранение Сtrl+S
-      • Загрузка Сtrl+O
-      • Сохранение ленты Сtrl+Shift+S
-      • Загрузка ленты Сtrl+Shift+L
-      • Очистка ленты Сtrl+Shift+C
-      • Добавление ленты Сtrl+]
-      • Удаление ленты Сtrl+[
-      • Скрыть/показать комментарии Сtrl+H
-      • Сбросить машину Сtrl+E
-      • Автоматическая работа Сtrl+R
-      • Повысить скорость Сtrl+T
-      • Сделать шаг Сtrl+Space
-      • Добавить состояние Сtrl+Shift+'+'
-      • Удалить состояние Сtrl+Shift+'-'
-      • Добавить команду Сtrl+'+'
-      • Удалить команду Сtrl+'-'""",
+                            """Помимо навигации с помощью мыши, можно перемещаться по интерфейсу с использованием клавиатуры, нажимая “Tab” и “Shift + Tab” для перемещения фокуса вперед и назад, соответственно. Также можно использовать стрелочки для смещения фокуса.""",
                             context),
+                        subTitle("Горячие клавиши:", context),
+                        hotKey("Справка", ["F1"], context),
+                        hotKey("О приложении", ["F2"], context),
+                        hotKey("Настройки", ["F6"], context),
+                        hotKey("Новый файл", ["Сtrl", "N"], context),
+                        hotKey("Сохранение", ["Сtrl", "S"], context),
+                        hotKey("Загрузка", ["Сtrl", "O"], context),
+                        hotKey("Сохранение ленты", ["Сtrl", "Shift", "S"], context),
+                        hotKey("Загрузка ленты", ["Сtrl", "Shift", "L"], context),
+                        hotKey("Очистка ленты", ["Сtrl", "Shift", "C"], context),
+                        hotKey("Добавление ленты", ["Сtrl", "]"], context),
+                        hotKey("Удаление ленты", ["Сtrl", "["], context),
+                        hotKey("Скрыть/показать комментарии", ["Сtrl", "H"], context),
+                        hotKey("Удаление ленты", ["Сtrl", "["], context),
+                        hotKey("Сбросить машину", ["Сtrl", "E"], context),
+                        hotKey("Автоматическая работа", ["Сtrl", "R"], context),
+                        hotKey("Повысить скорость", ["Сtrl", "T"], context),
+                        hotKey("Сделать шаг", ["Сtrl", "Space"], context),
+                        hotKey("Добавить состояние", ["Сtrl", "Shift", "+"], context),
+                        hotKey("Удалить состояние", ["Сtrl", "Shift", "-"], context),
+                        hotKey("Добавить команду", ["Сtrl", "+"], context),
+                        hotKey("Удалить команду", ["Сtrl", "-"], context),
                         title("Рецепт пельменей", context),
                         text(
                             """Пельмени. Хорошие пельмени это очень вкусно. На самом деле рецепт простой — много мяса, мало теста. Сперва готовим тонкое яичное тесто с добавлением сливочного масла, лук сладких сортов для образования бульончика и перец, совсем немного. Щедро выкладываем великолепный рубленный фарш. Много мяса, мало теста. Вот он, настоящий пельмень. А внутри много сочной начинки: грудинка индюшки с курицей или телятена со свинниной. Думаю, многие и забыли как это может быть вкусно. Много мяса, мало теста.""",

@@ -109,11 +109,11 @@ class BottomPanelState extends State<BottomPanel> {
     width: 6,
   );
 
-  late var divider = Container(
-    color: Theme.of(context).highlightColor,
-    width: 2,
-    height: 16,
-  );
+  divider() => Container(
+        color: Theme.of(context).highlightColor,
+        width: 2,
+        height: 16,
+      );
 
   Tooltip stopBtn() => Tooltip(
         waitDuration: const Duration(milliseconds: 500),
@@ -251,8 +251,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   late GlobalKey<BottomSplitPanelState> commentsState;
 
-  void loadDownHotKeys()
-  {
+  void loadDownHotKeys() {
     //комментарии
     hotKeyManager.register(
       HotKey(
@@ -261,12 +260,12 @@ class BottomPanelState extends State<BottomPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyDownHandler: (hotKey) {
-          setState(() {
-            widget.onCommentsShow();
-          });
-        },
+        setState(() {
+          widget.onCommentsShow();
+        });
+      },
     );
-    
+
     //авто/стоп
     hotKeyManager.register(
       HotKey(
@@ -275,10 +274,10 @@ class BottomPanelState extends State<BottomPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyDownHandler: (hotKey) {
-          setState(() {
-            widget.onStartStopWork(timesPerSec, context);
-          });
-        },
+        setState(() {
+          widget.onStartStopWork(timesPerSec, context);
+        });
+      },
     );
 
     //сбросить
@@ -303,7 +302,7 @@ class BottomPanelState extends State<BottomPanel> {
       ),
       keyDownHandler: (hotKey) {
         setState(() {
-          timesPerSec = (timesPerSec*2).toInt();
+          timesPerSec = (timesPerSec * 2).toInt();
           if (timesPerSec > 16) {
             timesPerSec = 1;
           }
@@ -357,8 +356,7 @@ class BottomPanelState extends State<BottomPanel> {
         modifiers: [KeyModifier.control],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler:
-       (hotKey) {
+      keyDownHandler: (hotKey) {
         widget.onAddVariant();
       },
     );
@@ -374,9 +372,7 @@ class BottomPanelState extends State<BottomPanel> {
         widget.onDeleteVariant();
       },
     );
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -403,7 +399,7 @@ class BottomPanelState extends State<BottomPanel> {
                     spacer,
                     deleteStateBtn(),
                     spacer,
-                    divider,
+                    divider(),
                     spacer,
                     addRuleBtn(),
                     spacer,
@@ -419,7 +415,7 @@ class BottomPanelState extends State<BottomPanel> {
                       child: const ConfigurationCounter(),
                     ),
                     spacer,
-                    divider,
+                    divider(),
                     spacer,
                     stopBtn(),
                     spacer,
@@ -431,7 +427,7 @@ class BottomPanelState extends State<BottomPanel> {
                     spacer,
                     makeStepBtn(),
                     spacer,
-                    divider,
+                    divider(),
                     spacer,
                     commentsBtn(),
                   ]
@@ -440,7 +436,7 @@ class BottomPanelState extends State<BottomPanel> {
                     spacer,
                     deleteStateBtn(),
                     spacer,
-                    divider,
+                    divider(),
                     spacer,
                     addRuleBtn(),
                     spacer,
@@ -459,7 +455,7 @@ class BottomPanelState extends State<BottomPanel> {
                     spacer,
                     makeStepBtn(),
                     spacer,
-                    divider,
+                    divider(),
                     spacer,
                     commentsBtn(),
                   ],

@@ -18,7 +18,6 @@ class _AboutPanel extends State<AboutPanel> {
 
   @override
   Widget build(BuildContext context) {
-
     return DefaultTextStyle(
       style: const TextStyle(),
       child: Container(
@@ -507,7 +506,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     "• Multi split view: Copyright (c) 2021 Carlos Eduardo Leite de Andrade",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                      color: Theme.of(context).cardColor,
+                                      color: Theme.of(context).cardColor.withOpacity(0.5),
                                       fontFamily: 'Inter',
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14,
@@ -522,7 +521,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     "• Window Size: Copyright [2018] [stuartmorgan]",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                      color: Theme.of(context).cardColor,
+                                      color: Theme.of(context).cardColor.withOpacity(0.5),
                                       fontFamily: 'Inter',
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14,
@@ -537,7 +536,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     "• Material snackbar: Copyright (c) 2020 Rounded Infinity",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                      color: Theme.of(context).cardColor,
+                                      color: Theme.of(context).cardColor.withOpacity(0.5),
                                       fontFamily: 'Inter',
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14,
@@ -552,7 +551,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     "• File Picker: Copyright (c) 2018 Miguel Ruivo",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                      color: Theme.of(context).cardColor,
+                                      color: Theme.of(context).cardColor.withOpacity(0.5),
                                       fontFamily: 'Inter',
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14,
@@ -567,7 +566,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     "• Pluto Grid: Copyright (c) [2020] [PlutoGrid]",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                      color: Theme.of(context).cardColor,
+                                      color: Theme.of(context).cardColor.withOpacity(0.5),
                                       fontFamily: 'Inter',
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14,
@@ -582,7 +581,7 @@ class _AboutPanel extends State<AboutPanel> {
                                     "• Scollable Positioned List: Copyright 2018 the Dart project authors, Inc.",
                                     textAlign: TextAlign.justify,
                                     style: TextStyle(
-                                      color: Theme.of(context).cardColor,
+                                      color: Theme.of(context).cardColor.withOpacity(0.5),
                                       fontFamily: 'Inter',
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14,

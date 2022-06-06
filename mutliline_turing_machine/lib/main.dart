@@ -12,15 +12,14 @@ import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/styles/app_themes.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
+import 'package:mutliline_turing_machine/ui/app_theme.dart';
 import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_size/window_size.dart';
-import 'styles/app_colors.dart';
-import 'ui/about_panel.dart';
 import 'ui/lines_page.dart';
-import 'ui/referance.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
 import 'ui/turing_machine_table.dart';
@@ -31,16 +30,38 @@ void main() async {
   await hotKeyManager.unregisterAll();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('Эмулятор MMT');
-    setWindowMinSize(const Size(460, 600));
+    setWindowMinSize(const Size(520, 600));
   }
   Directory(Directory.current.path + "\\save").create().then((Directory directory) {
     log(directory.path);
   });
-  runApp(const MyApp());
+
+  var prefs = await SharedPreferences.getInstance();
+  var theme = AppTheme();
+  theme.setMode((prefs.getBool("use_system_theme") ?? true) ? 0 : (prefs.getInt("selected_theme") ?? 0) + 1);
+
+  runApp(MyApp(
+    theme: theme,
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class MyApp extends StatefulWidget {
+  MyApp({Key? key, required this.theme}) : super(key: key);
+  AppTheme theme;
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+
+    widget.theme.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,15 +69,18 @@ class MyApp extends StatelessWidget {
       title: 'Эмулятор Машины Тьюринга',
       darkTheme: dark,
       theme: light,
-      themeMode: ThemeMode.system,
-      home: const MainWidget(),
+      themeMode: widget.theme.getMode(),
+      home: MainWidget(
+        theme: widget.theme,
+      ),
     );
   }
 }
 
 class MainWidget extends StatefulWidget {
-  const MainWidget({Key? key}) : super(key: key);
+  const MainWidget({Key? key, required this.theme}) : super(key: key);
 
+  final AppTheme theme;
   @override
   State<MainWidget> createState() => _MainWidgetState();
 }
@@ -230,7 +254,6 @@ class _MainWidgetState extends State<MainWidget> {
 
   GlobalKey<LinesPageState> linePagesState = GlobalKey<LinesPageState>();
 
- 
   @override
   void initState() {
     FlutterWindowClose.setWindowShouldCloseHandler(() async {
@@ -308,7 +331,6 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     linePagesState = GlobalKey<LinesPageState>();
 
     return Scaffold(
@@ -323,6 +345,7 @@ class _MainWidgetState extends State<MainWidget> {
         linesPageState: linePagesState,
         tableState: tableState,
         statesListState: statesListState,
+        theme: widget.theme,
         child: Center(
           child: MultiSplitViewTheme(
             data: MultiSplitViewThemeData(

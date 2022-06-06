@@ -46,6 +46,9 @@ dependencies:
       path: plugins/window_size
   url_launcher: ^6.1.0
   flutter_window_close: ^0.2.2
+  flutter_switch: ^0.3.2
+  flutter_svg: ^1.0.3
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
