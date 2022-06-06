@@ -515,7 +515,7 @@ class _TopPanelState extends State<TopPanel> {
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
-                message: "Сохранить ленты (Crtl+Shift+S)",
+                message: "Сохранить все ленты (Crtl+Shift+S)",
                 child: ElevatedButton(
                   onPressed: () {
                     machine.saveLinesJson = jsonEncode(machine.linesToJson());
@@ -533,7 +533,7 @@ class _TopPanelState extends State<TopPanel> {
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
-                message: "Загрузить ленты (Crtl+Shift+L)",
+                message: "Загрузить все ленты (Crtl+Shift+L)",
                 child: ElevatedButton(
                   onPressed: () {
                     if (machine.saveLinesJson != null) {
@@ -556,7 +556,7 @@ class _TopPanelState extends State<TopPanel> {
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
-                message: "Очистить ленты (Crtl+Shift+C)",
+                message: "Очистить все ленты (Crtl+Shift+C)",
                 child: ElevatedButton(
                   onPressed: () {
                     linePagesState.currentState!.clearAllLines();
@@ -582,7 +582,7 @@ class _TopPanelState extends State<TopPanel> {
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
-                message: "Добавить ленту (Crtl+Shift+])",
+                message: "Добавить ленту в конец (Crtl+])",
                 child: ElevatedButton(
                   onPressed: () {
                     if (machine.addLine()) {
@@ -603,7 +603,7 @@ class _TopPanelState extends State<TopPanel> {
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
-                message: "Удалить ленту (Crtl+Shift+[)",
+                message: "Удалить последнюю ленту (Crtl+[ )",
                 child: ElevatedButton(
                   onPressed: () {
                     if (machine.deleteLine()) {
