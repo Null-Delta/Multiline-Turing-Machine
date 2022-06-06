@@ -196,7 +196,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
     for (int i = 0; i < machine.model.countOfLines + 2; i++) {
       newColumns.add(
         PlutoColumn(
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Colors.transparent,
           cellPadding: 6,
           readOnly: i == 0,
           frozen: i == 0 ? PlutoColumnFrozen.left : PlutoColumnFrozen.none,
