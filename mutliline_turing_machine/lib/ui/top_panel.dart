@@ -57,228 +57,142 @@ class _TopPanelState extends State<TopPanel> {
       GlobalKey<BottomSplitPanelState> bottomSplitState,
       GlobalKey<StatesListState> statesListState,
       LineAnimationState animationState) {
-    // новый файл
+    
     hotKeyManager.register(
       HotKey(
         KeyCode.keyN,
         modifiers: [KeyModifier.control],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (hotKey) {
-        var emptyMachine = TuringMachine(TuringMachineModel());
-
-        machine.loadFromJson(emptyMachine.toJson());
-        tableState.currentState!.reloadTable();
-        statesListState.currentState!.setState(() {});
-        linePagesState.currentState!.setState(() {});
-        bottomSplitState.currentState!.setState(() {});
+      keyDownHandler: (_) {
+        newFile();
       },
     );
 
-    //сохранение ленты
-    hotKeyManager.register(
-      HotKey(
-        KeyCode.keyS,
-        modifiers: [KeyModifier.control, KeyModifier.shift],
-        scope: HotKeyScope.inapp,
-      ),
-      keyDownHandler: (hotKey) {
-        machine.saveLinesJson = jsonEncode(machine.linesToJson());
-      },
-    );
-    //загрузка ленты
-    hotKeyManager.register(
-      HotKey(
-        KeyCode.keyL,
-        modifiers: [KeyModifier.control, KeyModifier.shift],
-        scope: HotKeyScope.inapp,
-      ),
-      keyDownHandler: (hotKey) {
-        if (machine.saveLinesJson != null) {
-          machine.importLinesJson(machine.saveLinesJson!);
-          linePagesState.currentState!.setState(() {});
-          var count = machine.model.countOfLines;
-          if (count != machine.configuration.linePointers.length) {
-            for (int i = 0;
-                i < (count - machine.configuration.linePointers.length).abs();
-                i++) {
-              count < machine.configuration.linePointers.length
-                  ? {
-                      machine.model.addLine(),
-                      tableState.currentState!.addLine()
-                    }
-                  : {
-                      machine.model.deleteLine(),
-                      tableState.currentState!.deleteLine()
-                    };
-            }
-          }
-        }
-      },
-    );
-    //очистка ленты
-    hotKeyManager.register(
-      HotKey(
-        KeyCode.keyC,
-        modifiers: [KeyModifier.control, KeyModifier.shift],
-        scope: HotKeyScope.inapp,
-      ),
-      keyDownHandler: (hotKey) {
-        linePagesState.currentState!.clearAllLines();
-      },
-    );
-
-    //сохранение
     hotKeyManager.register(
       HotKey(
         KeyCode.keyS,
         modifiers: [KeyModifier.control],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (hotKey) async {
-        String? result = await FilePicker.platform.saveFile(
-            initialDirectory: Directory.current.path + "\\save",
-            fileName: 'save.mmt',
-            type: FileType.custom,
-            allowedExtensions: ['mmt']);
-        if (result != null) {
-          if (result.contains('.')) {
-            log("message " + result.indexOf('.').toString());
-            result = result.substring(0, result.indexOf('.'));
-          }
-          result += '.mmt';
-          log(result);
-          File file = File(result);
-          IOSink sink = file.openWrite();
-          String json = jsonEncode(machine.toJson());
-          sink.write(json);
-          file.create();
-        }
+      keyDownHandler: (_) {
+        log("ctrl+S");
+        saveFile();
       },
     );
 
-    bool settingsButton = false;
-    hotKeyManager.register(
-      HotKey(
-        KeyCode.f6,
-        scope: HotKeyScope.inapp,
-      ),
-      keyDownHandler: (hotKey) {
-        var theme = MachineInherit.of(context)!.theme;
-
-        if (!settingsButton && !Navigator.of(context).canPop()) {
-          settingsButton = true;
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return ChangeNotifierProvider.value(
-              value: animationState,
-              child: SettingsPanel(
-                theme: theme,
-              ),
-            );
-          }));
-        }
-      },
-      keyUpHandler: (hotKey) {
-        if (settingsButton) {
-          settingsButton = false;
-        }
-      },
-    );
-
-    bool aboutButton = false;
-    hotKeyManager.register(
-      HotKey(
-        KeyCode.f2,
-        scope: HotKeyScope.inapp,
-      ),
-      keyDownHandler: (hotKey) {
-        if (!aboutButton && !Navigator.of(context).canPop()) {
-          aboutButton = true;
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const AboutPanel()));
-        }
-      },
-      keyUpHandler: (hotKey) {
-        if (aboutButton) {
-          aboutButton = false;
-        }
-      },
-    );
-
-    bool referenceButton = false;
-    hotKeyManager.register(
-      HotKey(
-        KeyCode.f1,
-        scope: HotKeyScope.inapp,
-      ),
-      keyDownHandler: (hotKey) {
-        if (!referenceButton && !Navigator.of(context).canPop()) {
-          referenceButton = true;
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => const Reference()));
-        }
-      },
-      keyUpHandler: (hotKey) {
-        if (referenceButton) {
-          referenceButton = false;
-        }
-      },
-    );
-
-    //загрузка
     hotKeyManager.register(
       HotKey(
         KeyCode.keyO,
         modifiers: [KeyModifier.control],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (hotKey) async {
-        FilePickerResult? result = await FilePicker.platform.pickFiles(
-            initialDirectory: Directory.current.path + "\\save",
-            dialogTitle: '',
-            type: FileType.custom,
-            allowedExtensions: ['mmt']);
-        if (result != null) {
-          log(result.files.first.path!);
-          File file = File(result.files.first.path!);
-          String json = await file.readAsString();
+      keyDownHandler: (_) {
+        loadFile();
+      },
+    );
 
-          machine.loadFromJson(jsonDecode(json));
-          tableState.currentState!.reloadTable();
-          statesListState.currentState!.setState(() {});
-          linePagesState.currentState!.setState(() {});
-          bottomSplitState.currentState!.setState(() {});
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.f1,
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (_) {
+        if (!Navigator.of(context).canPop()) {
+          
+          settings();
+        }
+        else
+        {
+          Navigator.of(context).pop();
         }
       },
     );
 
-    //добавление ленты
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.f2,
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (_) {
+        if (!Navigator.of(context).canPop()) {
+          aboutApp();
+        }
+        else
+        {
+          Navigator.of(context).pop();
+        }
+      },
+    );
+
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.f3,
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (_) {
+        if (!Navigator.of(context).canPop()) {
+          help();
+        }
+        else
+        {
+          Navigator.of(context).pop();
+        }
+      },
+    );
+
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.keyS,
+        modifiers: [KeyModifier.control, KeyModifier.shift],
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (_) {
+       saveAllLines();
+      },
+    );
+
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.keyL,
+        modifiers: [KeyModifier.control, KeyModifier.shift],
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (_) {
+        loadAllLines();
+      },
+    );
+
+    hotKeyManager.register(
+      HotKey(
+        KeyCode.keyC,
+        modifiers: [KeyModifier.control, KeyModifier.shift],
+        scope: HotKeyScope.inapp,
+      ),
+      keyDownHandler: (_) {
+        clearAllLines();
+      },
+    );
+
     hotKeyManager.register(
       HotKey(
         KeyCode.bracketRight,
         modifiers: [KeyModifier.control],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (hotKey) {
-        if (machine.addLine()) {
-          linePagesState.currentState?.setState(() {});
-          tableState.currentState!.addLine();
-        }
+      keyDownHandler: (_) {
+        addLine();
       },
     );
 
-    //удаление ленты
     hotKeyManager.register(
       HotKey(
         KeyCode.bracketLeft,
         modifiers: [KeyModifier.control],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (hotKey) {
-        if (machine.deleteLine()) {
-          linePagesState.currentState?.setState(() {});
-          tableState.currentState!.deleteLine();
-        }
+      keyDownHandler: (_) {
+        deleteLine();
       },
     );
   }
@@ -378,7 +292,7 @@ class _TopPanelState extends State<TopPanel> {
 
   void help() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const AboutPanel()));
+        .push(MaterialPageRoute(builder: (context) => const Reference()));
   }
   
   void saveAllLines() {
@@ -544,7 +458,7 @@ class _TopPanelState extends State<TopPanel> {
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
-                message: "Настройки (F6)",
+                message: "Настройки (F1)",
                 child: ElevatedButton(
                   onPressed: settings,
                   child: SizedBox(
@@ -581,7 +495,7 @@ class _TopPanelState extends State<TopPanel> {
               ),
               Tooltip(
                 waitDuration: const Duration(milliseconds: 500),
-                message: "Справочка (F1)",
+                message: "Справочка (F3)",
                 child: ElevatedButton(
                   onPressed: help,
                   child: SizedBox(
