@@ -41,6 +41,7 @@ class MachineEngine {
       return false;
     }
 
+    this.timesPerSecond = timesPerSecond;
     active = true;
 
     timer = Timer.periodic(
@@ -55,6 +56,7 @@ class MachineEngine {
 
   // останавливает работу, сохраняя состояние
   void setNewSpeed(int timesPerSecond, Function() onScroll) {
+    this.timesPerSecond = timesPerSecond;
     if (active) {
       timer!.cancel();
       timer = Timer.periodic(

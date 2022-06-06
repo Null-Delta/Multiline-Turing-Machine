@@ -28,14 +28,16 @@ class LineState extends State<Line> {
   int cellCount = 2003;
   ItemScrollController control = ItemScrollController();
 
-  scroll({int offset = 0}) {
+  scroll({int offset = 0, int speed = 1}) {
     if (animationState.isAnimate) {
+      log("scroll" + speed.toString());
+      
       control.scrollTo(
           index: machine.configuration.linePointers[widget.index] + 1,
           alignment: 0.5,
           curve: Curves.easeOutQuad,
           myIndent: _widthOfCell / 2,
-          duration: Duration(milliseconds: 350 + (offset*20).abs()));
+          duration: Duration(milliseconds: (350 + (offset*20).abs()) ~/ math.pow(speed,1/3)));
     } else {
       control.jumpTo(
           index: machine.configuration.linePointers[widget.index] + 1, alignment: 0.5, myIndent: _widthOfCell / 2);
@@ -78,7 +80,7 @@ class LineState extends State<Line> {
             padding: index == 2002 ? const EdgeInsets.only(left: 280) : const EdgeInsets.only(right: 280),
             child: Center(
               child: Text(
-                "А все!",
+                "А все! ( ͡ʘ ͜ʖ ͡ʘ)",
                 style: TextStyle(
                   color: Theme.of(context).cardColor,
                   fontWeight: FontWeight.normal,
