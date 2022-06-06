@@ -32,9 +32,12 @@ void main() async {
     setWindowTitle('Эмулятор MMT');
     setWindowMinSize(const Size(520, 600));
   }
-  Directory(Directory.current.path + "\\save").create().then((Directory directory) {
-    log(directory.path);
-  });
+
+  if (Platform.isWindows) {
+    Directory(Directory.current.path + "\\save").create().then((Directory directory) {
+      log(directory.path);
+    });
+  }
 
   var prefs = await SharedPreferences.getInstance();
   var theme = AppTheme();
@@ -282,7 +285,7 @@ class _MainWidgetState extends State<MainWidget> {
                       Navigator.of(context).pop(true);
                     } else {
                       String? result = await FilePicker.platform.saveFile(
-                          initialDirectory: Directory.current.path + "\\save",
+                          initialDirectory: Directory.current.path,
                           lockParentWindow: true,
                           fileName: 'save.mmt',
                           type: FileType.custom,

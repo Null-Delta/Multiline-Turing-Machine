@@ -21,7 +21,6 @@ import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
 import 'package:provider/provider.dart';
-
 import 'package:file_picker/file_picker.dart';
 
 class TopPanel extends StatefulWidget {
@@ -115,7 +114,7 @@ class _TopPanelState extends State<TopPanel> {
       ),
       keyDownHandler: (hotKey) async {
         String? result = await FilePicker.platform.saveFile(
-            initialDirectory: Directory.current.path + "\\save",
+            initialDirectory: Directory.current.path,
             fileName: 'save.mmt',
             type: FileType.custom,
             allowedExtensions: ['mmt']);
@@ -210,7 +209,7 @@ class _TopPanelState extends State<TopPanel> {
       ),
       keyDownHandler: (hotKey) async {
         FilePickerResult? result = await FilePicker.platform.pickFiles(
-            initialDirectory: Directory.current.path + "\\save",
+            initialDirectory: Directory.current.path,
             dialogTitle: '',
             type: FileType.custom,
             allowedExtensions: ['mmt']);
@@ -265,14 +264,16 @@ class _TopPanelState extends State<TopPanel> {
     timer = Timer.periodic(
       const Duration(minutes: 3),
       (timer) async {
-        String savePath = Directory.current.path + "\\save\\autosave" + savedIndex.toString() + ".mmt";
-        savedIndex++;
-        if (savedIndex == 10) savedIndex = 0;
-        File file = File(savePath);
-        IOSink sink = file.openWrite();
-        String json = jsonEncode(machine.toJson());
-        sink.write(json);
-        file.create();
+        if (Platform.isWindows) {
+          String savePath = Directory.current.path + "\\save\\autosave" + savedIndex.toString() + ".mmt";
+          savedIndex++;
+          if (savedIndex == 10) savedIndex = 0;
+          File file = File(savePath);
+          IOSink sink = file.openWrite();
+          String json = jsonEncode(machine.toJson());
+          sink.write(json);
+          file.create();
+        }
       },
     );
   }
@@ -373,10 +374,11 @@ class _TopPanelState extends State<TopPanel> {
                         ),
                         onTap: () async {
                           FilePickerResult? result = await FilePicker.platform.pickFiles(
-                              initialDirectory: Directory.current.path + "\\save",
+                              initialDirectory: Directory.current.path,
                               dialogTitle: '',
                               type: FileType.custom,
                               allowedExtensions: ['mmt']);
+
                           if (result != null) {
                             log(result.files.first.path!);
                             File file = File(result.files.first.path!);
@@ -384,7 +386,7 @@ class _TopPanelState extends State<TopPanel> {
 
                             machine.loadFromJson(jsonDecode(json));
                             machine.filePath = result.files.first.path;
-                            
+
                             tableState.currentState!.reloadTable();
                             statesListState.currentState!.setState(() {});
                             linePagesState.currentState!.reBuild();
@@ -420,7 +422,7 @@ class _TopPanelState extends State<TopPanel> {
                         ),
                         onTap: () async {
                           String? result = await FilePicker.platform.saveFile(
-                              initialDirectory: Directory.current.path + "\\save",
+                              initialDirectory: Directory.current.path,
                               fileName: 'save.mmt',
                               type: FileType.custom,
                               allowedExtensions: ['mmt']);
