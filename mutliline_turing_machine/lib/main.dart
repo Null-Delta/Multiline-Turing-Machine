@@ -307,6 +307,7 @@ class _MainWidgetState extends State<MainWidget> {
                   },
                   child: const Text(' Да '),
                   style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(0),
                     backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
                     foregroundColor: MaterialStateProperty.all(Theme.of(context).cardColor),
                   ),
@@ -317,6 +318,22 @@ class _MainWidgetState extends State<MainWidget> {
                   },
                   child: const Text(' Нет '),
                   style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(0),
+                    backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
+                    foregroundColor: MaterialStateProperty.all(Theme.of(context).cardColor),
+                  ),
+                ),
+                const SizedBox(
+                  width: 48,
+                ),
+                //const Spacer(),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).pop('dialog');
+                  },
+                  child: const Text('Отмена'),
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(0),
                     backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
                     foregroundColor: MaterialStateProperty.all(Theme.of(context).cardColor),
                   ),
