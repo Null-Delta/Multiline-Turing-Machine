@@ -122,7 +122,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
 
   void addLine() {
     var column = PlutoColumn(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Colors.transparent,
       cellPadding: 6,
       readOnly: false,
       frozen: PlutoColumnFrozen.none,
