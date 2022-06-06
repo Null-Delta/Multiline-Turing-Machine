@@ -5,8 +5,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
-import 'package:material_snackbar/snackbar.dart';
-import 'package:material_snackbar/snackbar_messenger.dart';
+
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/model/turing_machine_model.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
@@ -24,6 +23,8 @@ import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
 import 'package:provider/provider.dart';
 
 import 'package:file_picker/file_picker.dart';
+
+import 'snackbar.dart';
 
 class TopPanel extends StatefulWidget {
   const TopPanel({
@@ -99,7 +100,10 @@ class _TopPanelState extends State<TopPanel> {
       ),
       keyDownHandler: (_) {
         if (!Navigator.of(context).canPop()) {
-          
+          if(machine.activator.isActive)
+          {
+            machine.activator.stopMachine();
+          }
           settings();
         }
         else
@@ -116,6 +120,10 @@ class _TopPanelState extends State<TopPanel> {
       ),
       keyDownHandler: (_) {
         if (!Navigator.of(context).canPop()) {
+          if(machine.activator.isActive)
+          {
+            machine.activator.stopMachine();
+          }
           aboutApp();
         }
         else
@@ -132,6 +140,10 @@ class _TopPanelState extends State<TopPanel> {
       ),
       keyDownHandler: (_) {
         if (!Navigator.of(context).canPop()) {
+          if(machine.activator.isActive)
+          {
+            machine.activator.stopMachine();
+          }
           help();
         }
         else
@@ -159,6 +171,7 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyDownHandler: (_) {
+        
         loadAllLines();
       },
     );
@@ -170,6 +183,7 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyDownHandler: (_) {
+        
         clearAllLines();
       },
     );
@@ -196,6 +210,9 @@ class _TopPanelState extends State<TopPanel> {
       },
     );
   }
+
+   
+
 
   Timer? timer;
   int savedIndex = 0;
@@ -300,12 +317,16 @@ class _TopPanelState extends State<TopPanel> {
   }
 
   void loadAllLines() {
+    
       if (machine.saveLinesJson != null) {
         machine.importLinesJson(machine.saveLinesJson!);
         tableState.currentState!.reloadTable();
         linePagesState.currentState!.reBuild();
         bottomSplitState.currentState!.setState(() {});
       }
+      
+    
+      
   }
 
   void clearAllLines() {
