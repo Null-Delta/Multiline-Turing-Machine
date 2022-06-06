@@ -79,10 +79,10 @@ class LineCellState extends State<LineCell> {
                       ),
                       value.isFocus
                           ? Container(
-                              width: 16.0,
+                              width: 14.0,
                               height: 3.0,
                               margin: const EdgeInsets.only(
-                                top: 32,
+                                top: 30,
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(7),
