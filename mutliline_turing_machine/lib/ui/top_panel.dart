@@ -382,11 +382,12 @@ class _TopPanelState extends State<TopPanel> {
                             File file = File(result.files.first.path!);
                             String json = await file.readAsString();
 
-                            machine.filePath = result.files.first.path;
                             machine.loadFromJson(jsonDecode(json));
+                            machine.filePath = result.files.first.path;
+                            
                             tableState.currentState!.reloadTable();
                             statesListState.currentState!.setState(() {});
-                            linePagesState.currentState!.setState(() {});
+                            linePagesState.currentState!.reBuild();
                             bottomSplitState.currentState!.setState(() {});
                           }
                         },
@@ -479,7 +480,6 @@ class _TopPanelState extends State<TopPanel> {
                 message: "О приложении (F2)",
                 child: ElevatedButton(
                   onPressed: () {
-                    //Вызов нового окна поверх.
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutPanel()));
                   },
                   child: SizedBox(
@@ -538,15 +538,9 @@ class _TopPanelState extends State<TopPanel> {
                   onPressed: () {
                     if (machine.saveLinesJson != null) {
                       machine.importLinesJson(machine.saveLinesJson!);
-                      linePagesState.currentState!.setState(() {});
-                      var count = machine.model.countOfLines;
-                      if (count != machine.configuration.linePointers.length) {
-                        for (int i = 0; i < (count - machine.configuration.linePointers.length).abs(); i++) {
-                          count < machine.configuration.linePointers.length
-                              ? {machine.model.addLine(), tableState.currentState!.addLine()}
-                              : {machine.model.deleteLine(), tableState.currentState!.deleteLine()};
-                        }
-                      }
+                      tableState.currentState!.reloadTable();
+                      linePagesState.currentState!.reBuild();
+                      bottomSplitState.currentState!.setState(() {});
                     }
                   },
                   child: SizedBox(

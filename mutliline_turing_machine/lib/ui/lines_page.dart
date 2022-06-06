@@ -54,6 +54,22 @@ class LinesPageState extends State<LinesPage> {
       linesState[machine.configuration.focusedLine].currentState?.scrollToFocus();
   }
 
+  void reBuild() {
+    setState(() {
+    countOfLines = MachineInherit.of(context)!.machine.model.countOfLines;
+    linesState = [
+        for (int i = 0; i < countOfLines; i++) GlobalKey<LineState>(),
+      ];
+      lines = [
+        for (int i = 0; i < countOfLines; i++)
+          Line(
+            index: i,
+            key: linesState[i],
+          ),
+      ];
+    });
+  }
+
   late List<FocusNode> linesFocus;
   @override
   Widget build(BuildContext context) {
@@ -71,32 +87,32 @@ class LinesPageState extends State<LinesPage> {
     }
 
     //Добавление/удаление лент
-    // if (lines.length != countOfLines) {
-    //   for (int i = 0; i < (lines.length - countOfLines).abs(); i++) {
-    //     lines.length < countOfLines
-    //         ? {
-    //             linesState.add(GlobalKey<LineState>()),
-    //             lines.add(
-    //               Line(
-    //                 index: linesState.length - 1,
-    //                 key: linesState[linesState.length - 1],
-    //               ),
-    //             )
-    //           }
-    //         : {lines.removeLast(), linesState.removeLast()};
-    //   }
-    // }
-
-    linesState = [
-      for (int i = 0; i < countOfLines; i++) GlobalKey<LineState>(),
-    ];
-    lines = [
-      for (int i = 0; i < countOfLines; i++)
-        Line(
-          index: i,
-          key: linesState[i],
-        ),
-    ];
+    if (lines.length != countOfLines) {
+      for (int i = 0; i < (lines.length - countOfLines).abs(); i++) {
+        lines.length < countOfLines
+            ? {
+                linesState.add(GlobalKey<LineState>()),
+                lines.add(
+                  Line(
+                    index: linesState.length - 1,
+                    key: linesState[linesState.length - 1],
+                  ),
+                )
+              }
+            : {lines.removeLast(), linesState.removeLast()};
+      }
+    }
+    // linesState = [
+    //     for (int i = 0; i < countOfLines; i++) GlobalKey<LineState>(),
+    //   ];
+    //   lines = [
+    //     for (int i = 0; i < countOfLines; i++)
+    //       Line(
+    //         index: i,
+    //         key: linesState[i],
+    //       ),
+    //   ];
+    
     return Expanded(
       child: Container(
         color: Theme.of(context).hoverColor,

@@ -36,7 +36,7 @@ class TuringMachine {
     activator = MachineEngine(this);
   }
 
-  void loadFromJson(Map<String, dynamic> json) {
+  loadFromJson(Map<String, dynamic> json) {
     loadFromJsonElements(
       linePointers: json['linePointers'],
       lineContent: json['lineContent'],
@@ -153,9 +153,9 @@ class TuringMachine {
     var map = jsonDecode(json);
     List<dynamic> linePointers = map['linePointers'];
     List<dynamic> lineContent = map['lineContent'];
-
+    
     configuration = TuringMachineConfiguration(linePointers.length);
-
+    
     configuration.linePointers = List.generate(linePointers.length, (i) => linePointers[i]);
 
     configuration.lineContent = List.generate(
@@ -168,6 +168,15 @@ class TuringMachine {
 
     for (int i = 0; i < configuration.linePointers.length; i++) {
       configuration.lineContent[i][linePointers[i]].setActive(true);
+    }
+
+    var count = model.countOfLines;
+    if (count != configuration.linePointers.length) {
+      for (int i = 0; i < (count - configuration.linePointers.length).abs(); i++) {
+        count < configuration.linePointers.length
+            ? {model.addLine()}
+            : {model.deleteLine()};
+      }
     }
   }
 
