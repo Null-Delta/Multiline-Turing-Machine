@@ -12,8 +12,8 @@ class AboutPanel extends StatefulWidget {
   State<AboutPanel> createState() => _AboutPanel();
 }
 
-class DeveloperBoard extends StatelessWidget {
-  const DeveloperBoard(
+class DeveloperCard extends StatelessWidget {
+  const DeveloperCard(
       {required this.name,
       required this.email,
       required this.gitUrl,
@@ -119,6 +119,30 @@ class DeveloperBoard extends StatelessWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class ResourceCard extends StatelessWidget {
+  const ResourceCard({required this.text, Key? key}) : super(key: key);
+
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
+      width: MediaQuery.of(context).size.width,
+      color: Theme.of(context).backgroundColor,
+      child: Text(
+        text,
+        textAlign: TextAlign.justify,
+        style: TextStyle(
+          color: Theme.of(context).cardColor.withOpacity(0.5),
+          fontFamily: 'Inter',
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+        ),
       ),
     );
   }
@@ -329,29 +353,27 @@ class _AboutPanel extends State<AboutPanel> {
                                 ),
                               ),
                             ),
-                            const DeveloperBoard(
+                            const DeveloperCard(
                                 name: 'Хахук Рустам',
                                 email: 'delta.null@vk.com',
                                 gitUrl: 'https://github.com/Null-Delta',
                                 description:
                                     'Дизайн всего приложения, проектирование, справка, панель правил, состояний и комментариев, иконки, нижняя панель инстументов, настройки.',
                                 avatar: Image(image: AppImages.ZedNull)),
-                            const DeveloperBoard(
+                            const DeveloperCard(
                                 name: 'Прозоров Максим',
                                 email: 'StarProxima@yandex.ru',
                                 gitUrl: 'https://github.com/StarProxima',
                                 description:
                                     'Импорт/экспорт сохранений, ячейка ленты, ввод в ленту, добавление/удаление лент, вверхняя панель инстументов, тестирование.',
                                 avatar: Image(image: AppImages.StarProxima)),
-                            const DeveloperBoard(
+                            const DeveloperCard(
                                 name: 'Гиренко Даниил',
                                 email: 'iamgirya@yandex.ru',
                                 gitUrl: 'https://github.com/iamgirya',
                                 description:
                                     'Модель машины Тьюринга, лента, очистка ленты, раздел "О приложении", подсчёт конфигураций, автоматическая работа машины Тьюринга.',
                                 avatar: Image(image: AppImages.IAmGirya)),
-                            
-                            
                             Container(
                               margin: const EdgeInsets.only(
                                   top: 32, left: 32, bottom: 16),
@@ -369,115 +391,25 @@ class _AboutPanel extends State<AboutPanel> {
                               ),
                             ),
                             Column(
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 32, right: 32, bottom: 8),
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Theme.of(context).backgroundColor,
-                                  child: Text(
-                                    "• Multi split view: Copyright (c) 2021 Carlos Eduardo Leite de Andrade",
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .cardColor
-                                          .withOpacity(0.5),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 32, right: 32, bottom: 8),
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Theme.of(context).backgroundColor,
-                                  child: Text(
-                                    "• Window Size: Copyright [2018] [stuartmorgan]",
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .cardColor
-                                          .withOpacity(0.5),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 32, right: 32, bottom: 8),
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Theme.of(context).backgroundColor,
-                                  child: Text(
-                                    "• Material snackbar: Copyright (c) 2020 Rounded Infinity",
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .cardColor
-                                          .withOpacity(0.5),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 32, right: 32, bottom: 8),
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Theme.of(context).backgroundColor,
-                                  child: Text(
-                                    "• File Picker: Copyright (c) 2018 Miguel Ruivo",
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .cardColor
-                                          .withOpacity(0.5),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 32, right: 32, bottom: 8),
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Theme.of(context).backgroundColor,
-                                  child: Text(
-                                    "• Pluto Grid: Copyright (c) [2020] [PlutoGrid]",
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .cardColor
-                                          .withOpacity(0.5),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 32, right: 32, bottom: 32),
-                                  width: MediaQuery.of(context).size.width,
-                                  color: Theme.of(context).backgroundColor,
-                                  child: Text(
-                                    "• Scollable Positioned List: Copyright 2018 the Dart project authors, Inc.",
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .cardColor
-                                          .withOpacity(0.5),
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
+                              children: const [
+                                ResourceCard(
+                                    text:
+                                        '• Multi split view: Copyright (c) 2021 Carlos Eduardo Leite de Andrade'),
+                                ResourceCard(
+                                    text:
+                                        '• Window Size: Copyright [2018] [stuartmorgan]'),
+                                ResourceCard(
+                                    text:
+                                        '• Material snackbar: Copyright (c) 2020 Rounded Infinity'),
+                                ResourceCard(
+                                    text:
+                                        '• File Picker: Copyright (c) 2018 Miguel Ruivo'),
+                                ResourceCard(
+                                    text:
+                                        '• Pluto Grid: Copyright (c) [2020] [PlutoGrid]'),
+                                ResourceCard(
+                                    text:
+                                        '• Scollable Positioned List: Copyright 2018 the Dart project authors, Inc.'),
                               ],
                             ),
                           ],
@@ -485,6 +417,22 @@ class _AboutPanel extends State<AboutPanel> {
                       ),
                     ),
                   ),
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 4, bottom: 4),
+              alignment: FractionalOffset.bottomCenter,
+              width: MediaQuery.of(context).size.width,
+              color: Theme.of(context).backgroundColor,
+              child: Text(
+                "Developed by the NullExp team specifically for Kuban State University",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).cardColor,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 13,
                 ),
               ),
             ),
