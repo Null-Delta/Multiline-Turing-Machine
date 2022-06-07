@@ -9,9 +9,11 @@ class Snackbar {
   
   static void create(
       String text,
-      bool isError,
-      BuildContext context) {
-    if(MaterialSnackBarMessenger.snackbarQueue.length < 3)
+      BuildContext context,
+      {bool isError = true,
+      double sec = 2}
+      ) {
+    if(MaterialSnackBarMessenger.snackbarQueue.isEmpty)
     {
       MaterialSnackBarMessenger.of(context).showSnackBar(
         snackbar: MaterialSnackbar(
@@ -31,7 +33,9 @@ class Snackbar {
             text,
             style: TextStyle(color: Theme.of(context).backgroundColor),
           ),
+          duration: Duration(milliseconds: (sec*1000).toInt()),
         ),
+        
         alignment: Alignment.bottomRight);
     }
   }

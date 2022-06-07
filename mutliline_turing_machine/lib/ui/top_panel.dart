@@ -49,7 +49,7 @@ class _TopPanelState extends State<TopPanel> {
   late LineAnimationState animationState =
       MachineInherit.of(context)!.animationState;
   late AppTheme theme = MachineInherit.of(context)!.theme;
-
+  
   void loadTopHotKeys(
       TuringMachine machine,
       GlobalKey<TuringMachineTableState> tableState,
@@ -64,7 +64,7 @@ class _TopPanelState extends State<TopPanel> {
         modifiers: [KeyModifier.control],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (_) {
+      keyUpHandler: (_) {
         newFile();
       },
     );
@@ -75,8 +75,8 @@ class _TopPanelState extends State<TopPanel> {
         modifiers: [KeyModifier.control],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (_) {
-        log("ctrl+S");
+      keyUpHandler: (_) {
+        //log("ctrl+S");
         saveFile();
       },
     );
@@ -87,7 +87,7 @@ class _TopPanelState extends State<TopPanel> {
         modifiers: [KeyModifier.control],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (_) {
+      keyUpHandler: (_) {
         loadFile();
       },
     );
@@ -97,7 +97,7 @@ class _TopPanelState extends State<TopPanel> {
         KeyCode.f1,
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (_) {
+      keyUpHandler: (_) {
         if (!Navigator.of(context).canPop()) {
           if(machine.activator.isActive)
           {
@@ -117,7 +117,7 @@ class _TopPanelState extends State<TopPanel> {
         KeyCode.f2,
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (_) {
+      keyUpHandler: (_) {
         if (!Navigator.of(context).canPop()) {
           if(machine.activator.isActive)
           {
@@ -137,7 +137,7 @@ class _TopPanelState extends State<TopPanel> {
         KeyCode.f3,
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (_) {
+      keyUpHandler: (_) {
         if (!Navigator.of(context).canPop()) {
           if(machine.activator.isActive)
           {
@@ -158,7 +158,7 @@ class _TopPanelState extends State<TopPanel> {
         modifiers: [KeyModifier.control, KeyModifier.shift],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (_) {
+      keyUpHandler: (_) {
        saveAllLines();
       },
     );
@@ -169,7 +169,7 @@ class _TopPanelState extends State<TopPanel> {
         modifiers: [KeyModifier.control, KeyModifier.shift],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (_) {
+      keyUpHandler: (_) {
         
         loadAllLines();
       },
@@ -181,7 +181,7 @@ class _TopPanelState extends State<TopPanel> {
         modifiers: [KeyModifier.control, KeyModifier.shift],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (_) {
+      keyUpHandler: (_) {
         
         clearAllLines();
       },
@@ -193,7 +193,7 @@ class _TopPanelState extends State<TopPanel> {
         modifiers: [KeyModifier.control],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (_) {
+      keyUpHandler: (_) {
         addLine();
       },
     );
@@ -204,7 +204,7 @@ class _TopPanelState extends State<TopPanel> {
         modifiers: [KeyModifier.control],
         scope: HotKeyScope.inapp,
       ),
-      keyDownHandler: (_) {
+      keyUpHandler: (_) {
         deleteLine();
       },
     );
@@ -220,7 +220,7 @@ class _TopPanelState extends State<TopPanel> {
       const Duration(minutes: 3),
       (timer) async {
         if (Platform.isWindows) {
-          String savePath = Directory.current.path + "\\save\\autosave" + savedIndex.toString() + ".mmt";
+          String savePath = Directory.current.path + "\\saves\\autosave" + savedIndex.toString() + ".mmt";
           savedIndex++;
           if (savedIndex == 10) savedIndex = 0;
           File file = File(savePath);
@@ -234,44 +234,62 @@ class _TopPanelState extends State<TopPanel> {
   }
 
   void newFile() {
-    TuringMachine emptyMachine = TuringMachine(TuringMachineModel());
-    machine.filePath = null;
-    machine.loadFromJson(emptyMachine.toJson());
-    tableState.currentState!.reloadTable();
-    statesListState.currentState!.setState(() {});
-    linePagesState.currentState!.reBuild();
-    bottomSplitState.currentState!.setState(() {});
-  }
-
-  Future<void> loadFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-        initialDirectory: Directory.current.path + "\\save",
-        dialogTitle: '',
-        type: FileType.custom,
-        allowedExtensions: ['mmt']);
-    if (result != null) {
-      log(result.files.first.path!);
-      File file = File(result.files.first.path!);
-      String json = await file.readAsString();
-
-      machine.loadFromJson(jsonDecode(json));
-      machine.filePath = result.files.first.path;
-
+    
+      Snackbar.create("Невозможно создать новый файл, т.к. машина работает.", context);
+    
+      TuringMachine emptyMachine = TuringMachine(TuringMachineModel());
+      machine.filePath = null;
+      machine.loadFromJson(emptyMachine.toJson());
       tableState.currentState!.reloadTable();
       statesListState.currentState!.setState(() {});
       linePagesState.currentState!.reBuild();
       bottomSplitState.currentState!.setState(() {});
-    }
+    
+    
+    
+  }
+
+  Future<void> loadFile() async {
+    
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        initialDirectory: Directory.current.path + "\\saves",
+        dialogTitle: '',
+        type: FileType.custom,
+        allowedExtensions: ['mmt']);
+      if (result != null) {
+        if(machine.activator.isActive)
+        {
+          machine.activator.resetMachine();
+        }
+        File file = File(result.files.first.path!);
+        String json = await file.readAsString();
+
+        machine.loadFromJson(jsonDecode(json));
+        machine.filePath = result.files.first.path;
+
+        tableState.currentState!.reloadTable();
+        statesListState.currentState!.setState(() {});
+        linePagesState.currentState!.reBuild();
+        bottomSplitState.currentState!.setState(() {});
+      }
+    
+    
   }
 
   Future<void> saveFile() async {
+    
     String? result = await FilePicker.platform.saveFile(
-        initialDirectory: Directory.current.path + "\\save",
+        initialDirectory: Directory.current.path + "\\saves",
+        dialogTitle: '',
         fileName: 'save.mmt',
         type: FileType.custom,
         allowedExtensions: ['mmt']);
 
     if (result != null) {
+      if(machine.activator.isActive)
+      {
+        machine.activator.resetMachine();
+      }
       if (result.contains('.')) {
         log("message " + result.indexOf('.').toString());
         result = result.substring(0, result.indexOf('.'));
@@ -279,6 +297,7 @@ class _TopPanelState extends State<TopPanel> {
 
       result += '.mmt';
       log(result);
+      
       File file = File(result);
       IOSink sink = file.openWrite();
       String json = jsonEncode(machine.toJson());
@@ -286,10 +305,18 @@ class _TopPanelState extends State<TopPanel> {
       file.create();
 
       machine.filePath = result;
+      Snackbar.create("Файл сохранён.", context, isError: false, sec: 1);
     }
   }
 
   void settings() {
+    if(machine.activator.isActive)
+    {
+      machine.activator.stopMachine();
+      bottomSplitState.currentState!.setState(() {
+        
+      });
+    }
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return ChangeNotifierProvider.value(
         value: animationState,
@@ -301,28 +328,46 @@ class _TopPanelState extends State<TopPanel> {
   }
 
   void aboutApp() {
+    if(machine.activator.isActive)
+    {
+      machine.activator.stopMachine();
+    }
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const AboutPanel()));
   }
 
   void help() {
+    if(machine.activator.isActive)
+    {
+      machine.activator.stopMachine();
+    }
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const Reference()));
   }
   
   void saveAllLines() {
     machine.saveLinesJson = jsonEncode(machine.linesToJson());
+    Snackbar.create("Ленты сохранены.", context, isError: false, sec: 1);
+    
   }
 
   void loadAllLines() {
-    
+    if(machine.activator.isActive)
+    {
+      Snackbar.create("Нельзя загрузить ленты во время работы машины.", context);
+    }
+    else{
       if (machine.saveLinesJson != null) {
         machine.importLinesJson(machine.saveLinesJson!);
         tableState.currentState!.reloadTable();
         linePagesState.currentState!.reBuild();
         bottomSplitState.currentState!.setState(() {});
       }
-      
+      else
+      {
+        Snackbar.create("Нет сохранённых лент.", context, sec: 1);
+      }
+    }  
     
       
   }
@@ -335,6 +380,10 @@ class _TopPanelState extends State<TopPanel> {
     if (machine.addLine()) {
       linePagesState.currentState?.setState(() {});
       tableState.currentState!.addLine();
+    }
+    else
+    {
+      Snackbar.create("Достигнуто максимальное количество лент.", context);
     }
   }
 
