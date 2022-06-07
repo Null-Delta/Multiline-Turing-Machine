@@ -266,36 +266,45 @@ class _AboutPanel extends State<AboutPanel> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          "Эмулятор Многоленточной \nМашины Тьюринга",
-                                          maxLines: 2,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            color: Theme.of(context).cardColor,
-                                            fontFamily: 'Inter',
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 24,
+                                        Tooltip(
+                                          waitDuration:
+                                              const Duration(milliseconds: 200),
+                                          verticalOffset: 32,
+                                          message:
+                                              'https://github.com/Null-Delta/Multiline-Turing-Machine',
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              launchUrlString(
+                                                  'https://github.com/Null-Delta/Multiline-Turing-Machine');
+                                            },
+                                            child: Text(
+                                              "Эмулятор Многоленточной \nМашины Тьюринга",
+                                              maxLines: 2,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                color:
+                                                    Theme.of(context).cardColor,
+                                                fontFamily: 'Inter',
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 24,
+                                              ),
+                                            ),
+                                            style: linkButtonStyle,
                                           ),
                                         ),
                                         const SizedBox(
                                           height: 6,
                                         ),
-                                        Tooltip(
-                                          waitDuration:
-                                              const Duration(milliseconds: 200),
-                                          message: "28.04.2022",
-                                          verticalOffset: 14,
-                                          child: Text(
-                                            "Версия 1.1",
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .cardColor
-                                                  .withOpacity(0.5),
-                                              fontFamily: 'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                            ),
+                                        Text(
+                                          "Версия 1.1",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .cardColor
+                                                .withOpacity(0.5),
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
                                           ),
                                         ),
                                         const SizedBox(
