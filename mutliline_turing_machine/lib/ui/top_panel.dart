@@ -217,7 +217,7 @@ class _TopPanelState extends State<TopPanel> {
   int savedIndex = 0;
   void startAutoSave(TuringMachine machine) {
     timer = Timer.periodic(
-      const Duration(minutes: 3),
+      const Duration(seconds: 3),
       (timer) async {
         if (Platform.isWindows) {
           String savePath = Directory.current.path + "\\saves\\autosave" + savedIndex.toString() + ".mmt";
@@ -252,7 +252,7 @@ class _TopPanelState extends State<TopPanel> {
   Future<void> loadFile() async {
     
       FilePickerResult? result = await FilePicker.platform.pickFiles(
-        initialDirectory: Directory.current.path + "\\saves",
+        initialDirectory: "saves",
         dialogTitle: '',
         type: FileType.custom,
         allowedExtensions: ['mmt']);
@@ -277,9 +277,8 @@ class _TopPanelState extends State<TopPanel> {
   }
 
   Future<void> saveFile() async {
-    
     String? result = await FilePicker.platform.saveFile(
-        initialDirectory: Directory.current.path + "\\saves",
+        initialDirectory: "saves",
         dialogTitle: '',
         fileName: 'save.mmt',
         type: FileType.custom,

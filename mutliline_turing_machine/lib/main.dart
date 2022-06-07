@@ -34,7 +34,11 @@ void main() async {
   }
 
   if (Platform.isWindows) {
-    Directory(Directory.current.path + "\\save").create().then((Directory directory) {
+    Directory("saves").create().then((Directory directory) {
+      log(directory.path);
+    });
+  } else if (Platform.isMacOS) {
+    Directory("saves").create().then((Directory directory) {
       log(directory.path);
     });
   }
