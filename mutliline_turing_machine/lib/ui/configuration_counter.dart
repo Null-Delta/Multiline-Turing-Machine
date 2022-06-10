@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/machine_engine.dart';

@@ -52,9 +52,7 @@ class ScrollablePositionedList extends StatefulWidget {
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.minCacheExtent,
-  })  : assert(itemCount != null),
-        assert(itemBuilder != null),
-        itemPositionsNotifier = itemPositionsListener as ItemPositionsNotifier?,
+  })  : itemPositionsNotifier = itemPositionsListener as ItemPositionsNotifier?,
         separatorBuilder = null,
         super(key: key);
 
@@ -79,9 +77,7 @@ class ScrollablePositionedList extends StatefulWidget {
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.minCacheExtent,
-  })  : assert(itemCount != null),
-        assert(itemBuilder != null),
-        assert(separatorBuilder != null),
+  })  : assert(separatorBuilder != null),
         itemPositionsNotifier = itemPositionsListener as ItemPositionsNotifier?,
         super(key: key);
 
@@ -439,7 +435,7 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
     }
     if (_isTransitioning) {
       _stopScroll(canceled: true);
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         _startScroll(
             index: index,
             alignment: alignment,
@@ -487,7 +483,7 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
       final startCompleter = Completer<void>();
       final endCompleter = Completer<void>();
       startAnimationCallback = () {
-        SchedulerBinding.instance!.addPostFrameCallback((_) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
           startAnimationCallback = () {};
 
           opacity.parent = _opacityAnimation(opacityAnimationWeights).animate(
@@ -548,8 +544,8 @@ class _ScrollablePositionedListState extends State<ScrollablePositionedList>
   }
 
   Animatable<double> _opacityAnimation(List<double> opacityAnimationWeights) {
-    final startOpacity = 0.0;
-    final endOpacity = 1.0;
+    const startOpacity = 0.0;
+    const endOpacity = 1.0;
     return TweenSequence<double>(<TweenSequenceItem<double>>[
       TweenSequenceItem<double>(
           tween: ConstantTween<double>(startOpacity),

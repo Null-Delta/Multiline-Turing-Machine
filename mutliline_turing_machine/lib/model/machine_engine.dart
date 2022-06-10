@@ -4,7 +4,7 @@ import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'configurations.dart';
 
 class ConfigurationSet extends ChangeNotifier {
-  Set<Configuration> _passedConfigurations = {};
+  final Set<Configuration> _passedConfigurations = {};
   int get countConfigurations => _passedConfigurations.length;
 
   void clear() {

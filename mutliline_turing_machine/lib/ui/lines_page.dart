@@ -1,10 +1,8 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/ui/line.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
-import 'dart:math';
 
 class LinesPage extends StatefulWidget {
   const LinesPage({Key? key}) : super(key: key);

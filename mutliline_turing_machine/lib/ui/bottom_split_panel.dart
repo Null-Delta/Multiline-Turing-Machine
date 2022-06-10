@@ -28,7 +28,7 @@ class BottomSplitPanelState extends State<BottomSplitPanel> {
             axis: Axis.horizontal,
             minimalSizes: const [322, 138],
             resizable: true,
-            children: [widget.table, StateComments()],
+            children: [widget.table, const StateComments()],
           )
         : widget.table;
   }

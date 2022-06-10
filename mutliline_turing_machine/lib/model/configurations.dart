@@ -1,5 +1,4 @@
 import 'line_cell_model.dart';
-import 'turing_machine.dart';
 
 class Configuration {
   late List<String> lines;
