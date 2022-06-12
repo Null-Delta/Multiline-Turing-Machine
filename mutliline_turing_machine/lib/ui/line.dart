@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
@@ -27,35 +29,51 @@ class LineState extends State<Line> {
   int cellCount = 2003;
   ItemScrollController control = ItemScrollController();
 
+  int lastIndexToScroll = 1001;
+  int lastIndexToFocusedScroll = 1001;
+
   scroll({int offset = 0, int speed = 1}) {
     if (animationState.isAnimate) {
       //log("scroll" + speed.toString());
-      
-      control.scrollTo(
+      if (lastIndexToScroll != machine.configuration.linePointers[widget.index] + 1)
+      {
+        lastIndexToScroll = machine.configuration.linePointers[widget.index] + 1;
+        control.scrollTo(
           index: machine.configuration.linePointers[widget.index] + 1,
           alignment: 0.5,
           curve: Curves.easeOutQuad,
           myIndent: _widthOfCell / 2,
           duration: Duration(milliseconds: (350 + (offset*20).abs()) ~/ math.pow(speed,1/3)));
+      } 
     } else {
-      control.jumpTo(
+      if (control.getLastIndex() != machine.configuration.linePointers[widget.index] + 1)
+      {
+        control.jumpTo(
           index: machine.configuration.linePointers[widget.index] + 1, alignment: 0.5, myIndent: _widthOfCell / 2);
+      }
     }
   }
 
   scrollToFocus({int offset = 0}) {
     if(machine.configuration.focusedLine == widget.index)
     {
+      
       if (animationState.isAnimate) {
-      control.scrollTo(
-          index: machine.configuration.focusedIndex + 1,
-          alignment: 0.5,
-          curve: Curves.easeOutQuad,
-          myIndent: _widthOfCell / 2,
-          duration: Duration(milliseconds: 350 + (offset*20).abs()));
+        if (lastIndexToFocusedScroll != machine.configuration.focusedIndex+1)
+        {
+          lastIndexToFocusedScroll = machine.configuration.focusedIndex+1;
+          control.scrollTo(
+            index: machine.configuration.focusedIndex + 1,
+            alignment: 0.5,
+            curve: Curves.easeOutQuad,
+            myIndent: _widthOfCell / 2,
+            duration: Duration(milliseconds: 350 + (offset*20).abs()));
+        } 
       } else {
-        control.jumpTo(
+        if (machine.configuration.focusedIndex != machine.configuration.focusedIndex+1) {
+          control.jumpTo(
             index: machine.configuration.focusedIndex + 1, alignment: 0.5, myIndent: _widthOfCell / 2);
+        }
       }
     }
     

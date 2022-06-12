@@ -251,6 +251,10 @@ class ItemScrollController {
   void _detach() {
     _scrollableListState = null;
   }
+
+  int getLastIndex() {
+    return _scrollableListState!.primary.target;
+  }
 }
 
 class _ScrollablePositionedListState extends State<ScrollablePositionedList>

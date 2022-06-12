@@ -168,7 +168,9 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyUpHandler: (_) {
-        clearAllLines();
+        if (machine.activator.isHasConfiguration) {
+          clearAllLines();
+        }
       },
     );
 
@@ -272,7 +274,7 @@ class _TopPanelState extends State<TopPanel> {
         allowedExtensions: ['mmt']);
 
     if (result != null) {
-      
+
       if (machine.activator.isHasConfiguration) {
         machine.activator.resetMachine();
         machine.activator.configurationSet.clear();
@@ -577,7 +579,11 @@ class _TopPanelState extends State<TopPanel> {
                 waitDuration: const Duration(milliseconds: 500),
                 message: "Очистить все ленты (Crtl+Shift+C)",
                 child: ElevatedButton(
-                  onPressed: clearAllLines,
+                  onPressed: () {
+                    if (machine.activator.isHasConfiguration) {
+                      clearAllLines();
+                    }
+                  },
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
