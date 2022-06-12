@@ -30,7 +30,7 @@ class LineState extends State<Line> {
   ItemScrollController control = ItemScrollController();
 
   int lastIndexToScroll = 1001;
-  int lastIndexToFocusedScroll = 1001;
+  
 
   scroll({int offset = 0, int speed = 1}) {
     if (animationState.isAnimate) {
@@ -59,9 +59,9 @@ class LineState extends State<Line> {
     {
       
       if (animationState.isAnimate) {
-        if (lastIndexToFocusedScroll != machine.configuration.focusedIndex+1)
+        if (lastIndexToScroll != machine.configuration.focusedIndex+1)
         {
-          lastIndexToFocusedScroll = machine.configuration.focusedIndex+1;
+          lastIndexToScroll = machine.configuration.focusedIndex+1;
           control.scrollTo(
             index: machine.configuration.focusedIndex + 1,
             alignment: 0.5,
