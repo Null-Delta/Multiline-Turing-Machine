@@ -394,7 +394,7 @@ class _TopPanelState extends State<TopPanel> {
     if (machine.deleteLine()) {
       linePagesState.currentState?.setState(() {});
       tableState.currentState!.deleteLine();
-    }
+    } 
   }
 
   @override

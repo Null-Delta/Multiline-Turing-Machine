@@ -265,57 +265,49 @@ class _AboutPanel extends State<AboutPanel> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Tooltip(
-                                          waitDuration:
-                                              const Duration(milliseconds: 200),
-                                          verticalOffset: 32,
-                                          message:
-                                              'https://github.com/Null-Delta/Multiline-Turing-Machine',
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              launchUrlString(
-                                                  'https://github.com/Null-Delta/Multiline-Turing-Machine');
-                                            },
-                                            child: Text(
-                                              "Эмулятор Многоленточной \nМашины Тьюринга",
-                                              maxLines: 2,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                color:
-                                                    Theme.of(context).cardColor,
-                                                fontFamily: 'Inter',
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 24,
-                                              ),
-                                            ),
-                                            style: linkButtonStyle,
+                                        Text(
+                                          "Эмулятор Многоленточной \nМашины Тьюринга",
+                                          maxLines: 2,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            color: Theme.of(context).cardColor,
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 24,
                                           ),
                                         ),
                                         const SizedBox(
                                           height: 6,
                                         ),
-                                        Text(
-                                          "Версия 1.1",
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .cardColor
-                                                .withOpacity(0.5),
-                                            fontFamily: 'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16,
+                                        Tooltip(
+                                          message: '15.06.2022',
+                                           waitDuration: const Duration(
+                                                milliseconds: 200),
+                                            verticalOffset: 14,
+                                          child: Text(
+                                            "Версия 1.2",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .cardColor
+                                                  .withOpacity(0.5),
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(
-                                          height: 8,
+                                          height: 6,
                                         ),
                                         SizedBox(
-                                          height: 20,
+                                          height: 23,
                                           child: Tooltip(
                                             waitDuration: const Duration(
                                                 milliseconds: 200),
                                             verticalOffset: 14,
-                                            message: "Сайт разработчиков",
+                                            message:
+                                                "Сайт разработчиков",
                                             child: ElevatedButton(
                                               onPressed: () {
                                                 launchUrlString(
@@ -380,7 +372,7 @@ class _AboutPanel extends State<AboutPanel> {
                                 email: 'iamgirya@yandex.ru',
                                 gitUrl: 'https://github.com/iamgirya',
                                 description:
-                                    'Модель машины Тьюринга, лента, очистка ленты, раздел "О приложении", подсчёт конфигураций, автоматическая работа машины Тьюринга.',
+                                    'Модель машины Тьюринга, лента, очистка ленты, раздел "О приложении", подсчёт конфигураций, хоткеи, автоматическая работа машины Тьюринга.',
                                 avatar: Image(image: AppImages.IAmGirya)),
                             Container(
                               margin: const EdgeInsets.only(

@@ -34,7 +34,7 @@ class _SettingsPanel extends State<SettingsPanel> {
   static const double iconSize = 28;
   late TuringMachine machine;
   var innerValue = true;
-  var useSystemTheme = true;
+  var useSystemTheme = false;
   var prefs = SharedPreferences.getInstance();
   var selectedTheme = 0;
 
