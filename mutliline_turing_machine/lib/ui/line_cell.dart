@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
 import '../model/line_cell_model.dart';
+import 'snackbar.dart';
 
 class LineCell extends StatefulWidget {
   const LineCell({
@@ -24,23 +25,29 @@ class LineCellState extends State<LineCell> {
     var lineFocus = MachineInherit.of(context)!.linesFocus[widget.lineIndex];
     var linePage = MachineInherit.of(context)!.linesPageState;
     return Consumer<LineCellModel>(builder: (_, value, __) {
-      return GestureDetector(
+      return GestureDetector(  
         onTapDown: (_) {
-          
-          machine.configuration.setFocus(widget.lineIndex, widget.index);
-          lineFocus.requestFocus();
-          if(!machine.activator.isActive)
-          {
+          if(!machine.activator.isActive) {
+            machine.configuration.setFocus(widget.lineIndex, widget.index);
+            lineFocus.requestFocus();
             linePage.currentState!.scrollLineToFocus();
+          }
+          else {
+            Snackbar.create("Нельзя переназначать ячейку ввода т.к. машина работает.", context);
           }
           
         },
         onSecondaryTap: () {
-          lineFocus.requestFocus();
-          var offset = widget.index - machine.configuration.linePointers[widget.lineIndex];
-          machine.configuration.moveLine(widget.lineIndex, offset);
-          machine.configuration.setFocus(widget.lineIndex, widget.index);
-          linePage.currentState!.scrollLine(index:widget.lineIndex, offset: offset);
+          if(!machine.activator.isActive){
+            lineFocus.requestFocus();
+            var offset = widget.index - machine.configuration.linePointers[widget.lineIndex];
+            machine.configuration.moveLine(widget.lineIndex, offset);
+            machine.configuration.setFocus(widget.lineIndex, widget.index);
+            linePage.currentState!.scrollLine(index:widget.lineIndex, offset: offset);
+          }
+          else {
+            Snackbar.create("Нельзя переназначать активную ячейку т.к. машина работает.", context);
+          }
         },
         child: Align(
           alignment: const Alignment(0.0, 0.0),
