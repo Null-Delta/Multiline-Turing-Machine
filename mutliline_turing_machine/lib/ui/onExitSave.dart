@@ -9,7 +9,6 @@ bool isOnScreen = false;
 
 Future? onExitSave(context, TuringMachine machine) 
 { 
-  
   if (isOnScreen) {
     return null;
   }

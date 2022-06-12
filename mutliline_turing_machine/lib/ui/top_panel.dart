@@ -329,6 +329,7 @@ class _TopPanelState extends State<TopPanel> {
     if (machine.activator.isActive) {
       machine.activator.stopMachine();
       bottomSplitState.currentState!.setState(() {});
+      bottomPanel.currentState!.setState(() {});
     }
     Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
       return ChangeNotifierProvider.value(
@@ -343,6 +344,7 @@ class _TopPanelState extends State<TopPanel> {
   void aboutApp() {
     if (machine.activator.isActive) {
       machine.activator.stopMachine();
+      bottomPanel.currentState!.setState(() {});
     }
     Navigator.of(context)
         .push(CupertinoPageRoute(builder: (context) => const AboutPanel()));
@@ -351,6 +353,7 @@ class _TopPanelState extends State<TopPanel> {
   void help() {
     if (machine.activator.isActive) {
       machine.activator.stopMachine();
+      bottomPanel.currentState!.setState(() {});
     }
     Navigator.of(context)
         .push(CupertinoPageRoute(builder: (context) => const Reference()));
@@ -362,11 +365,18 @@ class _TopPanelState extends State<TopPanel> {
   }
 
   void loadAllLines() {
-    if (machine.activator.isActive) {
+    if (machine.activator.isActive || machine.activator.isHasConfiguration) {
       Snackbar.create(
-          "Нельзя загрузить ленты во время работы машины.", context);
+          "Нельзя загружать ленты во время работы машины.", context);
     } else {
       if (machine.saveLinesJson != null) {
+        if (machine.activator.isHasConfiguration) {
+        machine.activator.resetMachine();
+        machine.activator.configurationSet.clear();
+        statesListState.currentState!.setState(() {});
+        tableState.currentState!.updateTableState();
+        bottomPanel.currentState!.setState(() {});
+       }
         machine.importLinesJson(machine.saveLinesJson!);
         tableState.currentState!.reloadTable();
         linePagesState.currentState!.reBuild();
@@ -377,24 +387,48 @@ class _TopPanelState extends State<TopPanel> {
     }
   }
 
-  void clearAllLines() {
-    linePagesState.currentState!.clearAllLines();
+  void clearAllLines() { 
+    if (machine.activator.isActive) {
+      Snackbar.create("Нельзя очищать ленты во время работы машины.", context);  
+    } else {
+      if (machine.activator.isHasConfiguration) {
+        machine.activator.resetMachine();
+        machine.activator.configurationSet.clear();
+        statesListState.currentState!.setState(() {});
+        tableState.currentState!.updateTableState();
+        bottomPanel.currentState!.setState(() {});
+      }
+      linePagesState.currentState!.clearAllLines();
+    }
+    
   }
 
   void addLine() {
-    if (machine.addLine()) {
+    if (machine.activator.isActive) {
+      Snackbar.create("Нельзя добавлять ленты во время работы машины.", context);  
+    } else {
+      if (machine.addLine()) {
       linePagesState.currentState?.setState(() {});
       tableState.currentState!.addLine();
-    } else {
-      Snackbar.create("Достигнуто максимальное количество лент.", context);
+      } else {
+        Snackbar.create("Достигнуто максимальное количество лент.", context);
+      }
     }
+    
   }
 
   void deleteLine() {
-    if (machine.deleteLine()) {
-      linePagesState.currentState?.setState(() {});
-      tableState.currentState!.deleteLine();
-    } 
+    if (machine.activator.isActive) {
+      Snackbar.create(
+          "Нельзя удалять ленты во время работы машины.", context);
+    } else {
+      if (machine.deleteLine()) {
+        linePagesState.currentState?.setState(() {});
+        tableState.currentState!.deleteLine();
+      } else {
+        Snackbar.create("Все ленты удалены.", context);
+      }
+    }
   }
 
   @override
@@ -625,9 +659,7 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Очистить все ленты (Crtl+Shift+C)",
                 child: ElevatedButton(
                   onPressed: () {
-                    if (machine.activator.isHasConfiguration) {
                       clearAllLines();
-                    }
                   },
                   child: SizedBox(
                     width: iconSize,

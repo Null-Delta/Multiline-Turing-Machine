@@ -53,7 +53,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   Tooltip addStateBtn() => Tooltip(
         waitDuration: const Duration(milliseconds: 500),
-        message: "Добавить состояние (Crtl+Shift+'+')",
+        message: "Добавить состояние в конец (Crtl+Shift+'+')",
         child: ElevatedButton(
           focusNode: widget.topFocus,
           onPressed: () {
@@ -70,7 +70,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   Tooltip deleteStateBtn() => Tooltip(
         waitDuration: const Duration(milliseconds: 500),
-        message: "Удалить состояние (Crtl+Shift+'-')",
+        message: "Удалить выбранное состояние (Crtl+Shift+'-')",
         child: ElevatedButton(
           onPressed: () {
             widget.onDeleteState();
