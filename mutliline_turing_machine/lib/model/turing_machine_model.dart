@@ -1,7 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
-
 class TuringCommand {
   String input = "*";
   String output = "*";

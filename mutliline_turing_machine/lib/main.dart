@@ -37,10 +37,6 @@ void main() async {
     Directory("saves").create().then((Directory directory) {
       log(directory.path);
     });
-  } else if (Platform.isMacOS) {
-    Directory("saves").create().then((Directory directory) {
-      log(directory.path);
-    });
   }
 
   var prefs = await SharedPreferences.getInstance();

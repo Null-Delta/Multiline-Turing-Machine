@@ -38,18 +38,13 @@ class _TopPanelState extends State<TopPanel> {
   static const double iconSize = 28;
 
   late TuringMachine machine = MachineInherit.of(context)!.machine;
-  late GlobalKey<TuringMachineTableState> tableState =
-      MachineInherit.of(context)!.tableState;
-  late GlobalKey<LinesPageState> linePagesState =
-      MachineInherit.of(context)!.linesPageState;
-  late GlobalKey<BottomSplitPanelState> bottomSplitState =
-      MachineInherit.of(context)!.bottomSplitState;
-  late GlobalKey<StatesListState> statesListState =
-      MachineInherit.of(context)!.statesListState;
-  late LineAnimationState animationState =
-      MachineInherit.of(context)!.animationState;
+  late GlobalKey<TuringMachineTableState> tableState = MachineInherit.of(context)!.tableState;
+  late GlobalKey<LinesPageState> linePagesState = MachineInherit.of(context)!.linesPageState;
+  late GlobalKey<BottomSplitPanelState> bottomSplitState = MachineInherit.of(context)!.bottomSplitState;
+  late GlobalKey<StatesListState> statesListState = MachineInherit.of(context)!.statesListState;
+  late LineAnimationState animationState = MachineInherit.of(context)!.animationState;
   late AppTheme theme = MachineInherit.of(context)!.theme;
-  
+
   void loadTopHotKeys(
       TuringMachine machine,
       GlobalKey<TuringMachineTableState> tableState,
@@ -57,7 +52,6 @@ class _TopPanelState extends State<TopPanel> {
       GlobalKey<BottomSplitPanelState> bottomSplitState,
       GlobalKey<StatesListState> statesListState,
       LineAnimationState animationState) {
-    
     hotKeyManager.register(
       HotKey(
         KeyCode.keyN,
@@ -99,14 +93,11 @@ class _TopPanelState extends State<TopPanel> {
       ),
       keyUpHandler: (_) {
         if (!Navigator.of(context).canPop()) {
-          if(machine.activator.isActive)
-          {
+          if (machine.activator.isActive) {
             machine.activator.stopMachine();
           }
           settings();
-        }
-        else
-        {
+        } else {
           Navigator.of(context).pop();
         }
       },
@@ -119,14 +110,11 @@ class _TopPanelState extends State<TopPanel> {
       ),
       keyUpHandler: (_) {
         if (!Navigator.of(context).canPop()) {
-          if(machine.activator.isActive)
-          {
+          if (machine.activator.isActive) {
             machine.activator.stopMachine();
           }
           aboutApp();
-        }
-        else
-        {
+        } else {
           Navigator.of(context).pop();
         }
       },
@@ -139,14 +127,11 @@ class _TopPanelState extends State<TopPanel> {
       ),
       keyUpHandler: (_) {
         if (!Navigator.of(context).canPop()) {
-          if(machine.activator.isActive)
-          {
+          if (machine.activator.isActive) {
             machine.activator.stopMachine();
           }
           help();
-        }
-        else
-        {
+        } else {
           Navigator.of(context).pop();
         }
       },
@@ -159,7 +144,7 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyUpHandler: (_) {
-       saveAllLines();
+        saveAllLines();
       },
     );
 
@@ -170,7 +155,6 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyUpHandler: (_) {
-        
         loadAllLines();
       },
     );
@@ -182,7 +166,6 @@ class _TopPanelState extends State<TopPanel> {
         scope: HotKeyScope.inapp,
       ),
       keyUpHandler: (_) {
-        
         clearAllLines();
       },
     );
@@ -210,9 +193,6 @@ class _TopPanelState extends State<TopPanel> {
     );
   }
 
-   
-
-
   Timer? timer;
   int savedIndex = 0;
   void startAutoSave(TuringMachine machine) {
@@ -234,59 +214,50 @@ class _TopPanelState extends State<TopPanel> {
   }
 
   void newFile() {
-    
-      Snackbar.create("Невозможно создать новый файл, т.к. машина работает.", context);
-    
-      TuringMachine emptyMachine = TuringMachine(TuringMachineModel());
-      machine.filePath = null;
-      machine.loadFromJson(emptyMachine.toJson());
+    Snackbar.create("Невозможно создать новый файл, т.к. машина работает.", context);
+
+    TuringMachine emptyMachine = TuringMachine(TuringMachineModel());
+    machine.filePath = null;
+    machine.loadFromJson(emptyMachine.toJson());
+    tableState.currentState!.reloadTable();
+    statesListState.currentState!.setState(() {});
+    linePagesState.currentState!.reBuild();
+    bottomSplitState.currentState!.setState(() {});
+  }
+
+  Future<void> loadFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        initialDirectory: Platform.isWindows ? "saves" : "",
+        dialogTitle: '',
+        type: FileType.custom,
+        allowedExtensions: ['mmt']);
+    if (result != null) {
+      if (machine.activator.isActive) {
+        machine.activator.resetMachine();
+      }
+      File file = File(result.files.first.path!);
+      String json = await file.readAsString();
+
+      machine.loadFromJson(jsonDecode(json));
+      machine.filePath = result.files.first.path;
+
       tableState.currentState!.reloadTable();
       statesListState.currentState!.setState(() {});
       linePagesState.currentState!.reBuild();
       bottomSplitState.currentState!.setState(() {});
-    
-    
-    
-  }
-
-  Future<void> loadFile() async {
-    
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        initialDirectory: "saves",
-        dialogTitle: '',
-        type: FileType.custom,
-        allowedExtensions: ['mmt']);
-      if (result != null) {
-        if(machine.activator.isActive)
-        {
-          machine.activator.resetMachine();
-        }
-        File file = File(result.files.first.path!);
-        String json = await file.readAsString();
-
-        machine.loadFromJson(jsonDecode(json));
-        machine.filePath = result.files.first.path;
-
-        tableState.currentState!.reloadTable();
-        statesListState.currentState!.setState(() {});
-        linePagesState.currentState!.reBuild();
-        bottomSplitState.currentState!.setState(() {});
-      }
-    
-    
+    }
   }
 
   Future<void> saveFile() async {
     String? result = await FilePicker.platform.saveFile(
-        initialDirectory: "saves",
+        initialDirectory: Platform.isWindows ? "saves" : "",
         dialogTitle: '',
         fileName: 'save.mmt',
         type: FileType.custom,
         allowedExtensions: ['mmt']);
 
     if (result != null) {
-      if(machine.activator.isActive)
-      {
+      if (machine.activator.isActive) {
         machine.activator.resetMachine();
       }
       if (result.contains('.')) {
@@ -296,7 +267,7 @@ class _TopPanelState extends State<TopPanel> {
 
       result += '.mmt';
       log(result);
-      
+
       File file = File(result);
       IOSink sink = file.openWrite();
       String json = jsonEncode(machine.toJson());
@@ -309,12 +280,9 @@ class _TopPanelState extends State<TopPanel> {
   }
 
   void settings() {
-    if(machine.activator.isActive)
-    {
+    if (machine.activator.isActive) {
       machine.activator.stopMachine();
-      bottomSplitState.currentState!.setState(() {
-        
-      });
+      bottomSplitState.currentState!.setState(() {});
     }
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return ChangeNotifierProvider.value(
@@ -327,48 +295,37 @@ class _TopPanelState extends State<TopPanel> {
   }
 
   void aboutApp() {
-    if(machine.activator.isActive)
-    {
+    if (machine.activator.isActive) {
       machine.activator.stopMachine();
     }
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const AboutPanel()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutPanel()));
   }
 
   void help() {
-    if(machine.activator.isActive)
-    {
+    if (machine.activator.isActive) {
       machine.activator.stopMachine();
     }
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const Reference()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Reference()));
   }
-  
+
   void saveAllLines() {
     machine.saveLinesJson = jsonEncode(machine.linesToJson());
     Snackbar.create("Ленты сохранены.", context, isError: false, sec: 1);
-    
   }
 
   void loadAllLines() {
-    if(machine.activator.isActive)
-    {
+    if (machine.activator.isActive) {
       Snackbar.create("Нельзя загрузить ленты во время работы машины.", context);
-    }
-    else{
+    } else {
       if (machine.saveLinesJson != null) {
         machine.importLinesJson(machine.saveLinesJson!);
         tableState.currentState!.reloadTable();
         linePagesState.currentState!.reBuild();
         bottomSplitState.currentState!.setState(() {});
-      }
-      else
-      {
+      } else {
         Snackbar.create("Нет сохранённых лент.", context, sec: 1);
       }
-    }  
-    
-      
+    }
   }
 
   void clearAllLines() {
@@ -379,9 +336,7 @@ class _TopPanelState extends State<TopPanel> {
     if (machine.addLine()) {
       linePagesState.currentState?.setState(() {});
       tableState.currentState!.addLine();
-    }
-    else
-    {
+    } else {
       Snackbar.create("Достигнуто максимальное количество лент.", context);
     }
   }
@@ -405,8 +360,7 @@ class _TopPanelState extends State<TopPanel> {
 
     startAutoSave(machine);
 
-    loadTopHotKeys(machine, tableState, linePagesState, bottomSplitState,
-        statesListState, animationState);
+    loadTopHotKeys(machine, tableState, linePagesState, bottomSplitState, statesListState, animationState);
 
     return Column(
       children: [
@@ -446,9 +400,7 @@ class _TopPanelState extends State<TopPanel> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context)
-                                    .cardColor
-                                    .withOpacity(0.5),
+                                color: Theme.of(context).cardColor.withOpacity(0.5),
                               ),
                             ),
                           ],
@@ -476,9 +428,7 @@ class _TopPanelState extends State<TopPanel> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context)
-                                    .cardColor
-                                    .withOpacity(0.5),
+                                color: Theme.of(context).cardColor.withOpacity(0.5),
                               ),
                             ),
                           ],
@@ -506,9 +456,7 @@ class _TopPanelState extends State<TopPanel> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context)
-                                    .cardColor
-                                    .withOpacity(0.5),
+                                color: Theme.of(context).cardColor.withOpacity(0.5),
                               ),
                             ),
                           ],
@@ -517,9 +465,7 @@ class _TopPanelState extends State<TopPanel> {
                       ),
                     ];
                   },
-                  child: Image(
-                      image: AppImages.file,
-                      color: Theme.of(context).cardColor)),
+                  child: Image(image: AppImages.file, color: Theme.of(context).cardColor)),
               const SizedBox(
                 width: 6,
               ),
@@ -550,9 +496,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.happy,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.happy, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -568,9 +512,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.help,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.help, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -588,9 +530,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.save,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.save, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -606,9 +546,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.load,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.load, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -624,9 +562,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.clear,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.clear, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -650,9 +586,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.addVariantDown,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.addVariantDown, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -668,9 +602,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.deleteVariant,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.deleteVariant, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
