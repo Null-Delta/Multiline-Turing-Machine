@@ -21,7 +21,9 @@ class _StateCommentsState extends State<StateComments> {
   }
 
   bool isFirstLine() {
-    return !textController.text.substring(0, textController.selection.start).contains('\n');
+    return !textController.text
+        .substring(0, textController.selection.start)
+        .contains('\n');
   }
 
   @override
@@ -60,10 +62,15 @@ class _StateCommentsState extends State<StateComments> {
             decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
             child: Focus(
               onKey: (node, event) {
-                if (event.isKeyPressed(LogicalKeyboardKey.arrowUp) && isFirstLine()) {
-                  FocusScope.of(context).focusInDirection(TraversalDirection.up);
-                } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft) && textController.selection.start == 0) {
-                  FocusScope.of(context).parent!.focusInDirection(TraversalDirection.left);
+                if (event.isKeyPressed(LogicalKeyboardKey.arrowUp) &&
+                    isFirstLine()) {
+                  FocusScope.of(context)
+                      .focusInDirection(TraversalDirection.up);
+                } else if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft) &&
+                    textController.selection.start == 0) {
+                  FocusScope.of(context)
+                      .parent!
+                      .focusInDirection(TraversalDirection.left);
                 }
                 return KeyEventResult.ignored;
               },
@@ -75,17 +82,19 @@ class _StateCommentsState extends State<StateComments> {
                 },
                 maxLines: 10000,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 16,
                   color: Theme.of(context).cardColor,
                   fontWeight: FontWeight.w400,
                 ),
                 decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(left: 12, top: 12, bottom: 12),
-                    hoverColor: Theme.of(context).backgroundColor,
-                    border: InputBorder.none,
-                    fillColor: Theme.of(context).backgroundColor,
-                    isDense: false,
-                    filled: true),
+                  contentPadding:
+                      const EdgeInsets.only(left: 12, top: 12, bottom: 12),
+                  hoverColor: Theme.of(context).backgroundColor,
+                  border: InputBorder.none,
+                  fillColor: Theme.of(context).backgroundColor,
+                  isDense: false,
+                  //filled: true,
+                ),
               ),
             ),
           ),

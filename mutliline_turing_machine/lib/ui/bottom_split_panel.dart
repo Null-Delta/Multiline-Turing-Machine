@@ -27,6 +27,8 @@ class BottomSplitPanelState extends State<BottomSplitPanel> {
             antiAliasingWorkaround: false,
             axis: Axis.horizontal,
             minimalSizes: const [322, 138],
+            initialWeights: const [0.8, 0.2],
+            //minimalWeights: [0.5, 0.1],
             resizable: true,
             children: [widget.table, const StateComments()],
           )
