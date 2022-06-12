@@ -10,8 +10,9 @@ bool isOnScreen = false;
 Future? onExitSave(context, TuringMachine machine) 
 { 
   
-  if (isOnScreen)
+  if (isOnScreen) {
     return null;
+  }
   isOnScreen = true;
   return showDialog(
     context: context,

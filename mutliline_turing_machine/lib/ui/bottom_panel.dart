@@ -48,7 +48,7 @@ class BottomPanelState extends State<BottomPanel> {
 
   static const double iconSize = 28;
 
-  int timesPerSec = 4;
+  int timesPerSec = 1;
   late var scafoldState;
 
   Tooltip addStateBtn() => Tooltip(

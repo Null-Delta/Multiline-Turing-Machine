@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
 
@@ -201,39 +202,48 @@ class _TopPanelState extends State<TopPanel> {
   int savedIndex = 0;
   void startAutoSave(TuringMachine machine) {
     timer = Timer.periodic(
-      const Duration(seconds: 5),
-      (timer) async {
-        if (Platform.isWindows) {
+      const Duration(minutes: 3),
+      (_) async {
+        createAutoSave();
+      },
+    );
+  }
+
+  void createAutoSave() async {
+    if (Platform.isWindows) {
           String savePath = Directory.current.path + "\\saves\\autosave" + savedIndex.toString() + ".mmt";
-          savedIndex++;
-          if (savedIndex == 10) savedIndex = 0;
+          savedIndex = (savedIndex + 1) % 10;
           File file = File(savePath);
           IOSink sink = file.openWrite();
           String json = jsonEncode(machine.toJson());
           sink.write(json);
           file.create();
         }
-      },
-    );
   }
 
   void newFile() {
-    Snackbar.create("Невозможно создать новый файл, т.к. машина работает.", context);
+    
 
-    if (machine.activator.isHasConfiguration) {
-      machine.activator.resetMachine();
-      machine.activator.configurationSet.clear();
-      statesListState.currentState!.setState(() {});
-      tableState.currentState!.updateTableState();
-      bottomPanel.currentState!.setState(() {});
+    if (machine.activator.isActive) {
+      Snackbar.create("Невозможно создать новый файл, т.к. машина работает.", context);
     }
-    TuringMachine emptyMachine = TuringMachine(TuringMachineModel());
-    machine.filePath = null;
-    machine.loadFromJson(emptyMachine.toJson());
-    tableState.currentState!.reloadTable();
-    statesListState.currentState!.setState(() {});
-    linePagesState.currentState!.reBuild();
-    bottomSplitState.currentState!.setState(() {});
+    else {
+      if(machine.activator.isHasConfiguration) {
+        machine.activator.resetMachine();
+        machine.activator.configurationSet.clear();
+        statesListState.currentState!.setState(() {});
+        tableState.currentState!.updateTableState();
+        bottomPanel.currentState!.setState(() {});
+      }
+      TuringMachine emptyMachine = TuringMachine(TuringMachineModel());
+      machine.filePath = null;
+      machine.loadFromJson(emptyMachine.toJson());
+      tableState.currentState!.reloadTable();
+      statesListState.currentState!.setState(() {});
+      linePagesState.currentState!.reBuild();
+      bottomSplitState.currentState!.setState(() {});
+    }
+    
   }
 
   Future<void> loadFile() async {
@@ -305,7 +315,7 @@ class _TopPanelState extends State<TopPanel> {
       machine.activator.stopMachine();
       bottomSplitState.currentState!.setState(() {});
     }
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+    Navigator.of(context).push(CupertinoPageRoute(builder: (context) {
       return ChangeNotifierProvider.value(
         value: animationState,
         child: SettingsPanel(
@@ -319,14 +329,14 @@ class _TopPanelState extends State<TopPanel> {
     if (machine.activator.isActive) {
       machine.activator.stopMachine();
     }
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutPanel()));
+    Navigator.of(context).push(CupertinoPageRoute(builder: (context) => const AboutPanel()));
   }
 
   void help() {
     if (machine.activator.isActive) {
       machine.activator.stopMachine();
     }
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Reference()));
+    Navigator.of(context).push(CupertinoPageRoute(builder: (context) => const Reference()));
   }
 
   void saveAllLines() {
