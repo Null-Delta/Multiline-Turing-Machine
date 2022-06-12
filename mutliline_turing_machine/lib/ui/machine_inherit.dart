@@ -7,6 +7,7 @@ import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
 
+import 'bottom_panel.dart';
 import 'bottom_split_panel.dart';
 import 'lines_page.dart';
 
@@ -23,6 +24,7 @@ class MachineInherit extends InheritedWidget {
       required this.bottomSplitState,
       required this.statesFocus,
       required this.animationState,
+      required this.bottomPanel,
       required this.theme})
       : super(child: child, key: key);
 
@@ -36,6 +38,7 @@ class MachineInherit extends InheritedWidget {
   final GlobalKey<TuringMachineTableState> tableState;
   final GlobalKey<BottomSplitPanelState> bottomSplitState;
   final GlobalKey<StatesListState> statesListState;
+  final GlobalKey<BottomPanelState> bottomPanel;
   final LineAnimationState animationState;
 
   final AppTheme theme;

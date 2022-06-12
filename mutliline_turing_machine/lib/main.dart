@@ -164,6 +164,7 @@ class _MainWidgetState extends State<MainWidget> {
       tableState.currentState!.updateTableState();
       tableManager!.setCurrentSelectingRowsByRange(
           machine.configuration.currentVatiantIndex, machine.configuration.currentVatiantIndex);
+      
     },
     onStartStopWork: (int timesPerSec, sfContext) {
       if (!machine.activator.isActive) {
@@ -275,6 +276,7 @@ class _MainWidgetState extends State<MainWidget> {
       body: MachineInherit(
         animationState: lineAnimate,
         statesFocus: statesFocus,
+        bottomPanel: bottomPanelState,
         bottomSplitState: commentsState,
         machine: machine,
         linesFocus: [for (int i = 0; i < machine.model.countOfLines; i++) FocusNode()],

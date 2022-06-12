@@ -7,6 +7,8 @@ class ConfigurationSet extends ChangeNotifier {
   final Set<Configuration> _passedConfigurations = {};
   int get countConfigurations => _passedConfigurations.length;
 
+  int get length => _passedConfigurations.length;
+
   void clear() {
     _passedConfigurations.clear();
     notifyListeners();
@@ -32,6 +34,7 @@ class MachineEngine {
 
   // запущена ли машина
   late bool active = false;
+  late bool isHasConfiguration = configurationSet.length != 0;
   bool get isActive => active;
   int timesPerSecond = 1;
 

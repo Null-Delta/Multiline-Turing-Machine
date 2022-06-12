@@ -12,6 +12,7 @@ import 'package:mutliline_turing_machine/styles/app_button.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/ui/about_panel.dart';
 import 'package:mutliline_turing_machine/ui/app_theme.dart';
+import 'package:mutliline_turing_machine/ui/bottom_panel.dart';
 import 'package:mutliline_turing_machine/ui/bottom_split_panel.dart';
 import 'package:mutliline_turing_machine/ui/custom_popup.dart';
 import 'package:mutliline_turing_machine/ui/lines_page.dart';
@@ -39,6 +40,7 @@ class _TopPanelState extends State<TopPanel> {
 
   late TuringMachine machine = MachineInherit.of(context)!.machine;
   late GlobalKey<TuringMachineTableState> tableState = MachineInherit.of(context)!.tableState;
+  late GlobalKey<BottomPanelState> bottomPanel = MachineInherit.of(context)!.bottomPanel;
   late GlobalKey<LinesPageState> linePagesState = MachineInherit.of(context)!.linesPageState;
   late GlobalKey<BottomSplitPanelState> bottomSplitState = MachineInherit.of(context)!.bottomSplitState;
   late GlobalKey<StatesListState> statesListState = MachineInherit.of(context)!.statesListState;
@@ -216,6 +218,13 @@ class _TopPanelState extends State<TopPanel> {
   void newFile() {
     Snackbar.create("Невозможно создать новый файл, т.к. машина работает.", context);
 
+    if (machine.activator.isHasConfiguration) {
+      machine.activator.resetMachine();
+      machine.activator.configurationSet.clear();
+      statesListState.currentState!.setState(() {});
+      tableState.currentState!.updateTableState();
+      bottomPanel.currentState!.setState(() {});
+    }
     TuringMachine emptyMachine = TuringMachine(TuringMachineModel());
     machine.filePath = null;
     machine.loadFromJson(emptyMachine.toJson());
@@ -226,14 +235,20 @@ class _TopPanelState extends State<TopPanel> {
   }
 
   Future<void> loadFile() async {
+    
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         initialDirectory: Platform.isWindows ? "saves" : "",
         dialogTitle: '',
         type: FileType.custom,
         allowedExtensions: ['mmt']);
     if (result != null) {
-      if (machine.activator.isActive) {
+
+      if (machine.activator.isHasConfiguration) {
         machine.activator.resetMachine();
+        machine.activator.configurationSet.clear();
+        statesListState.currentState!.setState(() {});
+        tableState.currentState!.updateTableState();
+        bottomPanel.currentState!.setState(() {});
       }
       File file = File(result.files.first.path!);
       String json = await file.readAsString();
@@ -257,14 +272,18 @@ class _TopPanelState extends State<TopPanel> {
         allowedExtensions: ['mmt']);
 
     if (result != null) {
-      if (machine.activator.isActive) {
+      
+      if (machine.activator.isHasConfiguration) {
         machine.activator.resetMachine();
+        machine.activator.configurationSet.clear();
+        statesListState.currentState!.setState(() {});
+        tableState.currentState!.updateTableState();
+        bottomPanel.currentState!.setState(() {});
       }
       if (result.contains('.')) {
         log("message " + result.indexOf('.').toString());
         result = result.substring(0, result.indexOf('.'));
       }
-
       result += '.mmt';
       log(result);
 
