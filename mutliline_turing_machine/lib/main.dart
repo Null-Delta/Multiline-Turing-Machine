@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -20,6 +19,7 @@ import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_size/window_size.dart';
 import 'ui/lines_page.dart';
+import 'ui/onExitSave.dart';
 import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
 import 'ui/turing_machine_table.dart';
@@ -260,91 +260,8 @@ class _MainWidgetState extends State<MainWidget> {
   @override
   void initState() {
     FlutterWindowClose.setWindowShouldCloseHandler(() async {
-      return await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              backgroundColor: Theme.of(context).backgroundColor,
-              titleTextStyle: TextStyle(color: Theme.of(context).cardColor, fontSize: 16, fontWeight: FontWeight.w500),
-              shape: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(8),
-                ),
-                borderSide: BorderSide(width: 0, color: Colors.transparent),
-              ),
-              title: const Text('Сохранить файл перед выходом?'),
-              actions: [
-                ElevatedButton(
-                  onPressed: () async {
-                    if (machine.filePath != null) {
-                      File file = File(machine.filePath!);
-                      IOSink sink = file.openWrite();
-                      String json = jsonEncode(machine.toJson());
-                      sink.write(json);
-                      file.create();
-                      Navigator.of(context).pop(true);
-                    } else {
-                      String? result = await FilePicker.platform.saveFile(
-                          initialDirectory: Directory.current.path,
-                          lockParentWindow: true,
-                          fileName: 'save.mmt',
-                          type: FileType.custom,
-                          allowedExtensions: ['mmt']);
-
-                      if (result != null) {
-                        if (result.contains('.')) {
-                          log("message " + result.indexOf('.').toString());
-                          result = result.substring(0, result.indexOf('.'));
-                        }
-                        result += '.mmt';
-                        log(result);
-                        File file = File(result);
-                        IOSink sink = file.openWrite();
-                        String json = jsonEncode(machine.toJson());
-                        sink.write(json);
-                        file.create();
-
-                        Navigator.of(context).pop(true);
-                      }
-                    }
-                  },
-                  child: const Text(' Да '),
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(0),
-                    backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
-                    foregroundColor: MaterialStateProperty.all(Theme.of(context).cardColor),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-                  },
-                  child: const Text(' Нет '),
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(0),
-                    backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
-                    foregroundColor: MaterialStateProperty.all(Theme.of(context).cardColor),
-                  ),
-                ),
-                const SizedBox(
-                  width: 48,
-                ),
-                //const Spacer(),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop('dialog');
-                  },
-                  child: const Text('Отмена'),
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(0),
-                    backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
-                    foregroundColor: MaterialStateProperty.all(Theme.of(context).cardColor),
-                  ),
-                )
-              ],
-            );
-          });
-    });
+      return await onExitSave(context, machine);
+      });
 
     super.initState();
   }

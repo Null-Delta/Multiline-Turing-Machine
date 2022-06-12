@@ -197,7 +197,7 @@ class _TopPanelState extends State<TopPanel> {
   int savedIndex = 0;
   void startAutoSave(TuringMachine machine) {
     timer = Timer.periodic(
-      const Duration(seconds: 3),
+      const Duration(seconds: 5),
       (timer) async {
         if (Platform.isWindows) {
           String savePath = Directory.current.path + "\\saves\\autosave" + savedIndex.toString() + ".mmt";

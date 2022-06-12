@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart' show Intl;
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
-import 'package:mutliline_turing_machine/ui/top_panel.dart';
 
 class PlutoGrid extends StatefulWidget {
   const PlutoGrid({
@@ -377,7 +375,7 @@ class _PlutoGridState extends State<PlutoGrid> {
       return;
     }
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       widget.onLoaded!(PlutoGridOnLoadedEvent(
         stateManager: _stateManager,
       ));
@@ -389,7 +387,7 @@ class _PlutoGridState extends State<PlutoGrid> {
       return;
     }
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (_stateManager.currentCell == null && widget.rows.isNotEmpty) {
         _stateManager.setCurrentCell(widget.rows.first.cells.entries.first.value, 0);
       }

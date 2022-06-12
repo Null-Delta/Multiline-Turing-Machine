@@ -1,4 +1,3 @@
-import 'dart:developer' as developer;
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
