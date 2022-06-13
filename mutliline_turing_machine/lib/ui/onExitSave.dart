@@ -83,7 +83,7 @@ Future? onExitSave(context, TuringMachine machine) async {
                         Theme.of(context).backgroundColor),
                     foregroundColor:
                         MaterialStateProperty.all(Theme.of(context).cardColor),
-                    fixedSize: MaterialStateProperty.all(Size(150, 40)),
+                    //fixedSize: MaterialStateProperty.all(Size(150, 40)),
                     //maximumSize: MaterialStateProperty.all(Size(150, 40)),
                   ),
                 ),
@@ -99,7 +99,7 @@ Future? onExitSave(context, TuringMachine machine) async {
                         Theme.of(context).backgroundColor),
                     foregroundColor:
                         MaterialStateProperty.all(Theme.of(context).cardColor),
-                    fixedSize: MaterialStateProperty.all(Size(150, 40)),
+                    //fixedSize: MaterialStateProperty.all(Size(150, 40)),
                     //maximumSize: MaterialStateProperty.all(Size(150, 40)),
                   ),
                 ),
@@ -115,7 +115,7 @@ Future? onExitSave(context, TuringMachine machine) async {
                         Theme.of(context).backgroundColor),
                     foregroundColor:
                         MaterialStateProperty.all(Theme.of(context).cardColor),
-                    fixedSize: MaterialStateProperty.all(Size(150, 40)),
+                    //fixedSize: MaterialStateProperty.all(Size(150, 40)),
                     //maximumSize: MaterialStateProperty.all(Size(150, 40)),
                   ),
                 ),
