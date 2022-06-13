@@ -49,7 +49,7 @@ int i = 0;
           alignment: 0.5,
           curve: Curves.easeOutQuad,
           myIndent: _widthOfCell / 2,
-          duration: Duration(milliseconds: 10));
+          duration: Duration(milliseconds: (350 + (offset*20).abs()) ~/ math.pow(speed, 1/3)));
       } 
     } else {
       if (control.getLastIndex() != machine.configuration.linePointers[widget.index] + 1)
