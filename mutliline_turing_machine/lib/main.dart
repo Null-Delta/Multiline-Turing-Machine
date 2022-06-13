@@ -33,12 +33,19 @@ void main() async {
   }
 
   if (Platform.isWindows) {
-      Directory((await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves")
+    Directory((await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves")
         .create()
         .then((Directory directory) {
       log(directory.path);
     });
-    
+  }
+
+  if (Platform.isMacOS) {
+    Directory((await getApplicationDocumentsDirectory()).path + "/Multiline Turing Machine Saves")
+        .create()
+        .then((Directory directory) {
+      log(directory.path);
+    });
   }
 
   var prefs = await SharedPreferences.getInstance();

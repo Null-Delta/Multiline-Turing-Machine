@@ -51,7 +51,7 @@ Future? onExitSave(context, TuringMachine machine) async {
                         String? result = await FilePicker.platform.saveFile(
                             initialDirectory: Platform.isWindows
                                 ? (await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves"
-                                : "",
+                                : (await getApplicationDocumentsDirectory()).path + "/Multiline Turing Machine Saves",
                             dialogTitle: '',
                             fileName: 'save.mmt',
                             type: FileType.custom,

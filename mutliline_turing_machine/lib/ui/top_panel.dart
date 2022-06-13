@@ -221,17 +221,17 @@ class _TopPanelState extends State<TopPanel> {
 
   Future<void> createAutoSave() async {
     log((linePagesState.currentState == null).toString());
-    if (Platform.isWindows) {
-      String savePath = (await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves\\autosave" +
-          savedIndex.toString() +
-          ".mmt";
-      savedIndex = (savedIndex + 1) % 10;
-      File file = File(savePath);
-      IOSink sink = file.openWrite();
-      String json = jsonEncode(machine.toJson());
-      sink.write(json);
-      file.create();
-    }
+    String savePath = (Platform.isWindows
+            ? (await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves\\autosave"
+            : (await getApplicationDocumentsDirectory()).path + "/Multiline Turing Machine Saves/autosave") +
+        savedIndex.toString() +
+        ".mmt";
+    savedIndex = (savedIndex + 1) % 10;
+    File file = File(savePath);
+    IOSink sink = file.openWrite();
+    String json = jsonEncode(machine.toJson());
+    sink.write(json);
+    file.create();
   }
 
   void newFile() async {
@@ -259,7 +259,7 @@ class _TopPanelState extends State<TopPanel> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         initialDirectory: Platform.isWindows
             ? (await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves"
-            : "",
+            : (await getApplicationDocumentsDirectory()).path + "/Multiline Turing Machine Saves",
         dialogTitle: '',
         type: FileType.custom,
         allowedExtensions: ['mmt']);
@@ -290,7 +290,7 @@ class _TopPanelState extends State<TopPanel> {
     String? result = await FilePicker.platform.saveFile(
         initialDirectory: Platform.isWindows
             ? (await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves"
-            : "",
+            : (await getApplicationDocumentsDirectory()).path + "/Multiline Turing Machine Saves",
         dialogTitle: '',
         fileName: 'save.mmt',
         type: FileType.custom,
