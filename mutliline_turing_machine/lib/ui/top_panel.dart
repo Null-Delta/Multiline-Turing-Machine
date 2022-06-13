@@ -40,18 +40,12 @@ class _TopPanelState extends State<TopPanel> {
   static const double iconSize = 28;
 
   late TuringMachine machine = MachineInherit.of(context)!.machine;
-  late GlobalKey<TuringMachineTableState> tableState =
-      MachineInherit.of(context)!.tableState;
-  late GlobalKey<BottomPanelState> bottomPanel =
-      MachineInherit.of(context)!.bottomPanel;
-  late GlobalKey<LinesPageState> linePagesState =
-      MachineInherit.of(context)!.linesPageState;
-  late GlobalKey<BottomSplitPanelState> bottomSplitState =
-      MachineInherit.of(context)!.bottomSplitState;
-  late GlobalKey<StatesListState> statesListState =
-      MachineInherit.of(context)!.statesListState;
-  late LineAnimationState animationState =
-      MachineInherit.of(context)!.animationState;
+  late GlobalKey<TuringMachineTableState> tableState = MachineInherit.of(context)!.tableState;
+  late GlobalKey<BottomPanelState> bottomPanel = MachineInherit.of(context)!.bottomPanel;
+  late GlobalKey<LinesPageState> linePagesState = MachineInherit.of(context)!.linesPageState;
+  late GlobalKey<BottomSplitPanelState> bottomSplitState = MachineInherit.of(context)!.bottomSplitState;
+  late GlobalKey<StatesListState> statesListState = MachineInherit.of(context)!.statesListState;
+  late LineAnimationState animationState = MachineInherit.of(context)!.animationState;
   late AppTheme theme = MachineInherit.of(context)!.theme;
 
   void loadTopHotKeys() {
@@ -213,8 +207,7 @@ class _TopPanelState extends State<TopPanel> {
   int savedIndex = 0;
   void startAutoSave(TuringMachine machine) {
     createAutoSave();
-    if(timer?.isActive ?? false)
-    {
+    if (timer?.isActive ?? false) {
       timer!.cancel();
     }
     timer = Timer.periodic(
@@ -257,15 +250,16 @@ class _TopPanelState extends State<TopPanel> {
     linePagesState.currentState?.reBuild();
     tableState.currentState!.reloadTable();
     statesListState.currentState!.setState(() {});
-    
+
     bottomSplitState.currentState!.setState(() {});
-    
   }
 
   Future<void> loadFile() async {
     log(Platform.resolvedExecutable);
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        initialDirectory: Platform.isWindows ?  Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) + "\\saves" : "",
+        initialDirectory: Platform.isWindows
+            ? Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) + "\\saves"
+            : "",
         dialogTitle: '',
         type: FileType.custom,
         allowedExtensions: ['mmt']);
@@ -294,7 +288,9 @@ class _TopPanelState extends State<TopPanel> {
 
   Future<void> saveFile() async {
     String? result = await FilePicker.platform.saveFile(
-        initialDirectory: Platform.isWindows ?  Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) + "\\saves" : "",
+        initialDirectory: Platform.isWindows
+            ? Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) + "\\saves"
+            : "",
         dialogTitle: '',
         fileName: 'save.mmt',
         type: FileType.custom,
@@ -340,8 +336,7 @@ class _TopPanelState extends State<TopPanel> {
       machine.activator.stopMachine();
       bottomPanel.currentState!.setState(() {});
     }
-    Navigator.of(context)
-        .push(CupertinoPageRoute(builder: (context) => const AboutPanel()));
+    Navigator.of(context).push(CupertinoPageRoute(builder: (context) => const AboutPanel()));
   }
 
   void help() {
@@ -349,8 +344,7 @@ class _TopPanelState extends State<TopPanel> {
       machine.activator.stopMachine();
       bottomPanel.currentState!.setState(() {});
     }
-    Navigator.of(context)
-        .push(CupertinoPageRoute(builder: (context) => const Reference()));
+    Navigator.of(context).push(CupertinoPageRoute(builder: (context) => const Reference()));
   }
 
   void saveAllLines() {
@@ -360,17 +354,16 @@ class _TopPanelState extends State<TopPanel> {
 
   void loadAllLines() {
     if (machine.activator.isActive || machine.activator.isHasConfiguration) {
-      Snackbar.create(
-          "Нельзя загружать ленты во время работы машины.", context);
+      Snackbar.create("Нельзя загружать ленты во время работы машины.", context);
     } else {
       if (machine.saveLinesJson != null) {
         if (machine.activator.isHasConfiguration) {
-        machine.activator.resetMachine();
-        machine.activator.configurationSet.clear();
-        statesListState.currentState!.setState(() {});
-        tableState.currentState!.updateTableState();
-        bottomPanel.currentState!.setState(() {});
-       }
+          machine.activator.resetMachine();
+          machine.activator.configurationSet.clear();
+          statesListState.currentState!.setState(() {});
+          tableState.currentState!.updateTableState();
+          bottomPanel.currentState!.setState(() {});
+        }
         machine.importLinesJson(machine.saveLinesJson!);
         tableState.currentState!.reloadTable();
         linePagesState.currentState!.reBuild();
@@ -381,9 +374,9 @@ class _TopPanelState extends State<TopPanel> {
     }
   }
 
-  void clearAllLines() { 
+  void clearAllLines() {
     if (machine.activator.isActive) {
-      Snackbar.create("Нельзя очищать ленты во время работы машины.", context);  
+      Snackbar.create("Нельзя очищать ленты во время работы машины.", context);
     } else {
       if (machine.activator.isHasConfiguration) {
         machine.activator.resetMachine();
@@ -394,27 +387,24 @@ class _TopPanelState extends State<TopPanel> {
       }
       linePagesState.currentState!.clearAllLines();
     }
-    
   }
 
   void addLine() {
     if (machine.activator.isActive) {
-      Snackbar.create("Нельзя добавлять ленты во время работы машины.", context);  
+      Snackbar.create("Нельзя добавлять ленты во время работы машины.", context);
     } else {
       if (machine.addLine()) {
-      linePagesState.currentState?.setState(() {});
-      tableState.currentState!.addLine();
+        linePagesState.currentState?.setState(() {});
+        tableState.currentState!.addLine();
       } else {
         Snackbar.create("Достигнуто максимальное количество лент.", context);
       }
     }
-    
   }
 
   void deleteLine() {
     if (machine.activator.isActive) {
-      Snackbar.create(
-          "Нельзя удалять ленты во время работы машины.", context);
+      Snackbar.create("Нельзя удалять ленты во время работы машины.", context);
     } else {
       if (machine.deleteLine()) {
         linePagesState.currentState!.setState(() {});
@@ -476,9 +466,7 @@ class _TopPanelState extends State<TopPanel> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context)
-                                    .cardColor
-                                    .withOpacity(0.5),
+                                color: Theme.of(context).cardColor.withOpacity(0.5),
                               ),
                             ),
                           ],
@@ -506,9 +494,7 @@ class _TopPanelState extends State<TopPanel> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context)
-                                    .cardColor
-                                    .withOpacity(0.5),
+                                color: Theme.of(context).cardColor.withOpacity(0.5),
                               ),
                             ),
                           ],
@@ -536,9 +522,7 @@ class _TopPanelState extends State<TopPanel> {
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Theme.of(context)
-                                    .cardColor
-                                    .withOpacity(0.5),
+                                color: Theme.of(context).cardColor.withOpacity(0.5),
                               ),
                             ),
                           ],
@@ -547,9 +531,7 @@ class _TopPanelState extends State<TopPanel> {
                       ),
                     ];
                   },
-                  child: Image(
-                      image: AppImages.file,
-                      color: Theme.of(context).cardColor)),
+                  child: Image(image: AppImages.file, color: Theme.of(context).cardColor)),
               const SizedBox(
                 width: 6,
               ),
@@ -580,9 +562,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.happy,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.happy, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -598,9 +578,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.help,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.help, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -618,9 +596,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.save,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.save, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -636,9 +612,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.load,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.load, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -651,14 +625,12 @@ class _TopPanelState extends State<TopPanel> {
                 message: "Очистить все ленты (Crtl+Shift+C)",
                 child: ElevatedButton(
                   onPressed: () {
-                      clearAllLines();
+                    clearAllLines();
                   },
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.clear,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.clear, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -682,9 +654,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.addVariantDown,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.addVariantDown, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
@@ -700,9 +670,7 @@ class _TopPanelState extends State<TopPanel> {
                   child: SizedBox(
                     width: iconSize,
                     height: iconSize,
-                    child: Image(
-                        image: AppImages.deleteVariant,
-                        color: Theme.of(context).cardColor),
+                    child: Image(image: AppImages.deleteVariant, color: Theme.of(context).cardColor),
                   ),
                   style: appButtonStyle(context),
                 ),
