@@ -39,8 +39,7 @@ mixin ScrollState implements IPlutoGridState {
   PlutoGridScrollController? _scroll;
 
   @override
-  bool get isInvalidHorizontalScroll =>
-      scroll!.maxScrollHorizontal < scroll!.bodyRowsHorizontal!.offset;
+  bool get isInvalidHorizontalScroll => scroll!.maxScrollHorizontal < scroll!.bodyRowsHorizontal!.offset;
 
   @override
   void setScroll(PlutoGridScrollController? scroll) {
@@ -73,8 +72,7 @@ mixin ScrollState implements IPlutoGridState {
 
     final double rowSize = rowTotalHeight;
 
-    const double gridOffset =
-        PlutoGridSettings.gridPadding + PlutoGridSettings.shadowLineSize;
+    const double gridOffset = PlutoGridSettings.gridPadding + PlutoGridSettings.shadowLineSize;
 
     final double screenOffset = _scroll!.verticalOffset +
         columnRowContainerHeight -
@@ -83,8 +81,7 @@ mixin ScrollState implements IPlutoGridState {
         columnFilterHeight -
         gridOffset;
 
-    double offsetToMove =
-        direction.isUp ? (rowIdx! - 1) * rowSize : (rowIdx! + 1) * rowSize;
+    double offsetToMove = direction.isUp ? (rowIdx! - 1) * rowSize : (rowIdx! + 1) * rowSize;
 
     final bool inScrollStart = _scroll!.verticalOffset <= offsetToMove;
 
@@ -93,8 +90,7 @@ mixin ScrollState implements IPlutoGridState {
     if (inScrollStart && inScrollEnd) {
       return;
     } else if (inScrollEnd == false) {
-      offsetToMove =
-          _scroll!.verticalOffset + offsetToMove + rowSize - screenOffset;
+      offsetToMove = _scroll!.verticalOffset + offsetToMove + rowSize - screenOffset;
     }
 
     scrollByDirection(direction, offsetToMove);
@@ -108,8 +104,7 @@ mixin ScrollState implements IPlutoGridState {
 
     final columnIndexes = columnIndexesByShowFrozen;
 
-    final PlutoColumn columnToMove =
-        refColumns[columnIndexes[columnIdx! + direction.offset]];
+    final PlutoColumn columnToMove = refColumns[columnIndexes[columnIdx! + direction.offset]];
 
     if (!canHorizontalCellScrollByDirection(
       direction,
@@ -120,13 +115,11 @@ mixin ScrollState implements IPlutoGridState {
 
     // 이동할 스크롤 포지션 계산을 위해 이동 할 컬럼까지의 넓이 합계를 구한다.
     double offsetToMove = showFrozenColumn == true
-        ? bodyColumnsWidthAtColumnIdx(
-            columnIdx + direction.offset - leftFrozenColumnIndexes.length)
+        ? bodyColumnsWidthAtColumnIdx(columnIdx + direction.offset - leftFrozenColumnIndexes.length)
         : columnsWidthAtColumnIdx(columnIdx + direction.offset);
 
-    final double? screenOffset = showFrozenColumn == true
-        ? maxWidth! - leftFrozenColumnsWidth - rightFrozenColumnsWidth
-        : maxWidth;
+    final double? screenOffset =
+        showFrozenColumn == true ? maxWidth! - leftFrozenColumnsWidth - rightFrozenColumnsWidth : maxWidth;
 
     if (direction.isRight) {
       if (offsetToMove > _scroll!.horizontal!.offset) {
@@ -140,15 +133,12 @@ mixin ScrollState implements IPlutoGridState {
         }
       }
     } else {
-      final offsetToNeed = offsetToMove +
-          columnToMove.width +
-          PlutoGridSettings.totalShadowLineWidth;
+      final offsetToNeed = offsetToMove + columnToMove.width + PlutoGridSettings.totalShadowLineWidth;
 
       final currentOffset = screenOffset! + _scroll!.horizontal!.offset;
 
       if (offsetToNeed > currentOffset) {
-        offsetToMove =
-            _scroll!.horizontal!.offset + offsetToNeed - currentOffset;
+        offsetToMove = _scroll!.horizontal!.offset + offsetToNeed - currentOffset;
         offsetToMove += scrollOffsetByFrozenColumn;
       } else if (offsetToMove > _scroll!.horizontal!.offset) {
         return;
@@ -178,7 +168,7 @@ mixin ScrollState implements IPlutoGridState {
 
   @override
   void updateCorrectScroll() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       if (isInvalidHorizontalScroll) {
         scroll!.horizontal!.animateTo(
           scroll!.maxScrollHorizontal,

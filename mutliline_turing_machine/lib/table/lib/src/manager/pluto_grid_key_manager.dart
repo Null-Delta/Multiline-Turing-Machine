@@ -46,8 +46,7 @@ class PlutoGridKeyManager {
     required this.stateManager,
   });
 
-  PublishSubject<PlutoKeyManagerEvent> subject =
-      PublishSubject<PlutoKeyManagerEvent>();
+  PublishSubject<PlutoKeyManagerEvent> subject = PublishSubject<PlutoKeyManagerEvent>();
 
   void dispose() {
     subject.close();
@@ -128,8 +127,7 @@ class PlutoGridKeyManager {
   void _handleMoving(PlutoKeyManagerEvent keyEvent) {
     PlutoMoveDirection moveDirection;
 
-    bool force = keyEvent.isHorizontal &&
-        stateManager.configuration?.enableMoveHorizontalInEditing == true;
+    bool force = keyEvent.isHorizontal && stateManager.configuration?.enableMoveHorizontalInEditing == true;
 
     if (keyEvent.isLeft) {
       moveDirection = PlutoMoveDirection.left;
@@ -170,8 +168,7 @@ class PlutoGridKeyManager {
         }
       } else {
         if (keyEvent.isShiftPressed) {
-          stateManager
-              .moveSelectingCellToEdgeOfColumns(PlutoMoveDirection.left);
+          stateManager.moveSelectingCellToEdgeOfColumns(PlutoMoveDirection.left);
         } else {
           stateManager.moveCurrentCellToEdgeOfColumns(PlutoMoveDirection.left);
         }
@@ -185,8 +182,7 @@ class PlutoGridKeyManager {
         }
       } else {
         if (keyEvent.isShiftPressed) {
-          stateManager
-              .moveSelectingCellToEdgeOfColumns(PlutoMoveDirection.right);
+          stateManager.moveSelectingCellToEdgeOfColumns(PlutoMoveDirection.right);
         } else {
           stateManager.moveCurrentCellToEdgeOfColumns(PlutoMoveDirection.right);
         }
@@ -195,16 +191,12 @@ class PlutoGridKeyManager {
   }
 
   void _handlePageUpDown(PlutoKeyManagerEvent keyEvent) {
-    final int moveCount =
-        (stateManager.rowContainerHeight / stateManager.rowTotalHeight).floor();
+    final int moveCount = (stateManager.rowContainerHeight / stateManager.rowTotalHeight).floor();
 
-    final direction =
-        keyEvent.isPageUp ? PlutoMoveDirection.up : PlutoMoveDirection.down;
+    final direction = keyEvent.isPageUp ? PlutoMoveDirection.up : PlutoMoveDirection.down;
 
     if (keyEvent.isShiftPressed) {
-      int rowIdx = stateManager.currentSelectingPosition?.rowIdx ??
-          stateManager.currentCellPosition?.rowIdx ??
-          0;
+      int rowIdx = stateManager.currentSelectingPosition?.rowIdx ?? stateManager.currentCellPosition?.rowIdx ?? 0;
 
       rowIdx += keyEvent.isPageUp ? -moveCount : moveCount;
 
@@ -214,8 +206,7 @@ class PlutoGridKeyManager {
     }
 
     if (keyEvent.isAltPressed && stateManager.isPaginated) {
-      int toPage =
-          keyEvent.isPageUp ? stateManager.page - 1 : stateManager.page + 1;
+      int toPage = keyEvent.isPageUp ? stateManager.page - 1 : stateManager.page + 1;
 
       if (toPage < 1) {
         toPage = 1;
@@ -252,8 +243,7 @@ class PlutoGridKeyManager {
     if (stateManager.configuration!.enterKeyAction.isToggleEditing) {
       stateManager.toggleEditing(notify: false);
     } else {
-      if (stateManager.isEditing == true ||
-          stateManager.currentColumn?.enableEditingMode == false) {
+      if (stateManager.isEditing == true || stateManager.currentColumn?.enableEditingMode == false) {
         final saveIsEditing = stateManager.isEditing;
 
         _moveCell(keyEvent);
@@ -289,8 +279,7 @@ class PlutoGridKeyManager {
   }
 
   void _handleEsc(PlutoKeyManagerEvent keyEvent) {
-    if (stateManager.mode.isSelect ||
-        (stateManager.mode.isPopup && !stateManager.isEditing)) {
+    if (stateManager.mode.isSelect || (stateManager.mode.isPopup && !stateManager.isEditing)) {
       stateManager.onSelected!(PlutoGridOnSelectedEvent(
         row: null,
         cell: null,
@@ -351,8 +340,7 @@ class PlutoGridKeyManager {
     }
 
     Clipboard.getData('text/plain').then((value) {
-      List<List<String>> textList =
-          PlutoClipboardTransformation.stringToList(value!.text!);
+      List<List<String>> textList = PlutoClipboardTransformation.stringToList(value!.text!);
 
       stateManager.pasteCellValue(textList);
     });
@@ -374,7 +362,7 @@ class PlutoGridKeyManager {
         return;
       }
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
         if (stateManager.textEditingController != null) {
           stateManager.textEditingController!.text = keyEvent.event.character!;
         }
