@@ -1,6 +1,8 @@
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
+import 'package:mutliline_turing_machine/styles/app_images.dart';
 import 'package:mutliline_turing_machine/ui/line.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 
@@ -41,22 +43,24 @@ class LinesPageState extends State<LinesPage> {
   void onScroll() {
     //machine =  MachineInherit.of(context)!.machine;
     for (int i = 0; i < linesState.length; i++) {
-      linesState[i].currentState?.scroll(speed: machine.activator.timesPerSecond);
+      linesState[i]
+          .currentState
+          ?.scroll(speed: machine.activator.timesPerSecond);
     }
   }
 
   void scrollLine({required int index, int offset = 0}) {
-      linesState[index].currentState?.scroll(offset: offset);
+    linesState[index].currentState?.scroll(offset: offset);
   }
 
   void scrollLineToFocus() {
-      linesState[machine.configuration.focusedLine].currentState?.scrollToFocus();
+    linesState[machine.configuration.focusedLine].currentState?.scrollToFocus();
   }
 
   void reBuild() {
     setState(() {
-    countOfLines = MachineInherit.of(context)!.machine.model.countOfLines;
-    linesState = [
+      countOfLines = MachineInherit.of(context)!.machine.model.countOfLines;
+      linesState = [
         for (int i = 0; i < countOfLines; i++) GlobalKey<LineState>(),
       ];
       lines = [
@@ -75,16 +79,22 @@ class LinesPageState extends State<LinesPage> {
     machine = MachineInherit.of(context)!.machine;
     countOfLines = MachineInherit.of(context)!.machine.model.countOfLines;
 
-    //Добавление/удаление фокусов лент
-    int focusCount = MachineInherit.of(context)!.linesFocus.length;
-    if (focusCount != countOfLines) {
-      for (int i = 0; i < (focusCount - countOfLines).abs(); i++) {
-        focusCount < countOfLines
-            ? MachineInherit.of(context)!.linesFocus.add(FocusNode())
-            : MachineInherit.of(context)!.linesFocus.removeLast();
-      }
-    }
-
+    // //Добавление/удаление фокусов лент
+    // int focusCount = MachineInherit.of(context)!.linesFocus.length;
+    // if (focusCount != countOfLines) {
+    //   for (int i = 0; i < (focusCount - countOfLines).abs(); i++) {
+    //     focusCount < countOfLines
+    //         ? MachineInherit.of(context)!.linesFocus.add(FocusNode())
+    //         : MachineInherit.of(context)!.linesFocus.removeLast();
+    //   }
+    // }
+    log("lines " +
+        lines.length.toString() +
+        " Count " +
+        countOfLines.toString() +
+        " focuses " +
+        MachineInherit.of(context)!.linesFocus.length.toString() +
+        " linesStates " + linesState.length.toString());
     //Добавление/удаление лент
     if (lines.length != countOfLines) {
       for (int i = 0; i < (lines.length - countOfLines).abs(); i++) {
@@ -93,34 +103,38 @@ class LinesPageState extends State<LinesPage> {
                 linesState.add(GlobalKey<LineState>()),
                 lines.add(
                   Line(
-                    index: linesState.length - 1,
-                    key: linesState[linesState.length - 1],
+                    index: lines.length,
+                    key: linesState[lines.length],
                   ),
-                )
+                ),
+                MachineInherit.of(context)!.linesFocus.add(FocusNode()),
               }
-            : {lines.removeLast(), linesState.removeLast()};
+            : {
+                lines.removeLast(),
+                linesState.removeLast(),
+                MachineInherit.of(context)!.linesFocus.removeLast()
+              };
       }
     }
-    // linesState = [
-    //     for (int i = 0; i < countOfLines; i++) GlobalKey<LineState>(),
-    //   ];
-    //   lines = [
-    //     for (int i = 0; i < countOfLines; i++)
-    //       Line(
-    //         index: i,
-    //         key: linesState[i],
-    //       ),
-    //   ];
+
     
+
     return Expanded(
       child: Container(
         color: Theme.of(context).hoverColor,
-        child: ListView.builder(
-            controller: ScrollController(),
-            itemCount: lines.length,
-            itemBuilder: (context, index) {
-              return lines[index];
-            }),
+        width: double.infinity,
+        child: lines.isNotEmpty
+            ? ListView.builder(
+                controller: ScrollController(),
+                itemCount: lines.length,
+                itemBuilder: (context, index) {
+                  return lines[index];
+                })
+            : Image(
+                image: AppImages.confused,
+                color: Theme.of(context).dividerColor,
+                fit: BoxFit.contain,
+              ),
       ),
     );
   }

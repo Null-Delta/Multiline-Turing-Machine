@@ -20,8 +20,10 @@ class AppImages {
   static const AssetImage update = AssetImage('resources/images/update.png');
   static const AssetImage back = AssetImage('resources/images/back.png');
   static const AssetImage arrowRight = AssetImage('resources/images/arrow_right.png');
+  static const AssetImage confused = AssetImage('resources/images/confused.png');
   static const AssetImage appIcon = AssetImage('resources/images/app_icon.png');
   static const AssetImage ZedNull = AssetImage('resources/images/zed_null.jpg');
   static const AssetImage IAmGirya = AssetImage('resources/images/i_am_girya.jpg');
   static const AssetImage StarProxima = AssetImage('resources/images/star_proxima.jpg');
+  
 }

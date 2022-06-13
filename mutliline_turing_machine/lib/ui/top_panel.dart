@@ -54,13 +54,7 @@ class _TopPanelState extends State<TopPanel> {
       MachineInherit.of(context)!.animationState;
   late AppTheme theme = MachineInherit.of(context)!.theme;
 
-  void loadTopHotKeys(
-      TuringMachine machine,
-      GlobalKey<TuringMachineTableState> tableState,
-      GlobalKey<LinesPageState> linePagesState,
-      GlobalKey<BottomSplitPanelState> bottomSplitState,
-      GlobalKey<StatesListState> statesListState,
-      LineAnimationState animationState) {
+  void loadTopHotKeys() {
     hotKeyManager.register(
       HotKey(
         KeyCode.keyN,
@@ -218,8 +212,12 @@ class _TopPanelState extends State<TopPanel> {
   Timer? timer;
   int savedIndex = 0;
   void startAutoSave(TuringMachine machine) {
+    if(timer?.isActive ?? false)
+    {
+      timer!.cancel();
+    }
     timer = Timer.periodic(
-      const Duration(minutes: 3),
+      const Duration(seconds: 1),
       (_) async {
         createAutoSave();
       },
@@ -227,6 +225,7 @@ class _TopPanelState extends State<TopPanel> {
   }
 
   Future<void> createAutoSave() async {
+    log((linePagesState.currentState == null).toString());
     if (Platform.isWindows) {
       String savePath = Directory.current.path +
           "\\saves\\autosave" +
@@ -254,9 +253,10 @@ class _TopPanelState extends State<TopPanel> {
     TuringMachine emptyMachine = TuringMachine(TuringMachineModel());
     machine.filePath = null;
     machine.loadFromJson(emptyMachine.toJson());
+    linePagesState.currentState?.reBuild();
     tableState.currentState!.reloadTable();
     statesListState.currentState!.setState(() {});
-    linePagesState.currentState!.reBuild();
+    
     bottomSplitState.currentState!.setState(() {});
     
   }
@@ -423,7 +423,7 @@ class _TopPanelState extends State<TopPanel> {
           "Нельзя удалять ленты во время работы машины.", context);
     } else {
       if (machine.deleteLine()) {
-        linePagesState.currentState?.setState(() {});
+        linePagesState.currentState!.setState(() {});
         tableState.currentState!.deleteLine();
       } else {
         Snackbar.create("Все ленты удалены.", context);
@@ -442,9 +442,7 @@ class _TopPanelState extends State<TopPanel> {
     theme = MachineInherit.of(context)!.theme;
 
     startAutoSave(machine);
-
-    loadTopHotKeys(machine, tableState, linePagesState, bottomSplitState,
-        statesListState, animationState);
+    loadTopHotKeys();
 
     return Column(
       children: [

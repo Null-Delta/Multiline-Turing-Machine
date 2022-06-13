@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
@@ -42,7 +44,7 @@ class LineState extends State<Line> {
           alignment: 0.5,
           curve: Curves.easeOutQuad,
           myIndent: _widthOfCell / 2,
-          duration: Duration(milliseconds: (350 + (offset*20).abs()) ~/ math.pow(speed,1/3)));
+          duration: Duration(milliseconds: (350 + (offset*20).abs()) ~/ math.pow(speed,1/3) + 1));
       } 
     } else {
       if (control.getLastIndex() != machine.configuration.linePointers[widget.index] + 1)
@@ -138,6 +140,8 @@ class LineState extends State<Line> {
 
   @override
   Widget build(BuildContext context) {
+
+    log("I Line number " + widget.index.toString());    
     machine = MachineInherit.of(context)!.machine;
     focus = MachineInherit.of(context)!.linesFocus[widget.index];
     animationState = MachineInherit.of(context)!.animationState;
