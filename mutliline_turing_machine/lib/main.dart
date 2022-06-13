@@ -28,20 +28,20 @@ void main() async {
   await hotKeyManager.unregisterAll();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('Эмулятор MMT');
-    setWindowMinSize(const Size(660, 600));
+    setWindowMinSize(const Size(520, 600));
   }
 
   if (Platform.isWindows) {
-    Directory(Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) + "\\saves").create().then((Directory directory) {
+    Directory(Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) + "\\saves")
+        .create()
+        .then((Directory directory) {
       log(directory.path);
     });
   }
 
   var prefs = await SharedPreferences.getInstance();
   var theme = AppTheme();
-  theme.setMode((prefs.getBool("use_system_theme") ?? true)
-      ? 0
-      : (prefs.getInt("selected_theme") ?? 0) + 1);
+  theme.setMode((prefs.getBool("use_system_theme") ?? true) ? 0 : (prefs.getInt("selected_theme") ?? 0) + 1);
 
   runApp(MyApp(
     theme: theme,
@@ -131,10 +131,8 @@ class _MainWidgetState extends State<MainWidget> {
     },
     onDeleteState: () {
       if (machine.model.deleteState(machine.configuration.currentStateIndex)) {
-        if (machine.configuration.currentStateIndex >=
-            machine.model.countOfStates) {
-          machine.configuration.currentStateIndex =
-              machine.model.countOfStates - 1;
+        if (machine.configuration.currentStateIndex >= machine.model.countOfStates) {
+          machine.configuration.currentStateIndex = machine.model.countOfStates - 1;
         }
         tableState.currentState!.updateTableState();
         //tableState.currentState!.setState(() {});
@@ -146,15 +144,14 @@ class _MainWidgetState extends State<MainWidget> {
       statesListState.currentState!.setState(() {});
       tableState.currentState!.updateTableState();
       tableManager!.setCurrentSelectingRowsByRange(
-          machine.configuration.currentVatiantIndex,
-          machine.configuration.currentVatiantIndex);
+          machine.configuration.currentVatiantIndex, machine.configuration.currentVatiantIndex);
       onScroll();
 
       if (text != "" && !isShackBarShow) {
         isShackBarShow = true;
         MaterialSnackBarMessenger.of(sfContext).emptyQueue();
-        MaterialSnackBarMessenger.of(sfContext).showSnackBar(
-            snackbar: errorSnackBar(text), alignment: Alignment.bottomRight);
+        MaterialSnackBarMessenger.of(sfContext)
+            .showSnackBar(snackbar: errorSnackBar(text), alignment: Alignment.bottomRight);
       }
     },
     onResetWork: () {
@@ -163,8 +160,7 @@ class _MainWidgetState extends State<MainWidget> {
       statesListState.currentState!.setState(() {});
       tableState.currentState!.updateTableState();
       tableManager!.setCurrentSelectingRowsByRange(
-          machine.configuration.currentVatiantIndex,
-          machine.configuration.currentVatiantIndex);
+          machine.configuration.currentVatiantIndex, machine.configuration.currentVatiantIndex);
     },
     onStartStopWork: (int timesPerSec, sfContext) {
       if (!machine.activator.isActive) {
@@ -177,16 +173,14 @@ class _MainWidgetState extends State<MainWidget> {
 
             isShackBarShow = true;
             MaterialSnackBarMessenger.of(sfContext).emptyQueue();
-            MaterialSnackBarMessenger.of(sfContext).showSnackBar(
-                snackbar: errorSnackBar(message),
-                alignment: Alignment.bottomRight);
+            MaterialSnackBarMessenger.of(sfContext)
+                .showSnackBar(snackbar: errorSnackBar(message), alignment: Alignment.bottomRight);
           }
 
           statesListState.currentState!.setState(() {});
           tableState.currentState!.updateTableState();
           tableManager!.setCurrentSelectingRowsByRange(
-              machine.configuration.currentVatiantIndex,
-              machine.configuration.currentVatiantIndex);
+              machine.configuration.currentVatiantIndex, machine.configuration.currentVatiantIndex);
           onScroll();
         }, textOfCountConfigurations);
       } else {
@@ -203,16 +197,14 @@ class _MainWidgetState extends State<MainWidget> {
 
           isShackBarShow = true;
           MaterialSnackBarMessenger.of(sfContext).emptyQueue();
-          MaterialSnackBarMessenger.of(sfContext).showSnackBar(
-              snackbar: errorSnackBar(message),
-              alignment: Alignment.bottomRight);
+          MaterialSnackBarMessenger.of(sfContext)
+              .showSnackBar(snackbar: errorSnackBar(message), alignment: Alignment.bottomRight);
         }
 
         statesListState.currentState!.setState(() {});
         tableState.currentState!.updateTableState();
         tableManager!.setCurrentSelectingRowsByRange(
-            machine.configuration.currentVatiantIndex,
-            machine.configuration.currentVatiantIndex);
+            machine.configuration.currentVatiantIndex, machine.configuration.currentVatiantIndex);
         onScroll();
       });
     },
@@ -247,12 +239,9 @@ class _MainWidgetState extends State<MainWidget> {
                 Radius.circular(6),
               ),
               borderSide: BorderSide(color: Colors.transparent, width: 0)),
-          backgroundColor: text == "!"
-              ? Theme.of(context).primaryColor
-              : Theme.of(context).errorColor,
+          backgroundColor: text == "!" ? Theme.of(context).primaryColor : Theme.of(context).errorColor,
           actionTextColor: Theme.of(context).backgroundColor,
-          contentTextStyle:
-              TextStyle(color: Theme.of(context).backgroundColor)),
+          contentTextStyle: TextStyle(color: Theme.of(context).backgroundColor)),
       content: Text(
         text == "!" ? "Машина завершила выполнение." : text,
         style: TextStyle(color: Theme.of(context).backgroundColor),
@@ -286,9 +275,7 @@ class _MainWidgetState extends State<MainWidget> {
         bottomPanel: bottomPanelState,
         bottomSplitState: commentsState,
         machine: machine,
-        linesFocus: [
-          for (int i = 0; i < machine.model.countOfLines; i++) FocusNode()
-        ],
+        linesFocus: [for (int i = 0; i < machine.model.countOfLines; i++) FocusNode()],
         commentsFocus: commentsFocus,
         linesPageState: linePagesState,
         tableState: tableState,
@@ -335,8 +322,7 @@ class _MainWidgetState extends State<MainWidget> {
                               data: MultiSplitViewThemeData(
                                 dividerThickness: 2,
                                 dividerPainter: DividerPainter(
-                                  backgroundColor:
-                                      Theme.of(context).highlightColor,
+                                  backgroundColor: Theme.of(context).highlightColor,
                                 ),
                               ),
                               child: BottomSplitPanel(
