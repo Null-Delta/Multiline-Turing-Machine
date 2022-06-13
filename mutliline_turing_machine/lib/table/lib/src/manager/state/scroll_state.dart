@@ -168,7 +168,7 @@ mixin ScrollState implements IPlutoGridState {
 
   @override
   void updateCorrectScroll() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       if (isInvalidHorizontalScroll) {
         scroll!.horizontal!.animateTo(
           scroll!.maxScrollHorizontal,

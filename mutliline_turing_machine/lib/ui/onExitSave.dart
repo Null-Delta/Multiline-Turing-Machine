@@ -26,13 +26,11 @@ Future? onExitSave(context, TuringMachine machine) async {
             ),
             borderSide: BorderSide(width: 0, color: Colors.transparent),
           ),
-          title: Expanded(
-            child: Container(
-              constraints: const BoxConstraints(minWidth: double.infinity),
-              child: const Text(
-                'Сохранить файл перед выходом?',
-                textAlign: TextAlign.center,
-              ),
+          title: Container(
+            constraints: const BoxConstraints(minWidth: double.infinity),
+            child: const Text(
+              'Сохранить файл перед выходом?',
+              textAlign: TextAlign.center,
             ),
           ),
           actions: [
