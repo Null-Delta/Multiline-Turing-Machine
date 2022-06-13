@@ -158,7 +158,7 @@ class TuringMachineTableState extends State<TuringMachineTable> {
     selectedColumn = -1;
     selectedRow = -1;
 
-    developer.log("count ${machine.model.stateList[machine.configuration.currentStateIndex].countOfVariants}");
+    //developer.log("count ${machine.model.stateList[machine.configuration.currentStateIndex].countOfVariants}");
 
     List<PlutoRow> newRows = [];
 

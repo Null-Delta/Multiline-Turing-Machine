@@ -39,9 +39,9 @@ class LinesPageState extends State<LinesPage> {
       linesState[i].currentState?.jumpToStart();
     }
   }
-
+  int i = 0;
   void onScroll() {
-    //machine =  MachineInherit.of(context)!.machine;
+    //log("onScroll " + (i++).toString());
     for (int i = 0; i < linesState.length; i++) {
       linesState[i]
           .currentState
@@ -57,8 +57,15 @@ class LinesPageState extends State<LinesPage> {
     linesState[machine.configuration.focusedLine].currentState?.scrollToFocus();
   }
 
-  void reBuild() {
+  Future<void> reBuild() async {
+     
+
     setState(() {
+     MachineInherit.of(context)!.linesFocus.clear();
+      for(int i =0; i < countOfLines; i++)
+      {
+        MachineInherit.of(context)!.linesFocus.add(FocusNode());
+      }
       countOfLines = MachineInherit.of(context)!.machine.model.countOfLines;
       linesState = [
         for (int i = 0; i < countOfLines; i++) GlobalKey<LineState>(),
@@ -79,15 +86,16 @@ class LinesPageState extends State<LinesPage> {
     machine = MachineInherit.of(context)!.machine;
     countOfLines = MachineInherit.of(context)!.machine.model.countOfLines;
 
-    // //Добавление/удаление фокусов лент
-    // int focusCount = MachineInherit.of(context)!.linesFocus.length;
-    // if (focusCount != countOfLines) {
-    //   for (int i = 0; i < (focusCount - countOfLines).abs(); i++) {
-    //     focusCount < countOfLines
-    //         ? MachineInherit.of(context)!.linesFocus.add(FocusNode())
-    //         : MachineInherit.of(context)!.linesFocus.removeLast();
-    //   }
-    // }
+    
+    //Добавление/удаление фокусов лент
+    int focusCount = MachineInherit.of(context)!.linesFocus.length;
+    if (focusCount != countOfLines) {
+      for (int i = 0; i < (focusCount - countOfLines).abs(); i++) {
+        focusCount < countOfLines
+            ? MachineInherit.of(context)!.linesFocus.add(FocusNode())
+            : MachineInherit.of(context)!.linesFocus.removeLast();
+      }
+    }
     log("lines " +
         lines.length.toString() +
         " Count " +
@@ -107,12 +115,12 @@ class LinesPageState extends State<LinesPage> {
                     key: linesState[lines.length],
                   ),
                 ),
-                MachineInherit.of(context)!.linesFocus.add(FocusNode()),
+                //MachineInherit.of(context)!.linesFocus.add(FocusNode()),
               }
             : {
                 lines.removeLast(),
                 linesState.removeLast(),
-                MachineInherit.of(context)!.linesFocus.removeLast()
+                //MachineInherit.of(context)!.linesFocus.removeLast(),
               };
       }
     }

@@ -212,12 +212,13 @@ class _TopPanelState extends State<TopPanel> {
   Timer? timer;
   int savedIndex = 0;
   void startAutoSave(TuringMachine machine) {
+    createAutoSave();
     if(timer?.isActive ?? false)
     {
       timer!.cancel();
     }
     timer = Timer.periodic(
-      const Duration(seconds: 1),
+      const Duration(minutes: 3),
       (_) async {
         createAutoSave();
       },
@@ -227,7 +228,7 @@ class _TopPanelState extends State<TopPanel> {
   Future<void> createAutoSave() async {
     log((linePagesState.currentState == null).toString());
     if (Platform.isWindows) {
-      String savePath = Directory.current.path +
+      String savePath = Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) +
           "\\saves\\autosave" +
           savedIndex.toString() +
           ".mmt";
@@ -242,7 +243,7 @@ class _TopPanelState extends State<TopPanel> {
 
   void newFile() async {
     await createAutoSave();
-    Snackbar.create("Предыдущий файл был сохранён.", context, isError: false, sec: 1);
+    Snackbar.create("Предыдущий файл был автосохранён.", context, isError: false, sec: 1);
     if (machine.activator.isHasConfiguration) {
       machine.activator.resetMachine();
       machine.activator.configurationSet.clear();
@@ -262,15 +263,15 @@ class _TopPanelState extends State<TopPanel> {
   }
 
   Future<void> loadFile() async {
-    
+    log(Platform.resolvedExecutable);
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        initialDirectory: Platform.isWindows ? "saves" : "",
+        initialDirectory: Platform.isWindows ?  Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) + "\\saves" : "",
         dialogTitle: '',
         type: FileType.custom,
         allowedExtensions: ['mmt']);
     if (result != null) {
       await createAutoSave();
-      Snackbar.create("Предыдущий файл был сохранён.", context, isError: false, sec: 1);
+      Snackbar.create("Предыдущий файл был автосохранён.", context, isError: false, sec: 1);
       if (machine.activator.isHasConfiguration) {
         machine.activator.resetMachine();
         machine.activator.configurationSet.clear();
@@ -293,20 +294,13 @@ class _TopPanelState extends State<TopPanel> {
 
   Future<void> saveFile() async {
     String? result = await FilePicker.platform.saveFile(
-        initialDirectory: Platform.isWindows ? "saves" : "",
+        initialDirectory: Platform.isWindows ?  Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) + "\\saves" : "",
         dialogTitle: '',
         fileName: 'save.mmt',
         type: FileType.custom,
         allowedExtensions: ['mmt']);
 
     if (result != null) {
-      if (machine.activator.isHasConfiguration) {
-        machine.activator.resetMachine();
-        machine.activator.configurationSet.clear();
-        statesListState.currentState!.setState(() {});
-        tableState.currentState!.updateTableState();
-        bottomPanel.currentState!.setState(() {});
-      }
       if (result.contains('.')) {
         log("message " + result.indexOf('.').toString());
         result = result.substring(0, result.indexOf('.'));

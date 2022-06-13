@@ -32,19 +32,24 @@ class LineState extends State<Line> {
 
   int lastIndexToScroll = 1001;
   
-
+int i = 0;
   scroll({int offset = 0, int speed = 1}) {
-    if (animationState.isAnimate) {
-      //log("scroll" + speed.toString());
+    if (animationState.isAnimate || false) {
+      
       if (lastIndexToScroll != machine.configuration.linePointers[widget.index] + 1)
       {
+        if(widget.index == 0)
+        {
+          log("line" + (i++).toString());
+        }
+        
         lastIndexToScroll = machine.configuration.linePointers[widget.index] + 1;
         control.scrollTo(
           index: machine.configuration.linePointers[widget.index] + 1,
           alignment: 0.5,
           curve: Curves.easeOutQuad,
           myIndent: _widthOfCell / 2,
-          duration: Duration(milliseconds: (350 + (offset*20).abs()) ~/ math.pow(speed,1/3) + 1));
+          duration: Duration(milliseconds: 10));
       } 
     } else {
       if (control.getLastIndex() != machine.configuration.linePointers[widget.index] + 1)

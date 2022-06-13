@@ -28,7 +28,7 @@ void main() async {
   await hotKeyManager.unregisterAll();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('Эмулятор MMT');
-    setWindowMinSize(const Size(520, 600));
+    setWindowMinSize(const Size(600, 600));
   }
 
   if (Platform.isWindows) {
