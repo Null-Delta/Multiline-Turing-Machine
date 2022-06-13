@@ -48,6 +48,7 @@ dependencies:
   flutter_window_close: ^0.2.2
   flutter_switch: ^0.3.2
   shared_preferences: ^2.0.15
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:

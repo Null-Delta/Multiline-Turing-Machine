@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 bool isOnScreen = false;
 
@@ -76,7 +78,16 @@ Future? onExitSave(context, TuringMachine machine) async {
                         }
                       }
                     },
-                    child: const Text('Сохранить'),
+                    child: const SizedBox(
+                      height: 24,
+                      width: 120,
+                      child: Center(
+                          child: AutoSizeText(
+                        "Сохранить",
+                        maxLines: 1,
+                        minFontSize: 4,
+                      )),
+                    ),
                     style: ButtonStyle(
                       elevation: MaterialStateProperty.all(0),
                       backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
@@ -89,7 +100,16 @@ Future? onExitSave(context, TuringMachine machine) async {
                     onPressed: () {
                       Navigator.of(context).pop(true);
                     },
-                    child: const Text('Не сохрянять'),
+                    child: const SizedBox(
+                      height: 24,
+                      width: 120,
+                      child: Center(
+                          child: AutoSizeText(
+                        "Не сохрянять",
+                        maxLines: 1,
+                        minFontSize: 4,
+                      )),
+                    ),
                     style: ButtonStyle(
                       elevation: MaterialStateProperty.all(0),
                       backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
@@ -102,7 +122,16 @@ Future? onExitSave(context, TuringMachine machine) async {
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pop('dialog');
                     },
-                    child: const Text('Отмена'),
+                    child: const SizedBox(
+                      height: 24,
+                      width: 120,
+                      child: Center(
+                          child: AutoSizeText(
+                        "Отмена",
+                        maxLines: 1,
+                        minFontSize: 4,
+                      )),
+                    ),
                     style: ButtonStyle(
                       elevation: MaterialStateProperty.all(0),
                       backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
