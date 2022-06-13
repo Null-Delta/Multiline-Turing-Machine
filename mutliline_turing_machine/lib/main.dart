@@ -22,6 +22,7 @@ import 'ui/top_panel.dart';
 import 'ui/bottom_panel.dart';
 import 'ui/turing_machine_table.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,11 +33,12 @@ void main() async {
   }
 
   if (Platform.isWindows) {
-    Directory(Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) + "\\saves")
+      Directory((await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves")
         .create()
         .then((Directory directory) {
       log(directory.path);
     });
+    
   }
 
   var prefs = await SharedPreferences.getInstance();

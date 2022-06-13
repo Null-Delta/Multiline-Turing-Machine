@@ -22,6 +22,7 @@ import 'package:mutliline_turing_machine/ui/referance.dart';
 import 'package:mutliline_turing_machine/ui/settings_panel.dart';
 import 'package:mutliline_turing_machine/ui/states_list.dart';
 import 'package:mutliline_turing_machine/ui/turing_machine_table.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -221,8 +222,7 @@ class _TopPanelState extends State<TopPanel> {
   Future<void> createAutoSave() async {
     log((linePagesState.currentState == null).toString());
     if (Platform.isWindows) {
-      String savePath = Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) +
-          "\\saves\\autosave" +
+      String savePath = (await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves\\autosave" +
           savedIndex.toString() +
           ".mmt";
       savedIndex = (savedIndex + 1) % 10;
@@ -258,7 +258,7 @@ class _TopPanelState extends State<TopPanel> {
     log(Platform.resolvedExecutable);
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         initialDirectory: Platform.isWindows
-            ? Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) + "\\saves"
+            ? (await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves"
             : "",
         dialogTitle: '',
         type: FileType.custom,
@@ -289,7 +289,7 @@ class _TopPanelState extends State<TopPanel> {
   Future<void> saveFile() async {
     String? result = await FilePicker.platform.saveFile(
         initialDirectory: Platform.isWindows
-            ? Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) + "\\saves"
+            ? (await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves"
             : "",
         dialogTitle: '',
         fileName: 'save.mmt',

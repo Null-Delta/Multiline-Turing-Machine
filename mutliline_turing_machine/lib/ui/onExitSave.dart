@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:path_provider/path_provider.dart';
 
 bool isOnScreen = false;
 
@@ -49,9 +50,7 @@ Future? onExitSave(context, TuringMachine machine) async {
                       } else {
                         String? result = await FilePicker.platform.saveFile(
                             initialDirectory: Platform.isWindows
-                                ? Platform.resolvedExecutable
-                                        .substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) +
-                                    "\\saves"
+                                ? (await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves"
                                 : "",
                             dialogTitle: '',
                             fileName: 'save.mmt',
