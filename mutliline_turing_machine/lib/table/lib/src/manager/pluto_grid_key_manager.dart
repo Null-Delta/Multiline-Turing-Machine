@@ -362,7 +362,7 @@ class PlutoGridKeyManager {
         return;
       }
 
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         if (stateManager.textEditingController != null) {
           stateManager.textEditingController!.text = keyEvent.event.character!;
         }
