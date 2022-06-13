@@ -30,6 +30,7 @@ class BottomSplitPanelState extends State<BottomSplitPanel> {
             initialWeights: const [0.8, 0.2],
             //minimalWeights: [0.5, 0.1],
             resizable: true,
+            // ignore: prefer_const_constructors
             children: [widget.table, StateComments()],
           )
         : widget.table;
