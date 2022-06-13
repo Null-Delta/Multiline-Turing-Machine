@@ -28,11 +28,11 @@ void main() async {
   await hotKeyManager.unregisterAll();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('Эмулятор MMT');
-    setWindowMinSize(const Size(600, 600));
+    setWindowMinSize(const Size(660, 600));
   }
 
   if (Platform.isWindows) {
-    Directory("saves").create().then((Directory directory) {
+    Directory(Platform.resolvedExecutable.substring(0, Platform.resolvedExecutable.lastIndexOf('\\')) + "\\saves").create().then((Directory directory) {
       log(directory.path);
     });
   }
