@@ -22,7 +22,8 @@ class PlutoColumnTitle extends PlutoStatefulWidget {
   _PlutoColumnTitleState createState() => _PlutoColumnTitleState();
 }
 
-abstract class _PlutoColumnTitleStateWithChange extends PlutoStateWithChange<PlutoColumnTitle> {
+abstract class _PlutoColumnTitleStateWithChange
+    extends PlutoStateWithChange<PlutoColumnTitle> {
   PlutoColumnSort? _sort;
 
   @override
@@ -50,13 +51,16 @@ class _PlutoColumnTitleState extends _PlutoColumnTitleStateWithChange {
 
     switch (selectedMenu) {
       case PlutoGridColumnMenuItem.unfreeze:
-        widget.stateManager.toggleFrozenColumn(widget.column.key, PlutoColumnFrozen.none);
+        widget.stateManager
+            .toggleFrozenColumn(widget.column.key, PlutoColumnFrozen.none);
         break;
       case PlutoGridColumnMenuItem.freezeToLeft:
-        widget.stateManager.toggleFrozenColumn(widget.column.key, PlutoColumnFrozen.left);
+        widget.stateManager
+            .toggleFrozenColumn(widget.column.key, PlutoColumnFrozen.left);
         break;
       case PlutoGridColumnMenuItem.freezeToRight:
-        widget.stateManager.toggleFrozenColumn(widget.column.key, PlutoColumnFrozen.right);
+        widget.stateManager
+            .toggleFrozenColumn(widget.column.key, PlutoColumnFrozen.right);
         break;
       case PlutoGridColumnMenuItem.autoFit:
         widget.stateManager.autoFitColumn(context, widget.column);
@@ -91,7 +95,8 @@ class _PlutoColumnTitleState extends _PlutoColumnTitleStateWithChange {
   void _handleOnPointMove(PointerMoveEvent event) {
     _isPointMoving = _columnRightPosition - event.position != Offset.zero;
 
-    if (_isPointMoving && _columnLeftPosition.dx + widget.column.minWidth > event.position.dx) {
+    if (_isPointMoving &&
+        _columnLeftPosition.dx + widget.column.minWidth > event.position.dx) {
       return;
     }
 
@@ -125,9 +130,12 @@ class _PlutoColumnTitleState extends _PlutoColumnTitleStateWithChange {
 
   @override
   Widget build(BuildContext context) {
-    final _showContextIcon = widget.column.enableContextMenu || widget.column.enableDropToResize || !_sort!.isNone;
+    final _showContextIcon = widget.column.enableContextMenu ||
+        widget.column.enableDropToResize ||
+        !_sort!.isNone;
 
-    final _enableGesture = widget.column.enableContextMenu || widget.column.enableDropToResize;
+    final _enableGesture =
+        widget.column.enableContextMenu || widget.column.enableDropToResize;
 
     final _columnWidget = _BuildSortableWidget(
       stateManager: widget.stateManager,
@@ -151,7 +159,9 @@ class _PlutoColumnTitleState extends _PlutoColumnTitleStateWithChange {
               : widget.stateManager.configuration!.columnResizeIcon,
         ),
         iconSize: widget.stateManager.configuration!.iconSize,
-        mouseCursor: _enableGesture ? SystemMouseCursors.resizeLeftRight : SystemMouseCursors.basic,
+        mouseCursor: _enableGesture
+            ? SystemMouseCursors.resizeLeftRight
+            : SystemMouseCursors.basic,
         onPressed: null,
       ),
     );
@@ -305,9 +315,12 @@ class _BuildColumnWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  double get padding => column.titlePadding ?? stateManager.configuration!.defaultColumnTitlePadding;
+  double get padding =>
+      column.titlePadding ??
+      stateManager.configuration!.defaultColumnTitlePadding;
 
-  bool get showSizedBoxForIcon => column.isShowRightIcon && column.titleTextAlign.isRight;
+  bool get showSizedBoxForIcon =>
+      column.isShowRightIcon && column.titleTextAlign.isRight;
 
   @override
   Widget build(BuildContext context) {
@@ -357,7 +370,8 @@ class _BuildColumnWidget extends StatelessWidget {
                     height: height,
                   ),
                 ),
-                if (showSizedBoxForIcon) SizedBox(width: stateManager.configuration!.iconSize),
+                if (showSizedBoxForIcon)
+                  SizedBox(width: stateManager.configuration!.iconSize),
               ],
             ),
           );
@@ -380,10 +394,12 @@ class _CheckboxAllSelectionWidget extends PlutoStatefulWidget {
   }) : super(key: key);
 
   @override
-  __CheckboxAllSelectionWidgetState createState() => __CheckboxAllSelectionWidgetState();
+  __CheckboxAllSelectionWidgetState createState() =>
+      __CheckboxAllSelectionWidgetState();
 }
 
-abstract class __CheckboxAllSelectionWidgetStateWithChange extends PlutoStateWithChange<_CheckboxAllSelectionWidget> {
+abstract class __CheckboxAllSelectionWidgetStateWithChange
+    extends PlutoStateWithChange<_CheckboxAllSelectionWidget> {
   bool? _checked;
 
   bool get _hasCheckedRow => widget.stateManager.hasCheckedRow;
@@ -401,7 +417,8 @@ abstract class __CheckboxAllSelectionWidgetStateWithChange extends PlutoStateWit
   }
 }
 
-class __CheckboxAllSelectionWidgetState extends __CheckboxAllSelectionWidgetStateWithChange {
+class __CheckboxAllSelectionWidgetState
+    extends __CheckboxAllSelectionWidgetStateWithChange {
   void _handleOnChanged(bool? changed) {
     if (changed == _checked) {
       return;
@@ -459,7 +476,8 @@ class _ColumnTextWidget extends PlutoStatefulWidget {
   __ColumnTextWidgetState createState() => __ColumnTextWidgetState();
 }
 
-abstract class __ColumnTextWidgetStateWithChange extends PlutoStateWithChange<_ColumnTextWidget> {
+abstract class __ColumnTextWidgetStateWithChange
+    extends PlutoStateWithChange<_ColumnTextWidget> {
   bool? _isFilteredList;
 
   @override
@@ -481,7 +499,8 @@ abstract class __ColumnTextWidgetStateWithChange extends PlutoStateWithChange<_C
 }
 
 class __ColumnTextWidgetState extends __ColumnTextWidgetStateWithChange {
-  String? get _title => widget.column.titleSpan == null ? widget.column.title : null;
+  String? get _title =>
+      widget.column.titleSpan == null ? widget.column.title : null;
 
   List<InlineSpan>? get _children => [
         if (widget.column.titleSpan != null) widget.column.titleSpan!,
@@ -496,7 +515,8 @@ class __ColumnTextWidgetState extends __ColumnTextWidgetStateWithChange {
               ),
               onPressed: _handleOnPressedFilter,
               constraints: BoxConstraints(
-                maxHeight: widget.height + (PlutoGridSettings.rowBorderWidth * 2),
+                maxHeight:
+                    widget.height + (PlutoGridSettings.rowBorderWidth * 2),
               ),
             ),
           ),

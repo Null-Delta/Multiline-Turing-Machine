@@ -59,7 +59,8 @@ class TuringMachineVariant {
     toState = state;
   }
 
-  TuringMachineVariant.fromCommandListAndToState(this.commandList, this.toState);
+  TuringMachineVariant.fromCommandListAndToState(
+      this.commandList, this.toState);
 }
 
 class TuringMachineState {
@@ -89,7 +90,8 @@ class TuringMachineModel {
 
   void addState() {
     stateList.add(TuringMachineState());
-    stateList.last.ruleList.add(TuringMachineVariant(countOfLines, stateList.length - 1));
+    stateList.last.ruleList
+        .add(TuringMachineVariant(countOfLines, stateList.length - 1));
   }
 
   bool deleteState(int number) {
@@ -107,8 +109,9 @@ class TuringMachineModel {
     return false;
   }
 
-  void addVariant(int numberOfState, int atIndex) =>
-      stateList[numberOfState].ruleList.insert(atIndex, TuringMachineVariant(countOfLines, numberOfState));
+  void addVariant(int numberOfState, int atIndex) => stateList[numberOfState]
+      .ruleList
+      .insert(atIndex, TuringMachineVariant(countOfLines, numberOfState));
 
   void deleteVariant(int numberOfState, int numberOfVariant) =>
       stateList[numberOfState].ruleList.removeAt(numberOfVariant);
@@ -131,11 +134,15 @@ class TuringMachineModel {
     }
   }
 
-  void setComandInVariant(int numberOfState, int numberOfVariant, int numberOfLine, TuringCommand command) {
-    stateList[numberOfState].ruleList[numberOfVariant].commandList[numberOfLine] = command;
+  void setComandInVariant(int numberOfState, int numberOfVariant,
+      int numberOfLine, TuringCommand command) {
+    stateList[numberOfState]
+        .ruleList[numberOfVariant]
+        .commandList[numberOfLine] = command;
   }
 
-  void setToStateInVariant(int numberOfState, int numberOfVariant, int toState) =>
+  void setToStateInVariant(
+          int numberOfState, int numberOfVariant, int toState) =>
       stateList[numberOfState].ruleList[numberOfVariant].toState = toState;
 
   void replaceVariants(int state, List<int> indexes, int to) {
@@ -147,7 +154,9 @@ class TuringMachineModel {
       }
     });
 
-    stateList[state].ruleList.removeWhere((element) => replacingRules.contains(element));
+    stateList[state]
+        .ruleList
+        .removeWhere((element) => replacingRules.contains(element));
 
     stateList[state].ruleList.insertAll(to, replacingRules);
   }

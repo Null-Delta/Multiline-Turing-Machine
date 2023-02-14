@@ -38,7 +38,7 @@ class _StateCommentsState extends State<StateComments> {
     return Column(
       children: [
         Container(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).colorScheme.background,
           height: 34,
           child: Center(
             child: Text(
@@ -59,7 +59,8 @@ class _StateCommentsState extends State<StateComments> {
         Expanded(
           child: Container(
             clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+            decoration:
+                BoxDecoration(color: Theme.of(context).colorScheme.background),
             child: Focus(
               onKey: (node, event) {
                 if (event.isKeyPressed(LogicalKeyboardKey.arrowUp) &&
@@ -89,9 +90,9 @@ class _StateCommentsState extends State<StateComments> {
                 decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.only(left: 12, top: 12, bottom: 12),
-                  hoverColor: Theme.of(context).backgroundColor,
+                  hoverColor: Theme.of(context).colorScheme.background,
                   border: InputBorder.none,
-                  fillColor: Theme.of(context).backgroundColor,
+                  fillColor: Theme.of(context).colorScheme.background,
                   isDense: false,
                   //filled: true,
                 ),

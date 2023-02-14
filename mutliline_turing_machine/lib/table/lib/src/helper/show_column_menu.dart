@@ -40,7 +40,7 @@ Future<PlutoGridColumnMenuItem?>? showColumnMenu({
   }
 
   final RenderBox overlay =
-      Overlay.of(context!)!.context.findRenderObject() as RenderBox;
+      Overlay.of(context!).context.findRenderObject() as RenderBox;
 
   final Color? textColor = stateManager!.configuration!.cellTextStyle.color;
 

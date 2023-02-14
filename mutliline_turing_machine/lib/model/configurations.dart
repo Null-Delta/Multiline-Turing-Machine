@@ -28,7 +28,8 @@ class Configuration {
     return same;
   }
 
-  static List<String> convertConfigurations(List<List<LineCellModel>> lineContent) {
+  static List<String> convertConfigurations(
+      List<List<LineCellModel>> lineContent) {
     List<String> lines = [];
     for (int i = 0; i < lineContent.length; i++) {
       String tmpS = "";

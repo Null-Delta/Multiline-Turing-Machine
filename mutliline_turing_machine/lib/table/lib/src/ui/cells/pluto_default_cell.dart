@@ -26,7 +26,8 @@ class PlutoDefaultCell extends PlutoStatefulWidget {
   _PlutoDefaultCellState createState() => _PlutoDefaultCellState();
 }
 
-abstract class _PlutoDefaultCellStateWithChange extends PlutoStateWithChange<PlutoDefaultCell> {
+abstract class _PlutoDefaultCellStateWithChange
+    extends PlutoStateWithChange<PlutoDefaultCell> {
   bool? _canRowDrag;
 
   @override
@@ -166,8 +167,10 @@ class __RowDragIconWidgetState extends State<_RowDragIconWidget> {
             child: PlutoShadowContainer(
               width: widget.column.width,
               height: widget.stateManager.rowHeight,
-              backgroundColor: widget.stateManager.configuration!.gridBackgroundColor,
-              borderColor: widget.stateManager.configuration!.activatedBorderColor,
+              backgroundColor:
+                  widget.stateManager.configuration!.gridBackgroundColor,
+              borderColor:
+                  widget.stateManager.configuration!.activatedBorderColor,
               child: Row(
                 children: [
                   Container(
@@ -206,10 +209,12 @@ class _CheckboxSelectionWidget extends PlutoStatefulWidget {
   });
 
   @override
-  __CheckboxSelectionWidgetState createState() => __CheckboxSelectionWidgetState();
+  __CheckboxSelectionWidgetState createState() =>
+      __CheckboxSelectionWidgetState();
 }
 
-abstract class __CheckboxSelectionWidgetStateWithChange extends PlutoStateWithChange<_CheckboxSelectionWidget> {
+abstract class __CheckboxSelectionWidgetStateWithChange
+    extends PlutoStateWithChange<_CheckboxSelectionWidget> {
   bool? _checked;
 
   @override
@@ -220,7 +225,8 @@ abstract class __CheckboxSelectionWidgetStateWithChange extends PlutoStateWithCh
   }
 }
 
-class __CheckboxSelectionWidgetState extends __CheckboxSelectionWidgetStateWithChange {
+class __CheckboxSelectionWidgetState
+    extends __CheckboxSelectionWidgetStateWithChange {
   void _handleOnChanged(bool? changed) {
     if (changed == _checked) {
       return;

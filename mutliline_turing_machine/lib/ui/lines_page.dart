@@ -39,6 +39,7 @@ class LinesPageState extends State<LinesPage> {
       linesState[i].currentState?.jumpToStart();
     }
   }
+
   int i = 0;
   void onScroll() {
     //log("onScroll " + (i++).toString());
@@ -58,12 +59,9 @@ class LinesPageState extends State<LinesPage> {
   }
 
   Future<void> reBuild() async {
-     
-
     setState(() {
-     MachineInherit.of(context)!.linesFocus.clear();
-      for(int i =0; i < countOfLines; i++)
-      {
+      MachineInherit.of(context)!.linesFocus.clear();
+      for (int i = 0; i < countOfLines; i++) {
         MachineInherit.of(context)!.linesFocus.add(FocusNode());
       }
       countOfLines = MachineInherit.of(context)!.machine.model.countOfLines;
@@ -86,7 +84,6 @@ class LinesPageState extends State<LinesPage> {
     machine = MachineInherit.of(context)!.machine;
     countOfLines = MachineInherit.of(context)!.machine.model.countOfLines;
 
-    
     //Добавление/удаление фокусов лент
     int focusCount = MachineInherit.of(context)!.linesFocus.length;
     if (focusCount != countOfLines) {
@@ -102,7 +99,8 @@ class LinesPageState extends State<LinesPage> {
         countOfLines.toString() +
         " focuses " +
         MachineInherit.of(context)!.linesFocus.length.toString() +
-        " linesStates " + linesState.length.toString());
+        " linesStates " +
+        linesState.length.toString());
     //Добавление/удаление лент
     if (lines.length != countOfLines) {
       for (int i = 0; i < (lines.length - countOfLines).abs(); i++) {
@@ -124,8 +122,6 @@ class LinesPageState extends State<LinesPage> {
               };
       }
     }
-
-    
 
     return Expanded(
       child: Container(

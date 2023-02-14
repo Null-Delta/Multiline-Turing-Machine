@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 
 class HotKeyWidget extends StatefulWidget {
-  const HotKeyWidget({Key? key, required this.name, required this.hotKey}) : super(key: key);
+  const HotKeyWidget({Key? key, required this.name, required this.hotKey})
+      : super(key: key);
 
   final String name;
   final List<String> hotKey;
@@ -21,14 +21,19 @@ class _HotKeyWidgetState extends State<HotKeyWidget> {
       components.add(
         Text(
           words[i],
-          style: TextStyle(color: Theme.of(context).cardColor, fontWeight: FontWeight.w500, fontSize: 14),
+          style: TextStyle(
+              color: Theme.of(context).cardColor,
+              fontWeight: FontWeight.w500,
+              fontSize: 14),
         ),
       );
       components.add(
         Text(
           " + ",
-          style:
-              TextStyle(color: Theme.of(context).cardColor.withOpacity(0.3), fontWeight: FontWeight.w400, fontSize: 14),
+          style: TextStyle(
+              color: Theme.of(context).cardColor.withOpacity(0.3),
+              fontWeight: FontWeight.w400,
+              fontSize: 14),
         ),
       );
     }
@@ -55,7 +60,9 @@ class _HotKeyWidgetState extends State<HotKeyWidget> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: isHovered ? Theme.of(context).hoverColor : Theme.of(context).backgroundColor,
+          color: isHovered
+              ? Theme.of(context).hoverColor
+              : Theme.of(context).colorScheme.background,
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),
         margin: const EdgeInsets.only(left: 20, right: 20),

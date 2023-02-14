@@ -39,7 +39,8 @@ class MachineEngine {
   int timesPerSecond = 1;
 
   //запускает автоматическую работу с заданной скоростью
-  bool startMachine(int timesPerSecond, Function() onScroll, GlobalKey textCounter) {
+  bool startMachine(
+      int timesPerSecond, Function() onScroll, GlobalKey textCounter) {
     if (timesPerSecond <= 0 || timesPerSecond > 32) {
       return false;
     }
@@ -67,7 +68,9 @@ class MachineEngine {
         (timer) {
           onScroll();
           stepCount++;
-          configurationSet.add(Configuration(Configuration.convertConfigurations(machine.configuration.lineContent),
+          configurationSet.add(Configuration(
+              Configuration.convertConfigurations(
+                  machine.configuration.lineContent),
               machine.configuration.linePointers));
         },
       );
@@ -78,7 +81,8 @@ class MachineEngine {
   void stopMachine() {
     active = false;
     configurationSet.add(Configuration(
-        Configuration.convertConfigurations(machine.configuration.lineContent), machine.configuration.linePointers));
+        Configuration.convertConfigurations(machine.configuration.lineContent),
+        machine.configuration.linePointers));
     if (timer != null && timer!.isActive) {
       timer!.cancel();
     }

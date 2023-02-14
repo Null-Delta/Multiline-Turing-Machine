@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
@@ -23,10 +22,10 @@ class StatesListState extends State<StatesList> {
     return index == machine.configuration.activeState.activeStateIndex
         ? index == machine.configuration.currentStateIndex
             ? Theme.of(context).primaryColor
-            : Theme.of(context).backgroundColor
+            : Theme.of(context).colorScheme.background
         : index == machine.configuration.currentStateIndex
             ? Theme.of(context).hoverColor
-            : Theme.of(context).backgroundColor;
+            : Theme.of(context).colorScheme.background;
   }
 
   Color borderColor(int index) {
@@ -38,7 +37,7 @@ class StatesListState extends State<StatesList> {
             ? Theme.of(context).highlightColor
             : index == focusedStateIndex
                 ? Theme.of(context).highlightColor
-                : Theme.of(context).backgroundColor;
+                : Theme.of(context).colorScheme.background;
   }
 
   @override
@@ -50,7 +49,7 @@ class StatesListState extends State<StatesList> {
       //node: focusScope,
       child: Container(
         width: 84,
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         child: Column(
           children: [
             SizedBox(
@@ -91,12 +90,17 @@ class StatesListState extends State<StatesList> {
                         return KeyEventResult.handled;
                       }
 
-                      if (event.isKeyPressed(LogicalKeyboardKey.arrowUp) && focusedStateIndex == 0) {
-                        FocusScope.of(context).parent!.focusInDirection(TraversalDirection.up);
+                      if (event.isKeyPressed(LogicalKeyboardKey.arrowUp) &&
+                          focusedStateIndex == 0) {
+                        FocusScope.of(context)
+                            .parent!
+                            .focusInDirection(TraversalDirection.up);
                       }
 
                       if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
-                        FocusScope.of(context).parent!.focusInDirection(TraversalDirection.right);
+                        FocusScope.of(context)
+                            .parent!
+                            .focusInDirection(TraversalDirection.right);
                       }
 
                       return KeyEventResult.ignored;
@@ -124,9 +128,15 @@ class StatesListState extends State<StatesList> {
                           child: Text(
                             "Q${index + 1}",
                             style: TextStyle(
-                                color: index == machine.configuration.activeState.activeStateIndex
-                                    ? index == machine.configuration.currentStateIndex
-                                        ? Theme.of(context).backgroundColor
+                                color: index ==
+                                        machine.configuration.activeState
+                                            .activeStateIndex
+                                    ? index ==
+                                            machine
+                                                .configuration.currentStateIndex
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .background
                                         : Theme.of(context).primaryColor
                                     : Theme.of(context).cardColor,
                                 fontSize: 14,

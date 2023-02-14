@@ -13,7 +13,8 @@ class PlutoPagination extends PlutoStatefulWidget {
   _PlutoPaginationState createState() => _PlutoPaginationState();
 }
 
-abstract class _PlutoPaginationStateWithChange extends PlutoStateWithChange<PlutoPagination> {
+abstract class _PlutoPaginationStateWithChange
+    extends PlutoStateWithChange<PlutoPagination> {
   int page = 1;
 
   int totalPage = 1;
@@ -133,8 +134,8 @@ class _PlutoPaginationState extends _PlutoPaginationStateWithChange {
 
   ButtonStyle _getNumberButtonStyle(bool isCurrentIndex) {
     return TextButton.styleFrom(
-      primary: Colors.transparent,
-      onSurface: Colors.transparent,
+      foregroundColor: Colors.transparent,
+      disabledForegroundColor: Colors.transparent.withOpacity(0.38),
       shadowColor: Colors.transparent,
       padding: const EdgeInsets.fromLTRB(5, 0, 0, 10),
       backgroundColor: Colors.transparent,
@@ -143,8 +144,11 @@ class _PlutoPaginationState extends _PlutoPaginationStateWithChange {
 
   TextStyle _getNumberTextStyle(bool isCurrentIndex) {
     return TextStyle(
-      fontSize: isCurrentIndex ? widget.stateManager.configuration!.iconSize : null,
-      color: isCurrentIndex ? Theme.of(context).highlightColor : widget.stateManager.configuration!.iconColor,
+      fontSize:
+          isCurrentIndex ? widget.stateManager.configuration!.iconSize : null,
+      color: isCurrentIndex
+          ? Theme.of(context).highlightColor
+          : widget.stateManager.configuration!.iconColor,
     );
   }
 
@@ -173,7 +177,8 @@ class _PlutoPaginationState extends _PlutoPaginationStateWithChange {
 
         final Color _iconColor = Theme.of(context).cardColor;
 
-        final Color _disabledIconColor = widget.stateManager.configuration!.disabledIconColor;
+        final Color _disabledIconColor =
+            widget.stateManager.configuration!.disabledIconColor;
 
         return Center(
           child: SingleChildScrollView(
@@ -189,7 +194,9 @@ class _PlutoPaginationState extends _PlutoPaginationStateWithChange {
                     color: _iconColor,
                     disabledColor: _disabledIconColor,
                     splashRadius: _iconSplashRadius,
-                    mouseCursor: _isFirstPage ? SystemMouseCursors.basic : SystemMouseCursors.click,
+                    mouseCursor: _isFirstPage
+                        ? SystemMouseCursors.basic
+                        : SystemMouseCursors.click,
                   ),
                   IconButton(
                     onPressed: _isFirstPage ? null : _beforePage,
@@ -197,7 +204,9 @@ class _PlutoPaginationState extends _PlutoPaginationStateWithChange {
                     color: _iconColor,
                     disabledColor: _disabledIconColor,
                     splashRadius: _iconSplashRadius,
-                    mouseCursor: _isFirstPage ? SystemMouseCursors.basic : SystemMouseCursors.click,
+                    mouseCursor: _isFirstPage
+                        ? SystemMouseCursors.basic
+                        : SystemMouseCursors.click,
                   ),
                   ..._pageNumbers.map(_makeNumberButton).toList(),
                   IconButton(
@@ -206,7 +215,9 @@ class _PlutoPaginationState extends _PlutoPaginationStateWithChange {
                     color: _iconColor,
                     disabledColor: _disabledIconColor,
                     splashRadius: _iconSplashRadius,
-                    mouseCursor: _isLastPage ? SystemMouseCursors.basic : SystemMouseCursors.click,
+                    mouseCursor: _isLastPage
+                        ? SystemMouseCursors.basic
+                        : SystemMouseCursors.click,
                   ),
                   IconButton(
                     onPressed: _isLastPage ? null : _lastPage,
@@ -214,7 +225,9 @@ class _PlutoPaginationState extends _PlutoPaginationStateWithChange {
                     color: _iconColor,
                     disabledColor: _disabledIconColor,
                     splashRadius: _iconSplashRadius,
-                    mouseCursor: _isLastPage ? SystemMouseCursors.basic : SystemMouseCursors.click,
+                    mouseCursor: _isLastPage
+                        ? SystemMouseCursors.basic
+                        : SystemMouseCursors.click,
                   ),
                 ],
               ),

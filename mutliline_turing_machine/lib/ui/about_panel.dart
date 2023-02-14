@@ -31,7 +31,7 @@ class DeveloperCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 32, bottom: 16),
-      color: Theme.of(context).backgroundColor,
+      color: Theme.of(context).colorScheme.background,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -100,7 +100,8 @@ class DeveloperCard extends StatelessWidget {
                     height: 8,
                   ),
                   Container(
-                    constraints: const BoxConstraints(maxWidth: double.infinity),
+                    constraints:
+                        const BoxConstraints(maxWidth: double.infinity),
                     child: Text(
                       description,
                       textAlign: TextAlign.justify,
@@ -131,7 +132,7 @@ class ResourceCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 32, right: 32, bottom: 8),
       width: MediaQuery.of(context).size.width,
-      color: Theme.of(context).backgroundColor,
+      color: Theme.of(context).colorScheme.background,
       child: Text(
         text,
         textAlign: TextAlign.justify,
@@ -155,7 +156,7 @@ class _AboutPanel extends State<AboutPanel> {
     return DefaultTextStyle(
       style: const TextStyle(),
       child: Container(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -164,7 +165,7 @@ class _AboutPanel extends State<AboutPanel> {
                 left: 6,
               ),
               height: 40,
-              color: Theme.of(context).backgroundColor,
+              color: Theme.of(context).colorScheme.background,
               child: Row(
                 children: [
                   Tooltip(
@@ -201,17 +202,20 @@ class _AboutPanel extends State<AboutPanel> {
                 ],
               ),
             ),
-            Divider(height: 0, thickness: 2, color: Theme.of(context).highlightColor),
+            Divider(
+                height: 0,
+                thickness: 2,
+                color: Theme.of(context).highlightColor),
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Container(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   child: Center(
                     child: Container(
                       constraints: const BoxConstraints(maxWidth: 640),
                       child: Container(
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).colorScheme.background,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -222,7 +226,7 @@ class _AboutPanel extends State<AboutPanel> {
                                 right: 0,
                               ),
                               height: 112,
-                              color: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).colorScheme.background,
                               child: Row(
                                 children: [
                                   Container(
@@ -245,7 +249,8 @@ class _AboutPanel extends State<AboutPanel> {
                                           color: Theme.of(context).shadowColor,
                                           spreadRadius: 4,
                                           blurRadius: 12,
-                                          offset: Offset.zero, // changes position of shadow
+                                          offset: Offset
+                                              .zero, // changes position of shadow
                                         ),
                                       ],
                                     ),
@@ -255,9 +260,12 @@ class _AboutPanel extends State<AboutPanel> {
                                   ),
                                   Container(
                                     height: 112,
-                                    color: Theme.of(context).backgroundColor,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           "Эмулятор Многоленточной \nМашины Тьюринга",
@@ -275,13 +283,16 @@ class _AboutPanel extends State<AboutPanel> {
                                         ),
                                         Tooltip(
                                           message: '15.06.2022',
-                                          waitDuration: const Duration(milliseconds: 200),
+                                          waitDuration:
+                                              const Duration(milliseconds: 200),
                                           verticalOffset: 14,
                                           child: Text(
                                             "Версия 1.2",
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
-                                              color: Theme.of(context).cardColor.withOpacity(0.5),
+                                              color: Theme.of(context)
+                                                  .cardColor
+                                                  .withOpacity(0.5),
                                               fontFamily: 'Inter',
                                               fontWeight: FontWeight.w500,
                                               fontSize: 16,
@@ -294,18 +305,21 @@ class _AboutPanel extends State<AboutPanel> {
                                         SizedBox(
                                           height: 23,
                                           child: Tooltip(
-                                            waitDuration: const Duration(milliseconds: 200),
+                                            waitDuration: const Duration(
+                                                milliseconds: 200),
                                             verticalOffset: 14,
                                             message: "Сайт разработчиков",
                                             child: ElevatedButton(
                                               onPressed: () {
-                                                launchUrlString('https://nullexp.ru');
+                                                launchUrlString(
+                                                    'https://nullexp.ru');
                                               },
                                               child: Text(
                                                 "nullexp.ru",
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
-                                                  color: Theme.of(context).primaryColor,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
                                                   fontFamily: 'Inter',
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 18,
@@ -325,9 +339,10 @@ class _AboutPanel extends State<AboutPanel> {
                               height: 42,
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 32, bottom: 24),
+                              padding:
+                                  const EdgeInsets.only(left: 32, bottom: 24),
                               width: MediaQuery.of(context).size.width,
-                              color: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).colorScheme.background,
                               child: Text(
                                 "Разработчики",
                                 textAlign: TextAlign.left,
@@ -361,9 +376,10 @@ class _AboutPanel extends State<AboutPanel> {
                                     'Модель машины Тьюринга, лента, очистка ленты, раздел "О приложении", подсчёт конфигураций, хоткеи, автоматическая работа машины Тьюринга.',
                                 avatar: Image(image: AppImages.IAmGirya)),
                             Container(
-                              margin: const EdgeInsets.only(top: 32, left: 32, bottom: 16),
+                              margin: const EdgeInsets.only(
+                                  top: 32, left: 32, bottom: 16),
                               width: MediaQuery.of(context).size.width,
-                              color: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).colorScheme.background,
                               child: Text(
                                 "Использованные ресурсы",
                                 textAlign: TextAlign.left,
@@ -375,21 +391,38 @@ class _AboutPanel extends State<AboutPanel> {
                                 ),
                               ),
                             ),
-                            Column(
-                              children: const [
+                            const Column(
+                              children: [
                                 ResourceCard(
-                                    text: '• Multi split view: Copyright (c) 2021 Carlos Eduardo Leite de Andrade'),
-                                ResourceCard(text: '• Window Size: Copyright [2018] [stuartmorgan]'),
-                                ResourceCard(text: '• Material snackbar: Copyright (c) 2020 Rounded Infinity'),
-                                ResourceCard(text: '• File Picker: Copyright (c) 2018 Miguel Ruivo'),
-                                ResourceCard(text: '• Pluto Grid: Copyright (c) [2020] [PlutoGrid]'),
+                                    text:
+                                        '• Multi split view: Copyright (c) 2021 Carlos Eduardo Leite de Andrade'),
                                 ResourceCard(
-                                    text: '• Scollable Positioned List: Copyright 2018 the Dart project authors, Inc.'),
-                                ResourceCard(text: '• Flutter Switch: Copyright (c) 2020, Nichole John Romero'),
-                                ResourceCard(text: '• Shared Preferences: Copyright 2013 The Flutter Authors'),
+                                    text:
+                                        '• Window Size: Copyright [2018] [stuartmorgan]'),
                                 ResourceCard(
-                                    text: '• Flutter Window Close: Copyright (c) 2021 Weizhong Yang a.k.a zonble'),
-                                ResourceCard(text: '• Url Launcher: Copyright 2013 The Flutter Authors'),
+                                    text:
+                                        '• Material snackbar: Copyright (c) 2020 Rounded Infinity'),
+                                ResourceCard(
+                                    text:
+                                        '• File Picker: Copyright (c) 2018 Miguel Ruivo'),
+                                ResourceCard(
+                                    text:
+                                        '• Pluto Grid: Copyright (c) [2020] [PlutoGrid]'),
+                                ResourceCard(
+                                    text:
+                                        '• Scollable Positioned List: Copyright 2018 the Dart project authors, Inc.'),
+                                ResourceCard(
+                                    text:
+                                        '• Flutter Switch: Copyright (c) 2020, Nichole John Romero'),
+                                ResourceCard(
+                                    text:
+                                        '• Shared Preferences: Copyright 2013 The Flutter Authors'),
+                                ResourceCard(
+                                    text:
+                                        '• Flutter Window Close: Copyright (c) 2021 Weizhong Yang a.k.a zonble'),
+                                ResourceCard(
+                                    text:
+                                        '• Url Launcher: Copyright 2013 The Flutter Authors'),
                               ],
                             ),
                           ],
@@ -404,7 +437,7 @@ class _AboutPanel extends State<AboutPanel> {
               margin: const EdgeInsets.only(top: 4, bottom: 4),
               alignment: FractionalOffset.bottomCenter,
               width: MediaQuery.of(context).size.width,
-              color: Theme.of(context).backgroundColor,
+              color: Theme.of(context).colorScheme.background,
               child: Text(
                 "Developed by the NullExp team specifically for Kuban State University",
                 textAlign: TextAlign.center,

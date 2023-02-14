@@ -41,7 +41,8 @@ class PlutoScrollbar extends StatefulWidget {
     required this.child,
   })  : assert(thickness < double.infinity),
         assert(thicknessWhileDragging < double.infinity),
-        assert(!isAlwaysShown || (horizontalController != null || verticalController != null)),
+        assert(!isAlwaysShown ||
+            (horizontalController != null || verticalController != null)),
         super(key: key);
 
   static const double defaultThickness = 3;
@@ -74,7 +75,8 @@ class PlutoScrollbar extends StatefulWidget {
   _CupertinoScrollbarState createState() => _CupertinoScrollbarState();
 }
 
-class _CupertinoScrollbarState extends State<PlutoScrollbar> with TickerProviderStateMixin {
+class _CupertinoScrollbarState extends State<PlutoScrollbar>
+    with TickerProviderStateMixin {
   final GlobalKey _customPaintKey = GlobalKey();
   ScrollbarPainter? _painter;
 
@@ -86,21 +88,28 @@ class _CupertinoScrollbarState extends State<PlutoScrollbar> with TickerProvider
   Drag? _drag;
 
   double get _thickness {
-    return widget.thickness + _thicknessAnimationController.value * (widget.thicknessWhileDragging - widget.thickness);
+    return widget.thickness +
+        _thicknessAnimationController.value *
+            (widget.thicknessWhileDragging - widget.thickness);
   }
 
   Radius? get _radius {
-    return Radius.lerp(widget.radius, widget.radiusWhileDragging, _thicknessAnimationController.value);
+    return Radius.lerp(widget.radius, widget.radiusWhileDragging,
+        _thicknessAnimationController.value);
   }
 
   ScrollController? _currentController;
 
   ScrollController? get _controller {
     if (_currentAxis == null) {
-      return widget.verticalController ?? widget.horizontalController ?? PrimaryScrollController.of(context);
+      return widget.verticalController ??
+          widget.horizontalController ??
+          PrimaryScrollController.of(context);
     }
 
-    return _currentAxis == Axis.vertical ? widget.verticalController : widget.horizontalController;
+    return _currentAxis == Axis.vertical
+        ? widget.verticalController
+        : widget.horizontalController;
   }
 
   Axis? _currentAxis;
@@ -174,7 +183,7 @@ class _CupertinoScrollbarState extends State<PlutoScrollbar> with TickerProvider
   // show immediately when isAlwaysShown is true.  A scroll event is required in
   // order to paint the thumb.
   void _triggerScrollbar() {
-    WidgetsBinding.instance?.addPostFrameCallback((Duration duration) {
+    WidgetsBinding.instance.addPostFrameCallback((Duration duration) {
       if (widget.isAlwaysShown) {
         _fadeoutTimer?.cancel();
         if (widget.verticalController!.hasClients) {
@@ -192,21 +201,27 @@ class _CupertinoScrollbarState extends State<PlutoScrollbar> with TickerProvider
     // time _dragScrollbar was called, into the coordinate space of the scroll
     // position, and create/update the drag event with that position.
     final double scrollOffsetLocal = _painter!.getTrackToScroll(primaryDelta);
-    final double scrollOffsetGlobal = scrollOffsetLocal + _currentController!.position.pixels;
+    final double scrollOffsetGlobal =
+        scrollOffsetLocal + _currentController!.position.pixels;
     final Axis direction = _currentController!.position.axis;
 
     if (_drag == null) {
       _drag = _currentController!.position.drag(
         DragStartDetails(
-          globalPosition:
-              direction == Axis.vertical ? Offset(0.0, scrollOffsetGlobal) : Offset(scrollOffsetGlobal, 0.0),
+          globalPosition: direction == Axis.vertical
+              ? Offset(0.0, scrollOffsetGlobal)
+              : Offset(scrollOffsetGlobal, 0.0),
         ),
         () {},
       );
     } else {
       _drag!.update(DragUpdateDetails(
-        globalPosition: direction == Axis.vertical ? Offset(0.0, scrollOffsetGlobal) : Offset(scrollOffsetGlobal, 0.0),
-        delta: direction == Axis.vertical ? Offset(0.0, -scrollOffsetLocal) : Offset(-scrollOffsetLocal, 0.0),
+        globalPosition: direction == Axis.vertical
+            ? Offset(0.0, scrollOffsetGlobal)
+            : Offset(scrollOffsetGlobal, 0.0),
+        delta: direction == Axis.vertical
+            ? Offset(0.0, -scrollOffsetLocal)
+            : Offset(-scrollOffsetLocal, 0.0),
         primaryDelta: -scrollOffsetLocal,
       ));
     }
@@ -316,7 +331,9 @@ class _CupertinoScrollbarState extends State<PlutoScrollbar> with TickerProvider
     _drag?.end(DragEndDetails(
       primaryVelocity: -scrollVelocity,
       velocity: Velocity(
-        pixelsPerSecond: direction == Axis.vertical ? Offset(0.0, -scrollVelocity) : Offset(-scrollVelocity, 0.0),
+        pixelsPerSecond: direction == Axis.vertical
+            ? Offset(0.0, -scrollVelocity)
+            : Offset(-scrollVelocity, 0.0),
       ),
     ));
     _drag = null;
@@ -330,7 +347,8 @@ class _CupertinoScrollbarState extends State<PlutoScrollbar> with TickerProvider
 
     _currentAxis = axisDirectionToAxis(metrics.axisDirection);
 
-    if (notification is ScrollUpdateNotification || notification is OverscrollNotification) {
+    if (notification is ScrollUpdateNotification ||
+        notification is OverscrollNotification) {
       // Any movements always makes the scrollbar start showing up.
       if (_fadeoutAnimationController.status != AnimationStatus.forward) {
         _fadeoutAnimationController.forward();
@@ -350,9 +368,11 @@ class _CupertinoScrollbarState extends State<PlutoScrollbar> with TickerProvider
   // Get the GestureRecognizerFactories used to detect gestures on the scrollbar
   // thumb.
   Map<Type, GestureRecognizerFactory> get _gestures {
-    final Map<Type, GestureRecognizerFactory> gestures = <Type, GestureRecognizerFactory>{};
+    final Map<Type, GestureRecognizerFactory> gestures =
+        <Type, GestureRecognizerFactory>{};
 
-    gestures[_ThumbPressGestureRecognizer] = GestureRecognizerFactoryWithHandlers<_ThumbPressGestureRecognizer>(
+    gestures[_ThumbPressGestureRecognizer] =
+        GestureRecognizerFactoryWithHandlers<_ThumbPressGestureRecognizer>(
       () => _ThumbPressGestureRecognizer(
         debugOwner: this,
         customPaintKey: _customPaintKey,
@@ -419,7 +439,8 @@ class _ThumbPressGestureRecognizer extends LongPressGestureRecognizer {
 
   @override
   bool isPointerAllowed(PointerDownEvent event) {
-    if (!_hitTestInteractive(_customPaintKey, event.position, event.kind, onlyDraggingThumb)) {
+    if (!_hitTestInteractive(
+        _customPaintKey, event.position, event.kind, onlyDraggingThumb)) {
       return false;
     }
     return super.isPointerAllowed(event);
@@ -429,12 +450,15 @@ class _ThumbPressGestureRecognizer extends LongPressGestureRecognizer {
 // foregroundPainter also hit tests its children by default, but the
 // scrollbar should only respond to a gesture directly on its thumb, so
 // manually check for a hit on the thumb here.
-bool _hitTestInteractive(GlobalKey customPaintKey, Offset offset, PointerDeviceKind kind, bool onlyDraggingThumb) {
+bool _hitTestInteractive(GlobalKey customPaintKey, Offset offset,
+    PointerDeviceKind kind, bool onlyDraggingThumb) {
   if (customPaintKey.currentContext == null) {
     return false;
   }
-  final CustomPaint customPaint = customPaintKey.currentContext!.widget as CustomPaint;
-  final ScrollbarPainter painter = customPaint.foregroundPainter! as ScrollbarPainter;
+  final CustomPaint customPaint =
+      customPaintKey.currentContext!.widget as CustomPaint;
+  final ScrollbarPainter painter =
+      customPaint.foregroundPainter! as ScrollbarPainter;
   final Offset localOffset = _getLocalOffset(customPaintKey, offset);
   // We can only receive track taps that are on the thumb.
   return onlyDraggingThumb
@@ -443,6 +467,7 @@ bool _hitTestInteractive(GlobalKey customPaintKey, Offset offset, PointerDeviceK
 }
 
 Offset _getLocalOffset(GlobalKey scrollbarPainterKey, Offset position) {
-  final RenderBox renderBox = scrollbarPainterKey.currentContext!.findRenderObject()! as RenderBox;
+  final RenderBox renderBox =
+      scrollbarPainterKey.currentContext!.findRenderObject()! as RenderBox;
   return renderBox.globalToLocal(position);
 }
