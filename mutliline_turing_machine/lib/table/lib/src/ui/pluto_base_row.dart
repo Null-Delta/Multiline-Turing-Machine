@@ -22,7 +22,9 @@ class PlutoBaseRow extends StatelessWidget {
     }
 
     final List<PlutoRow> selectedRows =
-        stateManager.currentSelectingRows.isNotEmpty ? stateManager.currentSelectingRows : [draggingRow];
+        stateManager.currentSelectingRows.isNotEmpty
+            ? stateManager.currentSelectingRows
+            : [draggingRow];
 
     return selectedRows.firstWhereOrNull(
           (element) => element.key == row.key,
@@ -31,8 +33,9 @@ class PlutoBaseRow extends StatelessWidget {
   }
 
   void _handleOnMove(DragTargetDetails<PlutoRow> details) async {
-    final draggingRows =
-        stateManager.currentSelectingRows.isNotEmpty ? stateManager.currentSelectingRows : [details.data];
+    final draggingRows = stateManager.currentSelectingRows.isNotEmpty
+        ? stateManager.currentSelectingRows
+        : [details.data];
 
     stateManager.eventManager!.addEvent(
       PlutoGridDragRowsEvent(
@@ -104,7 +107,8 @@ class _RowContainerWidget extends PlutoStatefulWidget {
   __RowContainerWidgetState createState() => __RowContainerWidgetState();
 }
 
-abstract class __RowContainerWidgetStateWithChangeKeepAlive extends PlutoStateWithChangeKeepAlive<_RowContainerWidget> {
+abstract class __RowContainerWidgetStateWithChangeKeepAlive
+    extends PlutoStateWithChangeKeepAlive<_RowContainerWidget> {
   bool? _isCurrentRow;
 
   bool? _isSelectedRow;
@@ -138,12 +142,14 @@ abstract class __RowContainerWidgetStateWithChangeKeepAlive extends PlutoStateWi
         widget.stateManager.isSelectedRow(widget.row.key),
       );
 
-      _isSelecting = update<bool?>(_isSelecting, widget.stateManager.isSelecting);
+      _isSelecting =
+          update<bool?>(_isSelecting, widget.stateManager.isSelecting);
 
       _isCheckedRow = update<bool?>(_isCheckedRow, widget.row.checked);
 
-      final alreadyTarget =
-          widget.stateManager.dragRows.firstWhereOrNull((element) => element.key == widget.row.key) != null;
+      final alreadyTarget = widget.stateManager.dragRows
+              .firstWhereOrNull((element) => element.key == widget.row.key) !=
+          null;
 
       final isDraggingRow = widget.stateManager.isDraggingRow;
 
@@ -155,12 +161,14 @@ abstract class __RowContainerWidgetStateWithChangeKeepAlive extends PlutoStateWi
 
       _isTopDragTarget = update<bool?>(
         _isTopDragTarget,
-        isDraggingRow && widget.stateManager.isRowIdxTopDragTarget(widget.rowIdx),
+        isDraggingRow &&
+            widget.stateManager.isRowIdxTopDragTarget(widget.rowIdx),
       );
 
       _isBottomDragTarget = update<bool?>(
         _isBottomDragTarget,
-        isDraggingRow && widget.stateManager.isRowIdxBottomDragTarget(widget.rowIdx),
+        isDraggingRow &&
+            widget.stateManager.isRowIdxBottomDragTarget(widget.rowIdx),
       );
 
       _hasCurrentSelectingPosition = update<bool?>(
@@ -205,8 +213,8 @@ abstract class __RowContainerWidgetStateWithChangeKeepAlive extends PlutoStateWi
           _isFocusedCurrentRow! &&
           (!_isSelecting! && !_hasCurrentSelectingPosition!);
 
-      final bool checkSelectedRow =
-          widget.stateManager.selectingMode.isRow && widget.stateManager.isSelectedRow(widget.row.key);
+      final bool checkSelectedRow = widget.stateManager.selectingMode.isRow &&
+          widget.stateManager.isSelectedRow(widget.row.key);
 
       if (checkCurrentRow || checkSelectedRow) {
         color = Theme.of(context).hoverColor;
@@ -230,7 +238,8 @@ abstract class __RowContainerWidgetStateWithChangeKeepAlive extends PlutoStateWi
   }
 }
 
-class __RowContainerWidgetState extends __RowContainerWidgetStateWithChangeKeepAlive {
+class __RowContainerWidgetState
+    extends __RowContainerWidgetStateWithChangeKeepAlive {
   @override
   Widget build(BuildContext context) {
     super.build(context);

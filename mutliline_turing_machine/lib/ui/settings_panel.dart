@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
 import 'package:mutliline_turing_machine/styles/app_button.dart';
@@ -59,7 +58,7 @@ class _SettingsPanel extends State<SettingsPanel> {
         body: DefaultTextStyle(
           style: const TextStyle(),
           child: Container(
-            color: Theme.of(context).backgroundColor,
+            color: Theme.of(context).colorScheme.background,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -68,7 +67,7 @@ class _SettingsPanel extends State<SettingsPanel> {
                     left: 6,
                   ),
                   height: 40,
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).colorScheme.background,
                   child: Row(
                     children: [
                       Tooltip(
@@ -117,13 +116,14 @@ class _SettingsPanel extends State<SettingsPanel> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Container(
-                      color: Theme.of(context).backgroundColor,
+                      color: Theme.of(context).colorScheme.background,
                       child: Center(
                         child: Container(
                           constraints: const BoxConstraints(maxWidth: 640),
                           child: Container(
-                            padding: const EdgeInsets.only(left: 32, right: 32, top: 16, bottom: 16),
-                            color: Theme.of(context).backgroundColor,
+                            padding: const EdgeInsets.only(
+                                left: 32, right: 32, top: 16, bottom: 16),
+                            color: Theme.of(context).colorScheme.background,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -140,10 +140,14 @@ class _SettingsPanel extends State<SettingsPanel> {
                                       ),
                                     ),
                                     FlutterSwitch(
-                                        activeColor: Theme.of(context).primaryColor,
-                                        inactiveColor: Theme.of(context).highlightColor,
+                                        activeColor:
+                                            Theme.of(context).primaryColor,
+                                        inactiveColor:
+                                            Theme.of(context).highlightColor,
                                         activeToggleColor: Colors.white,
-                                        inactiveToggleColor: Theme.of(context).backgroundColor,
+                                        inactiveToggleColor: Theme.of(context)
+                                            .colorScheme
+                                            .background,
                                         height: 28,
                                         width: 48,
                                         toggleSize: 20,
@@ -169,10 +173,14 @@ class _SettingsPanel extends State<SettingsPanel> {
                                       ),
                                     ),
                                     FlutterSwitch(
-                                        activeColor: Theme.of(context).primaryColor,
-                                        inactiveColor: Theme.of(context).highlightColor,
+                                        activeColor:
+                                            Theme.of(context).primaryColor,
+                                        inactiveColor:
+                                            Theme.of(context).highlightColor,
                                         activeToggleColor: Colors.white,
-                                        inactiveToggleColor: Theme.of(context).backgroundColor,
+                                        inactiveToggleColor: Theme.of(context)
+                                            .colorScheme
+                                            .background,
                                         height: 28,
                                         width: 48,
                                         toggleSize: 20,
@@ -182,16 +190,28 @@ class _SettingsPanel extends State<SettingsPanel> {
                                             useSystemTheme = !useSystemTheme;
                                             if (!useSystemTheme) {
                                               prefs.then((value) {
-                                                selectedTheme = value.getInt("selected_theme") ?? 0;
-                                                widget.theme.setMode(useSystemTheme ? 0 : selectedTheme + 1);
+                                                selectedTheme = value.getInt(
+                                                        "selected_theme") ??
+                                                    0;
+                                                widget.theme.setMode(
+                                                    useSystemTheme
+                                                        ? 0
+                                                        : selectedTheme + 1);
                                               });
                                               prefs.then((value) {
-                                                value.setBool("use_system_theme", useSystemTheme);
+                                                value.setBool(
+                                                    "use_system_theme",
+                                                    useSystemTheme);
                                               });
                                             } else {
-                                              widget.theme.setMode(useSystemTheme ? 0 : selectedTheme + 1);
+                                              widget.theme.setMode(
+                                                  useSystemTheme
+                                                      ? 0
+                                                      : selectedTheme + 1);
                                               prefs.then((value) {
-                                                value.setBool("use_system_theme", useSystemTheme);
+                                                value.setBool(
+                                                    "use_system_theme",
+                                                    useSystemTheme);
                                               });
                                             }
                                           });
@@ -210,15 +230,20 @@ class _SettingsPanel extends State<SettingsPanel> {
                                           GestureDetector(
                                             onTap: () {
                                               selectedTheme = 0;
-                                              widget.theme.setMode(useSystemTheme ? 0 : selectedTheme + 1);
+                                              widget.theme.setMode(
+                                                  useSystemTheme
+                                                      ? 0
+                                                      : selectedTheme + 1);
                                               prefs.then((value) {
-                                                value.setInt("selected_theme", selectedTheme);
+                                                value.setInt("selected_theme",
+                                                    selectedTheme);
                                               });
                                             },
                                             child: SizedBox(
                                               width: 200,
                                               height: 150,
-                                              child: Image.asset('resources/images/3.0x/light_preview.png'),
+                                              child: Image.asset(
+                                                  'resources/images/3.0x/light_preview.png'),
                                             ),
                                           ),
                                           Row(
@@ -233,12 +258,20 @@ class _SettingsPanel extends State<SettingsPanel> {
                                                     });
 
                                                     prefs.then((value) {
-                                                      value.setInt("selected_theme", selectedTheme);
+                                                      value.setInt(
+                                                          "selected_theme",
+                                                          selectedTheme);
                                                     });
-                                                    widget.theme.setMode(useSystemTheme ? 0 : selectedTheme + 1);
+                                                    widget.theme.setMode(
+                                                        useSystemTheme
+                                                            ? 0
+                                                            : selectedTheme +
+                                                                1);
                                                   }),
                                               Text("Светлая тема",
-                                                  style: TextStyle(color: Theme.of(context).cardColor)),
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .cardColor)),
                                             ],
                                           )
                                         ],
@@ -249,15 +282,20 @@ class _SettingsPanel extends State<SettingsPanel> {
                                           GestureDetector(
                                             onTap: () {
                                               selectedTheme = 1;
-                                              widget.theme.setMode(useSystemTheme ? 0 : selectedTheme + 1);
+                                              widget.theme.setMode(
+                                                  useSystemTheme
+                                                      ? 0
+                                                      : selectedTheme + 1);
                                               prefs.then((value) {
-                                                value.setInt("selected_theme", selectedTheme);
+                                                value.setInt("selected_theme",
+                                                    selectedTheme);
                                               });
                                             },
                                             child: SizedBox(
                                               width: 200,
                                               height: 150,
-                                              child: Image.asset('resources/images/3.0x/dark_preview.png'),
+                                              child: Image.asset(
+                                                  'resources/images/3.0x/dark_preview.png'),
                                             ),
                                           ),
                                           Row(
@@ -271,11 +309,20 @@ class _SettingsPanel extends State<SettingsPanel> {
                                                       selectedTheme = value!;
                                                     });
                                                     prefs.then((value) {
-                                                      value.setInt("selected_theme", selectedTheme);
+                                                      value.setInt(
+                                                          "selected_theme",
+                                                          selectedTheme);
                                                     });
-                                                    widget.theme.setMode(useSystemTheme ? 0 : selectedTheme + 1);
+                                                    widget.theme.setMode(
+                                                        useSystemTheme
+                                                            ? 0
+                                                            : selectedTheme +
+                                                                1);
                                                   }),
-                                              Text("Темная тема", style: TextStyle(color: Theme.of(context).cardColor)),
+                                              Text("Темная тема",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .cardColor)),
                                             ],
                                           )
                                         ],

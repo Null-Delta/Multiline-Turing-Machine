@@ -1,4 +1,3 @@
-
 import 'line_cell_model.dart';
 import 'turing_machine.dart';
 
@@ -21,7 +20,8 @@ class TuringMachineConfiguration {
   ActiveState activeState = ActiveState();
 
   TuringMachineConfiguration(int linesCount) {
-    lineContent = List.generate(linesCount, (_) => List.generate(2001, (_) => LineCellModel()));
+    lineContent = List.generate(
+        linesCount, (_) => List.generate(2001, (_) => LineCellModel()));
 
     linePointers = List.generate(linesCount, (_) => 1000);
 
@@ -50,37 +50,26 @@ class TuringMachineConfiguration {
   }
 
   void setFocusLine(int lineIndex, bool isFocus) {
-    
-    if(lineIndex != focusedLine)
-    {
-      if(isFocus)
-      {
+    if (lineIndex != focusedLine) {
+      if (isFocus) {
         focusedLine = lineIndex;
         focusedIndex = linePointers[lineIndex];
         lineContent[lineIndex][focusedIndex].setFocus(true);
-      }  
-    }
-    else if(!isFocus)
-    {
-      if(focusedLine != -1 && focusedIndex != -1)
-      {
+      }
+    } else if (!isFocus) {
+      if (focusedLine != -1 && focusedIndex != -1) {
         lineContent[focusedLine][focusedIndex].setFocus(false);
-        focusedLine = -1; focusedIndex = -1;
+        focusedLine = -1;
+        focusedIndex = -1;
       }
     }
-    
-    
-    
-    
   }
 
-  void setFocus(int lineIndex, int index)
-  {
-    if(focusedLine != -1 && focusedIndex != -1)
-    {
+  void setFocus(int lineIndex, int index) {
+    if (focusedLine != -1 && focusedIndex != -1) {
       lineContent[focusedLine][focusedIndex].setFocus(false);
     }
-      
+
     focusedLine = lineIndex;
     focusedIndex = index;
     lineContent[lineIndex][index].setFocus(true);
@@ -88,31 +77,28 @@ class TuringMachineConfiguration {
 
   //сдвигает головку ленты и делает ячейку под ней активной
   bool moveLine(int lineIndex, int offset) {
-    
-    if (linePointers[lineIndex] + offset < 0 || linePointers[lineIndex] + offset > 2000) {
+    if (linePointers[lineIndex] + offset < 0 ||
+        linePointers[lineIndex] + offset > 2000) {
       return false;
     }
 
     setActive(lineIndex, false);
     linePointers[lineIndex] += offset;
     setActive(lineIndex, true);
-    
+
     return true;
   }
 
   bool moveLineInput(int offset) {
-    if(focusedLine == -1)
-    {
+    if (focusedLine == -1) {
       return false;
     }
-    if (focusedIndex + offset < 0 || focusedIndex + offset > 2000) 
-    {
+    if (focusedIndex + offset < 0 || focusedIndex + offset > 2000) {
       return false;
     }
     setFocus(focusedLine, focusedIndex + offset);
     return true;
   }
-    
 
   //Возвращает символ ленты на месте указателя
   String getSymbol(int lineIndex) {
@@ -120,7 +106,9 @@ class TuringMachineConfiguration {
   }
 
   bool checkSymbol(String symbol, String predicate) =>
-      predicate == "*" || symbol == predicate || (predicate == "_" && symbol == " ");
+      predicate == "*" ||
+      symbol == predicate ||
+      (predicate == "_" && symbol == " ");
 
   //ставит символ на ленту
   void setSymbol(int lineIndex, String symbol) {

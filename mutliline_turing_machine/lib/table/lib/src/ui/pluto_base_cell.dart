@@ -32,7 +32,8 @@ class PlutoBaseCell extends PlutoStatefulWidget {
   _PlutoBaseCellState createState() => _PlutoBaseCellState();
 }
 
-abstract class _PlutoBaseCellStateWithChangeKeepAlive extends PlutoStateWithChangeKeepAlive<PlutoBaseCell> {
+abstract class _PlutoBaseCellStateWithChangeKeepAlive
+    extends PlutoStateWithChangeKeepAlive<PlutoBaseCell> {
   dynamic _cellValue;
 
   bool? _isCurrentCell;
@@ -120,7 +121,8 @@ class _PlutoBaseCellState extends _PlutoBaseCellStateWithChangeKeepAlive {
       return;
     }
 
-    _addGestureEvent(PlutoGridGestureType.onLongPressMoveUpdate, details.globalPosition);
+    _addGestureEvent(
+        PlutoGridGestureType.onLongPressMoveUpdate, details.globalPosition);
   }
 
   void _handleOnLongPressEnd(LongPressEndDetails details) {
@@ -128,7 +130,8 @@ class _PlutoBaseCellState extends _PlutoBaseCellStateWithChangeKeepAlive {
       return;
     }
 
-    _addGestureEvent(PlutoGridGestureType.onLongPressEnd, details.globalPosition);
+    _addGestureEvent(
+        PlutoGridGestureType.onLongPressEnd, details.globalPosition);
   }
 
   void _handleOnDoubleTap() {
@@ -136,15 +139,20 @@ class _PlutoBaseCellState extends _PlutoBaseCellStateWithChangeKeepAlive {
   }
 
   void _handleOnSecondaryTap(TapDownDetails details) {
-    _addGestureEvent(PlutoGridGestureType.onSecondaryTap, details.globalPosition);
+    _addGestureEvent(
+        PlutoGridGestureType.onSecondaryTap, details.globalPosition);
   }
 
   void Function()? _onDoubleTapOrNull() {
-    return widget.stateManager.onRowDoubleTap == null ? null : _handleOnDoubleTap;
+    return widget.stateManager.onRowDoubleTap == null
+        ? null
+        : _handleOnDoubleTap;
   }
 
   void Function(TapDownDetails details)? _onSecondaryTapOrNull() {
-    return widget.stateManager.onRowSecondaryTap == null ? null : _handleOnSecondaryTap;
+    return widget.stateManager.onRowSecondaryTap == null
+        ? null
+        : _handleOnSecondaryTap;
   }
 
   @override
@@ -171,7 +179,8 @@ class _PlutoBaseCellState extends _PlutoBaseCellStateWithChangeKeepAlive {
         selectingMode: _selectingMode!,
         isSelectedCell: _isSelectedCell!,
         configuration: widget.stateManager.configuration!,
-        cellPadding: widget.column.cellPadding ?? widget.stateManager.configuration!.defaultCellPadding,
+        cellPadding: widget.column.cellPadding ??
+            widget.stateManager.configuration!.defaultCellPadding,
         child: _BuildCell(
           stateManager: widget.stateManager,
           rowIdx: widget.rowIdx,
@@ -222,7 +231,9 @@ class _CellContainer extends StatelessWidget {
       return selectingMode.isRow ? Theme.of(context).hoverColor : null;
     }
 
-    return readOnly == true ? Theme.of(context).highlightColor : Theme.of(context).backgroundColor;
+    return readOnly == true
+        ? Theme.of(context).highlightColor
+        : Theme.of(context).colorScheme.background;
   }
 
   BoxDecoration _boxDecoration(BuildContext context) {
@@ -231,7 +242,9 @@ class _CellContainer extends StatelessWidget {
         color: _currentCellColor(context),
         borderRadius: const BorderRadius.all(Radius.circular(6)),
         border: Border.all(
-          color: hasFocus ? Theme.of(context).highlightColor : Theme.of(context).highlightColor,
+          color: hasFocus
+              ? Theme.of(context).highlightColor
+              : Theme.of(context).highlightColor,
           width: 2,
         ),
       );
@@ -240,7 +253,9 @@ class _CellContainer extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(6)),
         color: Theme.of(context).hoverColor,
         border: Border.all(
-          color: hasFocus ? configuration.activatedBorderColor : Theme.of(context).highlightColor,
+          color: hasFocus
+              ? configuration.activatedBorderColor
+              : Theme.of(context).highlightColor,
           width: 2,
         ),
       );

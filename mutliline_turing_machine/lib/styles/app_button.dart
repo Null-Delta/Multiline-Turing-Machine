@@ -13,7 +13,7 @@ ButtonStyle appButtonStyle(BuildContext context) {
           } else if (states.contains(MaterialState.hovered)) {
             return Theme.of(context).hoverColor;
           }
-          return Theme.of(context).backgroundColor;
+          return Theme.of(context).colorScheme.background;
         },
       ),
       foregroundColor: MaterialStateProperty.resolveWith(
@@ -60,7 +60,7 @@ activeAppButtonStyle(BuildContext context) => ButtonStyle(
     ),
     foregroundColor: MaterialStateProperty.resolveWith(
       (states) {
-        return Theme.of(context).backgroundColor;
+        return Theme.of(context).colorScheme.background;
       },
     ),
     overlayColor: MaterialStateProperty.resolveWith(

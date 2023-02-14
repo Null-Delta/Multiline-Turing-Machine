@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/ui/machine_inherit.dart';
 import 'package:provider/provider.dart';
@@ -25,28 +24,31 @@ class LineCellState extends State<LineCell> {
     var lineFocus = MachineInherit.of(context)!.linesFocus[widget.lineIndex];
     var linePage = MachineInherit.of(context)!.linesPageState;
     return Consumer<LineCellModel>(builder: (_, value, __) {
-      return GestureDetector(  
+      return GestureDetector(
         onTapDown: (_) {
-          if(!machine.activator.isActive) {
+          if (!machine.activator.isActive) {
             machine.configuration.setFocus(widget.lineIndex, widget.index);
             lineFocus.requestFocus();
             linePage.currentState!.scrollLineToFocus();
+          } else {
+            Snackbar.create(
+                "Нельзя переназначать ячейку ввода т.к. машина работает.",
+                context);
           }
-          else {
-            Snackbar.create("Нельзя переназначать ячейку ввода т.к. машина работает.", context);
-          }
-          
         },
         onSecondaryTap: () {
-          if(!machine.activator.isActive){
+          if (!machine.activator.isActive) {
             lineFocus.requestFocus();
-            var offset = widget.index - machine.configuration.linePointers[widget.lineIndex];
+            var offset = widget.index -
+                machine.configuration.linePointers[widget.lineIndex];
             machine.configuration.moveLine(widget.lineIndex, offset);
             machine.configuration.setFocus(widget.lineIndex, widget.index);
-            linePage.currentState!.scrollLine(index:widget.lineIndex, offset: offset);
-          }
-          else {
-            Snackbar.create("Нельзя переназначать активную ячейку т.к. машина работает.", context);
+            linePage.currentState!
+                .scrollLine(index: widget.lineIndex, offset: offset);
+          } else {
+            Snackbar.create(
+                "Нельзя переназначать активную ячейку т.к. машина работает.",
+                context);
           }
         },
         child: Align(
@@ -59,9 +61,11 @@ class LineCellState extends State<LineCell> {
               child: Container(
                 decoration: !value.isActive
                     ? BoxDecoration(
-                        border: Border.all(width: 2, color: Theme.of(context).highlightColor),
-                        borderRadius: const BorderRadius.all(Radius.circular(7)),
-                        color: Theme.of(context).backgroundColor,
+                        border: Border.all(
+                            width: 2, color: Theme.of(context).highlightColor),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(7)),
+                        color: Theme.of(context).colorScheme.background,
                       )
                     : BoxDecoration(
                         color: Theme.of(context).primaryColor,
@@ -80,7 +84,7 @@ class LineCellState extends State<LineCell> {
                               ? value.symbol == " "
                                   ? Theme.of(context).disabledColor
                                   : Theme.of(context).cardColor
-                              : Theme.of(context).backgroundColor,
+                              : Theme.of(context).colorScheme.background,
                         ),
                       ),
                       value.isFocus
@@ -93,7 +97,12 @@ class LineCellState extends State<LineCell> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(7),
                                 child: Container(
-                                  decoration: BoxDecoration(color: value.isActive ? Theme.of(context).backgroundColor : Theme.of(context).primaryColor),
+                                  decoration: BoxDecoration(
+                                      color: value.isActive
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .background
+                                          : Theme.of(context).primaryColor),
                                 ),
                               ),
                             )

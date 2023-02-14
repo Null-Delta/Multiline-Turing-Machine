@@ -5,7 +5,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/turing_machine.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:path_provider/path_provider.dart';
 
 bool isOnScreen = false;
@@ -19,8 +18,11 @@ Future? onExitSave(context, TuringMachine machine) async {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Theme.of(context).backgroundColor,
-          titleTextStyle: TextStyle(color: Theme.of(context).cardColor, fontSize: 16, fontWeight: FontWeight.w500),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          titleTextStyle: TextStyle(
+              color: Theme.of(context).cardColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w500),
           shape: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(8),
@@ -50,8 +52,12 @@ Future? onExitSave(context, TuringMachine machine) async {
                       } else {
                         String? result = await FilePicker.platform.saveFile(
                             initialDirectory: Platform.isWindows
-                                ? (await getApplicationDocumentsDirectory()).path + "\\Multiline Turing Machine Saves"
-                                : (await getApplicationDocumentsDirectory()).path + "/Multiline Turing Machine Saves",
+                                ? (await getApplicationDocumentsDirectory())
+                                        .path +
+                                    "\\Multiline Turing Machine Saves"
+                                : (await getApplicationDocumentsDirectory())
+                                        .path +
+                                    "/Multiline Turing Machine Saves",
                             dialogTitle: '',
                             fileName: 'save.mmt',
                             type: FileType.custom,
@@ -87,8 +93,10 @@ Future? onExitSave(context, TuringMachine machine) async {
                     ),
                     style: ButtonStyle(
                       elevation: MaterialStateProperty.all(0),
-                      backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
-                      foregroundColor: MaterialStateProperty.all(Theme.of(context).cardColor),
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).colorScheme.background),
+                      foregroundColor: MaterialStateProperty.all(
+                          Theme.of(context).cardColor),
                     ),
                   ),
                 ),
@@ -109,8 +117,10 @@ Future? onExitSave(context, TuringMachine machine) async {
                     ),
                     style: ButtonStyle(
                       elevation: MaterialStateProperty.all(0),
-                      backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
-                      foregroundColor: MaterialStateProperty.all(Theme.of(context).cardColor),
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).colorScheme.background),
+                      foregroundColor: MaterialStateProperty.all(
+                          Theme.of(context).cardColor),
                     ),
                   ),
                 ),
@@ -131,8 +141,10 @@ Future? onExitSave(context, TuringMachine machine) async {
                     ),
                     style: ButtonStyle(
                       elevation: MaterialStateProperty.all(0),
-                      backgroundColor: MaterialStateProperty.all(Theme.of(context).backgroundColor),
-                      foregroundColor: MaterialStateProperty.all(Theme.of(context).cardColor),
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).colorScheme.background),
+                      foregroundColor: MaterialStateProperty.all(
+                          Theme.of(context).cardColor),
                     ),
                   ),
                 ),

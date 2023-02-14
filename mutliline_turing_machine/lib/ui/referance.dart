@@ -11,8 +11,12 @@ class CustumScrollController extends ScrollController {
     super.addListener(() {
       ScrollDirection scrollDirection = super.position.userScrollDirection;
       if (scrollDirection != ScrollDirection.idle) {
-        double scrollEnd = super.offset + (scrollDirection == ScrollDirection.reverse ? scrollSpeed : -scrollSpeed);
-        scrollEnd = min(super.position.maxScrollExtent, max(super.position.minScrollExtent, scrollEnd));
+        double scrollEnd = super.offset +
+            (scrollDirection == ScrollDirection.reverse
+                ? scrollSpeed
+                : -scrollSpeed);
+        scrollEnd = min(super.position.maxScrollExtent,
+            max(super.position.minScrollExtent, scrollEnd));
         jumpTo(scrollEnd);
       }
     });
@@ -81,7 +85,7 @@ class Reference extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         child: Column(
           children: [
             Container(
@@ -127,7 +131,8 @@ class Reference extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.only(bottom: 32),
-                    constraints: const BoxConstraints(minWidth: double.infinity),
+                    constraints:
+                        const BoxConstraints(minWidth: double.infinity),
                     child: Column(
                       children: [
                         title("Общие сведения", context),
@@ -136,9 +141,11 @@ class Reference extends StatelessWidget {
 
 Многоленточная машина Тьюринга является расширением данной идеи, внося возможность использовать неограниченное количество лент.
 
-В данной реализации лента состоит из двух тысяч ячеек, а количество лент ограничено шестнадцатью. """, context),
+В данной реализации лента состоит из двух тысяч ячеек, а количество лент ограничено шестнадцатью. """,
+                            context),
                         title("Интерфейс", context),
-                        text("""Интерфейс приложения можно условно разделить на 5 частей:
+                        text(
+                            """Интерфейс приложения можно условно разделить на 5 частей:
       • Верхняя панель инструментов
       • Панель лент
       • Нижняя панель инструментов
@@ -161,14 +168,14 @@ class Reference extends StatelessWidget {
       • Добавление ленты в конец
       • Удаление последней ленты
     
-При удерживании курсора на кнопке, под ней отображается её описание.""", context),
+При удерживании курсора на кнопке, под ней отображается её описание.""",
+                            context),
                         subTitle("Панель лент", context),
                         text(
                             """Панель лент - это часть интерфейса, которая отображает текущее состояние лент многоленточной машины тьюринга. Кроме того, эта панель обрабатывает ввод символов в ленту и перемещение головки. По центру каждой ленты находится активная ячейка, которая отображает текущее положение головки на данной ленте.
 
 ЛКМ по ячейке делает её ячейкой для ввода.
-ПКМ по ячейке делает её активной.""",
-                            context),
+ПКМ по ячейке делает её активной.""", context),
                         subTitle("Нижняя панель инструментов", context),
                         text("""Слева панели находятся кнопки: 
       • Добавление состояния в конец
@@ -183,7 +190,8 @@ class Reference extends StatelessWidget {
       • Выполнение шага
       • Скрытие/открытие раздела комментариев
     
-Также при запуске машины появляется поле с количеством пройденных конфигураций.""", context),
+Также при запуске машины появляется поле с количеством пройденных конфигураций.""",
+                            context),
                         subTitle("Панель команд", context),
                         text(
                             """Панель команд представляет собой таблицу с ячейками, в каждую из которых можно вписывать команду работы многоленточной машины тьюринга. Столбцами данной таблицы являются ленты, а строки - команды.""",
@@ -255,19 +263,27 @@ class Reference extends StatelessWidget {
                         hotKey("Новый файл", ["Сtrl", "N"], context),
                         hotKey("Сохранить как", ["Сtrl", "S"], context),
                         hotKey("Загрузить", ["Сtrl", "O"], context),
-                        hotKey("Сохранить все ленты", ["Сtrl", "Shift", "S"], context),
-                        hotKey("Загрузить все ленты", ["Сtrl", "Shift", "L"], context),
-                        hotKey("Очистить все ленты", ["Сtrl", "Shift", "C"], context),
-                        hotKey("Добавить ленту в конец", ["Сtrl", "]"], context),
-                        hotKey("Удалить последнюю ленту", ["Сtrl", "["], context),
-                        hotKey("Скрыть/показать комментарии", ["Сtrl", "H"], context),
+                        hotKey("Сохранить все ленты", ["Сtrl", "Shift", "S"],
+                            context),
+                        hotKey("Загрузить все ленты", ["Сtrl", "Shift", "L"],
+                            context),
+                        hotKey("Очистить все ленты", ["Сtrl", "Shift", "C"],
+                            context),
+                        hotKey(
+                            "Добавить ленту в конец", ["Сtrl", "]"], context),
+                        hotKey(
+                            "Удалить последнюю ленту", ["Сtrl", "["], context),
+                        hotKey("Скрыть/показать комментарии", ["Сtrl", "H"],
+                            context),
                         //hotKey("Удаление ленты", ["Сtrl", "["], context),
                         hotKey("Сбросить машину", ["Сtrl", "E"], context),
                         hotKey("Автоматическая работа", ["Сtrl", "R"], context),
                         hotKey("Изменить скорость", ["Сtrl", "T"], context),
                         hotKey("Сделать шаг", ["Сtrl", "Space"], context),
-                        hotKey("Добавить состояние в ", ["Сtrl", "Shift", "+"], context),
-                        hotKey("Удалить выбранное состояние", ["Сtrl", "Shift", "-"], context),
+                        hotKey("Добавить состояние в ", ["Сtrl", "Shift", "+"],
+                            context),
+                        hotKey("Удалить выбранное состояние",
+                            ["Сtrl", "Shift", "-"], context),
                         hotKey("Добавить команду", ["Сtrl", "+"], context),
                         hotKey("Удалить команду", ["Сtrl", "-"], context),
                         title("Рецепт пельменей", context),

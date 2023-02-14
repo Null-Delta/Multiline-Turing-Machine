@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/table/lib/pluto_grid.dart';
 
-typedef PlutoDualOnSelectedEventCallback = void Function(PlutoDualOnSelectedEvent event);
+typedef PlutoDualOnSelectedEventCallback = void Function(
+    PlutoDualOnSelectedEvent event);
 
 class PlutoDualGrid extends StatefulWidget {
   final PlutoDualGridProps gridPropsA;
@@ -61,7 +62,8 @@ class _PlutoDualGridState extends State<PlutoDualGrid> {
             _stateManagerB = onLoadedEvent.stateManager;
           }
 
-          onLoadedEvent.stateManager.eventManager!.listener((PlutoGridEvent plutoEvent) {
+          onLoadedEvent.stateManager.eventManager!
+              .listener((PlutoGridEvent plutoEvent) {
             if (plutoEvent is PlutoGridCannotMoveCurrentCellEvent) {
               if (isGridA == true && plutoEvent.direction.isRight) {
                 _stateManagerA!.setKeepFocus(false);

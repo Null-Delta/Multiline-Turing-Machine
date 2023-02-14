@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mutliline_turing_machine/model/machine_engine.dart';
 import 'package:mutliline_turing_machine/styles/app_images.dart';
@@ -23,7 +22,8 @@ class _ConfigurationCounterState extends State<ConfigurationCounter> {
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(6)),
               color: Theme.of(context).hoverColor,
-              border: Border.all(color: Theme.of(context).highlightColor, width: 2)),
+              border: Border.all(
+                  color: Theme.of(context).highlightColor, width: 2)),
           width: 72,
           height: 30,
           child: Row(

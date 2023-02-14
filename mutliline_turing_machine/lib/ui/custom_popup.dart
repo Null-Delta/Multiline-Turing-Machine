@@ -43,7 +43,7 @@ class _CustomPopupState extends State<CustomPopup> {
         setState(() {});
       },
       child: PopupMenuButton(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         tooltip: widget.tooltip,
         key: state,
         elevation: 12,
@@ -78,7 +78,7 @@ class _CustomPopupState extends State<CustomPopup> {
               borderRadius: const BorderRadius.all(Radius.circular(6)),
               color: focus.hasFocus || isMouseInButton
                   ? Theme.of(context).highlightColor
-                  : Theme.of(context).backgroundColor,
+                  : Theme.of(context).colorScheme.background,
             ),
             child: widget.child,
           ),

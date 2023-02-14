@@ -3,15 +3,14 @@ import 'package:mutliline_turing_machine/styles/app_colors.dart';
 
 ThemeData light = ThemeData(
   primaryColor: AppColors.accent,
-  errorColor: AppColors.destructive,
   disabledColor: AppColors.disable,
   highlightColor: AppColors.highlight,
-  backgroundColor: AppColors.background,
   hoverColor: AppColors.backgroundDark,
   cardColor: AppColors.text,
   shadowColor: AppColors.shadowColor,
   fontFamily: "Inter",
-  primarySwatch: MaterialColor(AppColors.accent.value, {
+  colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: MaterialColor(AppColors.accent.value, {
     50: AppColors.accent,
     100: AppColors.accent,
     200: AppColors.accent,
@@ -22,20 +21,21 @@ ThemeData light = ThemeData(
     700: AppColors.accent,
     800: AppColors.accent,
     900: AppColors.accent,
-  }),
+  }))
+      .copyWith(background: AppColors.background)
+      .copyWith(error: AppColors.destructive),
 );
 
 ThemeData dark = ThemeData(
   primaryColor: AppDarkColors.accent,
-  errorColor: AppDarkColors.destructive,
   disabledColor: AppDarkColors.disable,
   highlightColor: AppDarkColors.highlight,
-  backgroundColor: AppDarkColors.background,
   hoverColor: AppDarkColors.backgroundDark,
   cardColor: AppDarkColors.text,
   shadowColor: AppDarkColors.shadowColor,
   fontFamily: "Inter",
-  primarySwatch: MaterialColor(AppColors.accent.value, {
+  colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: MaterialColor(AppColors.accent.value, {
     50: AppColors.accent,
     100: AppColors.accent,
     200: AppColors.accent,
@@ -46,5 +46,7 @@ ThemeData dark = ThemeData(
     700: AppColors.accent,
     800: AppColors.accent,
     900: AppColors.accent,
-  }),
+  }))
+      .copyWith(background: AppDarkColors.background)
+      .copyWith(error: AppDarkColors.destructive),
 );

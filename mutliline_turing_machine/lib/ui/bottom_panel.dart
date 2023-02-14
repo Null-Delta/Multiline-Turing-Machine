@@ -62,7 +62,8 @@ class BottomPanelState extends State<BottomPanel> {
           child: SizedBox(
             width: iconSize,
             height: iconSize,
-            child: Image(image: AppImages.addState, color: Theme.of(context).cardColor),
+            child: Image(
+                image: AppImages.addState, color: Theme.of(context).cardColor),
           ),
           style: appButtonStyle(context),
         ),
@@ -75,7 +76,8 @@ class BottomPanelState extends State<BottomPanel> {
           onPressed: () {
             widget.onDeleteState();
           },
-          child: Image(image: AppImages.deleteState, color: Theme.of(context).cardColor),
+          child: Image(
+              image: AppImages.deleteState, color: Theme.of(context).cardColor),
           style: appButtonStyle(context),
         ),
       );
@@ -87,7 +89,9 @@ class BottomPanelState extends State<BottomPanel> {
           onPressed: () {
             widget.onAddVariant();
           },
-          child: Image(image: AppImages.addVariantDown, color: Theme.of(context).cardColor),
+          child: Image(
+              image: AppImages.addVariantDown,
+              color: Theme.of(context).cardColor),
           style: appButtonStyle(context),
         ),
       );
@@ -99,7 +103,9 @@ class BottomPanelState extends State<BottomPanel> {
           onPressed: () {
             widget.onDeleteVariant();
           },
-          child: Image(image: AppImages.deleteVariant, color: Theme.of(context).cardColor),
+          child: Image(
+              image: AppImages.deleteVariant,
+              color: Theme.of(context).cardColor),
           style: appButtonStyle(context),
         ),
       );
@@ -125,7 +131,8 @@ class BottomPanelState extends State<BottomPanel> {
           child: SizedBox(
             width: iconSize,
             height: iconSize,
-            child: Image(image: AppImages.stop, color: Theme.of(context).cardColor),
+            child: Image(
+                image: AppImages.stop, color: Theme.of(context).cardColor),
           ),
           style: appButtonStyle(context),
         ),
@@ -145,11 +152,15 @@ class BottomPanelState extends State<BottomPanel> {
           width: iconSize,
           height: iconSize,
           child: Image(
-            color: machine.activator.isActive ? Theme.of(context).backgroundColor : Theme.of(context).cardColor,
+            color: machine.activator.isActive
+                ? Theme.of(context).colorScheme.background
+                : Theme.of(context).cardColor,
             image: AppImages.timer,
           ),
         ),
-        style: machine.activator.isActive ? activeAppButtonStyle(context) : appButtonStyle(context),
+        style: machine.activator.isActive
+            ? activeAppButtonStyle(context)
+            : appButtonStyle(context),
       ),
     );
   }
@@ -214,7 +225,8 @@ class BottomPanelState extends State<BottomPanel> {
         child: SizedBox(
           width: iconSize,
           height: iconSize,
-          child: Image(image: AppImages.step, color: Theme.of(context).cardColor),
+          child:
+              Image(image: AppImages.step, color: Theme.of(context).cardColor),
         ),
         style: appButtonStyle(context),
       ),
@@ -236,7 +248,7 @@ class BottomPanelState extends State<BottomPanel> {
           height: iconSize,
           child: Image(
             color: commentsState.currentState?.needShowComments ?? true
-                ? Theme.of(context).backgroundColor
+                ? Theme.of(context).colorScheme.background
                 : Theme.of(context).cardColor,
             image: AppImages.comments,
           ),
@@ -390,7 +402,7 @@ class BottomPanelState extends State<BottomPanel> {
             right: 6,
           ),
           height: 40,
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).colorScheme.background,
           child: Row(
             children: machine.isWorking()
                 ? [

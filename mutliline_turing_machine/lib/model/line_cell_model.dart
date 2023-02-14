@@ -8,8 +8,7 @@ class LineCellModel extends ChangeNotifier {
   bool isFocus = false;
 
   void setSymbol(String symbol) {
-    if(this.symbol != symbol)
-    {
+    if (this.symbol != symbol) {
       this.symbol = symbol;
       notifyListeners();
     }
