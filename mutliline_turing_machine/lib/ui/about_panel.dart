@@ -282,12 +282,12 @@ class _AboutPanel extends State<AboutPanel> {
                                           height: 6,
                                         ),
                                         Tooltip(
-                                          message: '15.06.2022',
+                                          message: '14.02.2023',
                                           waitDuration:
                                               const Duration(milliseconds: 200),
                                           verticalOffset: 14,
                                           child: Text(
-                                            "Версия 1.2",
+                                            "Версия 1.2.1",
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               color: Theme.of(context)
@@ -312,10 +312,10 @@ class _AboutPanel extends State<AboutPanel> {
                                             child: ElevatedButton(
                                               onPressed: () {
                                                 launchUrlString(
-                                                    'https://nullexp.ru');
+                                                    'https://github.com/NullExp-Team');
                                               },
                                               child: Text(
-                                                "nullexp.ru",
+                                                "github.com/NullExp-Team",
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                   color: Theme.of(context)
